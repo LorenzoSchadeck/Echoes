@@ -19,6 +19,7 @@ public class InsanityManager : MonoBehaviour
     [SerializeField] private float timeAtMaxInsanityBeforeDeath = 10f;
     private float maxInsanityTimer = 0f;
     private bool isPlayerDead = false;
+    private bool isDeathSequenceActive = false;
 
     [Header("Remedy Settings")]
     [Tooltip("Duração em segundos para a insanidade ir a zero após usar um remédio.")]
@@ -53,7 +54,6 @@ public class InsanityManager : MonoBehaviour
         GameEvents.OnRemedyUsed += UseRemedy;
     }
 
-    // NOVO: Cancelar inscrição
     private void OnDisable()
     {
         GameEvents.OnFlashbackStarted -= StartFlashbackState;
@@ -76,9 +76,15 @@ public class InsanityManager : MonoBehaviour
             currentInsanity += currentPassiveInsanityRate * Time.deltaTime;
         }
 
-        // Verifica se a insanidade está no máximo
         if (Mathf.Approximately(currentInsanity, 1f))
         {
+            // Se a contagem está começando agora, dispara o evento
+            if (!isDeathSequenceActive)
+            {
+                isDeathSequenceActive = true;
+                GameEvents.TriggerDeathSequenceStarted(timeAtMaxInsanityBeforeDeath);
+            }
+
             // Inicia ou continua o cronômetro de morte
             maxInsanityTimer += Time.deltaTime;
             Debug.Log($"Tempo em insanidade máxima: {maxInsanityTimer:F1}s / {timeAtMaxInsanityBeforeDeath}s");
@@ -91,7 +97,12 @@ public class InsanityManager : MonoBehaviour
         }
         else
         {
-            // Se a insanidade diminuir, reseta o cronômetro
+            // Se a insanidade diminuiu e a sequência estava ativa, dispara o evento de cancelamento
+            if (isDeathSequenceActive)
+            {
+                isDeathSequenceActive = false;
+                GameEvents.TriggerDeathSequenceCancelled();
+            }
             maxInsanityTimer = 0f;
         }
 

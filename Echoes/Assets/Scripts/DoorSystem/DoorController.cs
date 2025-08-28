@@ -14,7 +14,10 @@ public class DoorController : MonoBehaviour, IInteractable
     [Tooltip("The absolute angle the door will open (e.g., 90). The direction will be determined automatically.")]
     [SerializeField] private float fullOpenAngle = 90.0f;
     [SerializeField] private float jammedOpenAngle = 25.0f;
-    
+
+    [Header("Movement Settings")]
+    [SerializeField] private bool openToPositiveSide = true;
+
     [Header("Hierarchy")]
     [Tooltip("The pivot object around which the door rotates. Usually the empty parent.")]
     [SerializeField] private Transform pivot;
@@ -55,26 +58,7 @@ public class DoorController : MonoBehaviour, IInteractable
             return true;
         }
 
-        // --- CÓDIGO DETETIVE ---
-        Debug.Log("--- DEBUG DA PORTA ---");
-
-        Vector3 directionToPlayer = interactor.position - pivot.position;
-        Vector3 doorPlaneNormal = pivot.right; // Usando o eixo X (vermelho) do pivô
-
-        // Desenhando os raios para visualização no Editor
-        // Raio VERDE: mostra a direção para o jogador
-        Debug.DrawRay(pivot.position, directionToPlayer.normalized * 2f, Color.green, 2f);
-        // Raio VERMELHO: mostra a direção que estamos usando como "plano" da porta
-        Debug.DrawRay(pivot.position, doorPlaneNormal * 2f, Color.red, 2f);
-
-        float dot = Vector3.Dot(directionToPlayer, doorPlaneNormal);
-        float direction = -Mathf.Sign(dot);
-        if (direction == 0) direction = -1;
-
-        // Imprimindo os resultados no console
-        Debug.Log("Lado do jogador (Dot Product): " + dot);
-        Debug.Log("Direção de abertura calculada (-1 ou 1): " + direction);
-        // -------------------------
+        float direction = openToPositiveSide ? 1f : -1f;
 
         switch (currentState)
         {

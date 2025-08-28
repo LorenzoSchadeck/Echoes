@@ -186,10 +186,27 @@ public class RadioController : MonoBehaviour, IInteractable
         }
 
         currentFrequency = Mathf.Round((currentFrequency + frequencyChange) * 100f) / 100f;
-
         currentFrequency = Mathf.Clamp(currentFrequency, 88.0f, 108.0f);
-        RotateDial(dialToRotate, direction);
 
+        if (currentDial == SelectedDial.Fine)
+        {
+            int intPart = (int)currentFrequency;
+            int decimalPart = Mathf.RoundToInt((currentFrequency - intPart) * 100);
+
+            if (decimalPart % 2 == 0)
+            {
+                if (direction > 0)
+                    decimalPart += 1;
+                else
+                    decimalPart -= 1;
+            }
+
+            decimalPart = Mathf.Clamp(decimalPart, 0, 99);
+
+            currentFrequency = intPart + (decimalPart / 100f);
+        }
+
+        RotateDial(dialToRotate, direction);
         UpdateFrequencyDisplay();
         UpdateAudioFeedback();
         CheckForSolution();
