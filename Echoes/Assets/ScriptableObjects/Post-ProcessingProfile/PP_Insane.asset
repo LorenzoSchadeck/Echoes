@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c11d8ebfa37ba742807eefb60ec1eaf, type: 3}
+  m_Name: PP_Insane
+  m_EditorClassIdentifier: 
+  vignetteIntensity: 0.4
+  vignetteSmoothness: 1
+  bloomIntensity: 0.2
+  bloomThreshold: 0.9
+  chromaticAberrationIntensity: 1
+  tonemappingMode: 2
+  postExposure: 4
+  contrast: 20
+  colorFilter: {r: 0.6509434, g: 0.30588236, b: 0, a: 1}
+  hueShift: -6
+  saturation: 40
