@@ -50,7 +50,7 @@ public class PostProcessingManager : MonoBehaviour
 
     private void OnEnable()
     {
-        InsanityManager.OnInsanityChanged += HandleInsanityChange;
+        InsanityManager.OnVisualInsanityChanged += HandleInsanityChange;
         GameEvents.OnFlashbackStarted += OnFlashbackStarted;
         GameEvents.OnFlashbackEnded += OnFlashbackEnded;
         GameEvents.OnDeathSequenceStarted += OnDeathSequenceStarted;
@@ -59,7 +59,7 @@ public class PostProcessingManager : MonoBehaviour
 
     private void OnDisable()
     {
-        InsanityManager.OnInsanityChanged -= HandleInsanityChange;
+        InsanityManager.OnVisualInsanityChanged -= HandleInsanityChange;
         GameEvents.OnFlashbackStarted -= OnFlashbackStarted;
         GameEvents.OnFlashbackEnded -= OnFlashbackEnded;
         GameEvents.OnDeathSequenceStarted -= OnDeathSequenceStarted;
@@ -89,14 +89,12 @@ public class PostProcessingManager : MonoBehaviour
     }
 
     // --- Disparadores de Efeitos ---
-
     private void OnFlashbackStarted() => StartVisualEffect(TransitionToProfileRoutine(flashbackProfile, stateTransitionDuration));
     private void OnFlashbackEnded() => StartVisualEffect(TransitionToProfileRoutine(saneProfile, stateTransitionDuration));
     private void OnDeathSequenceCancelled() => StartVisualEffect(TransitionToProfileRoutine(saneProfile, remedyTransitionDuration));
     private void OnDeathSequenceStarted(float duration) => StartVisualEffect(DeathEffectRoutine(duration));
 
     // --- Gerenciador e Coroutines ---
-
     private void StartVisualEffect(IEnumerator effectRoutine)
     {
         if (activeVisualEffectCoroutine != null) StopCoroutine(activeVisualEffectCoroutine);

@@ -113,14 +113,26 @@ public class PlayerInteractor : MonoBehaviour
         {
             if (hit.collider.TryGetComponent(out IInteractable interactable))
             {
+                // Se estamos mirando em um objeto novo, definimos como o atual
                 if (interactable != currentInteractable)
                 {
                     currentInteractable = interactable;
-                    UpdateInteractionUI(true, interactable.InteractionPrompt);
+                }
+
+                // AGORA, a cada frame que olhamos para um item,
+                // pegamos a string do prompt atual.
+                string newPrompt = currentInteractable.InteractionPrompt;
+
+                // Só atualizamos a UI se o texto mudou ou se a UI estava desligada.
+                if (!interactionText.enabled || interactionText.text != newPrompt)
+                {
+                    UpdateInteractionUI(true, newPrompt);
                 }
                 return;
             }
         }
+
+        // Se não acertou nada, limpamos tudo
         if (currentInteractable != null)
         {
             currentInteractable = null;

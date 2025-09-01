@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class InsanityManager : MonoBehaviour
 {
-    public static event Action<float> OnInsanityChanged;
+    public static event Action<float> OnVisualInsanityChanged;
+    public static event Action<float> OnLatentInsanityChanged;
 
-    [Header("Insanity Settings")]
-    [Tooltip("O nível de insanidade atual do jogador, de 0 (são) a 1 (insano).")]
-    [SerializeField, Range(0f, 1f)] private float currentInsanity = 0f;
+    [Header("Insanity Settings (Visual)")]
+    [SerializeField, Range(0f, 1f)] private float visualInsanity = 0f;
+    [SerializeField] private float flashbackVisualInsanityRate = 0.05f;
 
-    [Tooltip("Quanto a insanidade aumenta por segundo. Ex: 0.01 significa que levará 100 segundos para ir de 0 a 1.")]
-    [SerializeField] private float normalInsanityRate = 0.005f;
-    [SerializeField] private float flashbackInsanityRate = 0.05f;
+    [Header("Insanity Settings (Latent)")]
+    [SerializeField, Range(0f, 1f)] private float latentInsanity = 0f;
+    [SerializeField] private float latentInsanityPassiveRate = 0.005f;
 
     [Header("Death Settings")]
-    [Tooltip("Tempo em segundos que o jogador pode permanecer em insanidade máxima antes de morrer.")]
     [SerializeField] private float timeAtMaxInsanityBeforeDeath = 10f;
     private float maxInsanityTimer = 0f;
     private bool isPlayerDead = false;
@@ -23,35 +23,26 @@ public class InsanityManager : MonoBehaviour
 
     [Header("Remedy Settings")]
     [Tooltip("Duração em segundos para a insanidade ir a zero após usar um remédio.")]
-    [SerializeField] private float remedyEffectDuration = 3.0f;
+    [SerializeField] private float remedyTransitionDuration = 3.0f;
     [Tooltip("Duração em segundos que o aumento de insanidade fica pausado após o efeito do remédio.")]
     [SerializeField] private float insanityPauseDuration = 15.0f;
-    private bool isInsanityPaused = false;
+    
+    private float previousVisualInsanity;
+    private float previousLatentInsanity;
     private bool isInFlashback = false;
-
-    private float previousInsanity;
-    private float currentPassiveInsanityRate;
     private Coroutine remedyCoroutine;
+    private bool isInsanityPaused = false;
 
-    public float CurrentInsanity
-    {
-        get => currentInsanity;
-        set
-        {
-            float newInsanity = Mathf.Clamp01(value);
-            if (Mathf.Approximately(currentInsanity, newInsanity)) return;
-
-            currentInsanity = newInsanity;
-            Debug.Log($"Insanity changed to: {currentInsanity} (via code)");
-            OnInsanityChanged?.Invoke(currentInsanity);
-        }
-    }
+    // --- Propriedades Públicas ---
+    public float VisualInsanity { get => visualInsanity; set => visualInsanity = Mathf.Clamp01(value); }
+    public float LatentInsanity { get => latentInsanity; set => latentInsanity = Mathf.Clamp01(value); }
 
     private void OnEnable()
     {
         GameEvents.OnFlashbackStarted += StartFlashbackState;
         GameEvents.OnFlashbackEnded += EndFlashbackState;
         GameEvents.OnRemedyUsed += UseRemedy;
+        GameEvents.OnTriggerVisualFlash += OnTriggerVisualFlash;
     }
 
     private void OnDisable()
@@ -59,45 +50,38 @@ public class InsanityManager : MonoBehaviour
         GameEvents.OnFlashbackStarted -= StartFlashbackState;
         GameEvents.OnFlashbackEnded -= EndFlashbackState;
         GameEvents.OnRemedyUsed -= UseRemedy;
+        GameEvents.OnTriggerVisualFlash -= OnTriggerVisualFlash;
     }
 
     private void Start()
     {
-        currentPassiveInsanityRate = normalInsanityRate;
-        UpdateInsanityAndDispatchEvent(0f);
+        previousVisualInsanity = visualInsanity;
+        previousLatentInsanity = latentInsanity;
+        UpdateInsanityAndDispatchEvent(visualInsanity, latentInsanity);
     }
 
     private void Update()
     {
         if (isPlayerDead) return;
 
-        if (currentInsanity < 1f && !isInsanityPaused) 
+        if (!isInsanityPaused)
         {
-            currentInsanity += currentPassiveInsanityRate * Time.deltaTime;
+            if (latentInsanity < 1f) latentInsanity += latentInsanityPassiveRate * Time.deltaTime;
+            if (isInFlashback && visualInsanity < 1f) visualInsanity += flashbackVisualInsanityRate * Time.deltaTime;
         }
 
-        if (Mathf.Approximately(currentInsanity, 1f))
+        if (Mathf.Approximately(visualInsanity, 1f))
         {
-            // Se a contagem está começando agora, dispara o evento
             if (!isDeathSequenceActive)
             {
                 isDeathSequenceActive = true;
                 GameEvents.TriggerDeathSequenceStarted(timeAtMaxInsanityBeforeDeath);
             }
-
-            // Inicia ou continua o cronômetro de morte
             maxInsanityTimer += Time.deltaTime;
-            Debug.Log($"Tempo em insanidade máxima: {maxInsanityTimer:F1}s / {timeAtMaxInsanityBeforeDeath}s");
-
-            // Verifica se o tempo limite foi atingido
-            if (maxInsanityTimer >= timeAtMaxInsanityBeforeDeath)
-            {
-                Die();
-            }
+            if (maxInsanityTimer >= timeAtMaxInsanityBeforeDeath) Die();
         }
         else
         {
-            // Se a insanidade diminuiu e a sequência estava ativa, dispara o evento de cancelamento
             if (isDeathSequenceActive)
             {
                 isDeathSequenceActive = false;
@@ -106,94 +90,116 @@ public class InsanityManager : MonoBehaviour
             maxInsanityTimer = 0f;
         }
 
-        UpdateInsanityAndDispatchEvent(currentInsanity);
+        UpdateInsanityAndDispatchEvent(visualInsanity, latentInsanity);
     }
 
-    private void UpdateInsanityAndDispatchEvent(float newInsanityValue)
+    private void UpdateInsanityAndDispatchEvent(float newVisual, float newLatent)
     {
-        currentInsanity = Mathf.Clamp01(newInsanityValue);
-        if (!Mathf.Approximately(previousInsanity, currentInsanity))
+        newVisual = Mathf.Clamp01(newVisual);
+        newLatent = Mathf.Clamp01(newLatent);
+
+        if (!Mathf.Approximately(previousVisualInsanity, newVisual))
         {
-            Debug.Log($"Insanity changed to: {currentInsanity}");
-            OnInsanityChanged?.Invoke(currentInsanity);
-            previousInsanity = currentInsanity;
+            Debug.Log($"Visual Insanity changed to: {newVisual}");
+            OnVisualInsanityChanged?.Invoke(newVisual);
+            previousVisualInsanity = newVisual;
         }
+
+        if (!Mathf.Approximately(previousLatentInsanity, newLatent))
+        {
+            Debug.Log($"Latent Insanity changed to: {newLatent}");
+            OnLatentInsanityChanged?.Invoke(newLatent);
+            previousLatentInsanity = newLatent;
+        }
+        
+        visualInsanity = newVisual;
+        latentInsanity = newLatent;
+    }
+
+    private void Die()
+    {
+        if (isPlayerDead) return;
+        isPlayerDead = true;
+        Debug.Log("JOGADOR MORREU POR INSANIDADE!");
+        GameEvents.TriggerPlayerDied();
+        this.enabled = false;
     }
 
     private void StartFlashbackState()
     {
-        Debug.Log("InsanityManager: Flashback iniciado. Resetando insanidade e acelerando taxa.");
-        isInFlashback = true; 
-        currentPassiveInsanityRate = flashbackInsanityRate;
-        currentInsanity = 0f;
-        UpdateInsanityAndDispatchEvent(0f);
+        isInFlashback = true;
+        VisualInsanity = 0f;
     }
 
     private void EndFlashbackState()
     {
-        Debug.Log("InsanityManager: Flashback terminado.");
         isInFlashback = false;
-        currentPassiveInsanityRate = normalInsanityRate;
-        currentInsanity = 0f;
-        UpdateInsanityAndDispatchEvent(0f);
+        VisualInsanity = 0f;
     }
-    
+
     private void UseRemedy()
     {
-        Debug.Log("InsanityManager: Recebido evento de uso de remédio.");
-
-        // Se estiver em um flashback, primeiro encerra o flashback.
-        if (isInFlashback)
-        {
-            GameEvents.TriggerFlashbackEnded();
-        }
-
-        // Para a coroutine anterior se ela estiver rodando
-        if (remedyCoroutine != null)
-        {
-            StopCoroutine(remedyCoroutine);
-        }
+        if (isInFlashback) GameEvents.TriggerFlashbackEnded();
+        if (remedyCoroutine != null) StopCoroutine(remedyCoroutine);
         remedyCoroutine = StartCoroutine(RemedyEffectRoutine());
     }
 
     private IEnumerator RemedyEffectRoutine()
     {
-        // Pausa o aumento de insanidade imediatamente
         isInsanityPaused = true;
         Debug.Log("Aumento de insanidade PAUSADO.");
 
-        // Reduz a insanidade para 0 ao longo de 'remedyEffectDuration'
-        float startingInsanity = currentInsanity;
+        float startingVisualInsanity = visualInsanity;
         float elapsedTime = 0f;
-        while (elapsedTime < remedyEffectDuration)
+        
+        while (elapsedTime < remedyTransitionDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / remedyEffectDuration;
-            CurrentInsanity = Mathf.Lerp(startingInsanity, 0f, t); // Usa a propriedade para garantir o evento
+            float t = elapsedTime / remedyTransitionDuration;
+            VisualInsanity = Mathf.Lerp(startingVisualInsanity, 0f, t);
             yield return null;
         }
-        CurrentInsanity = 0f; // Garante que o valor final seja exatamente 0
+        VisualInsanity = 0f;
 
-        // Mantém a insanidade pausada por 'insanityPauseDuration'
         Debug.Log($"A insanidade ficará pausada por {insanityPauseDuration} segundos.");
         yield return new WaitForSeconds(insanityPauseDuration);
 
-        // Retoma o aumento de insanidade
         isInsanityPaused = false;
         remedyCoroutine = null;
         Debug.Log("Aumento de insanidade RETOMADO.");
     }
     
-    private void Die()
+    private Coroutine visualFlashRoutine;
+    
+    private void OnTriggerVisualFlash(float peakInsanity, float duration)
     {
-        if (isPlayerDead) return;
+        if (visualFlashRoutine != null) StopCoroutine(visualFlashRoutine);
+        visualFlashRoutine = StartCoroutine(VisualFlashRoutine(peakInsanity, duration));
+    }
 
-        isPlayerDead = true;
-        Debug.Log("JOGADOR MORREU POR INSANIDADE!");
+    private IEnumerator VisualFlashRoutine(float peakInsanity, float duration)
+    {
+        float startInsanity = visualInsanity;
+        float halfDuration = duration / 2f;
+        
+        float elapsedTime = 0f;
+        while (elapsedTime < halfDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / halfDuration;
+            VisualInsanity = Mathf.Lerp(startInsanity, peakInsanity, t);
+            yield return null;
+        }
 
-        // Dispara o evento global de morte
-        GameEvents.TriggerPlayerDied();
-
-        // this.enabled = false; 
+        elapsedTime = 0f;
+        while (elapsedTime < halfDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / halfDuration;
+            VisualInsanity = Mathf.Lerp(peakInsanity, startInsanity, t);
+            yield return null;
+        }
+        VisualInsanity = startInsanity;
+        visualFlashRoutine = null;
     }
 }

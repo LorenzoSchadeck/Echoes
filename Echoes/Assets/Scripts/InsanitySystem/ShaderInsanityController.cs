@@ -22,12 +22,12 @@ public class ShaderInsanityController : MonoBehaviour
 
     private void OnEnable()
     {
-        InsanityManager.OnInsanityChanged += HandleInsanityChange;
+        InsanityManager.OnVisualInsanityChanged += HandleInsanityChange;
     }
 
     private void OnDisable()
     {
-        InsanityManager.OnInsanityChanged -= HandleInsanityChange;
+        InsanityManager.OnVisualInsanityChanged -= HandleInsanityChange;
     }
 
     // Função chamada pelo evento. Apenas atualiza o valor alvo.

@@ -25,4 +25,12 @@ public static class GameEvents
     // Evento para a morte do jogador.
     public static event Action OnPlayerDied;
     public static void TriggerPlayerDied() => OnPlayerDied?.Invoke();
+
+    // Envia o pico de insanidade (ex: 1f) e a duração total da animação (ex: 2s)
+    public static event Action<float, float> OnTriggerVisualFlash;
+    public static void TriggerVisualFlash(float peakInsanity, float duration) => OnTriggerVisualFlash?.Invoke(peakInsanity, duration);
+
+    // Envia a duração do alarme como parâmetro
+    public static event Action<float> OnFalseAlarmTriggered;
+    public static void TriggerFalseAlarm(float duration) => OnFalseAlarmTriggered?.Invoke(duration);
 }
