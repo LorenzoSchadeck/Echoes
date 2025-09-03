@@ -33,4 +33,8 @@ public static class GameEvents
     // Envia a duração do alarme como parâmetro
     public static event Action<float> OnFalseAlarmTriggered;
     public static void TriggerFalseAlarm(float duration) => OnFalseAlarmTriggered?.Invoke(duration);
+
+    // Evento para quando o jogador perde uma quantidade específica de sanidade.
+    public static event Action<float> OnSanityLost;
+    public static void TriggerSanityLost(float amount) => OnSanityLost?.Invoke(amount);
 }

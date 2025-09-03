@@ -69,7 +69,7 @@ public class FlashbackEffectController : MonoBehaviour
     
     private void PlayExitAnimation()
     {
-        // Para a saída, não precisamos de um ponto de teleporte de destino.
+        postProcessingManager.StopAllVisualEffects();
         StartAnimation(FlashbackExitRoutine());
     }
     
@@ -81,8 +81,6 @@ public class FlashbackEffectController : MonoBehaviour
 
     private IEnumerator FlashbackEntryRoutine(Transform teleportDestination)
     {
-        Debug.Log("Iniciando animação de ENTRADA do flashback...");
-
         originalPlayerPosition = playerRigidbody.position;
         originalPlayerRotation = playerRigidbody.rotation;
 
@@ -124,8 +122,6 @@ public class FlashbackEffectController : MonoBehaviour
 
     private IEnumerator FlashbackExitRoutine()
     {
-        Debug.Log("Iniciando animação de SAÍDA do flashback...");
-
         float targetExposure = postProcessingManager.GetSaneProfileExposure();
         float targetVignetteIntensity = postProcessingManager.GetSaneProfileVignetteIntensity();
         float targetLensDistortionScale = postProcessingManager.GetSaneProfileLensDistortionScale();
@@ -179,7 +175,6 @@ public class FlashbackEffectController : MonoBehaviour
         vignette.intensity.value = targetVignetteIntensity;
 
         activeAnimationCoroutine = null;
-        Debug.Log("Sequência de saída do flashback concluída.");
     }
 
 }

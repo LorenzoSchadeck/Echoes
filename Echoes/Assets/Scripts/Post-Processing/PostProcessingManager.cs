@@ -21,6 +21,10 @@ public class PostProcessingManager : MonoBehaviour
     [Tooltip("Duração da transição de cura ao usar um remédio.")]
     [SerializeField] private float remedyTransitionDuration = 3.0f;
 
+    [Header("Sanity Thresholds")]
+    [Tooltip("A sanidade precisa cair ABAIXO deste valor para que os efeitos visuais comecem a aparecer.")]
+    [SerializeField, Range(0f, 1f)] private float visualEffectStartThreshold = 0.5f; // Começa em 50%
+
     // Referências cacheadas
     private Bloom bloom;
     private ChromaticAberration chromaticAberration;
@@ -32,8 +36,7 @@ public class PostProcessingManager : MonoBehaviour
     // Estado atual
     private PostProcessingProfile currentBaseProfile;
     private PostProcessingProfile currentInsanityProfile;
-    private float targetInsanity = 0f;
-    private float currentBlendedInsanity = 0f;
+    private float currentSanity = 1.0f;
 
     private Coroutine activeVisualEffectCoroutine;
 
@@ -48,9 +51,28 @@ public class PostProcessingManager : MonoBehaviour
         if (!postProcessVolume.profile.TryGet(out colorAdjustments)) Debug.LogWarning("Color Adjustments not found.");
     }
 
+    private void Start()
+    {
+        currentBaseProfile = saneProfile;
+        currentInsanityProfile = insaneProfile;
+        ApplyBlendedProfile(0);
+    }
+
+    private void Update()
+    {
+        if (activeVisualEffectCoroutine == null)
+        {
+            // Calcula o 't' (0 a 1) para a interpolação com base no limiar.
+            float t = Mathf.InverseLerp(visualEffectStartThreshold, 0f, currentSanity);
+
+            // Usa o 't' calculado para aplicar a mistura dos perfis.
+            ApplyBlendedProfile(t);
+        }
+    }
+
     private void OnEnable()
     {
-        InsanityManager.OnVisualInsanityChanged += HandleInsanityChange;
+        InsanityManager.OnSanityChanged += HandleInsanityChange;
         GameEvents.OnFlashbackStarted += OnFlashbackStarted;
         GameEvents.OnFlashbackEnded += OnFlashbackEnded;
         GameEvents.OnDeathSequenceStarted += OnDeathSequenceStarted;
@@ -59,32 +81,28 @@ public class PostProcessingManager : MonoBehaviour
 
     private void OnDisable()
     {
-        InsanityManager.OnVisualInsanityChanged -= HandleInsanityChange;
+        InsanityManager.OnSanityChanged -= HandleInsanityChange;
         GameEvents.OnFlashbackStarted -= OnFlashbackStarted;
         GameEvents.OnFlashbackEnded -= OnFlashbackEnded;
         GameEvents.OnDeathSequenceStarted -= OnDeathSequenceStarted;
         GameEvents.OnDeathSequenceCancelled -= OnDeathSequenceCancelled;
     }
 
-    private void Start()
-    {
-        currentBaseProfile = saneProfile;
-        currentInsanityProfile = insaneProfile;
-        ApplyBlendedProfile(0);
-        currentBlendedInsanity = 0;
-    }
-
     private void HandleInsanityChange(float newInsanityValue)
     {
-        targetInsanity = newInsanityValue;
+        currentSanity = newInsanityValue;
     }
 
-    private void Update()
+    /// <summary>
+    /// Interrompe qualquer coroutine de efeito visual que esteja em andamento.
+    /// Chamado por controladores externos (como o FlashbackEffectController) para assumir a prioridade.
+    /// </summary>
+    public void StopAllVisualEffects()
     {
-        if (activeVisualEffectCoroutine == null)
+        if (activeVisualEffectCoroutine != null)
         {
-            currentBlendedInsanity = Mathf.Lerp(currentBlendedInsanity, targetInsanity, Time.deltaTime * insanityTransitionSpeed);
-            ApplyBlendedProfile(currentBlendedInsanity);
+            StopCoroutine(activeVisualEffectCoroutine);
+            activeVisualEffectCoroutine = null;
         }
     }
 
@@ -103,8 +121,6 @@ public class PostProcessingManager : MonoBehaviour
 
     private IEnumerator TransitionToProfileRoutine(PostProcessingProfile targetProfile, float duration)
     {
-        Debug.Log($"Iniciando transição para o perfil: {targetProfile.name} em {duration}s");
-
         if (targetProfile == saneProfile)
         {
             currentBaseProfile = saneProfile;
@@ -153,11 +169,9 @@ public class PostProcessingManager : MonoBehaviour
 
         // Garante o estado final e reseta a insanidade visual
         ApplyBlendedProfile(0f);
-        currentBlendedInsanity = 0f;
-        targetInsanity = 0f;
+        currentSanity = 0f;
 
         activeVisualEffectCoroutine = null;
-        Debug.Log("Transição concluída.");
     }
 
     private IEnumerator DeathEffectRoutine(float duration)

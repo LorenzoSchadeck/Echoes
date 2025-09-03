@@ -4,82 +4,110 @@ using System.Collections;
 public class AlarmClockController : MonoBehaviour
 {
     [Header("UI Components")]
-    [Tooltip("O Transform do Quad que representa a barra de sanidade.")]
-    [SerializeField] private Transform sanityBar;
+    [Tooltip("Os Renderers das três barras de sanidade, em ordem (da esquerda para a direita).")]
+    [SerializeField] private Renderer[] sanityBars;
 
     [Header("Visual Feedback")]
-    [Tooltip("O Renderer da barra de sanidade, para podermos mudar sua cor.")]
-    [SerializeField] private Renderer sanityBarRenderer;
-    [SerializeField] private Color saneColor = Color.green;
-    [SerializeField] private Color warningColor = Color.yellow;
-    [SerializeField] private Color dangerColor = Color.red;
+    [SerializeField] private Color saneColor = new Color(0.5f, 1f, 0.5f); 
+    [SerializeField] private Color warningColor = new Color(1f, 1f, 0.5f); 
+    [SerializeField] private Color dangerColor = new Color(1f, 0.5f, 0.5f); 
 
     [Header("Alarm Components")]
     [SerializeField] private Light alarmLight;
     [SerializeField] private AudioSource alarmAudio;
-    [Tooltip("Intervalo em segundos para a luz piscar (ex: 0.5 = meio segundo acesa, meio segundo apagada).")]
     [SerializeField] private float blinkInterval = 0.5f;
 
-    private Coroutine activeAlarmEventRoutine;
-    private Coroutine activeBlinkingLightRoutine;
+    private Coroutine blinkingLightRoutine;
+    private MaterialPropertyBlock propBlock; // Otimização: reutilizar o mesmo property block
+
+    private void Awake()
+    {
+        propBlock = new MaterialPropertyBlock();
+    }
 
     private void OnEnable()
     {
-        InsanityManager.OnVisualInsanityChanged += UpdateSanityBar;
-        GameEvents.OnDeathSequenceStarted += PlayRealAlarm;
-        GameEvents.OnDeathSequenceCancelled += StopAllAlarms;
+        InsanityManager.OnSanityChanged += UpdateSanityDisplay;
+        GameEvents.OnDeathSequenceStarted += StartAlarm;
+        GameEvents.OnDeathSequenceCancelled += StopAlarm;
         GameEvents.OnFalseAlarmTriggered += PlayFalseAlarm;
+        GameEvents.OnFlashbackEnded += StopAlarm;
     }
 
     private void OnDisable()
     {
-        InsanityManager.OnVisualInsanityChanged -= UpdateSanityBar;
-        GameEvents.OnDeathSequenceStarted -= PlayRealAlarm;
-        GameEvents.OnDeathSequenceCancelled -= StopAllAlarms;
+        InsanityManager.OnSanityChanged -= UpdateSanityDisplay;
+        GameEvents.OnDeathSequenceStarted -= StartAlarm;
+        GameEvents.OnDeathSequenceCancelled -= StopAlarm;
         GameEvents.OnFalseAlarmTriggered -= PlayFalseAlarm;
+        GameEvents.OnFlashbackEnded -= StopAlarm;
     }
 
     /// <summary>
-    /// Atualiza a escala e a cor da barra de sanidade com base na insanidade visual do jogador.
+    /// Atualiza a opacidade e a cor das barras de sanidade com base na Sanidade atual (1.0 = são, 0.0 = colapso).
     /// </summary>
-    private void UpdateSanityBar(float visualInsanity)
+    private void UpdateSanityDisplay(float currentSanity)
     {
-        if (sanityBar == null || sanityBarRenderer == null) return;
+        if (sanityBars == null || sanityBars.Length == 0) return;
 
-        // A barra de sanidade é o inverso da insanidade. 1.0 insanidade = 0.0 de barra.
-        float barScale = 1f - visualInsanity;
-        sanityBar.localScale = new Vector3(barScale, 1f, 1f);
+        int barCount = sanityBars.Length;
 
-        // Usa um MaterialPropertyBlock para mudar a cor de forma otimizada,
-        // sem criar novas instâncias de material.
-        MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
-        sanityBarRenderer.GetPropertyBlock(propBlock);
-
-        Color barColor = saneColor;
-        if (barScale <= 0.25f) // Barra em 25% ou menos (insanidade >= 75%)
+        // Define a cor base para TODAS as barras
+        Color currentColor = saneColor;
+        // Limiar de perigo: quando menos de 40% da sanidade resta (ex: 2 de 5 barras)
+        if (currentSanity <= 0.4f) 
         {
-            barColor = dangerColor;
+            currentColor = dangerColor;
         }
-        else if (barScale <= 0.5f) // Barra entre 25% e 50% (insanidade entre 50% e 75%)
+        // Limiar de aviso: quando menos de 80% da sanidade resta (ex: 4 de 5 barras)
+        else if (currentSanity <= 0.8f) 
         {
-            barColor = warningColor;
+            currentColor = warningColor;
         }
-        
-        propBlock.SetColor("_Color", barColor);
-        sanityBarRenderer.SetPropertyBlock(propBlock);
+
+        // Calcula a opacidade de cada barra individualmente
+        for (int i = 0; i < barCount; i++)
+        {
+            if (sanityBars[i] == null) continue;
+
+            // Cada barra representa um segmento de sanidade.
+            // Barra 0 (a primeira) representa o segmento de sanidade de 1.0 a 0.8.
+            // Barra 1 (a segunda) representa o segmento de 0.8 a 0.6, e assim por diante.
+            float segmentSize = 1f / barCount;
+            float upperThreshold = 1f - (i * segmentSize);       // O topo do segmento desta barra
+            float lowerThreshold = 1f - ((i + 1) * segmentSize); // A base do segmento desta barra
+
+            // Mathf.InverseLerp nos diz "quão longe" a sanidade atual está dentro do segmento desta barra.
+            // O resultado (fadeProgress) será 0 se a sanidade estiver no topo do segmento (barra cheia),
+            // e 1 se a sanidade estiver na base do segmento (barra vazia).
+            float fadeProgress = Mathf.InverseLerp(upperThreshold, lowerThreshold, currentSanity);
+
+            // A opacidade (alpha) é o inverso do progresso do fade.
+            float finalAlpha = 1f - fadeProgress;
+
+            // Aplica a cor e a opacidade
+            Color finalColor = new (currentColor.r, currentColor.g, currentColor.b, finalAlpha);
+            
+            sanityBars[i].GetPropertyBlock(propBlock);
+            propBlock.SetColor("_BaseColor", finalColor);
+            sanityBars[i].SetPropertyBlock(propBlock);
+        }
     }
 
     /// <summary>
     /// Toca o alarme real e contínuo quando a sequência de morte começa.
     /// </summary>
-    private void PlayRealAlarm(float ignoredDuration)
+   private void StartAlarm(float ignoredDuration = 0f)
     {
-        StopAllAlarms(); // Garante que qualquer alarme anterior (como um falso) seja interrompido
-        Debug.Log("Alarme REAL disparado! Zona de Perigo!");
+        // Se o alarme já estiver tocando, não faz nada
+        if (blinkingLightRoutine != null || (alarmAudio != null && alarmAudio.isPlaying)) return;
         
-        // Inicia o efeito de piscar contínuo
-        activeBlinkingLightRoutine = StartCoroutine(BlinkingLightRoutine());
+        Debug.Log("<color=orange>ALARM STARTED</color>");
         
+        if (alarmLight != null)
+        {
+            blinkingLightRoutine = StartCoroutine(BlinkingLightRoutine());
+        }
         if (alarmAudio != null) 
         { 
             alarmAudio.loop = true; 
@@ -87,82 +115,46 @@ public class AlarmClockController : MonoBehaviour
         }
     }
 
-    private void PlayFalseAlarm(float duration)
+    // Função única para PARAR o alarme
+    public void StopAlarm()
     {
-        // Não toca um alarme falso se o real já estiver tocando
-        if (alarmAudio != null && alarmAudio.isPlaying && alarmAudio.loop) return; 
-
-        StopAllAlarms();
-        activeAlarmEventRoutine = StartCoroutine(FalseAlarmRoutine(duration));
-    }
-
-    private IEnumerator FalseAlarmRoutine(float duration)
-    {
-        Debug.Log("Alarme FALSO disparado!");
+        Debug.Log("<color=cyan>ALARM STOPPED</color>");
         
-        // Inicia o efeito de piscar
-        activeBlinkingLightRoutine = StartCoroutine(BlinkingLightRoutine());
-        
-        if (alarmAudio != null) 
-        { 
-            alarmAudio.loop = false; 
-            alarmAudio.Play(); 
-        }
-
-        // Espera a duração do alarme falso
-        yield return new WaitForSeconds(duration);
-
-        // Para tudo
-        StopAllAlarms();
-        Debug.Log("Alarme FALSO terminou.");
-    }
-
-    /// <summary>
-    /// O "interruptor" central para parar todos os efeitos de alarme.
-    /// </summary>
-    private void StopAllAlarms()
-    {
-        Debug.Log("Parando todos os alarmes.");
-        
-        // Para a coroutine do evento (se houver uma)
-        if (activeAlarmEventRoutine != null)
+        if (blinkingLightRoutine != null)
         {
-            StopCoroutine(activeAlarmEventRoutine);
-            activeAlarmEventRoutine = null;
+            StopCoroutine(blinkingLightRoutine);
+            blinkingLightRoutine = null;
         }
-
-        // Para a coroutine da luz piscando (se houver uma)
-        if (activeBlinkingLightRoutine != null)
-        {
-            StopCoroutine(activeBlinkingLightRoutine);
-            activeBlinkingLightRoutine = null;
-        }
-
-        // Garante que a luz e o som terminem no estado "desligado"
+        
         if (alarmLight != null) alarmLight.enabled = false;
         if (alarmAudio != null) alarmAudio.Stop();
     }
     
-    /// <summary>
-    /// Coroutine que executa o loop de piscar da luz indefinidamente.
-    /// </summary>
-    private IEnumerator BlinkingLightRoutine()
+    // Alarme falso agora chama as funções principais
+    private void PlayFalseAlarm(float duration)
     {
-        // Garante que a luz esteja desligada no início para um ciclo consistente
-        if (alarmLight != null) alarmLight.enabled = false;
-        
-        // Loop infinito que só é interrompido quando a coroutine é parada externamente
-        while (true)
-        {
-            if (alarmLight != null) alarmLight.enabled = !alarmLight.enabled; // Inverte o estado da luz
-            yield return new WaitForSeconds(blinkInterval);
-        }
+        StartCoroutine(FalseAlarmRoutine(duration));
     }
 
-    // A função StopAlarm do OnDisable precisa ser ajustada para a nova nomenclatura
-    private void OnApplicationQuit()
+    private IEnumerator FalseAlarmRoutine(float duration)
     {
-        // Garante que a luz não fique acesa no editor ao parar o jogo
-        if(alarmLight != null) alarmLight.enabled = false;
+        StartAlarm(); // Usa a função de início padrão
+        if (alarmAudio != null) alarmAudio.loop = false; // Garante que não seja um loop
+        
+        yield return new WaitForSeconds(duration);
+        
+        StopAlarm(); // Usa a função de parada padrão
+    }
+
+    private IEnumerator BlinkingLightRoutine()
+    {
+        if (alarmLight == null) yield break;
+        alarmLight.enabled = false;
+        
+        while (true)
+        {
+            alarmLight.enabled = !alarmLight.enabled;
+            yield return new WaitForSeconds(blinkInterval);
+        }
     }
 }

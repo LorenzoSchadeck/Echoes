@@ -3,16 +3,13 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class ShaderInsanityController : MonoBehaviour
 {
-    [Header("Shader Settings")]
-    [Tooltip("Velocidade com que o efeito visual do shader se ajusta à insanidade do jogador.")]
-    [SerializeField] private float transitionSpeed = 1.0f;
-    
+    [Header("Sanity Thresholds")]
+    [Tooltip("A sanidade precisa cair ABAIXO deste valor para que o shader comece a se distorcer.")]
+    [SerializeField, Range(0f, 1f)] private float shaderEffectStartThreshold = 0.5f;
+
     private Material materialInstance;
-
-    private float targetInsanity = 0f;
-    private float currentShaderInsanity = 0f;
-
     private static readonly int InsanityLevelID = Shader.PropertyToID("_InsanityLevel");
+    private float currentSanity = 1.0f;
 
     private void Awake()
     {
@@ -22,30 +19,30 @@ public class ShaderInsanityController : MonoBehaviour
 
     private void OnEnable()
     {
-        InsanityManager.OnVisualInsanityChanged += HandleInsanityChange;
+        InsanityManager.OnSanityChanged += HandleSanityChange;
     }
 
     private void OnDisable()
     {
-        InsanityManager.OnVisualInsanityChanged -= HandleInsanityChange;
-    }
-
-    // Função chamada pelo evento. Apenas atualiza o valor alvo.
-    private void HandleInsanityChange(float newInsanityValue)
-    {
-        targetInsanity = newInsanityValue;
+        InsanityManager.OnSanityChanged -= HandleSanityChange;
     }
 
     private void Update()
     {
-        // Interpola suavemente o valor atual do shader em direção ao valor alvo
-        currentShaderInsanity = Mathf.Lerp(currentShaderInsanity, targetInsanity, Time.deltaTime * transitionSpeed);
+        // Calcula o 'insanityLevel' (0 a 1) para o shader.
+        // O efeito vai de 0% a 100% conforme a sanidade cai do limiar até 0.
+        float insanityLevel = Mathf.InverseLerp(shaderEffectStartThreshold, 0f, currentSanity);
 
-        // Aplica o valor suavizado ao material
         if (materialInstance != null)
         {
-            materialInstance.SetFloat(InsanityLevelID, currentShaderInsanity);
+            materialInstance.SetFloat(InsanityLevelID, insanityLevel);
         }
+    }
+
+    // Função chamada pelo evento. Apenas atualiza o valor alvo.
+    private void HandleSanityChange(float newSanity)
+    {
+        currentSanity = newSanity;
     }
 
     private void OnDestroy()
