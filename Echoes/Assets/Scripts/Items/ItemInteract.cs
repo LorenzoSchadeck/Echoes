@@ -1,27 +1,31 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro; 
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
+
 
 [RequireComponent(typeof(Collider))]
 public class ItemInteract : MonoBehaviour, IInteractable
 {
-    [Header("Item Info")]
-    [SerializeField] private string itemName;
-    [TextArea]
-    [SerializeField] private string itemDescription;
+    [Header("Localization Data")]
+    [Tooltip("Referência à chave do prompt de interação (ex: PROMPT_INSPECT_ITEM). Esta chave deve conter '{itemName}'.")]
+    [SerializeField] private LocalizedString promptString;
+    [Tooltip("Referência à chave do nome deste item (ex: ITEM_NAME_OLD_PHOTO).")]
+    [SerializeField] private LocalizedString itemNameString;
+    [Tooltip("Referência à chave da descrição deste item (ex: ITEM_DESC_OLD_PHOTO).")]
+    [SerializeField] private LocalizedString itemDescriptionString;
 
     [Header("UI References")]
     [Tooltip("O GameObject do painel que será ativado.")]
     [SerializeField] private GameObject inspectionPanel;
-    [Tooltip("O campo de texto para o nome do item.")]
-    [SerializeField] private TextMeshProUGUI itemNameText;
-    [Tooltip("O campo de texto para a descrição do item.")]
-    [SerializeField] private TextMeshProUGUI itemDescriptionText;
+    [Tooltip("O campo de texto para o nome do item. DEVE ter o componente 'Localize String Event'.")]
+    [SerializeField] private TMPro.TextMeshProUGUI itemNameText;
+    [Tooltip("O campo de texto para a descrição do item. DEVE ter o componente 'Localize String Event'.")]
+    [SerializeField] private TMPro.TextMeshProUGUI itemDescriptionText;
 
     [Header("Inspection Settings")]
     [SerializeField] private float inspectionDistance = 0.8f;
-    [SerializeField] private float transitionSpeed = 8f;
     [SerializeField] private float rotationSpeed = 10f;
 
     // Referências privadas
@@ -29,12 +33,25 @@ public class ItemInteract : MonoBehaviour, IInteractable
     private bool isInspecting = false;
     private PlayerInteractor playerInteractor;
     private Coroutine activeTransition = null;
-
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Transform originalParent;
-    
-    public string InteractionPrompt => $"(E) Inspecionar {itemName}";
+
+    // Propriedade da Interface: Monta o prompt dinamicamente com os textos localizados
+    public string InteractionPrompt
+    {
+        get
+        {
+            string promptTemplate = promptString.GetLocalizedString();
+            string localizedItemName = itemNameString.GetLocalizedString();
+            
+            // LOG DE DEPURAÇÃO
+            if (string.IsNullOrEmpty(promptTemplate)) Debug.LogError("Prompt Template está vazio ou nulo!");
+            if (string.IsNullOrEmpty(localizedItemName)) Debug.LogError("Localized Item Name está vazio ou nulo!");
+
+            return promptTemplate.Replace("{itemName}", localizedItemName);
+        }
+    }
 
     public bool Interact(Transform interactor)
     {
@@ -72,7 +89,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     private void StartInspection()
     {
         isInspecting = true;
-        PlayerMovement.canMove = false; // Impede movimento e passos
         playerInteractor.SetInspectionMode(true);
 
         originalPosition = transform.position;
@@ -94,7 +110,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     {
         if (!isInspecting) return;
         isInspecting = false;
-        PlayerMovement.canMove = true; // Libera movimento e passos
         playerInteractor.SetInspectionMode(false);
 
         if (activeTransition != null) StopCoroutine(activeTransition);
@@ -102,19 +117,17 @@ public class ItemInteract : MonoBehaviour, IInteractable
         
         HideInspectionPanel();
     }
-    
+
     private void ShowInspectionPanel()
     {
-        if (inspectionPanel != null && itemNameText != null && itemDescriptionText != null)
-        {
-            itemNameText.text = itemName;
-            itemDescriptionText.text = itemDescription;
-            inspectionPanel.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("Referências da UI não foram definidas no item: " + gameObject.name, this);
-        }
+        if (inspectionPanel == null || itemNameText == null || itemDescriptionText == null) return;
+        
+        // Ativa o painel primeiro
+        inspectionPanel.SetActive(true);
+
+        // Busca as traduções e as define DIRETAMENTE no campo .text
+        itemNameText.text = itemNameString.GetLocalizedString();
+        itemDescriptionText.text = itemDescriptionString.GetLocalizedString();
     }
 
     private void HideInspectionPanel()
