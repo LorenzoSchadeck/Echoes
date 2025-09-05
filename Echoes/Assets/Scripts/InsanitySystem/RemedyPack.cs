@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.Localization;
 
 [RequireComponent(typeof(Collider))]
 public class RemedyPack : MonoBehaviour, IInteractable
 {
-    [Header("Interaction Settings")]
-    [Tooltip("Texto base que aparece quando há remédios disponíveis.")]
-    [SerializeField] private string _interactionPrompt = "Usar Remédio";
-    [Tooltip("Texto que aparece quando os remédios acabaram.")]
-    [SerializeField] private string _emptyPrompt = "Vazio";
+    [Header("Localization")]
+    [Tooltip("Referência à chave para o prompt de 'usar remédio', que deve incluir '{count}'.")]
+    [SerializeField] private LocalizedString useRemedyPrompt;
+    [Tooltip("Referência à chave para o prompt de 'vazio'.")]
+    [SerializeField] private LocalizedString emptyPrompt;
     
     [Header("Remedy Settings")]
     [SerializeField] private int remedyCount = 3;
@@ -19,12 +20,15 @@ public class RemedyPack : MonoBehaviour, IInteractable
         {
             if (remedyCount > 0)
             {
-                // Usa interpolação de string para formatar o texto. Ex: "Usar Remédio (x3)"
-                return $"{_interactionPrompt} (x{remedyCount})";
+                // Define o valor da variável '{count}' na string localizada
+                useRemedyPrompt.Arguments = new object[] { new { count = this.remedyCount } };
+                // Pede ao sistema para gerar a string final
+                return useRemedyPrompt.GetLocalizedString();
             }
             else
             {
-                return _emptyPrompt;
+                // Pega a tradução simples para o estado "vazio"
+                return emptyPrompt.GetLocalizedString();
             }
         }
     }

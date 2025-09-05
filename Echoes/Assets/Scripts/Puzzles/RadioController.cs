@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using TMPro;
+using UnityEngine.Localization;
 
 [RequireComponent(typeof(AudioSource))]
 public class RadioController : MonoBehaviour, IInteractable
@@ -9,9 +10,12 @@ public class RadioController : MonoBehaviour, IInteractable
     private enum SelectedDial { Fine, Coarse }
 
     [Header("Configuração da Interação")]
-    [SerializeField] private string interactionPrompt = "(E) Sintonizar Rádio";
     [SerializeField] private CinemachineCamera radioCamera;
     [SerializeField] private CinemachineCamera playerCamera;
+
+    [Header("Localization")]
+    [SerializeField] private LocalizedString interactionPrompt;
+    public string InteractionPrompt => isSolved ? string.Empty : interactionPrompt.GetLocalizedString();
 
     [Header("Controles do Rádio")]
     [SerializeField] private Transform dialLeft;
@@ -35,8 +39,6 @@ public class RadioController : MonoBehaviour, IInteractable
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI frequencyDisplayText;
-
-    public string InteractionPrompt => isSolved ? string.Empty : interactionPrompt;
 
     private PlayerInputActions inputActions;
     private PlayerInteractor playerInteractor;

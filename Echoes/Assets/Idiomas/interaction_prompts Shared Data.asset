@@ -35,6 +35,10 @@ MonoBehaviour:
     m_Key: PROMPT_LOCKED
     m_Metadata:
       m_Items: []
+  - m_Id: 181855260094464
+    m_Key: PROMPT_MOVING
+    m_Metadata:
+      m_Items: []
   - m_Id: 1393854099456
     m_Key: PROMPT_PEEK
     m_Metadata:
@@ -45,6 +49,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 3719511781376
     m_Key: PROMPT_INSPECTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 186796959707136
+    m_Key: PROMPT_RADIO
     m_Metadata:
       m_Items: []
   m_Metadata:

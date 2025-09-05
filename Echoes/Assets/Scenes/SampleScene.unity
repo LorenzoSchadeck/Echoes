@@ -2698,6 +2698,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
+  openPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 577361522688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  closePrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 585666244608
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  lockedPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 622752280576
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  movingPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 181855260094464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   openSpeed: 2
   fullOpenAngle: 90
   jammedOpenAngle: 25
@@ -2707,6 +2743,9 @@ MonoBehaviour:
   closeSound: {fileID: 8300000, guid: d85b0a09cd234a34f97395a444ad0574, type: 3}
   lockedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
   jammedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!82 &408271637
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3072,6 +3111,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
+  openPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 577361522688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  closePrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 585666244608
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  lockedPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 622752280576
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  movingPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 181855260094464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   openSpeed: 2
   fullOpenAngle: 90
   jammedOpenAngle: 25
@@ -3081,6 +3156,9 @@ MonoBehaviour:
   closeSound: {fileID: 8300000, guid: d85b0a09cd234a34f97395a444ad0574, type: 3}
   lockedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
   jammedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!82 &485753594
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3627,7 +3705,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef359a608e0a8b45899a970ad208ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionPrompt: (E) Lembrar
+  interactionPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 1622238146560
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &592037440
 GameObject:
   m_ObjectHideFlags: 0
@@ -3768,9 +3857,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b817c4f422b3f234fa724151da95c407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionPrompt: (E) Use
-  _emptyPrompt: Vazio
+  useRemedyPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 135730671616
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  emptyPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 3215167696896
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   remedyCount: 3
+  references:
+    version: 2
+    RefIds: []
 --- !u!65 &618980265
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7027,6 +7135,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  openPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 577361522688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  closePrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 585666244608
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  lockedPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 622752280576
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  movingPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 181855260094464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   openSpeed: 2
   fullOpenAngle: 90
   jammedOpenAngle: 25
@@ -7036,6 +7180,9 @@ MonoBehaviour:
   closeSound: {fileID: 8300000, guid: d85b0a09cd234a34f97395a444ad0574, type: 3}
   lockedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
   jammedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!82 &1293186411
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8024,6 +8171,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 2
+  openPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 577361522688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  closePrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 585666244608
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  lockedPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 622752280576
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  movingPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 181855260094464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   openSpeed: 2
   fullOpenAngle: 90
   jammedOpenAngle: 25
@@ -8033,6 +8216,9 @@ MonoBehaviour:
   closeSound: {fileID: 8300000, guid: d85b0a09cd234a34f97395a444ad0574, type: 3}
   lockedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
   jammedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!82 &1658539172
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8200,6 +8386,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  openPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 577361522688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  closePrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 585666244608
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  lockedPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 622752280576
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  movingPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 181855260094464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   openSpeed: 2
   fullOpenAngle: 90
   jammedOpenAngle: 25
@@ -8209,6 +8431,9 @@ MonoBehaviour:
   closeSound: {fileID: 8300000, guid: d85b0a09cd234a34f97395a444ad0574, type: 3}
   lockedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
   jammedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!82 &1672719431
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8504,8 +8729,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f583a59b0352b734384e1848f87a9c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPrompt:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sanityLossAmount: 0.1
   peekCamera: {fileID: 1930728912}
+  references:
+    version: 2
+    RefIds: []
 --- !u!65 &1704571336
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9154,6 +9391,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4387728371867361482, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387728371867361482, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387728371867361482, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387728371867361482, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5846005534566589112, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
       propertyPath: radioCamera
       value: 
@@ -9162,6 +9415,26 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 1693978154}
+    - target: {fileID: 5846005534566589112, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: interactionPrompt.m_TableEntryReference.m_KeyId
+      value: 186796959707136
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846005534566589112, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: interactionPrompt.m_TableReference.m_TableCollectionName
+      value: GUID:92235af238093414588734b3070b84f1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980731712223656359, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980731712223656359, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980731712223656359, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8357051042019377711, guid: 34bac2cdc75c81940b9f3a2705572d10, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -18839,6 +19112,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
+  openPrompt:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  closePrompt:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  lockedPrompt:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  movingPrompt:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   openSpeed: 2
   fullOpenAngle: 90
   jammedOpenAngle: 25
@@ -18848,6 +19157,9 @@ MonoBehaviour:
   closeSound: {fileID: 8300000, guid: d85b0a09cd234a34f97395a444ad0574, type: 3}
   lockedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
   jammedSound: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!82 &7951812025462701471
 AudioSource:
   m_ObjectHideFlags: 0

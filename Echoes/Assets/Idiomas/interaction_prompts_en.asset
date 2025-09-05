@@ -16,12 +16,14 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 92235af238093414588734b3070b84f1, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 3138195421113876562
   m_TableData:
   - m_Id: 135730671616
     m_Localized: (E) Use Remedy (x{count})
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 3138195421113876562
   - m_Id: 577361522688
     m_Localized: (E) Open Door
     m_Metadata:
@@ -45,11 +47,27 @@ MonoBehaviour:
   - m_Id: 3215167696896
     m_Localized: Empty
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 3138195421113876562
   - m_Id: 3719511781376
     m_Localized: (E) Inspect {itemName}
     m_Metadata:
       m_Items: []
+  - m_Id: 181855260094464
+    m_Localized: '         '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 186796959707136
+    m_Localized: (E) Tune In
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3138195421113876562
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 135730671616
+        - id: 3215167696896

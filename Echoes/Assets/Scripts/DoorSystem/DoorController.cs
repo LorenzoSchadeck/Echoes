@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Localization;
 
 [RequireComponent(typeof(AudioSource))]
 public class DoorController : MonoBehaviour, IInteractable
@@ -8,6 +9,12 @@ public class DoorController : MonoBehaviour, IInteractable
 
     [Header("State Settings")]
     [SerializeField] private DoorState currentState = DoorState.Unlocked;
+
+    [Header("Localization")]
+    [SerializeField] private LocalizedString openPrompt;
+    [SerializeField] private LocalizedString closePrompt;
+    [SerializeField] private LocalizedString lockedPrompt;
+    [SerializeField] private LocalizedString movingPrompt;
 
     [Header("Movement Settings")]
     [SerializeField] private float openSpeed = 2.0f;
@@ -37,13 +44,17 @@ public class DoorController : MonoBehaviour, IInteractable
     {
         get
         {
-            if (isMoving) return string.Empty;
+            if (isMoving) return movingPrompt.GetLocalizedString();
 
             switch (currentState)
             {
-                case DoorState.Locked: return "Tentar abrir (Trancada)";
-                case DoorState.Jammed: return isOpen ? "(E) Fechar a porta" : "(E) Abrir a porta";
-                default:               return isOpen ? "(E) Fechar a porta" : "(E) Abrir a porta";
+                case DoorState.Locked:
+                    return lockedPrompt.GetLocalizedString();
+                
+                case DoorState.Jammed:
+                case DoorState.Unlocked:
+                default:
+                    return isOpen ? closePrompt.GetLocalizedString() : openPrompt.GetLocalizedString();
             }
         }
     }

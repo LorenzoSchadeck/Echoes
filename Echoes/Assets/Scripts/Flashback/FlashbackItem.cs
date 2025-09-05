@@ -1,14 +1,14 @@
 using UnityEngine;
+using UnityEngine.Localization;
 
 [RequireComponent(typeof(Collider))]
 public class FlashbackItem : MonoBehaviour, IInteractable
 {
-    [Header("Interaction Settings")]
-    [Tooltip("Texto que aparece quando o jogador olha para este item.")]
-    [SerializeField] private string _interactionPrompt = "Lembrar";
-
-    // Propriedade da interface IInteractable
-    public string InteractionPrompt => _interactionPrompt;
+    [Header("Localization")]
+    [Tooltip("Referência à chave do prompt de interação (ex: PROMPT_REMEMBER).")]
+    [SerializeField] private LocalizedString interactionPrompt;
+    
+    public string InteractionPrompt => interactionPrompt.GetLocalizedString();
     private bool isActivated = false;
 
     // Método da interface IInteractable
