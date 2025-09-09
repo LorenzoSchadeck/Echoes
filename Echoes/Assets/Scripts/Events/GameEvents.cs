@@ -37,4 +37,11 @@ public static class GameEvents
     // Evento para quando o jogador perde uma quantidade específica de sanidade.
     public static event Action<float> OnSanityLost;
     public static void TriggerSanityLost(float amount) => OnSanityLost?.Invoke(amount);
+
+    // Evento de ativacao do puzzle sonoro
+    public static event Action OnAudioPuzzleStarted;
+    public static void TriggerAudioPuzzleStarted() => OnAudioPuzzleStarted?.Invoke();
+
+    public static event Action OnAudioPuzzleSolved;
+    public static void TriggerAudioPuzzleSolved() => OnAudioPuzzleSolved?.Invoke();
 }

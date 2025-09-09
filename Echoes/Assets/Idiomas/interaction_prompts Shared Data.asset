@@ -55,6 +55,14 @@ MonoBehaviour:
     m_Key: PROMPT_RADIO
     m_Metadata:
       m_Items: []
+  - m_Id: 1365074613481472
+    m_Key: PROMPT_CHOIR_START
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1367164249288704
+    m_Key: PROMPT_CHOIR_SOL
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

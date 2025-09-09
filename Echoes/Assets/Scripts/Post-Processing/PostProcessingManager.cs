@@ -90,7 +90,10 @@ public class PostProcessingManager : MonoBehaviour
 
     private void HandleInsanityChange(float newInsanityValue)
     {
-        currentSanity = newInsanityValue;
+        if (activeVisualEffectCoroutine == null)
+        {
+            currentSanity = newInsanityValue;
+        }
     }
 
     /// <summary>
@@ -167,11 +170,12 @@ public class PostProcessingManager : MonoBehaviour
             yield return null;
         }
 
-        // Garante o estado final e reseta a insanidade visual
-        ApplyBlendedProfile(0f);
-        currentSanity = 0f;
+        // Garante o estado final e ressincroniza com o InsanityManager.
+        ApplyBlendedProfile(0f); // Garante que o visual fique 100% no perfil de destino (são/flashback)
+        currentSanity = 1.0f;  // Sincroniza o valor interno para o estado "são"
 
         activeVisualEffectCoroutine = null;
+        Debug.Log("Transição concluída.");
     }
 
     private IEnumerator DeathEffectRoutine(float duration)

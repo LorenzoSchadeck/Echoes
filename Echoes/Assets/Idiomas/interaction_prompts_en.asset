@@ -61,6 +61,14 @@ MonoBehaviour:
     m_Localized: (E) Tune In
     m_Metadata:
       m_Items: []
+  - m_Id: 1365074613481472
+    m_Localized: (E) Investigate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1367164249288704
+    m_Localized: (E) Interact
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

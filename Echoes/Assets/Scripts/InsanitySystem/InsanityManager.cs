@@ -145,23 +145,38 @@ public class InsanityManager : MonoBehaviour
 
     private void UseRemedy()
     {
+        Debug.Log("InsanityManager: Remédio usado.");
+
         if (remedyCoroutine != null) StopCoroutine(remedyCoroutine);
-        
-        // Se estiver em um flashback, o remédio força a saída
+
+        // Prioridade: Flashback
         if (isInFlashback)
         {
             GameEvents.TriggerFlashbackEnded();
         }
+        // Cura no estado normal
+        else if (isDeathSequenceActive || currentSanity < 1.0f)
+        {
+            GameEvents.TriggerDeathSequenceCancelled();
+        }
         
+        // A rotina que gerencia o estado da sanidade sempre roda
         remedyCoroutine = StartCoroutine(RemedyEffectRoutine());
     }
 
+    // --- COROUTINE DE CURA CORRIGIDA E FINAL ---
     private IEnumerator RemedyEffectRoutine()
     {
         // FASE 1: Ações Imediatas
         isSanityDrainPaused = true;
-        CurrentSanity = 1.0f; // O remédio restaura a sanidade para 100% INSTANTANEAMENTE
-        UpdateSanityAndDispatchEvent(1.0f); // Garante que todos os sistemas saibam disso
+        
+        // AQUI ESTÁ A CORREÇÃO CRÍTICA QUE FALTAVA:
+        // A sanidade é restaurada para 100% nos DADOS.
+        // O PostProcessingManager irá ignorar essa mudança abrupta
+        // e fará sua própria animação suave.
+        CurrentSanity = 1.0f; 
+        
+        Debug.Log("Perda de sanidade PAUSADA. Sanidade resetada para 100%.");
 
         // FASE 2: Espera pela duração da pausa
         yield return new WaitForSeconds(sanityDrainPauseDuration);
@@ -169,5 +184,6 @@ public class InsanityManager : MonoBehaviour
         // FASE 3: Retoma a perda de sanidade
         isSanityDrainPaused = false;
         remedyCoroutine = null;
+        Debug.Log("Perda de sanidade RETOMADA.");
     }
 }
