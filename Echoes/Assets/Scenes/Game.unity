@@ -4100,10 +4100,10 @@ MonoBehaviour:
     whisperText: "resolu\xE7\xE3o"
     type: 0
   - description: errado1
-    whisperText: "distra\xE7\xE3o"
+    whisperText: "distra\xE7\xE3o1"
     type: 1
   - description: errado2
-    whisperText: "distra\xE7\xE3o"
+    whisperText: "distra\xE7\xE3o2"
     type: 1
   whisperInterval: 5
 --- !u!4 &586125552
@@ -21978,6 +21978,7 @@ SceneRoots:
   - {fileID: 631102704}
   - {fileID: 954097452}
   - {fileID: 586125552}
+  - {fileID: 8954810089426534344}
   - {fileID: 1120301523}
   - {fileID: 1876884198}
   - {fileID: 1031817808}
@@ -21990,7 +21991,6 @@ SceneRoots:
   - {fileID: 618980268}
   - {fileID: 327294923}
   - {fileID: 543450651631402786}
-  - {fileID: 8954810089426534344}
   - {fileID: 1502540298}
   - {fileID: 185129415}
   - {fileID: 1953117154}

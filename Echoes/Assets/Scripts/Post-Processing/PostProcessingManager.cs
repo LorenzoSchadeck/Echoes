@@ -194,6 +194,7 @@ public class PostProcessingManager : MonoBehaviour
             if (vignette != null) vignette.intensity.value = Mathf.Lerp(startVignetteIntensity, 1f, t);
             yield return null;
         }
+        
         if (colorAdjustments != null) { colorAdjustments.saturation.value = -100f; colorAdjustments.postExposure.value = targetExposure; }
         if (vignette != null) vignette.intensity.value = 1f;
     }
