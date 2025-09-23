@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: M_gesso_parede
   m_Shader: {fileID: -6465566751694194690, guid: 64c92fb36e6a5804aa380b728ff9c513, type: 3}
-  m_Parent: {fileID: 2100000, guid: 528b52eb5f9f22641a91d4fe2cdc7995, type: 2}
+  m_Parent: {fileID: 2100000, guid: 0c93b53d41575b04bb4ad8cfce068739, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -60,12 +60,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _DeformFrequency: 0
     - _HeightStrength: 0.1
     - _InsanityLevel: 0
-    - _NormalStrength: 0
-    - _Smoothness: 0
+    - _NormalStrength: 0.549
+    - _Smoothness: 0.15
+    - _UVDisplacementStrength: 0.76
     m_Colors:
     - _BaseColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0}
-    - _BaseMap_Tiling: {r: 5, g: 20, b: 0, a: 0}
+    - _BaseMap_Tiling: {r: 0.3, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
