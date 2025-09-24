@@ -727,8 +727,8 @@ GameObject:
   m_Component:
   - component: {fileID: 257474056014402499}
   - component: {fileID: 5681990219407546945}
-  - component: {fileID: 1430307673727197427}
   - component: {fileID: 5846005534566589112}
+  - component: {fileID: -2637727920894142851}
   m_Layer: 7
   m_Name: Radio
   m_TagString: Untagged
@@ -782,103 +782,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.12487291, y: 0.07487468, z: 0.06674481}
   m_Center: {x: 0.001278134, y: 0.033621404, z: 0.022518063}
---- !u!82 &1430307673727197427
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3466144432420499763}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 4
-  MaxDistance: 17.03
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &5846005534566589112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,9 +794,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09a32c8cdedbd74da2a277914b2a93a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionPrompt: "(E) Sintonizar R\xE1dio"
   radioCamera: {fileID: 0}
   playerCamera: {fileID: 0}
+  interactionPrompt:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   dialLeft: {fileID: 4447294831807007363}
   dialRight: {fileID: 6681431447343803986}
   rotationPerClick: 15
@@ -901,9 +812,55 @@ MonoBehaviour:
   targetFrequency: 95.45
   fineDialOutlineObject: {fileID: 1069144723065848770}
   coarseDialOutlineObject: {fileID: 7546254422965226680}
-  staticClip: {fileID: 8300000, guid: a98cccc272219b84f936606e62cc470f, type: 3}
-  messageClip: {fileID: 8300000, guid: d02319985cdc5b141827a7cd8b1ceafc, type: 3}
+  staticEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  messageEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   frequencyDisplayText: {fileID: 8357051042019377711}
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &-2637727920894142851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3466144432420499763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
 --- !u!1 &3516071995809957775
 GameObject:
   m_ObjectHideFlags: 0

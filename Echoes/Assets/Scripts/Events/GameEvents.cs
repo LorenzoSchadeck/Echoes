@@ -1,3 +1,4 @@
+using FMODUnity;
 using System;
 
 public static class GameEvents
@@ -33,6 +34,16 @@ public static class GameEvents
     // Envia a duração do alarme como parâmetro
     public static event Action<float> OnFalseAlarmTriggered;
     public static void TriggerFalseAlarm(float duration) => OnFalseAlarmTriggered?.Invoke(duration);
+
+    // --- Horror Event Stubs ---
+    public static void TriggerSpatialSound(EventReference soundEvent, UnityEngine.Vector3 offset) { /* TODO: Implementar lógica FMOD */ }
+    public static void TriggerRadioStatic(EventReference staticEvent, float duration) { /* TODO: Implementar lógica FMOD */ }
+    public static void TriggerQuickLightChange(float duration, float peakIntensity) { /* TODO: Implementar lógica */ }
+    public static void TriggerTemporaryMaterialSwap(UnityEngine.Material mat, float duration) { /* TODO: Implementar lógica */ }
+    public static void TriggerPlayVideoOnMaterial(UnityEngine.Video.VideoClip clip, UnityEngine.Material target, float duration) { /* TODO: Implementar lógica */ }
+    public static void TriggerSpawnCoveredBody(UnityEngine.GameObject prefab, UnityEngine.Vector3 offset) { /* TODO: Implementar lógica */ }
+    public static void TriggerSpawnHallucination(UnityEngine.GameObject prefab, UnityEngine.Vector3 offset) { /* TODO: Implementar lógica */ }
+    public static void TriggerGuiltChorus(EventReference chorusEvent, float duration) { /* TODO: Implementar lógica FMOD */ }
 
     // Evento para quando o jogador perde uma quantidade específica de sanidade.
     public static event Action<float> OnSanityLost;

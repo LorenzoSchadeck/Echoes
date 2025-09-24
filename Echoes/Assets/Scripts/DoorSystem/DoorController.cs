@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Localization;
+using FMODUnity;
 
-[RequireComponent(typeof(AudioSource))]
+// Não requer mais AudioSource
 public class DoorController : MonoBehaviour, IInteractable
 {
     public enum DoorState { Unlocked, Locked, Jammed }
@@ -21,36 +22,33 @@ public class DoorController : MonoBehaviour, IInteractable
     [Tooltip("The absolute angle the door will open (e.g., 90). The direction will be determined automatically.")]
     [SerializeField] private float fullOpenAngle = 90.0f;
     [SerializeField] private float jammedOpenAngle = 25.0f;
-
-    [Header("Movement Settings")]
     [SerializeField] private bool openToPositiveSide = true;
 
     [Header("Hierarchy")]
     [Tooltip("The pivot object around which the door rotates. Usually the empty parent.")]
     [SerializeField] private Transform pivot;
 
-    [Header("Sounds")]
-    [SerializeField] private AudioClip openSound;
-    [SerializeField] private AudioClip closeSound;
-    [SerializeField] private AudioClip lockedSound;
-    [SerializeField] private AudioClip jammedSound;
+    [Header("Sons FMOD")]
+    [SerializeField] private EventReference openEvent;
+    [SerializeField] private EventReference closeEvent;
+    [SerializeField] private EventReference lockedEvent;
+    [SerializeField] private EventReference jammedEvent;
 
-    private AudioSource audioSource;
+    private FMODAudioTrigger audioTrigger;
     private Quaternion initialRotation;
     private bool isOpen = false;
     private bool isMoving = false;
     
+
     public string InteractionPrompt
     {
         get
         {
             if (isMoving) return movingPrompt.GetLocalizedString();
-
             switch (currentState)
             {
                 case DoorState.Locked:
                     return lockedPrompt.GetLocalizedString();
-                
                 case DoorState.Jammed:
                 case DoorState.Unlocked:
                 default:
@@ -59,36 +57,9 @@ public class DoorController : MonoBehaviour, IInteractable
         }
     }
 
-    public bool Interact(Transform interactor)
-    {
-        if (isMoving) return false;
-
-        if (isOpen)
-        {
-            MoveDoor(0, closeSound);
-            return true;
-        }
-
-        float direction = openToPositiveSide ? 1f : -1f;
-
-        switch (currentState)
-        {
-            case DoorState.Unlocked:
-                MoveDoor(fullOpenAngle * direction, openSound);
-                return true;
-            case DoorState.Locked:
-                PlaySound(lockedSound);
-                return false;
-            case DoorState.Jammed:
-                MoveDoor(jammedOpenAngle * direction, jammedSound);
-                return true;
-        }
-        return false;
-    }
-
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
         if (pivot == null)
         {
             Debug.LogWarning("Pivot da porta não foi definido, tentando usar o pai.", this);
@@ -97,19 +68,43 @@ public class DoorController : MonoBehaviour, IInteractable
         initialRotation = pivot.rotation;
     }
 
-    private void MoveDoor(float targetAngle, AudioClip movementSound)
+    public bool Interact(Transform interactor)
     {
-        // Esta lógica de calcular o alvo da rotação já estava correta!
-        // A chave é que o 'targetAngle' agora vem com o sinal (+ ou -) correto.
-        Quaternion targetRotation = isOpen ? initialRotation : initialRotation * Quaternion.Euler(0, 0, targetAngle);
-        
-        StartCoroutine(AnimateDoor(targetRotation, movementSound));
+        if (isMoving) return false;
+
+        if (isOpen)
+        {
+            MoveDoor(0, closeEvent);
+            return true;
+        }
+
+        float direction = openToPositiveSide ? 1f : -1f;
+
+        switch (currentState)
+        {
+            case DoorState.Unlocked:
+                MoveDoor(fullOpenAngle * direction, openEvent);
+                return true;
+            case DoorState.Locked:
+                PlayFMODSound(lockedEvent);
+                return false;
+            case DoorState.Jammed:
+                MoveDoor(jammedOpenAngle * direction, jammedEvent);
+                return true;
+        }
+        return false;
     }
 
-    private IEnumerator AnimateDoor(Quaternion targetRotation, AudioClip movementSound)
+    private void MoveDoor(float targetAngle, EventReference movementEvent)
+    {
+        Quaternion targetRotation = isOpen ? initialRotation : initialRotation * Quaternion.Euler(0, 0, targetAngle);
+        StartCoroutine(AnimateDoor(targetRotation, movementEvent));
+    }
+
+    private IEnumerator AnimateDoor(Quaternion targetRotation, EventReference movementEvent)
     {
         isMoving = true;
-        PlaySound(movementSound);
+        PlayFMODSound(movementEvent);
 
         Quaternion currentRotation = pivot.rotation;
         float time = 0f;
@@ -122,25 +117,16 @@ public class DoorController : MonoBehaviour, IInteractable
         }
 
         pivot.rotation = targetRotation;
-        
-        if (targetRotation != initialRotation)
-        {
-            isOpen = true;
-        }
-        else
-        {
-            isOpen = false;
-        }
-        
+
+        isOpen = targetRotation != initialRotation;
         isMoving = false;
     }
 
-    private void PlaySound(AudioClip clip)
+    private void PlayFMODSound(EventReference evt)
     {
-        if (audioSource != null && clip != null)
-        {
-            audioSource.PlayOneShot(clip);
-        }
+        if (evt.IsNull) return;
+        audioTrigger.fmodEvent = evt;
+        audioTrigger.PlayAtPosition(transform.position);
     }
 
     public void LockDoor() { currentState = DoorState.Locked; }

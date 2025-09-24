@@ -14,8 +14,10 @@ public class AlarmClockController : MonoBehaviour
 
     [Header("Alarm Components")]
     [SerializeField] private Light alarmLight;
-    [SerializeField] private AudioSource alarmAudio;
+    [SerializeField] private FMODUnity.EventReference alarmEvent;
     [SerializeField] private float blinkInterval = 0.5f;
+
+    private FMODAudioTrigger audioTrigger;
 
     private Coroutine blinkingLightRoutine;
     private MaterialPropertyBlock propBlock; // Otimização: reutilizar o mesmo property block
@@ -23,6 +25,7 @@ public class AlarmClockController : MonoBehaviour
     private void Awake()
     {
         propBlock = new MaterialPropertyBlock();
+        audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
     }
 
     private void OnEnable()
@@ -97,21 +100,19 @@ public class AlarmClockController : MonoBehaviour
     /// <summary>
     /// Toca o alarme real e contínuo quando a sequência de morte começa.
     /// </summary>
-   private void StartAlarm(float ignoredDuration = 0f)
+    private void StartAlarm(float ignoredDuration = 0f)
     {
         // Se o alarme já estiver tocando, não faz nada
-        if (blinkingLightRoutine != null || (alarmAudio != null && alarmAudio.isPlaying)) return;
-        
+        if (blinkingLightRoutine != null) return;
         Debug.Log("<color=orange>ALARM STARTED</color>");
-        
         if (alarmLight != null)
         {
             blinkingLightRoutine = StartCoroutine(BlinkingLightRoutine());
         }
-        if (alarmAudio != null) 
-        { 
-            alarmAudio.loop = true; 
-            alarmAudio.Play(); 
+        if (!alarmEvent.IsNull)
+        {
+            audioTrigger.fmodEvent = alarmEvent;
+            audioTrigger.PlayAtPosition(transform.position);
         }
     }
 
@@ -119,15 +120,13 @@ public class AlarmClockController : MonoBehaviour
     public void StopAlarm()
     {
         Debug.Log("<color=cyan>ALARM STOPPED</color>");
-        
         if (blinkingLightRoutine != null)
         {
             StopCoroutine(blinkingLightRoutine);
             blinkingLightRoutine = null;
         }
-        
         if (alarmLight != null) alarmLight.enabled = false;
-        if (alarmAudio != null) alarmAudio.Stop();
+        audioTrigger.Stop();
     }
     
     // Alarme falso agora chama as funções principais
@@ -139,10 +138,8 @@ public class AlarmClockController : MonoBehaviour
     private IEnumerator FalseAlarmRoutine(float duration)
     {
         StartAlarm(); // Usa a função de início padrão
-        if (alarmAudio != null) alarmAudio.loop = false; // Garante que não seja um loop
-        
+        // FMOD: evento de alarme deve ser one-shot ou controlado via lógica do evento
         yield return new WaitForSeconds(duration);
-        
         StopAlarm(); // Usa a função de parada padrão
     }
 

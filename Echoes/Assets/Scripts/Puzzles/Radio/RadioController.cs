@@ -3,8 +3,9 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using TMPro;
 using UnityEngine.Localization;
+using FMODUnity;
 
-[RequireComponent(typeof(AudioSource))]
+// Não requer mais AudioSource
 public class RadioController : MonoBehaviour, IInteractable
 {
     private enum SelectedDial { Fine, Coarse }
@@ -32,10 +33,10 @@ public class RadioController : MonoBehaviour, IInteractable
     [SerializeField] private GameObject fineDialOutlineObject;
     [SerializeField] private GameObject coarseDialOutlineObject;
 
-    [Header("Áudio")]
-    [SerializeField] private AudioClip staticClip;
-    [SerializeField] private AudioClip messageClip;
-    private AudioSource audioSource;
+    [Header("Áudio FMOD")]
+    [SerializeField] private EventReference staticEvent;
+    [SerializeField] private EventReference messageEvent;
+    private FMODAudioTrigger audioTrigger;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI frequencyDisplayText;
@@ -48,7 +49,7 @@ public class RadioController : MonoBehaviour, IInteractable
     private void Awake()
     {
         inputActions = new PlayerInputActions();
-        audioSource = GetComponent<AudioSource>();
+        audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
     }
 
     private void Start()
@@ -88,8 +89,7 @@ public class RadioController : MonoBehaviour, IInteractable
         if (radioCamera != null) radioCamera.Priority.Value = 20;
         if (playerCamera != null) playerCamera.Priority.Value = -1;
 
-        PlayAudioClip(staticClip);
-        audioSource.loop = true;
+    PlayFMODEvent(staticEvent, true);
 
         inputActions.Player.SwitchDial.Enable();
         inputActions.Player.Tune.Enable();
@@ -113,7 +113,7 @@ public class RadioController : MonoBehaviour, IInteractable
         if (radioCamera != null) radioCamera.Priority.Value = 9;
         if (playerCamera != null) playerCamera.Priority.Value = 10;
 
-        audioSource.Stop();
+    audioTrigger.Stop();
 
         inputActions.Player.SwitchDial.Disable();
         inputActions.Player.Tune.Disable();
@@ -235,14 +235,19 @@ public class RadioController : MonoBehaviour, IInteractable
         }
     }
 
-    private void PlayAudioClip(AudioClip clip)
+
+    private void PlayFMODEvent(EventReference evt, bool loop)
     {
         if (isSolved) return;
-        if (audioSource.clip != clip || !audioSource.isPlaying)
+        audioTrigger.fmodEvent = evt;
+        audioTrigger.Stop();
+        if (loop)
         {
-            audioSource.Stop();
-            audioSource.clip = clip;
-            audioSource.Play();
+            audioTrigger.PlayAtPosition(transform.position); // FMOD: para loop, use programação do evento
+        }
+        else
+        {
+            audioTrigger.PlayAtPosition(transform.position);
         }
     }
 
@@ -252,19 +257,11 @@ public class RadioController : MonoBehaviour, IInteractable
 
         if (IsFrequencyCorrect())
         {
-            PlayAudioClip(messageClip);
-            audioSource.loop = false;
+            PlayFMODEvent(messageEvent, false);
         }
         else
         {
-            PlayAudioClip(staticClip);
-            audioSource.loop = true;
-
-            // float distance = Mathf.Abs(currentFrequency - targetFrequency);
-            // float maxAudibleDistance = 10.0f;
-            // float staticVolume = Mathf.Clamp(distance / maxAudibleDistance, 0.1f, 1.0f);
-            // audioSource.volume = staticVolume;
-            audioSource.volume = 0.5f;
+            PlayFMODEvent(staticEvent, true);
         }
     }
 
@@ -277,16 +274,15 @@ public class RadioController : MonoBehaviour, IInteractable
             isSolved = true;
             Debug.Log("Frequência sintonizada corretamente!");
 
-            audioSource.Stop();
-            audioSource.clip = messageClip;
-            audioSource.volume = 1.0f;
-            audioSource.loop = false;
-            audioSource.Play();
+            audioTrigger.Stop();
+            audioTrigger.fmodEvent = messageEvent;
+            audioTrigger.PlayAtPosition(transform.position);
 
             inputActions.Player.SwitchDial.Disable();
             inputActions.Player.Tune.Disable();
 
-            float exitDelay = (messageClip != null) ? messageClip.length + 0.5f : 5f;
+            // FMOD: Não há como saber a duração do evento diretamente, ajuste conforme necessário
+            float exitDelay = 5f;
             Invoke(nameof(ExitInteraction), exitDelay);
         }
     }

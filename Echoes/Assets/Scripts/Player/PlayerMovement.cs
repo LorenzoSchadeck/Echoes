@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(AudioSource))]
+// Não requer mais AudioSource
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movimentação")]
@@ -11,14 +11,14 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     public Transform cameraTransform;
 
-    [Header("Sons de Passo")]
-    [SerializeField] private AudioClip[] footstepClips;
+    [Header("Sons de Passo FMOD")]
+    [SerializeField] private EventReference footstepEvent;
     [SerializeField] private float timeBetweenSteps = 0.5f;
 
     private Rigidbody rb;
     private PlayerInputActions inputActions;
     private Vector2 moveInput;
-    private AudioSource audioSource; // Removido o [SerializeField] pois pegamos no Awake
+    private FMODAudioTrigger audioTrigger;
 
     private float footstepTimer;
 
@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         rb = GetComponent<Rigidbody>();
-        audioSource = GetComponent<AudioSource>();
+    audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
 
         inputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
@@ -107,11 +107,10 @@ public class PlayerMovement : MonoBehaviour
 
     void PlayFootstepSound()
     {
-        if (footstepClips.Length > 0)
-        {
-            AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
-            audioSource.PlayOneShot(clip);
-        }
+        if (footstepEvent.IsNull) return;
+        audioTrigger.fmodEvent = footstepEvent;
+        audioTrigger.PlayAtPosition(transform.position);
+        // Exemplo: audioTrigger.SetParameter("SurfaceType", 0); // Parâmetro para FMOD
     }
 
     bool IsGrounded()

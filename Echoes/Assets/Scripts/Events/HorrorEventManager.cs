@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,12 +99,40 @@ public class HorrorEventManager : MonoBehaviour
         // 3. Dispara o evento correspondente
         switch (selectedEvent.type)
         {
+            // Limiar 2: Ansiedade
+            case HorrorEventType.PlaySpatialSound:
+                GameEvents.TriggerSpatialSound(selectedEvent.spatialSoundEvent, selectedEvent.spatialSoundOffset);
+                break;
+            case HorrorEventType.RadioStaticBurst:
+                GameEvents.TriggerRadioStatic(selectedEvent.staticBurstEvent, selectedEvent.staticBurstDuration);
+                break;
+            case HorrorEventType.QuickLightChange:
+                GameEvents.TriggerQuickLightChange(selectedEvent.lightChangeDuration, selectedEvent.lightChangePeakIntensity);
+                break;
+
+            // Limiar 3: Angústia
             case HorrorEventType.VisualFlash:
                 GameEvents.TriggerVisualFlash(selectedEvent.visualFlashPeak, selectedEvent.visualFlashDuration);
                 break;
-
             case HorrorEventType.FalseAlarmClock:
                 GameEvents.TriggerFalseAlarm(selectedEvent.falseAlarmDuration);
+                break;
+            case HorrorEventType.TemporaryMaterialSwap:
+                GameEvents.TriggerTemporaryMaterialSwap(selectedEvent.tempSwapMaterial, selectedEvent.tempSwapDuration);
+                break;
+            case HorrorEventType.PlayVideoOnMaterial:
+                GameEvents.TriggerPlayVideoOnMaterial(selectedEvent.videoClip, selectedEvent.videoTargetMaterial, selectedEvent.videoDuration);
+                break;
+
+            // Limiar 4: Colapso
+            case HorrorEventType.SpawnCoveredBody:
+                GameEvents.TriggerSpawnCoveredBody(selectedEvent.coveredBodyPrefab, selectedEvent.coveredBodyOffset);
+                break;
+            case HorrorEventType.SpawnHallucination:
+                GameEvents.TriggerSpawnHallucination(selectedEvent.hallucinationPrefab, selectedEvent.hallucinationOffset);
+                break;
+            case HorrorEventType.GuiltChorusBurst:
+                GameEvents.TriggerGuiltChorus(selectedEvent.guiltChorusEvent, selectedEvent.guiltChorusDuration);
                 break;
         }
     }
