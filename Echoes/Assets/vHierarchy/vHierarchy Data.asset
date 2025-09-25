@@ -43,6 +43,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-1963376059-0
         - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-618980263-0
         - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-3860997268541498246-8954810089426534344
+        - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-586842563-0
         values:
         - colorIndex: 2
           iconNameOrGuid: Folder Icon
@@ -62,7 +63,7 @@ MonoBehaviour:
           iconNameOrGuid: Folder Icon
         - colorIndex: 2
           iconNameOrGuid: Folder Icon
-        - colorIndex: 3
+        - colorIndex: 1
           iconNameOrGuid: AvatarMask On Icon
         - colorIndex: 5
           iconNameOrGuid: Camera Icon
@@ -94,3 +95,5 @@ MonoBehaviour:
           iconNameOrGuid: BoxCollider Icon
         - colorIndex: 8
           iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: Light Icon
