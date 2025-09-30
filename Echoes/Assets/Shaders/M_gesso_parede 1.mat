@@ -105,7 +105,7 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0}
+    - _BaseColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0}
     - _BaseMap_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _BaseMap_Tiling: {r: 6, g: 18, b: 0, a: 0}
   m_BuildTextureStacks: []

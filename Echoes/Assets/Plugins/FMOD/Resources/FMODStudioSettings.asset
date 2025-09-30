@@ -463,8 +463,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../../../FMOD Studio/Echoes/Echoes.fspro
-  sourceBankPath: ../../../FMOD Studio/Echoes/Build
+  sourceProjectPath: ../../../FMOD Studio/Echoes v2/Echoes v2.fspro
+  sourceBankPath: ../../../FMOD Studio/Echoes v2/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1

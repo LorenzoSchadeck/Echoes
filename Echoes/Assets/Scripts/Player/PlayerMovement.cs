@@ -2,7 +2,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using FMODUnity;
 
-// Não requer mais AudioSource
+/// <summary>
+/// Sistema de movimento do jogador com footsteps dinâmicos baseados em superfície.
+/// Integra detecção de superfície para variar sons de passos via FMOD.
+/// </summary>
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movimentação")]
@@ -14,11 +17,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Sons de Passo FMOD")]
     [SerializeField] private EventReference footstepEvent;
     [SerializeField] private float timeBetweenSteps = 0.5f;
+    [SerializeField] private string surfaceParameterName = "surface";
 
     private Rigidbody rb;
     private PlayerInputActions inputActions;
     private Vector2 moveInput;
     private FMODAudioTrigger audioTrigger;
+    private FootstepSurfaceSystem surfaceSystem;
 
     private float footstepTimer;
 
@@ -28,7 +33,14 @@ public class PlayerMovement : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         rb = GetComponent<Rigidbody>();
-    audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
+        audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
+        
+        // Adiciona o sistema de superfície se não existir
+        surfaceSystem = GetComponent<FootstepSurfaceSystem>();
+        if (surfaceSystem == null)
+        {
+            surfaceSystem = gameObject.AddComponent<FootstepSurfaceSystem>();
+        }
 
         inputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
@@ -85,10 +97,9 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleFootsteps()
     {
-        // Não toca passos se não pode mover
         if (!canMove) return;
 
-        // Verifica se o jogador está se movendo no chão (ignorando o eixo Y)
+        // Verifica se o jogador está se movendo (temporariamente ignorando ground check)
         if (moveInput.magnitude > 0.1f)
         {
             footstepTimer += Time.deltaTime;
@@ -101,30 +112,30 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            footstepTimer = 0f; // Reseta o timer se o jogador parar
+            footstepTimer = 0f;
         }
     }
 
     void PlayFootstepSound()
     {
-        if (footstepEvent.IsNull) return;
+        if (footstepEvent.IsNull || audioTrigger == null) return;
+
+        // Detecta a superfície atual
+        if (surfaceSystem != null)
+        {
+            bool detected = surfaceSystem.DetectSurface();
+            Debug.Log($"Footstep: Surface={surfaceSystem.CurrentSurface}, Value={surfaceSystem.CurrentSurfaceValue}, Detected={detected}");
+            surfaceSystem.ApplySurfaceParameter(audioTrigger, surfaceParameterName);
+        }
+        
+        // Configura e toca o evento FMOD
         audioTrigger.fmodEvent = footstepEvent;
         audioTrigger.PlayAtPosition(transform.position);
-        // Exemplo: audioTrigger.SetParameter("SurfaceType", 0); // Parâmetro para FMOD
     }
 
-    bool IsGrounded()
-    {
-        // O Raycast é mais confiável se não começar exatamente do centro do objeto
-        Vector3 rayStartPoint = transform.position + Vector3.up * 0.1f; 
-        return Physics.Raycast(rayStartPoint, Vector3.down, groundCheckDistance, groundLayer);
-    }
-
-    // Opcional: Desenhar o Raycast para depuração no Editor da Unity
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Vector3 rayStartPoint = transform.position + Vector3.up * 0.1f;
-        Gizmos.DrawLine(rayStartPoint, rayStartPoint + Vector3.down * groundCheckDistance);
-    }
+    // bool IsGrounded()
+    // {
+    //     Vector3 rayStartPoint = transform.position + Vector3.up * 0.1f; 
+    //     return Physics.Raycast(rayStartPoint, Vector3.down, groundCheckDistance, groundLayer);
+    // }
 }

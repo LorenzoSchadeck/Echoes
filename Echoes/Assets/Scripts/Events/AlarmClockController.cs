@@ -3,29 +3,51 @@ using System.Collections;
 
 public class AlarmClockController : MonoBehaviour
 {
-    [Header("UI Components")]
-    [Tooltip("Os Renderers das três barras de sanidade, em ordem (da esquerda para a direita).")]
-    [SerializeField] private Renderer[] sanityBars;
+    [Header("3D Sanity Bar Components")]
+    [Tooltip("Transform do quad da barra (será usado como container).")]
+    [SerializeField] private Transform sanityBarContainer;
+    [Tooltip("MeshRenderer da barra que será manipulada.")]
+    [SerializeField] private MeshRenderer sanityBarRenderer;
+    [Tooltip("MeshFilter da barra para manipulação do mesh.")]
+    [SerializeField] private MeshFilter sanityBarMeshFilter;
 
     [Header("Visual Feedback")]
-    [SerializeField] private Color saneColor = new Color(0.5f, 1f, 0.5f); 
-    [SerializeField] private Color warningColor = new Color(1f, 1f, 0.5f); 
-    [SerializeField] private Color dangerColor = new Color(1f, 0.5f, 0.5f); 
+    [SerializeField] private Color highSanityColor = Color.green;
+    [SerializeField] private Color midSanityColor = Color.yellow; 
+    [SerializeField] private Color lowSanityColor = Color.red;
+    [SerializeField] private float colorTransitionSmoothness = 2f;
 
     [Header("Alarm Components")]
-    [SerializeField] private Light alarmLight;
+    [SerializeField] private GameObject alarmBlinkObject;
     [SerializeField] private FMODUnity.EventReference alarmEvent;
     [SerializeField] private float blinkInterval = 0.5f;
 
     private FMODAudioTrigger audioTrigger;
-
     private Coroutine blinkingLightRoutine;
-    private MaterialPropertyBlock propBlock; // Otimização: reutilizar o mesmo property block
+    
+    // Estado atual da sanidade para a barra 3D
+    private float currentSanityLevel = 1f;
+    
+    // Mesh original e MaterialPropertyBlock
+    private Mesh originalMesh;
+    private MaterialPropertyBlock propBlock;
 
     private void Awake()
     {
-        propBlock = new MaterialPropertyBlock();
         audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
+        propBlock = new MaterialPropertyBlock();
+        
+        // Armazena o mesh original da barra
+        if (sanityBarMeshFilter != null)
+        {
+            originalMesh = sanityBarMeshFilter.mesh;
+        }
+    }
+
+    private void Start()
+    {
+        // Inicializa a barra com sanidade máxima
+        Update3DSanityBar();
     }
 
     private void OnEnable()
@@ -47,53 +69,120 @@ public class AlarmClockController : MonoBehaviour
     }
 
     /// <summary>
-    /// Atualiza a opacidade e a cor das barras de sanidade com base na Sanidade atual (1.0 = são, 0.0 = colapso).
+    /// Atualiza o nível de sanidade e atualiza a barra 3D.
     /// </summary>
     private void UpdateSanityDisplay(float currentSanity)
     {
-        if (sanityBars == null || sanityBars.Length == 0) return;
+        // Clamp para garantir valores válidos
+        currentSanityLevel = Mathf.Clamp01(currentSanity);
+        
+        // Atualiza a barra 3D
+        Update3DSanityBar();
+    }
 
-        int barCount = sanityBars.Length;
+    /// <summary>
+    /// Atualiza a barra 3D com efeito de "tanque esvaziando" usando manipulação de mesh.
+    /// </summary>
+    private void Update3DSanityBar()
+    {
+        if (sanityBarMeshFilter == null || sanityBarRenderer == null) return;
 
-        // Define a cor base para TODAS as barras
-        Color currentColor = saneColor;
-        // Limiar de perigo: quando menos de 40% da sanidade resta (ex: 2 de 5 barras)
-        if (currentSanity <= 0.4f) 
+        // Calcula a cor com transição suave
+        Color barColor = CalculateSmoothSanityColor(currentSanityLevel);
+        
+        // Aplica a cor usando MaterialPropertyBlock
+        sanityBarRenderer.GetPropertyBlock(propBlock);
+        propBlock.SetColor("_BaseColor", barColor);
+        propBlock.SetColor("_Color", barColor); // Fallback para shaders padrão
+        sanityBarRenderer.SetPropertyBlock(propBlock);
+
+        // Cria o mesh com clipping vertical para simular o esvaziamento
+        CreateClippedMesh(currentSanityLevel);
+    }
+
+    /// <summary>
+    /// Cria um mesh "cortado" verticalmente para simular o efeito de tanque esvaziando.
+    /// </summary>
+    private void CreateClippedMesh(float fillPercentage)
+    {
+        if (originalMesh == null) return;
+
+        // Clamp para garantir valores válidos
+        fillPercentage = Mathf.Clamp01(fillPercentage);
+
+        // Cria uma cópia do mesh original
+        Mesh clippedMesh = new Mesh();
+        clippedMesh.name = "Sanity Bar Clipped";
+
+        Vector3[] originalVertices = originalMesh.vertices;
+        Vector2[] originalUVs = originalMesh.uv;
+        int[] originalTriangles = originalMesh.triangles;
+
+        // Encontra os valores mín e máx de Y para calcular a altura correta
+        float minY = float.MaxValue;
+        float maxY = float.MinValue;
+        
+        for (int i = 0; i < originalVertices.Length; i++)
         {
-            currentColor = dangerColor;
+            if (originalVertices[i].y < minY) minY = originalVertices[i].y;
+            if (originalVertices[i].y > maxY) maxY = originalVertices[i].y;
         }
-        // Limiar de aviso: quando menos de 80% da sanidade resta (ex: 4 de 5 barras)
-        else if (currentSanity <= 0.8f) 
+        
+        float totalHeight = maxY - minY;
+        float targetHeight = totalHeight * fillPercentage;
+        float newMaxY = minY + targetHeight;
+
+        Debug.Log($"Mesh Analysis: MinY={minY}, MaxY={maxY}, TotalHeight={totalHeight}, FillPercentage={fillPercentage}, NewMaxY={newMaxY}");
+
+        Vector3[] newVertices = new Vector3[originalVertices.Length];
+        Vector2[] newUVs = new Vector2[originalUVs.Length];
+
+        for (int i = 0; i < originalVertices.Length; i++)
         {
-            currentColor = warningColor;
+            newVertices[i] = originalVertices[i];
+            newUVs[i] = originalUVs[i];
+
+            // Para vértices que estão acima do novo topo, reposiciona para o novo topo
+            if (originalVertices[i].y > newMaxY)
+            {
+                newVertices[i].y = newMaxY;
+                
+                // Ajusta o UV proporcionalmente
+                float uvProgress = (newMaxY - minY) / totalHeight;
+                float originalUVRange = originalUVs[i].y - (originalUVs[i].y * (originalVertices[i].y - minY) / totalHeight);
+                newUVs[i].y = originalUVRange + (originalUVs[i].y * uvProgress);
+            }
         }
 
-        // Calcula a opacidade de cada barra individualmente
-        for (int i = 0; i < barCount; i++)
+        clippedMesh.vertices = newVertices;
+        clippedMesh.uv = newUVs;
+        clippedMesh.triangles = originalTriangles;
+        clippedMesh.RecalculateBounds();
+        clippedMesh.RecalculateNormals();
+
+        // Aplica o novo mesh
+        sanityBarMeshFilter.mesh = clippedMesh;
+    }
+
+    /// <summary>
+    /// Calcula a cor da barra de sanidade com transição suave entre verde, amarelo e vermelho.
+    /// </summary>
+    private Color CalculateSmoothSanityColor(float sanityValue)
+    {
+        // Normaliza o valor de sanidade para aplicar suavização
+        float smoothValue = Mathf.Pow(sanityValue, 1f / colorTransitionSmoothness);
+
+        if (smoothValue > 0.5f)
         {
-            if (sanityBars[i] == null) continue;
-
-            // Cada barra representa um segmento de sanidade.
-            // Barra 0 (a primeira) representa o segmento de sanidade de 1.0 a 0.8.
-            // Barra 1 (a segunda) representa o segmento de 0.8 a 0.6, e assim por diante.
-            float segmentSize = 1f / barCount;
-            float upperThreshold = 1f - (i * segmentSize);       // O topo do segmento desta barra
-            float lowerThreshold = 1f - ((i + 1) * segmentSize); // A base do segmento desta barra
-
-            // Mathf.InverseLerp nos diz "quão longe" a sanidade atual está dentro do segmento desta barra.
-            // O resultado (fadeProgress) será 0 se a sanidade estiver no topo do segmento (barra cheia),
-            // e 1 se a sanidade estiver na base do segmento (barra vazia).
-            float fadeProgress = Mathf.InverseLerp(upperThreshold, lowerThreshold, currentSanity);
-
-            // A opacidade (alpha) é o inverso do progresso do fade.
-            float finalAlpha = 1f - fadeProgress;
-
-            // Aplica a cor e a opacidade
-            Color finalColor = new (currentColor.r, currentColor.g, currentColor.b, finalAlpha);
-            
-            sanityBars[i].GetPropertyBlock(propBlock);
-            propBlock.SetColor("_BaseColor", finalColor);
-            sanityBars[i].SetPropertyBlock(propBlock);
+            // Transição de verde para amarelo (sanidade alta para média)
+            float t = (smoothValue - 0.5f) * 2f; // Mapeia 0.5-1.0 para 0-1
+            return Color.Lerp(midSanityColor, highSanityColor, t);
+        }
+        else
+        {
+            // Transição de vermelho para amarelo (sanidade baixa para média)
+            float t = smoothValue * 2f; // Mapeia 0-0.5 para 0-1
+            return Color.Lerp(lowSanityColor, midSanityColor, t);
         }
     }
 
@@ -105,9 +194,9 @@ public class AlarmClockController : MonoBehaviour
         // Se o alarme já estiver tocando, não faz nada
         if (blinkingLightRoutine != null) return;
         Debug.Log("<color=orange>ALARM STARTED</color>");
-        if (alarmLight != null)
+        if (alarmBlinkObject != null)
         {
-            blinkingLightRoutine = StartCoroutine(BlinkingLightRoutine());
+            blinkingLightRoutine = StartCoroutine(BlinkingObjectRoutine());
         }
         if (!alarmEvent.IsNull)
         {
@@ -125,7 +214,7 @@ public class AlarmClockController : MonoBehaviour
             StopCoroutine(blinkingLightRoutine);
             blinkingLightRoutine = null;
         }
-        if (alarmLight != null) alarmLight.enabled = false;
+        if (alarmBlinkObject != null) alarmBlinkObject.SetActive(false);
         audioTrigger.Stop();
     }
     
@@ -143,15 +232,41 @@ public class AlarmClockController : MonoBehaviour
         StopAlarm(); // Usa a função de parada padrão
     }
 
-    private IEnumerator BlinkingLightRoutine()
+    private IEnumerator BlinkingObjectRoutine()
     {
-        if (alarmLight == null) yield break;
-        alarmLight.enabled = false;
+        if (alarmBlinkObject == null) yield break;
+        alarmBlinkObject.SetActive(false);
         
         while (true)
         {
-            alarmLight.enabled = !alarmLight.enabled;
+            alarmBlinkObject.SetActive(!alarmBlinkObject.activeSelf);
             yield return new WaitForSeconds(blinkInterval);
         }
     }
+
+    /// <summary>
+    /// Método de teste para verificar diferentes níveis de sanidade.
+    /// Remove depois dos testes!
+    /// </summary>
+    public void TestSanityLevel(float testLevel)
+    {
+        Debug.Log($"<color=yellow>TESTING SANITY LEVEL: {testLevel}</color>");
+        UpdateSanityDisplay(testLevel);
+    }
+
+    // Métodos de teste no Inspector (durante desenvolvimento)
+    [ContextMenu("Test Sanity 100%")]
+    private void TestSanity100() => TestSanityLevel(1.0f);
+    
+    [ContextMenu("Test Sanity 75%")]
+    private void TestSanity75() => TestSanityLevel(0.75f);
+    
+    [ContextMenu("Test Sanity 50%")]
+    private void TestSanity50() => TestSanityLevel(0.5f);
+    
+    [ContextMenu("Test Sanity 25%")]
+    private void TestSanity25() => TestSanityLevel(0.25f);
+    
+    [ContextMenu("Test Sanity 0%")]
+    private void TestSanity0() => TestSanityLevel(0.0f);
 }

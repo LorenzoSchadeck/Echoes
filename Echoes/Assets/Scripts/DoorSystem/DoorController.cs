@@ -2,8 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Localization;
 using FMODUnity;
-
-// Não requer mais AudioSource
 public class DoorController : MonoBehaviour, IInteractable
 {
     public enum DoorState { Unlocked, Locked, Jammed }

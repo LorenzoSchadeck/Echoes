@@ -1,0 +1,106 @@
+
+
+2. Como o Jogo Toca Sons
+
+A gente usa um “botão de som” chamado FMODAudioTrigger.
+
+Esse botão sabe quando tocar, onde tocar e quando parar o som.
+
+3. Colocando o Som no Jogo
+a) Colocar o Botão de Som
+
+Escolha o objeto do jogo que vai fazer barulho (por exemplo, uma porta).
+
+Coloque nele o botão de som (FMODAudioTrigger). **ADICIONADO AUTOMATICAMENTE**
+
+Diga para ele qual som usar.
+
+Se quiser que o som toque assim que o jogo começar, marque a caixinha playOnStart.
+
+b) Fazer o Som Tocar
+
+No seu código, você pode mandar o botão tocar o som, assim:
+
+“Botão, toque o som aqui onde eu estou.”
+
+// Pega o botão de som do objeto
+FMODAudioTrigger trigger = GetComponent<FMODAudioTrigger>();
+
+// Toca o som no lugar onde o objeto está
+trigger.PlayAtPosition(transform.position);
+
+
+c) Mudar o Jeito do Som
+
+Alguns sons podem ficar mais altos, mais graves ou mais assustadores.
+
+Para isso, você fala para o botão:
+
+“Botão, mude este detalhe do som para este valor.”
+
+Depois manda ele tocar.
+
+trigger.SetParameter("NomeDoParametro", valor);
+trigger.PlayAtPosition(transform.position);
+
+
+d) Parar o Som
+
+Para parar, é só falar:
+
+“Botão, pare de tocar.”
+
+Dá para parar devagar (diminuindo o volume) ou parar de uma vez.
+
+trigger.Stop();      // Para devagar (fade out)
+trigger.Stop(true);  // Para na hora (imediato)
+
+
+4. Um Exemplo
+
+Imagine que você tem um script que toca um som especial:
+
+Ele procura o botão de som no mesmo objeto.
+
+Fala para o botão: “Use este tipo de som.”
+
+Manda tocar quando quiser.
+
+5. Dicas Importantes
+
+Sempre toque os sons na posição certa no jogo (por exemplo, perto da porta que range).
+
+Use os controles do som para deixá-lo diferente quando precisar.
+
+Não se preocupe em apagar os sons, o botão faz isso sozinho.
+
+É melhor ter um botão de som para cada objeto que faz barulho.
+
+6. Se Algo Não Funcionar
+
+Veja se o jogo mostra alguma mensagem de erro.
+
+Use a ferramenta do FMOD para ver se o som está tocando.
+
+
+using UnityEngine;
+
+public class MySoundEvent : MonoBehaviour
+{
+    private FMODAudioTrigger audioTrigger;
+
+    void Awake()
+    {
+        // Acha o botão de som no mesmo objeto
+        audioTrigger = GetComponent<FMODAudioTrigger>();
+    }
+
+    public void PlayCustomSound()
+    {
+        // (Opcional) Muda a intensidade do som
+        audioTrigger.SetParameter("Intensidade", 0.5f);
+
+        // Toca o som na posição do objeto
+        audioTrigger.PlayAtPosition(transform.position);
+    }
+}

@@ -22,11 +22,11 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: M_gesso_parede
   m_Shader: {fileID: -6465566751694194690, guid: 64c92fb36e6a5804aa380b728ff9c513, type: 3}
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 2100000, guid: 25315c4f1e21af243aeb8a5dfb22057f, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -66,47 +66,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
-    - _AlphaToMask: 0
-    - _Blend: 0
-    - _BlendModePreserveSpecular: 1
-    - _CastShadows: 1
-    - _Cull: 2
-    - _DeformFrequency: 0
-    - _DeformStrength: 0
-    - _DstBlend: 0
     - _HeightStrength: 0.1
-    - _InsanityLevel: 0
-    - _Metallic: 0.5
     - _NormalStrength: 0.549
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _ReceiveShadows: 1
     - _Smoothness: 0.15
-    - _SrcBlend: 1
-    - _Surface: 0
     - _UVDisplacementStrength: 0.76
-    - _WorkflowMode: 1
-    - _ZTest: 4
-    - _ZWrite: 1
-    - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0}
-    - _BaseMap_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseMap_Tiling: {r: 1, g: 3, b: 0, a: 0}
+    - _BaseMap_Tiling: {r: 5, g: 10, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

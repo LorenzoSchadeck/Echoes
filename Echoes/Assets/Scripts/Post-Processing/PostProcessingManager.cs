@@ -39,6 +39,11 @@ public class PostProcessingManager : MonoBehaviour
     private float currentSanity = 1.0f;
 
     private Coroutine activeVisualEffectCoroutine;
+    
+    // Sistema de override temporário
+    private bool hasLensDistortionOverride = false;
+    private float overrideLensDistortionIntensity = 0f;
+    private float overrideLensDistortionScale = 1f;
 
     private void Awake()
     {
@@ -208,7 +213,20 @@ public class PostProcessingManager : MonoBehaviour
         if (bloom != null) { bloom.intensity.value = Mathf.Lerp(currentBaseProfile.bloomIntensity, currentInsanityProfile.bloomIntensity, t); bloom.threshold.value = Mathf.Lerp(currentBaseProfile.bloomThreshold, currentInsanityProfile.bloomThreshold, t); }
         if (chromaticAberration != null) chromaticAberration.intensity.value = Mathf.Lerp(currentBaseProfile.chromaticAberrationIntensity, currentInsanityProfile.chromaticAberrationIntensity, t);
         if (tonemapping != null) tonemapping.mode.value = t > 0.1f ? currentInsanityProfile.tonemappingMode : currentBaseProfile.tonemappingMode;
-        if (lensDistortion != null) { lensDistortion.intensity.value = Mathf.Lerp(currentBaseProfile.lensDistortionIntensity, currentInsanityProfile.lensDistortionIntensity, t); lensDistortion.scale.value = Mathf.Lerp(currentBaseProfile.lensDistortionScale, currentInsanityProfile.lensDistortionScale, t); }
+        if (lensDistortion != null) 
+        { 
+            // Se há um override ativo, usa os valores do override ao invés dos valores baseados na sanidade
+            if (hasLensDistortionOverride)
+            {
+                lensDistortion.intensity.value = overrideLensDistortionIntensity;
+                lensDistortion.scale.value = overrideLensDistortionScale;
+            }
+            else
+            {
+                lensDistortion.intensity.value = Mathf.Lerp(currentBaseProfile.lensDistortionIntensity, currentInsanityProfile.lensDistortionIntensity, t); 
+                lensDistortion.scale.value = Mathf.Lerp(currentBaseProfile.lensDistortionScale, currentInsanityProfile.lensDistortionScale, t); 
+            }
+        }
         if (colorAdjustments != null) { colorAdjustments.postExposure.value = Mathf.Lerp(currentBaseProfile.postExposure, currentInsanityProfile.postExposure, t); colorAdjustments.contrast.value = Mathf.Lerp(currentBaseProfile.contrast, currentInsanityProfile.contrast, t); colorAdjustments.colorFilter.value = Color.Lerp(currentBaseProfile.colorFilter, currentInsanityProfile.colorFilter, t); colorAdjustments.hueShift.value = Mathf.Lerp(currentBaseProfile.hueShift, currentInsanityProfile.hueShift, t); colorAdjustments.saturation.value = Mathf.Lerp(currentBaseProfile.saturation, currentInsanityProfile.saturation, t); }
     }
 
@@ -233,5 +251,52 @@ public class PostProcessingManager : MonoBehaviour
     public float GetSaneProfileLensDistortionScale()
     {
         return saneProfile != null ? saneProfile.lensDistortionScale : 1f;
+    }
+    
+    /// <summary>
+    /// Verifica se há um override ativo na distorção de lente.
+    /// </summary>
+    public bool HasLensDistortionOverride()
+    {
+        return hasLensDistortionOverride;
+    }
+    
+    /// <summary>
+    /// Aplica uma distorção de lente temporária, sobrescrevendo o sistema de sanidade.
+    /// Este override permanece ativo até ser removido explicitamente.
+    /// </summary>
+    /// <param name="intensity">Intensidade da distorção (-1 a 1)</param>
+    /// <param name="scale">Escala da distorção (0.01 a 1)</param>
+    public void ApplyTemporaryLensDistortion(float intensity, float scale = 1f)
+    {
+        hasLensDistortionOverride = true;
+        overrideLensDistortionIntensity = Mathf.Clamp(intensity, -1f, 1f);
+        overrideLensDistortionScale = Mathf.Clamp(scale, 0.01f, 1f);
+        
+        if (lensDistortion != null)
+        {
+            lensDistortion.intensity.value = overrideLensDistortionIntensity;
+            lensDistortion.scale.value = overrideLensDistortionScale;
+        }
+    }
+    
+    /// <summary>
+    /// Remove o override da distorção de lente e restaura ao estado baseado na sanidade atual.
+    /// </summary>
+    public void RestoreLensDistortionToSanityState()
+    {
+        hasLensDistortionOverride = false;
+        
+        if (activeVisualEffectCoroutine == null && currentBaseProfile != null && currentInsanityProfile != null)
+        {
+            float t = Mathf.InverseLerp(visualEffectStartThreshold, 0f, currentSanity);
+            t = Mathf.Clamp01(t);
+            
+            if (lensDistortion != null)
+            {
+                lensDistortion.intensity.value = Mathf.Lerp(currentBaseProfile.lensDistortionIntensity, currentInsanityProfile.lensDistortionIntensity, t);
+                lensDistortion.scale.value = Mathf.Lerp(currentBaseProfile.lensDistortionScale, currentInsanityProfile.lensDistortionScale, t);
+            }
+        }
     }
 }

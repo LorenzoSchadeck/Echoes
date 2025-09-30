@@ -16,6 +16,9 @@ public class FMODAudioTrigger : MonoBehaviour
 
     private EventInstance instance;
     private bool isPlaying = false;
+    
+    // Armazena parâmetros que devem ser aplicados antes de tocar
+    private System.Collections.Generic.Dictionary<string, float> pendingParameters = new System.Collections.Generic.Dictionary<string, float>();
 
     private void Start()
     {
@@ -26,36 +29,56 @@ public class FMODAudioTrigger : MonoBehaviour
     public void PlayAtPosition(Vector3 position)
     {
         if (fmodEvent.IsNull) return;
+        
         instance = RuntimeManager.CreateInstance(fmodEvent);
-        instance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
-        instance.start();
-        instance.release(); // Para one-shot
-        isPlaying = true;
-    }
-
-    public void PlayAttached(GameObject target)
-    {
-        if (fmodEvent.IsNull) return;
-        instance = RuntimeManager.CreateInstance(fmodEvent);
-        RuntimeManager.AttachInstanceToGameObject(instance, target.transform, target.GetComponent<Rigidbody>());
-        instance.start();
-        instance.release();
-        isPlaying = true;
-    }
-
-    public void Stop()
-    {
-        if (isPlaying)
+        
+        if (!instance.isValid()) return;
+        
+        // Aplica parâmetros pendentes antes de iniciar
+        foreach (var param in pendingParameters)
         {
-            instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            instance.release();
+            instance.setParameterByName(param.Key, param.Value);
+        }
+        
+        // Define a posição 3D
+        instance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
+        
+        // Inicia o evento
+        instance.start();
+        
+        isPlaying = true;
+        
+        // Limpa os parâmetros após aplicar
+        pendingParameters.Clear();
+        
+        // Libera automaticamente após reprodução
+        instance.release();
+    }
+
+    /// <summary>
+    /// Define um parâmetro que será aplicado na próxima reprodução.
+    /// </summary>
+    public void SetParameter(string parameterName, float value)
+    {
+        if (string.IsNullOrEmpty(parameterName)) return;
+        
+        pendingParameters[parameterName] = value;
+    }
+
+    /// <summary>
+    /// Para o áudio se estiver tocando.
+    /// </summary>
+    public void Stop(bool immediate = false)
+    {
+        if (instance.isValid() && isPlaying)
+        {
+            instance.stop(immediate ? FMOD.Studio.STOP_MODE.IMMEDIATE : FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             isPlaying = false;
         }
     }
 
-    public void SetParameter(string name, float value)
+    private void OnDestroy()
     {
-        if (isPlaying)
-            instance.setParameterByName(name, value);
+        Stop(true);
     }
 }
