@@ -16,7 +16,8 @@ public class DoorController : MonoBehaviour, IInteractable
     [SerializeField] private LocalizedString movingPrompt;
 
     [Header("Movement Settings")]
-    [SerializeField] private float openSpeed = 2.0f;
+    [SerializeField] private float openDuration = 2.368f;
+    [SerializeField] private float closeDuration = 2.53f;
     [Tooltip("The absolute angle the door will open (e.g., 90). The direction will be determined automatically.")]
     [SerializeField] private float fullOpenAngle = 90.0f;
     [SerializeField] private float jammedOpenAngle = 25.0f;
@@ -96,25 +97,43 @@ public class DoorController : MonoBehaviour, IInteractable
     private void MoveDoor(float targetAngle, EventReference movementEvent)
     {
         Quaternion targetRotation = isOpen ? initialRotation : initialRotation * Quaternion.Euler(0, 0, targetAngle);
-        StartCoroutine(AnimateDoor(targetRotation, movementEvent));
+        float duration = isOpen ? closeDuration : openDuration;
+        bool isJammedDoor = (currentState == DoorState.Jammed && !isOpen);
+        StartCoroutine(AnimateDoor(targetRotation, movementEvent, duration, isJammedDoor));
     }
 
-    private IEnumerator AnimateDoor(Quaternion targetRotation, EventReference movementEvent)
+    private IEnumerator AnimateDoor(Quaternion targetRotation, EventReference movementEvent, float duration, bool isJammedDoor = false)
     {
         isMoving = true;
         PlayFMODSound(movementEvent);
 
         Quaternion currentRotation = pivot.rotation;
-        float time = 0f;
+        float elapsedTime = 0f;
+        bool soundStopped = false;
 
-        while (time < 1f)
+        while (elapsedTime < duration)
         {
-            pivot.rotation = Quaternion.Slerp(currentRotation, targetRotation, time);
-            time += Time.deltaTime * openSpeed;
+            float normalizedTime = elapsedTime / duration;
+            pivot.rotation = Quaternion.Slerp(currentRotation, targetRotation, normalizedTime);
+            
+            // Para portas jammed, para o som quando atingir o ângulo máximo (100% da animação)
+            if (isJammedDoor && !soundStopped && normalizedTime >= 1.0f)
+            {
+                StopFMODSound();
+                soundStopped = true;
+            }
+            
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         pivot.rotation = targetRotation;
+
+        // Garante que o som pare se ainda não parou (para portas jammed)
+        if (isJammedDoor && !soundStopped)
+        {
+            StopFMODSound();
+        }
 
         isOpen = targetRotation != initialRotation;
         isMoving = false;
@@ -125,6 +144,14 @@ public class DoorController : MonoBehaviour, IInteractable
         if (evt.IsNull) return;
         audioTrigger.fmodEvent = evt;
         audioTrigger.PlayAtPosition(transform.position);
+    }
+
+    private void StopFMODSound()
+    {
+        if (audioTrigger != null)
+        {
+            audioTrigger.Stop();
+        }
     }
 
     public void LockDoor() { currentState = DoorState.Locked; }

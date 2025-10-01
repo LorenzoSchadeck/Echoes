@@ -49,6 +49,14 @@ public static class GameEvents
     public static event Action<float> OnSanityLost;
     public static void TriggerSanityLost(float amount) => OnSanityLost?.Invoke(amount);
 
+    // Evento para ativar o rádio pela primeira vez
+    public static event Action OnRadioActivated;
+    public static void TriggerRadioActivation() => OnRadioActivated?.Invoke();
+
+    // Evento para iniciar uma transmissão específica do rádio
+    public static event Action<int> OnRadioTransmissionStarted;
+    public static void TriggerRadioTransmission(int transmissionIndex) => OnRadioTransmissionStarted?.Invoke(transmissionIndex);
+
     // Evento de ativacao do puzzle sonoro
     public static event Action OnAudioPuzzleStarted;
     public static void TriggerAudioPuzzleStarted() => OnAudioPuzzleStarted?.Invoke();

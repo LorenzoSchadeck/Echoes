@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         if (surfaceSystem != null)
         {
             bool detected = surfaceSystem.DetectSurface();
-            Debug.Log($"Footstep: Surface={surfaceSystem.CurrentSurface}, Value={surfaceSystem.CurrentSurfaceValue}, Detected={detected}");
+            // Debug.Log($"Footstep: Surface={surfaceSystem.CurrentSurface}, Value={surfaceSystem.CurrentSurfaceValue}, Detected={detected}");
             surfaceSystem.ApplySurfaceParameter(audioTrigger, surfaceParameterName);
         }
         
@@ -132,10 +132,4 @@ public class PlayerMovement : MonoBehaviour
         audioTrigger.fmodEvent = footstepEvent;
         audioTrigger.PlayAtPosition(transform.position);
     }
-
-    // bool IsGrounded()
-    // {
-    //     Vector3 rayStartPoint = transform.position + Vector3.up * 0.1f; 
-    //     return Physics.Raycast(rayStartPoint, Vector3.down, groundCheckDistance, groundLayer);
-    // }
 }

@@ -132,6 +132,6 @@ public class FootstepSurfaceSystem : MonoBehaviour
 /// </summary>
 public enum SurfaceType
 {
-    Carpet = 0,  // Carpete, tapetes, superfícies macias
-    Tiles = 1    // Ladrilhos, pedra, superfícies duras
+    Tiles = 0,
+    Carpet = 1 
 }

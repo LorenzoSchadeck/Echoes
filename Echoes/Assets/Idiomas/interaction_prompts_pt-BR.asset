@@ -66,7 +66,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1367164249288704
-    m_Localized: Interagir
+    m_Localized: (E) Interagir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9378344742006784
+    m_Localized: (E) Desligar
     m_Metadata:
       m_Items: []
   references:

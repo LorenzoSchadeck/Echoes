@@ -63,6 +63,10 @@ MonoBehaviour:
     m_Key: PROMPT_CHOIR_SOL
     m_Metadata:
       m_Items: []
+  - m_Id: 9378344742006784
+    m_Key: PROMPT_TURN_OFF
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

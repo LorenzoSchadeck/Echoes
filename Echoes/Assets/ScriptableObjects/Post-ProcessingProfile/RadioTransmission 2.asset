@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a055b77e959faef4bb7103106d5f9835, type: 3}
+  m_Name: RadioTransmission 2
+  m_EditorClassIdentifier: 
+  transmissionName: "Transmiss\xE3o 3"
+  radioEvent:
+    Guid:
+      Data1: 595354228
+      Data2: 1340992708
+      Data3: 1135026604
+      Data4: -478132713
+    Path: event:/Radio/Radio
+  radioParameter: dub
+  startupDuration: 1
+  transmissionDuration: 15
+  mumbleChangeInterval: 1
+  startupParameterValue: 1
+  mumbleMinValue: 2
+  mumbleMaxValue: 11
+  staticParameterValue: 12

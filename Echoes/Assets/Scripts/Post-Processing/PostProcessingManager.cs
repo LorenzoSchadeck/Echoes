@@ -14,8 +14,6 @@ public class PostProcessingManager : MonoBehaviour
     [SerializeField] private PostProcessingProfile flashbackProfile;
 
     [Header("Transition Settings")]
-    [Tooltip("Velocidade com que a insanidade visual acompanha a insanidade do jogador.")]
-    [SerializeField] private float insanityTransitionSpeed = 1.0f;
     [Tooltip("Duração da transição ao entrar/sair de um flashback.")]
     [SerializeField] private float stateTransitionDuration = 1.0f;
     [Tooltip("Duração da transição de cura ao usar um remédio.")]

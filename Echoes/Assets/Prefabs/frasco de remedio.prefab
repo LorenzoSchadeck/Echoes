@@ -97,6 +97,8 @@ GameObject:
   - component: {fileID: 8502447206354371711}
   - component: {fileID: 756177788772704878}
   - component: {fileID: 4989491003807264581}
+  - component: {fileID: 910058190024458659}
+  - component: {fileID: 1433943227672502742}
   m_Layer: 0
   m_Name: frasco de remedio
   m_TagString: Untagged
@@ -174,6 +176,61 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &910058190024458659
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122583458332249340}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.011635584, y: 0.011635584, z: 0.021382878}
+  m_Center: {x: 0.000000027952819, y: -5.2768293e-17, z: 0.012383283}
+--- !u!114 &1433943227672502742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122583458332249340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b817c4f422b3f234fa724151da95c407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useRemedyPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 135730671616
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  emptyPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:92235af238093414588734b3070b84f1
+    m_TableEntryReference:
+      m_KeyId: 3215167696896
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  remedyCount: 3
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7432046698597273221
 GameObject:
   m_ObjectHideFlags: 0

@@ -132,7 +132,7 @@ public class AlarmClockController : MonoBehaviour
         float targetHeight = totalHeight * fillPercentage;
         float newMaxY = minY + targetHeight;
 
-        Debug.Log($"Mesh Analysis: MinY={minY}, MaxY={maxY}, TotalHeight={totalHeight}, FillPercentage={fillPercentage}, NewMaxY={newMaxY}");
+        // Debug.Log($"Mesh Analysis: MinY={minY}, MaxY={maxY}, TotalHeight={totalHeight}, FillPercentage={fillPercentage}, NewMaxY={newMaxY}");
 
         Vector3[] newVertices = new Vector3[originalVertices.Length];
         Vector2[] newUVs = new Vector2[originalUVs.Length];
