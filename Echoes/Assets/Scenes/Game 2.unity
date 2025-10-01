@@ -14215,6 +14215,211 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826609638}
   m_Mesh: {fileID: -3720389011845208379, guid: 0f28a0418d33e294f85c2d73896de64d, type: 3}
+--- !u!1 &1826834386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1826834388}
+  - component: {fileID: 1826834389}
+  - component: {fileID: 1826834390}
+  m_Layer: 0
+  m_Name: CorruptionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1826834388
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826834386}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.0372105, y: 8.744126, z: 7.759231}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1826834389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826834386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2174031eb647a478869f5b63c5ec50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoDetectSanitySystem: 1
+  updateFrequency: 0.1
+  thresholds:
+  - name: Light Anxiety
+    sanityThreshold: 0.8
+    corruptionIntensity: 0.2
+    deformationStrength: 0.5
+    deformationFrequency: 2
+    normalStrength: 1
+    transitionDuration: 2
+    transitionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    corruptionSound: {fileID: 0}
+    soundVolume: 0.7
+  - name: Growing Unease
+    sanityThreshold: 0.6
+    corruptionIntensity: 0.4
+    deformationStrength: 1.5
+    deformationFrequency: 2
+    normalStrength: 1
+    transitionDuration: 2
+    transitionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    corruptionSound: {fileID: 0}
+    soundVolume: 0.7
+  - name: Mental Strain
+    sanityThreshold: 0.4
+    corruptionIntensity: 0.7
+    deformationStrength: 3
+    deformationFrequency: 2
+    normalStrength: 1
+    transitionDuration: 2
+    transitionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    corruptionSound: {fileID: 0}
+    soundVolume: 0.7
+  - name: Psychological Break
+    sanityThreshold: 0.2
+    corruptionIntensity: 1
+    deformationStrength: 5
+    deformationFrequency: 2
+    normalStrength: 1
+    transitionDuration: 2
+    transitionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    corruptionSound: {fileID: 0}
+    soundVolume: 0.7
+  maxActiveCorruptions: 50
+  cullingDistance: 100
+  corruptionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1826834390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826834386}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f2a1234a15a5804b8821ce3b8772086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableIntegration: 1
+  useTestingMode: 1
+  testSanityLevel: 1
+  decreaseSanityKey: 113
+  increaseSanityKey: 101
+  corruptionPulseKey: 114
+  showDebugGUI: 1
+  showDebugLog: 0
 --- !u!1 &1833154617
 GameObject:
   m_ObjectHideFlags: 0
@@ -19973,6 +20178,7 @@ GameObject:
   - component: {fileID: 6096235545590419346}
   - component: {fileID: 7024999019281160039}
   - component: {fileID: 7024999019281160040}
+  - component: {fileID: 7024999019281160041}
   m_Layer: 0
   m_Name: parede.013
   m_TagString: Untagged
@@ -19992,6 +20198,7 @@ GameObject:
   - component: {fileID: 976309487216171148}
   - component: {fileID: 5954892839394158314}
   - component: {fileID: 5954892839394158315}
+  - component: {fileID: 5954892839394158316}
   m_Layer: 0
   m_Name: parede.012
   m_TagString: Untagged
@@ -20549,6 +20756,8 @@ GameObject:
   - component: {fileID: 1239834529100701045}
   - component: {fileID: 5927670190054647685}
   - component: {fileID: 7793551145723589890}
+  - component: {fileID: 7793551145723589892}
+  - component: {fileID: 7793551145723589891}
   m_Layer: 0
   m_Name: parede.015
   m_TagString: Untagged
@@ -21466,6 +21675,7 @@ GameObject:
   - component: {fileID: 5552945887725691897}
   - component: {fileID: 6691527099719108376}
   - component: {fileID: 6691527099719108377}
+  - component: {fileID: 6691527099719108378}
   m_Layer: 0
   m_Name: parede.005
   m_TagString: Untagged
@@ -24845,6 +25055,7 @@ GameObject:
   - component: {fileID: 1162298646572599855}
   - component: {fileID: 3132383006768002316}
   - component: {fileID: 5975126248951596548}
+  - component: {fileID: 5975126248951596549}
   m_Layer: 0
   m_Name: rodape
   m_TagString: Untagged
@@ -27572,6 +27783,7 @@ GameObject:
   - component: {fileID: 6453556403609715499}
   - component: {fileID: 5847422795248997108}
   - component: {fileID: 6453556403609715500}
+  - component: {fileID: 6453556403609715501}
   m_Layer: 0
   m_Name: parede.007
   m_TagString: Untagged
@@ -30828,6 +31040,7 @@ GameObject:
   - component: {fileID: 5815414824969879703}
   - component: {fileID: 3063812774157620553}
   - component: {fileID: 5815414824969879704}
+  - component: {fileID: 5815414824969879705}
   m_Layer: 0
   m_Name: parede.008
   m_TagString: Untagged
@@ -31813,6 +32026,7 @@ GameObject:
   - component: {fileID: 2158438182937731872}
   - component: {fileID: 9215706905719952050}
   - component: {fileID: 9215706905719952051}
+  - component: {fileID: 9215706905719952052}
   m_Layer: 0
   m_Name: parede.018
   m_TagString: Untagged
@@ -34717,6 +34931,7 @@ GameObject:
   - component: {fileID: 1909548603515918873}
   - component: {fileID: 2922055299210344091}
   - component: {fileID: 454108008176679916}
+  - component: {fileID: 2922055299210344092}
   m_Layer: 0
   m_Name: porta-banheiro
   m_TagString: Untagged
@@ -35816,6 +36031,74 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2768040059313503169}
   m_Mesh: {fileID: -4072283178656473361, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &2922055299210344092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2768040059313503169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 1
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!4 &2923039808565484564
 Transform:
   m_ObjectHideFlags: 0
@@ -40159,6 +40442,7 @@ GameObject:
   - component: {fileID: 6818553642776642198}
   - component: {fileID: 3722432399994792840}
   - component: {fileID: 6818553642776642199}
+  - component: {fileID: 6818553642776642200}
   m_Layer: 0
   m_Name: parede.011
   m_TagString: Untagged
@@ -41135,6 +41419,7 @@ GameObject:
   - component: {fileID: 433452713002004297}
   - component: {fileID: 1546165987872254601}
   - component: {fileID: 6770721890516256401}
+  - component: {fileID: 6770721890516256402}
   m_Layer: 0
   m_Name: parede.003
   m_TagString: Untagged
@@ -43898,6 +44183,7 @@ GameObject:
   - component: {fileID: 484862260122790967}
   - component: {fileID: 5357466199902880300}
   - component: {fileID: 5357466199902880301}
+  - component: {fileID: 5357466199902880302}
   m_Layer: 0
   m_Name: parede.021
   m_TagString: Untagged
@@ -49850,6 +50136,7 @@ GameObject:
   - component: {fileID: 9215244788372151328}
   - component: {fileID: 3257908264556201144}
   - component: {fileID: 9215244788372151329}
+  - component: {fileID: 9215244788372151330}
   m_Layer: 0
   m_Name: porta-entrada.004
   m_TagString: Untagged
@@ -50856,6 +51143,7 @@ GameObject:
   - component: {fileID: 5263667004049011228}
   - component: {fileID: 2470151562807796655}
   - component: {fileID: 7888757410618385904}
+  - component: {fileID: 7888757410618385905}
   m_Layer: 0
   m_Name: parede.022
   m_TagString: Untagged
@@ -54208,6 +54496,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5186771169210290133, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &5357466199902880302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3870150037513459373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!33 &5359317944862333908
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -56086,6 +56442,7 @@ GameObject:
   - component: {fileID: 1637007422132363533}
   - component: {fileID: 4419641049901872757}
   - component: {fileID: 5615632226407583662}
+  - component: {fileID: 5615632226407583663}
   m_Layer: 0
   m_Name: porta-esc
   m_TagString: Untagged
@@ -56114,6 +56471,74 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.020000001, y: 0.013233012, z: 0.098378025}
   m_Center: {x: -9.313225e-10, y: 4.656613e-10, z: 0.0000000037252903}
+--- !u!114 &5615632226407583663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5615632226407583661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 1
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!1 &5618884680421388968
 GameObject:
   m_ObjectHideFlags: 0
@@ -57476,6 +57901,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2532038443172486079, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &5815414824969879705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098475446177941157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!23 &5819619961321345101
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58535,6 +59028,7 @@ GameObject:
   - component: {fileID: 689466038921043721}
   - component: {fileID: 6771692039221248802}
   - component: {fileID: 6771692039221248803}
+  - component: {fileID: 6771692039221248804}
   m_Layer: 0
   m_Name: parede.014
   m_TagString: Untagged
@@ -58609,6 +59103,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8815480332939417042, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &5954892839394158316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515404570871463481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!23 &5955191740709923266
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58808,6 +59370,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1701497735657649408, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &5975126248951596549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128370750044429359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 1
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!1 &5982376732337805742
 GameObject:
   m_ObjectHideFlags: 0
@@ -59395,6 +60025,7 @@ GameObject:
   - component: {fileID: 5154979624527083349}
   - component: {fileID: 2772990638848712925}
   - component: {fileID: 6051259294196703011}
+  - component: {fileID: 6051259294196703012}
   m_Layer: 0
   m_Name: parede.009
   m_TagString: Untagged
@@ -59424,6 +60055,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1948981222865837632, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &6051259294196703012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051259294196703010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!33 &6051338196719547107
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -62550,6 +63249,7 @@ GameObject:
   - component: {fileID: 8717385217617551505}
   - component: {fileID: 6852727025771137780}
   - component: {fileID: 8717385217617551506}
+  - component: {fileID: 8717385217617551507}
   m_Layer: 0
   m_Name: parede.023
   m_TagString: Untagged
@@ -62624,6 +63324,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -150218273742730916, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &6453556403609715501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522765559307466698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!4 &6463312992767962539
 Transform:
   m_ObjectHideFlags: 0
@@ -63421,6 +64189,7 @@ GameObject:
   - component: {fileID: 3961117487928286030}
   - component: {fileID: 2303788751008416303}
   - component: {fileID: 6569026912779922705}
+  - component: {fileID: 6569026912779922706}
   m_Layer: 0
   m_Name: parede.004
   m_TagString: Untagged
@@ -63450,6 +64219,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1633017897992406121, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &6569026912779922706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569026912779922704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!1 &6569529587335959270
 GameObject:
   m_ObjectHideFlags: 0
@@ -63614,6 +64451,7 @@ GameObject:
   - component: {fileID: 5528272617420585553}
   - component: {fileID: 7830119002174181473}
   - component: {fileID: 7830119002174181474}
+  - component: {fileID: 7830119002174181475}
   m_Layer: 0
   m_Name: parede.019
   m_TagString: Untagged
@@ -64385,6 +65223,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8015301565874644265, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &6691527099719108378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745778014321034885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!4 &6693309809613391436
 Transform:
   m_ObjectHideFlags: 0
@@ -65366,6 +66272,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3236053072742416567, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &6770721890516256402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3579886097478121162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!23 &6771692039221248802
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65433,6 +66407,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3898179437300709153, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &6771692039221248804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5952115453257993307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!23 &6777156917037298193
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65733,6 +66775,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4513414200277106679, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &6818553642776642200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3392557220544346644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!33 &6825860770240246545
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -67200,6 +68310,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2235051269634305692, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &7024999019281160041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508347936857554162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!4 &7030458196159324662
 Transform:
   m_ObjectHideFlags: 0
@@ -68050,6 +69228,7 @@ GameObject:
   - component: {fileID: 7146060177264435887}
   - component: {fileID: 9033849375748285982}
   - component: {fileID: 1655247310}
+  - component: {fileID: 9033849375748285983}
   m_Layer: 0
   m_Name: parede.010
   m_TagString: Untagged
@@ -70452,6 +71631,7 @@ GameObject:
   - component: {fileID: 7189747713084384394}
   - component: {fileID: 8291417497781786417}
   - component: {fileID: 8291417497781786418}
+  - component: {fileID: 8291417497781786419}
   m_Layer: 0
   m_Name: parede.016
   m_TagString: Untagged
@@ -72896,6 +74076,96 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7793551145723589891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619414542736917850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
+--- !u!64 &7793551145723589892
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619414542736917850}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8710794235562843019, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
 --- !u!1 &7795475020778276256
 GameObject:
   m_ObjectHideFlags: 0
@@ -73203,7 +74473,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7498461928983958705, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+  - {fileID: 2100000, guid: 5c39d7256e9a1ed459bb3f740231c3dd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73247,6 +74517,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8108466402897047427, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &7830119002174181475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585612227678933184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!4 &7832813372399777025
 Transform:
   m_ObjectHideFlags: 0
@@ -73536,6 +74874,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8642716333411414095, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &7888757410618385905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4910860020132518948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!23 &7891777693050716769
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -74109,6 +75515,7 @@ GameObject:
   - component: {fileID: 3673776815428677694}
   - component: {fileID: 1724894628524809765}
   - component: {fileID: 7951812026540363628}
+  - component: {fileID: 7951812026540363629}
   m_Layer: 0
   m_Name: porta-trancado
   m_TagString: Untagged
@@ -74137,6 +75544,74 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.020000001, y: 0.013233012, z: 0.098378025}
   m_Center: {x: -0.000000030733645, y: 0, z: 0.0000000037252903}
+--- !u!114 &7951812026540363629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951812026540363627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 1
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!1 &7951846020447362725
 GameObject:
   m_ObjectHideFlags: 0
@@ -75905,6 +77380,7 @@ GameObject:
   - component: {fileID: 1652846085035123822}
   - component: {fileID: 7522446318103984970}
   - component: {fileID: 8178705326170025808}
+  - component: {fileID: 8178705326170025809}
   m_Layer: 0
   m_Name: parede.020
   m_TagString: Untagged
@@ -75934,6 +77410,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7721298717047468143, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &8178705326170025809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8178705326170025807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!33 &8179956474387090730
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -76563,6 +78107,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -131930603075102012, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &8291417497781786419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487863338582804145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!23 &8292541432008295421
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -76980,6 +78592,7 @@ GameObject:
   - component: {fileID: 5762143009029651804}
   - component: {fileID: 7620239437856518677}
   - component: {fileID: 1338640052466217127}
+  - component: {fileID: 8344066850615565041}
   m_Layer: 0
   m_Name: porta-quarto
   m_TagString: Untagged
@@ -76987,6 +78600,74 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8344066850615565041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344066850615565040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 1
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!4 &8349719724078790473
 Transform:
   m_ObjectHideFlags: 0
@@ -80285,6 +81966,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4330833856867873243, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &8717385217617551507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6452458188276998441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!4 &8718154757281930495
 Transform:
   m_ObjectHideFlags: 0
@@ -80428,6 +82177,7 @@ GameObject:
   - component: {fileID: 8635387089235445780}
   - component: {fileID: 6130486055773596218}
   - component: {fileID: 8725734029504459216}
+  - component: {fileID: 8725734029504459217}
   m_Layer: 0
   m_Name: parede.024
   m_TagString: Untagged
@@ -80457,6 +82207,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2474755244454583007, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &8725734029504459217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8725734029504459215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!33 &8732677466834597670
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81921,6 +83739,7 @@ GameObject:
   - component: {fileID: 2639524922709429059}
   - component: {fileID: 6869047487319147515}
   - component: {fileID: 8937428282279296564}
+  - component: {fileID: 8937428282279296565}
   m_Layer: 0
   m_Name: parede.006
   m_TagString: Untagged
@@ -81950,6 +83769,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2149590351612143883, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &8937428282279296565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8937428282279296563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!223 &8944383007002611801
 Canvas:
   m_ObjectHideFlags: 0
@@ -82485,6 +84372,74 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &9033849375748285983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134233889999769744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!23 &9036700367588027156
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -82816,6 +84771,7 @@ GameObject:
   - component: {fileID: 9139906727976024695}
   - component: {fileID: 6450443676572185619}
   - component: {fileID: 9139906727976024696}
+  - component: {fileID: 9139906727976024697}
   m_Layer: 0
   m_Name: parede.017
   m_TagString: Untagged
@@ -83423,6 +85379,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2275196764680559635, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &9139906727976024697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9075708055985672657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!4 &9146833690440119340
 Transform:
   m_ObjectHideFlags: 0
@@ -83945,6 +85969,74 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.020000001, y: 0.013233011, z: 0.098378025}
   m_Center: {x: 0.00000013504177, y: 0.000000002095475, z: -0.0000000037252925}
+--- !u!114 &9215244788372151330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4774444122127000233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 1
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!23 &9215706905719952050
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -84012,6 +86104,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2401874147906095453, guid: 7db592d7aaa465f49b60935fa6ab04a2, type: 3}
+--- !u!114 &9215706905719952052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2300297848633725147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e04fe3c4fc15b49a340c922c828b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionInfluence: 0
+  corruptionNormalStrength: 1
+  enableMeshDeformation: 0
+  deformStrength: 0
+  deformFrequency: 1
+  useAutomaticSanityControl: 1
+  corruptionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deformationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableLODOptimization: 1
+  maxDistance: 50
 --- !u!1 &9218553106944761627
 GameObject:
   m_ObjectHideFlags: 0
@@ -84083,6 +86243,7 @@ SceneRoots:
   - {fileID: 1763290227}
   - {fileID: 476523815}
   - {fileID: 631102704}
+  - {fileID: 1826834388}
   - {fileID: 954097452}
   - {fileID: 586125552}
   - {fileID: 8954810089426534344}
