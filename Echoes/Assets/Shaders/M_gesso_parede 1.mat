@@ -42,8 +42,24 @@ Material:
         m_Texture: {fileID: 2800000, guid: 99af188e945db45499764b14adafa2d4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _CorruptionHeightMap:
+        m_Texture: {fileID: 2800000, guid: 61ecfffe565817a4d91adbd793a7d9c3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _CorruptionMap:
-        m_Texture: {fileID: 2800000, guid: 94a2e180e38501e40ad85ef58fe79474, type: 3}
+        m_Texture: {fileID: 2800000, guid: 632663cceaa3cf346ae7d7c6280c96d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CorruptionMetallicMap:
+        m_Texture: {fileID: 2800000, guid: 3cdb78657af372a48b52949acd0e5e79, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CorruptionNormalMap:
+        m_Texture: {fileID: 2800000, guid: 802ddf47d4a86df4da8ed4df32084fd3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CorruptionOcclusionMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
@@ -85,6 +101,8 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
+    - _CorruptionInfluence: 1
+    - _CorruptionNormalStrength: 1
     - _Cull: 2
     - _DeformFrequency: 0
     - _DeformStrength: 0
@@ -107,6 +125,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0}
     - _BaseMap_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseMap_Tiling: {r: 6, g: 18, b: 0, a: 0}
+    - _BaseMap_Tiling: {r: 4, g: 8, b: 0, a: 0}
+    - _CorruptionOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _CorruptionTiling: {r: 2, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

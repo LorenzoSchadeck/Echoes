@@ -1,0 +1,446 @@
+﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
+
+namespace Echoes.Deformation
+{
+    public class DeformationManager : MonoBehaviour
+    {
+        public static DeformationManager Instance { get; private set; }
+        
+        [Header("🎭 Sistema de 3 Fases")]
+        [Tooltip("Fase 1: 100%-60% = Só Post-Processing")]
+        [SerializeField, Range(0f, 1f)] private float textureTransitionStartThreshold = 0.6f;
+        
+        [Tooltip("Fase 2: 60%-30% = Post-Processing + Texturas")]
+        [SerializeField, Range(0f, 1f)] private float meshDeformationStartThreshold = 0.3f;
+        
+        
+        [Header("🌊 Melting Effect Settings")]
+        [Tooltip("Velocidade do efeito de derretimento contínuo")]
+        [SerializeField, Range(0.1f, 5f)] private float meltingSpeed = 1f;
+        
+        [Tooltip("Intensidade do deslocamento de derretimento")]
+        [SerializeField, Range(0f, 2f)] private float meltingIntensity = 0.5f;
+        
+        [Tooltip("Direção do derretimento (Y negativo = para baixo)")]
+        [SerializeField] private Vector2 meltingDirection = new Vector2(0f, -1f);
+        
+        [Tooltip("Usar ruído para derretimento orgânico")]
+        [SerializeField] private bool useOrganicMelting = true;
+        
+        [SerializeField] private DeformationValues initialValues = new DeformationValues();
+        [SerializeField] private DeformationValues finalValues = new DeformationValues();
+        [SerializeField, Range(1f, 60f)] private float updateFrequency = 30f;
+        [SerializeField] private int maxObjectsPerFrame = 20;
+        [SerializeField] private bool enableDebugLogs = false;
+        [SerializeField] private bool showDebugGUI = false;
+        
+        private float currentSanity = 1f;
+        private float currentDeformationLevel = 0f;
+        private List<DeformableObject> registeredObjects = new List<DeformableObject>();
+        private Coroutine updateCoroutine;
+        private bool isSystemPaused = false;
+        private readonly Dictionary<Material, MaterialPropertyBlock> materialBlocks = new Dictionary<Material, MaterialPropertyBlock>();
+        
+        // Variáveis para efeito de derretimento contínuo
+        private float meltingTime = 0f;
+        private float meltingPhase = 0f;
+        
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+        
+        private void Start()
+        {
+            InitializeSystem();
+        }
+        
+        private void OnEnable()
+        {
+            InsanityManager.OnSanityChanged += OnSanityChanged;
+            GameEvents.OnFlashbackStarted += OnFlashbackStarted;
+            GameEvents.OnFlashbackEnded += OnFlashbackEnded;
+        }
+        
+        private void OnDisable()
+        {
+            InsanityManager.OnSanityChanged -= OnSanityChanged;
+            GameEvents.OnFlashbackStarted -= OnFlashbackStarted;
+            GameEvents.OnFlashbackEnded -= OnFlashbackEnded;
+        }
+        
+        private void OnDestroy()
+        {
+            InsanityManager.OnSanityChanged -= OnSanityChanged;
+            
+            if (updateCoroutine != null)
+            {
+                StopCoroutine(updateCoroutine);
+            }
+        }
+        
+        private void Update()
+        {
+            // Atualiza o tempo de derretimento contínuo quando na Fase 2 ou 3
+            if (currentSanity <= textureTransitionStartThreshold)
+            {
+                meltingTime += Time.deltaTime * meltingSpeed;
+                
+                if (useOrganicMelting)
+                {
+                    // Derretimento orgânico com ruído Perlin
+                    meltingPhase = Mathf.PerlinNoise(meltingTime * 0.1f, Time.time * 0.05f);
+                }
+                else
+                {
+                    // Derretimento linear suave
+                    meltingPhase = Mathf.Sin(meltingTime) * 0.5f + 0.5f;
+                }
+            }
+        }
+        
+        private void InitializeSystem()
+        {
+            var deformableObjects = FindObjectsByType<DeformableObject>(FindObjectsSortMode.None);
+            foreach (var obj in deformableObjects)
+            {
+                RegisterObject(obj);
+            }
+            
+            updateCoroutine = StartCoroutine(UpdateDeformationLoop());
+            
+            if (enableDebugLogs)
+            {
+                Debug.Log($"[DeformationManager] System initialized with {registeredObjects.Count} objects");
+            }
+        }
+        
+        public void RegisterObject(DeformableObject deformableObject)
+        {
+            if (deformableObject != null && !registeredObjects.Contains(deformableObject))
+            {
+                registeredObjects.Add(deformableObject);
+            }
+        }
+        
+        public void UnregisterObject(DeformableObject deformableObject)
+        {
+            registeredObjects.Remove(deformableObject);
+        }
+        
+        private void OnSanityChanged(float newSanity)
+        {
+            currentSanity = newSanity;
+            
+            // Sistema de 3 Fases:
+            // Fase 1 (100%-60%): Nenhuma deformação (só post-processing)
+            // Fase 2 (60%-30%): Texturas começam a transicionar
+            // Fase 3 (30%-0%): Texturas + Mesh deformação completa
+            
+            if (newSanity <= meshDeformationStartThreshold)
+            {
+                // Fase 3: Deformação completa (30%-0%)
+                float t = 1f - (newSanity / meshDeformationStartThreshold);
+                currentDeformationLevel = Mathf.Clamp01(t);
+            }
+            else if (newSanity <= textureTransitionStartThreshold)
+            {
+                // Fase 2: Apenas texturas (60%-30%)
+                // Mapeia 60%-30% para 0-1 para texturas
+                float textureRange = textureTransitionStartThreshold - meshDeformationStartThreshold;
+                float normalizedSanity = newSanity - meshDeformationStartThreshold;
+                float t = 1f - (normalizedSanity / textureRange);
+                currentDeformationLevel = Mathf.Clamp01(t);
+            }
+            else
+            {
+                // Fase 1: Nenhuma deformação (100%-60%)
+                currentDeformationLevel = 0f;
+            }
+            
+            if (enableDebugLogs)
+            {
+                string phase = GetCurrentPhase(newSanity);
+                Debug.Log($"[DeformationManager] Sanity: {newSanity:F2} | Phase: {phase} | Deformation: {currentDeformationLevel:F2}");
+            }
+        }
+        
+        private string GetCurrentPhase(float sanity)
+        {
+            if (sanity > textureTransitionStartThreshold)
+                return "Phase 1 (Post-Processing Only)";
+            else if (sanity > meshDeformationStartThreshold)
+                return "Phase 2 (Textures + Post-Processing)";
+            else
+                return "Phase 3 (Full Deformation)";
+        }
+        
+        private void OnFlashbackStarted()
+        {
+            isSystemPaused = true;
+            
+            if (enableDebugLogs)
+            {
+                Debug.Log("[DeformationManager] System paused for flashback");
+            }
+        }
+        
+        private void OnFlashbackEnded()
+        {
+            isSystemPaused = false;
+            
+            if (enableDebugLogs)
+            {
+                Debug.Log("[DeformationManager] System resumed after flashback");
+            }
+        }
+        
+        private IEnumerator UpdateDeformationLoop()
+        {
+            while (true)
+            {
+                if (!isSystemPaused && currentDeformationLevel > 0f)
+                {
+                    UpdateObjectsDeformation();
+                }
+                
+                yield return new WaitForSeconds(1f / updateFrequency);
+            }
+        }
+        
+        private void UpdateObjectsDeformation()
+        {
+            int processedCount = 0;
+            
+            for (int i = registeredObjects.Count - 1; i >= 0; i--)
+            {
+                if (processedCount >= maxObjectsPerFrame) break;
+                
+                var obj = registeredObjects[i];
+                
+                if (obj == null)
+                {
+                    registeredObjects.RemoveAt(i);
+                    continue;
+                }
+                
+                UpdateObjectDeformation(obj);
+                processedCount++;
+            }
+        }
+        
+        private void UpdateObjectDeformation(DeformableObject deformableObject)
+        {
+            var config = deformableObject.GetConfiguration();
+            var renderer = deformableObject.GetRenderer();
+            
+            if (renderer == null || renderer.material == null) return;
+            
+            var currentValues = InterpolateValues(currentDeformationLevel);
+            ApplyDeformation(renderer, config, currentValues);
+        }
+        
+        private DeformationValues InterpolateValues(float t)
+        {
+            // Calcula diferentes fatores de interpolação baseado na fase atual
+            float textureT = GetTextureInterpolationFactor();
+            float meshT = GetMeshInterpolationFactor();
+            
+            // Aplica efeito de derretimento contínuo nas propriedades de textura quando ativo
+            float meltingModifier = 1f;
+            if (currentSanity <= textureTransitionStartThreshold)
+            {
+                meltingModifier = 1f + (meltingIntensity * meltingPhase);
+            }
+            
+            return new DeformationValues
+            {
+                // Texturas começam a transicionar em 60% (Fase 2) com efeito de derretimento
+                insanityLevel = Mathf.Lerp(initialValues.insanityLevel, finalValues.insanityLevel, textureT) * meltingModifier,
+                uvDisplacementStrength = Mathf.Lerp(initialValues.uvDisplacementStrength, finalValues.uvDisplacementStrength, textureT) * meltingModifier,
+                corruptionInfluence = Mathf.Lerp(initialValues.corruptionInfluence, finalValues.corruptionInfluence, textureT) * meltingModifier,
+                corruptionNormalStrength = Mathf.Lerp(initialValues.corruptionNormalStrength, finalValues.corruptionNormalStrength, textureT) * meltingModifier,
+                
+                // Mesh só começa a deformar em 30% (Fase 3)
+                deformStrength = Mathf.Lerp(initialValues.deformStrength, finalValues.deformStrength, meshT),
+                deformFrequency = Mathf.Lerp(initialValues.deformFrequency, finalValues.deformFrequency, meshT)
+            };
+        }
+        
+        private float GetTextureInterpolationFactor()
+        {
+            if (currentSanity > textureTransitionStartThreshold)
+            {
+                // Fase 1: Sem transição de textura
+                return 0f;
+            }
+            else if (currentSanity > meshDeformationStartThreshold)
+            {
+                // Fase 2: Textura transiciona de 60% para 30%
+                float range = textureTransitionStartThreshold - meshDeformationStartThreshold;
+                float progress = textureTransitionStartThreshold - currentSanity;
+                return Mathf.Clamp01(progress / range);
+            }
+            else
+            {
+                // Fase 3: Textura totalmente transicionada
+                return 1f;
+            }
+        }
+        
+        private float GetMeshInterpolationFactor()
+        {
+            if (currentSanity > meshDeformationStartThreshold)
+            {
+                // Fases 1 e 2: Sem deformação de mesh
+                return 0f;
+            }
+            else
+            {
+                // Fase 3: Mesh deforma de 30% para 0%
+                float t = 1f - (currentSanity / meshDeformationStartThreshold);
+                return Mathf.Clamp01(t);
+            }
+        }
+        
+        private void ApplyDeformation(Renderer renderer, DeformableObjectConfig config, DeformationValues values)
+        {
+            var material = renderer.material;
+            
+            if (!materialBlocks.TryGetValue(material, out MaterialPropertyBlock propertyBlock))
+            {
+                propertyBlock = new MaterialPropertyBlock();
+                materialBlocks[material] = propertyBlock;
+            }
+            
+            renderer.GetPropertyBlock(propertyBlock);
+            
+            if (config.allowMeshDeformation)
+            {
+                propertyBlock.SetFloat("_DeformStrength", values.deformStrength);
+                propertyBlock.SetFloat("_DeformFrequency", values.deformFrequency);
+            }
+            
+            if (config.allowTextureDeformation)
+            {
+                propertyBlock.SetFloat("_InsanityLevel", values.insanityLevel);
+                propertyBlock.SetFloat("_UVDisplacementStrength", values.uvDisplacementStrength);
+                propertyBlock.SetFloat("_CorruptionInfluence", values.corruptionInfluence);
+                propertyBlock.SetFloat("_CorruptionNormalStrength", values.corruptionNormalStrength);
+                
+                // Propriedades do efeito de derretimento contínuo
+                if (currentSanity <= textureTransitionStartThreshold)
+                {
+                    propertyBlock.SetFloat("_MeltingTime", meltingTime);
+                    propertyBlock.SetFloat("_MeltingPhase", meltingPhase);
+                    propertyBlock.SetFloat("_MeltingIntensity", meltingIntensity);
+                    propertyBlock.SetVector("_MeltingDirection", new Vector4(meltingDirection.x, meltingDirection.y, 0, 0));
+                }
+            }
+            
+            renderer.SetPropertyBlock(propertyBlock);
+        }
+        
+        public float GetCurrentDeformationLevel()
+        {
+            return currentDeformationLevel;
+        }
+        
+        public string GetSystemStats()
+        {
+            return $"Sanity: {currentSanity:F2} | Deformation: {currentDeformationLevel:F2} | Objects: {registeredObjects.Count} | Paused: {isSystemPaused} | Melting: {(currentSanity <= textureTransitionStartThreshold ? meltingPhase.ToString("F2") : "Inactive")}";
+        }
+        
+        /// <summary>
+        /// Reseta o tempo de derretimento para reiniciar a animação
+        /// </summary>
+        public void ResetMeltingTime()
+        {
+            meltingTime = 0f;
+            meltingPhase = 0f;
+        }
+        
+        /// <summary>
+        /// Força uma atualização do efeito de derretimento
+        /// </summary>
+        public void UpdateMeltingEffect()
+        {
+            if (currentSanity <= textureTransitionStartThreshold)
+            {
+                meltingTime += Time.deltaTime * meltingSpeed;
+                
+                if (useOrganicMelting)
+                {
+                    meltingPhase = Mathf.PerlinNoise(meltingTime * 0.1f, Time.time * 0.05f);
+                }
+                else
+                {
+                    meltingPhase = Mathf.Sin(meltingTime) * 0.5f + 0.5f;
+                }
+            }
+        }
+        
+        public void ForceUpdateAll()
+        {
+            if (isSystemPaused) return;
+            
+            foreach (var obj in registeredObjects)
+            {
+                if (obj != null)
+                {
+                    UpdateObjectDeformation(obj);
+                }
+            }
+        }
+        
+        private void OnGUI()
+        {
+            if (!showDebugGUI) return;
+            
+            GUILayout.BeginArea(new Rect(10, 100, 300, 200));
+            GUILayout.BeginVertical("Box");
+            
+            GUILayout.Label("🎭 Deformation System Debug");
+            GUILayout.Label($"Current Sanity: {currentSanity:F2}");
+            GUILayout.Label($"Deformation Level: {currentDeformationLevel:F2}");
+            GUILayout.Label($"Registered Objects: {registeredObjects.Count}");
+            GUILayout.Label($"System Paused: {isSystemPaused}");
+            
+            // Mostra fase atual
+            string currentPhase = GetCurrentPhase(currentSanity);
+            if (currentSanity <= textureTransitionStartThreshold)
+            {
+                GUILayout.Label($"⚠️ {currentPhase}", GUI.skin.box);
+            }
+            else
+            {
+                GUILayout.Label($"😇 {currentPhase}", GUI.skin.box);
+            }
+            
+            GUILayout.EndVertical();
+            GUILayout.EndArea();
+        }
+    }
+    
+    [System.Serializable]
+    public class DeformationValues
+    {
+        [Range(0f, 1f)] public float insanityLevel = 0f;
+        [Range(0f, 2f)] public float uvDisplacementStrength = 0f;
+        [Range(0f, 1f)] public float corruptionInfluence = 0f;
+        [Range(0f, 5f)] public float corruptionNormalStrength = 0f;
+        [Range(0f, 2f)] public float deformStrength = 0f;
+        [Range(0f, 5f)] public float deformFrequency = 1f;
+    }
+}

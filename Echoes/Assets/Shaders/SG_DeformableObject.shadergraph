@@ -49,6 +49,12 @@
             "m_Id": "e6f9b98e127447578f094fa637128dfe"
         },
         {
+            "m_Id": "corruption_tiling_id_new_001"
+        },
+        {
+            "m_Id": "corruption_offset_id_new_002"
+        },
+        {
             "m_Id": "42b5720a37d74ef6b2855556dd414508"
         },
         {
@@ -1959,19 +1965,16 @@
             "m_Id": "8b1047af32354f64b4710a9318aa6d73"
         },
         {
-            "m_Id": "06d5b4f03235415d9c65ca3675c270d0"
-        },
-        {
-            "m_Id": "4ea9935af1dd462bbb0e43aa2d464488"
+            "m_Id": "5565a0ce8e1240a5a5f196196bed1a04"
         },
         {
             "m_Id": "ca14738ce3ca4eeeb9f4055c8e26b28b"
         },
         {
-            "m_Id": "5565a0ce8e1240a5a5f196196bed1a04"
+            "m_Id": "c6cf8b2321224723949d652c0e7dc68f"
         },
         {
-            "m_Id": "c6cf8b2321224723949d652c0e7dc68f"
+            "m_Id": "06d5b4f03235415d9c65ca3675c270d0"
         },
         {
             "m_Id": "46e24f5b74514961b11456f55d9799e2"
@@ -1986,12 +1989,6 @@
             "m_Id": "7c436b8c166f427da61e67796c2c0171"
         },
         {
-            "m_Id": "76b1de31811741b58df40cf3aaa5a588"
-        },
-        {
-            "m_Id": "e6f9b98e127447578f094fa637128dfe"
-        },
-        {
             "m_Id": "42b5720a37d74ef6b2855556dd414508"
         },
         {
@@ -2004,7 +2001,19 @@
             "m_Id": "8deeaa7a6ead45b7baf1fb97adf8373d"
         },
         {
+            "m_Id": "76b1de31811741b58df40cf3aaa5a588"
+        },
+        {
+            "m_Id": "e6f9b98e127447578f094fa637128dfe"
+        },
+        {
+            "m_Id": "4ea9935af1dd462bbb0e43aa2d464488"
+        },
+        {
             "m_Id": "new_corruption_normal_id_001"
+        },
+        {
+            "m_Id": "new_corruption_normal_strength_id_005"
         },
         {
             "m_Id": "new_corruption_metallic_id_002"
@@ -2013,13 +2022,10 @@
             "m_Id": "new_corruption_occlusion_id_003"
         },
         {
-            "m_Id": "new_corruption_influence_id_004"
-        },
-        {
-            "m_Id": "new_corruption_normal_strength_id_005"
-        },
-        {
             "m_Id": "new_corruption_height_id_006"
+        },
+        {
+            "m_Id": "new_corruption_influence_id_004"
         }
     ]
 }
@@ -6707,6 +6713,62 @@
 }
 
 {
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector2ShaderProperty",
+    "m_ObjectId": "corruption_offset_id_new_002",
+    "m_Guid": {
+        "m_GuidSerialized": "87654321-dcba-10fe-8765-4321dcba10fe"
+    },
+    "m_Name": "_CorruptionOffset",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "_CorruptionOffset",
+    "m_DefaultReferenceName": "_CorruptionOffset",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector2ShaderProperty",
+    "m_ObjectId": "corruption_tiling_id_new_001",
+    "m_Guid": {
+        "m_GuidSerialized": "12345678-abcd-ef01-2345-6789abcdef01"
+    },
+    "m_Name": "_CorruptionTiling",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "_CorruptionTiling",
+    "m_DefaultReferenceName": "_CorruptionTiling",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "x": 2.0,
+        "y": 2.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "d13a1561d21f44d1aea54b7aca829f5c",
@@ -7693,6 +7755,36 @@
 }
 
 {
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
+    "m_ObjectId": "new_corruption_height_id_006",
+    "m_Guid": {
+        "m_GuidSerialized": "b6f7c8d9-e0a1-2345-6789-0123456789ab"
+    },
+    "m_Name": "_CorruptionHeightMap",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "_CorruptionHeightMap",
+    "m_DefaultReferenceName": "_CorruptionHeightMap",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "m_SerializedTexture": "",
+        "m_Guid": ""
+    },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
+    "m_Modifiable": true,
+    "m_DefaultType": 1
+}
+
+{
     "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
     "m_ObjectId": "new_corruption_influence_id_004",
@@ -7819,36 +7911,6 @@
     "m_DefaultRefNameVersion": 1,
     "m_RefNameGeneratedByDisplayName": "_CorruptionOcclusionMap",
     "m_DefaultReferenceName": "_CorruptionOcclusionMap",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_DismissedVersion": 0,
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": {
-        "m_SerializedTexture": "",
-        "m_Guid": ""
-    },
-    "isMainTexture": false,
-    "useTilingAndOffset": false,
-    "m_Modifiable": true,
-    "m_DefaultType": 1
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
-    "m_ObjectId": "new_corruption_height_id_006",
-    "m_Guid": {
-        "m_GuidSerialized": "b6f7c8d9-e0a1-2345-6789-0123456789ab"
-    },
-    "m_Name": "_CorruptionHeightMap",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "_CorruptionHeightMap",
-    "m_DefaultReferenceName": "_CorruptionHeightMap",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,

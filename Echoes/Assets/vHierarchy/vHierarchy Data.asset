@@ -397,6 +397,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-282643086-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1803673368-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1826834386-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-219599156-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-857419365-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-108774016-0
         values:
         - colorIndex: 9
           iconNameOrGuid: BoxCollider Icon
@@ -558,3 +561,9 @@ MonoBehaviour:
           iconNameOrGuid: MeshCollider Icon
         - colorIndex: 2
           iconNameOrGuid: Settings Icon
+        - colorIndex: 9
+          iconNameOrGuid: BoxCollider Icon
+        - colorIndex: 2
+          iconNameOrGuid: Settings Icon
+        - colorIndex: 8
+          iconNameOrGuid: Rigidbody Icon
