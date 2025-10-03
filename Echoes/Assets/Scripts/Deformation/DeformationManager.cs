@@ -47,6 +47,11 @@ namespace Echoes.Deformation
         private float meltingTime = 0f;
         private float meltingPhase = 0f;
         
+        // Variáveis para transição de remédio
+        private bool isRemedyTransitionActive = false;
+        private Coroutine remedyTransitionCoroutine;
+        private float remedyTransitionDuration = 3f; // Sincronizado com PostProcessingManager
+        
         private void Awake()
         {
             if (Instance == null)
@@ -71,6 +76,8 @@ namespace Echoes.Deformation
             InsanityManager.OnSanityChanged += OnSanityChanged;
             GameEvents.OnFlashbackStarted += OnFlashbackStarted;
             GameEvents.OnFlashbackEnded += OnFlashbackEnded;
+            GameEvents.OnRemedyUsed += OnRemedyUsed;
+            GameEvents.OnDeathSequenceCancelled += OnRemedyUsed; // Trata cancelamento de morte como remédio
         }
         
         private void OnDisable()
@@ -78,6 +85,8 @@ namespace Echoes.Deformation
             InsanityManager.OnSanityChanged -= OnSanityChanged;
             GameEvents.OnFlashbackStarted -= OnFlashbackStarted;
             GameEvents.OnFlashbackEnded -= OnFlashbackEnded;
+            GameEvents.OnRemedyUsed -= OnRemedyUsed;
+            GameEvents.OnDeathSequenceCancelled -= OnRemedyUsed;
         }
         
         private void OnDestroy()
@@ -87,6 +96,11 @@ namespace Echoes.Deformation
             if (updateCoroutine != null)
             {
                 StopCoroutine(updateCoroutine);
+            }
+            
+            if (remedyTransitionCoroutine != null)
+            {
+                StopCoroutine(remedyTransitionCoroutine);
             }
         }
         
@@ -206,11 +220,97 @@ namespace Echoes.Deformation
             }
         }
         
+        private void OnRemedyUsed()
+        {
+            if (enableDebugLogs)
+            {
+                Debug.Log("[DeformationManager] Remedy used - starting smooth transition to clean state");
+            }
+            
+            // Para qualquer transição anterior
+            if (remedyTransitionCoroutine != null)
+            {
+                StopCoroutine(remedyTransitionCoroutine);
+            }
+            
+            // Inicia a transição suave para o estado limpo
+            remedyTransitionCoroutine = StartCoroutine(RemedyTransitionRoutine());
+        }
+        
+        private IEnumerator RemedyTransitionRoutine()
+        {
+            isRemedyTransitionActive = true;
+            
+            // Captura os valores atuais de deformação
+            float startDeformationLevel = currentDeformationLevel;
+            DeformationValues startValues = InterpolateValues(startDeformationLevel);
+            DeformationValues targetValues = initialValues; // Estado limpo
+            
+            float elapsedTime = 0f;
+            
+            while (elapsedTime < remedyTransitionDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / remedyTransitionDuration;
+                
+                // Aplica uma curva suave para a transição
+                t = Mathf.SmoothStep(0f, 1f, t);
+                
+                // Interpola todos os valores de deformação
+                DeformationValues currentValues = new DeformationValues
+                {
+                    insanityLevel = Mathf.Lerp(startValues.insanityLevel, targetValues.insanityLevel, t),
+                    uvDisplacementStrength = Mathf.Lerp(startValues.uvDisplacementStrength, targetValues.uvDisplacementStrength, t),
+                    corruptionInfluence = Mathf.Lerp(startValues.corruptionInfluence, targetValues.corruptionInfluence, t),
+                    corruptionNormalStrength = Mathf.Lerp(startValues.corruptionNormalStrength, targetValues.corruptionNormalStrength, t),
+                    deformStrength = Mathf.Lerp(startValues.deformStrength, targetValues.deformStrength, t),
+                    deformFrequency = Mathf.Lerp(startValues.deformFrequency, targetValues.deformFrequency, t)
+                };
+                
+                // Aplica os valores interpolados a todos os objetos
+                ApplyValuesToAllObjects(currentValues);
+                
+                yield return null;
+            }
+            
+            // Garante o estado final limpo
+            ApplyValuesToAllObjects(targetValues);
+            
+            // Reseta valores internos
+            currentDeformationLevel = 0f;
+            ResetMeltingTime();
+            
+            isRemedyTransitionActive = false;
+            remedyTransitionCoroutine = null;
+            
+            if (enableDebugLogs)
+            {
+                Debug.Log("[DeformationManager] Remedy transition completed - all materials restored to clean state");
+            }
+        }
+        
+        private void ApplyValuesToAllObjects(DeformationValues values)
+        {
+            foreach (var obj in registeredObjects)
+            {
+                if (obj == null) continue;
+                
+                var renderer = obj.GetRenderer();
+                var config = obj.GetConfiguration();
+                
+                if (renderer != null)
+                {
+                    ApplyDeformation(renderer, config, values);
+                }
+            }
+        }
+        
         private IEnumerator UpdateDeformationLoop()
         {
             while (true)
             {
-                if (!isSystemPaused && currentDeformationLevel > 0f)
+                // Não atualiza durante pausas do sistema ou transições de remédio
+                if (!isSystemPaused && !isRemedyTransitionActive && currentDeformationLevel > 0f)
                 {
                     UpdateObjectsDeformation();
                 }
@@ -359,7 +459,8 @@ namespace Echoes.Deformation
         
         public string GetSystemStats()
         {
-            return $"Sanity: {currentSanity:F2} | Deformation: {currentDeformationLevel:F2} | Objects: {registeredObjects.Count} | Paused: {isSystemPaused} | Melting: {(currentSanity <= textureTransitionStartThreshold ? meltingPhase.ToString("F2") : "Inactive")}";
+            string remedyStatus = isRemedyTransitionActive ? "Remedy Transition Active" : "Normal";
+            return $"Sanity: {currentSanity:F2} | Deformation: {currentDeformationLevel:F2} | Objects: {registeredObjects.Count} | Paused: {isSystemPaused} | Status: {remedyStatus} | Melting: {(currentSanity <= textureTransitionStartThreshold ? meltingPhase.ToString("F2") : "Inactive")}";
         }
         
         /// <summary>
@@ -408,7 +509,7 @@ namespace Echoes.Deformation
         {
             if (!showDebugGUI) return;
             
-            GUILayout.BeginArea(new Rect(10, 100, 300, 200));
+            GUILayout.BeginArea(new Rect(10, 100, 300, 250));
             GUILayout.BeginVertical("Box");
             
             GUILayout.Label("🎭 Deformation System Debug");
@@ -416,6 +517,12 @@ namespace Echoes.Deformation
             GUILayout.Label($"Deformation Level: {currentDeformationLevel:F2}");
             GUILayout.Label($"Registered Objects: {registeredObjects.Count}");
             GUILayout.Label($"System Paused: {isSystemPaused}");
+            
+            // Mostra status da transição de remédio
+            if (isRemedyTransitionActive)
+            {
+                GUILayout.Label("💊 REMEDY TRANSITION ACTIVE", GUI.skin.box);
+            }
             
             // Mostra fase atual
             string currentPhase = GetCurrentPhase(currentSanity);

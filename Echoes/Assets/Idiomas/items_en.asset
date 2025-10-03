@@ -19,19 +19,165 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 8592928768
-    m_Localized: Old Photo
+    m_Localized: Portrait
     m_Metadata:
       m_Items: []
   - m_Id: 372918562816
-    m_Localized: A faded picture of a family I don't recognize.
+    m_Localized: "An old photograph of two men standing side by side. You recognize
+      yourself, but the other\u2026 his face stirs something between familiarity
+      and unease, like a forgotten echo."
     m_Metadata:
       m_Items: []
   - m_Id: 18550532976640
-    m_Localized: Diary
+    m_Localized: Portrait
     m_Metadata:
       m_Items: []
   - m_Id: 18857769938944
-    m_Localized: It's Secret
+    m_Localized: "A snow-covered landscape with a lone house on the horizon. The
+      scene looks serene\u2026 yet there\u2019s something in the photo that sends
+      a chill beyond the winter air."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985121753870336
+    m_Localized: "A portrait of you during your first news report. The smile is tense,
+      the eyes avert the camera\u2026 as if already fearing what they would one day
+      be forced to face."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985037595160576
+    m_Localized: Portrait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985600999239680
+    m_Localized: Medical Report
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986011684515840
+    m_Localized: 'NEW LEAF MENTAL HEALTH CLINIC
+
+      Helena Costa, M.D.
+
+      Medical
+      License No: NY-123456
+
+
+
+      PSYCHIATRIC REPORT
+
+      Patient: Ethan Myers
+
+      Date:
+      09/18/2005
+
+
+
+      Diagnosis: Post-Traumatic Stress Disorder (PTSD) with severe
+      dissociative symptoms.
+
+      Symptom Triggers: Patient experiences acute episodes
+      marked by a rapid onset of tunnel vision and hallucinations, leading to memory
+      loss ("blackouts").
+
+
+      CRITICAL DIRECTIVES:
+
+      At the first sign of
+      symptoms, take one dose of Serenil IMMEDIATELY.
+
+      A medical alert timer
+      in your bedroom will provide a warning.
+
+
+      RISK WARNING: Failure to medicate
+      during an episode can lead to severe system shock and cardiac arrest. This
+      condition can be fatal.
+
+      _________________________
+
+      Helena Costa,
+      M.D.
+
+      Clinical Psychiatrist
+
+      Sincerely,
+
+      _________________________
+
+      Helena
+      Costa, M.D.
+
+      Clinical Psychiatrist'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986369865494528
+    m_Localized: Stained Pages
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986466921689088
+    m_Localized: "Um di\xE1rio antigo, suas p\xE1ginas registram crimes brutais com
+      detalhes perturbadores. Algumas frases soam estranhamente familiares\u2026
+      mas \xE9 imposs\xEDvel saber se s\xE3o lembran\xE7as ou apenas palavras de
+      um estranho."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994016211709952
+    m_Localized: Portrait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994019151917056
+    m_Localized: "A portrait of you at an old crime scene. The yellow tape slices
+      the image in half, and there\u2019s something in your stance \u2014 not just
+      a reporter doing his job\u2026 but someone who remembers more than they should."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994982784872448
+    m_Localized: Portrait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994985020436480
+    m_Localized: "A faded photograph shows you beside a smiling woman. The scene
+      seems innocent, yet there\u2019s a subtle unease in your expressions\u2026
+      as if a secret lingers between you, trapped in the moment the photo was taken."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10038187895140352
+    m_Localized: Kitchen Knife
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10038230131781632
+    m_Localized: The weight... the balance. It feels... right in my hand. More than
+      it should for someone who only chops onions.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046071412469760
+    m_Localized: Smudged Page
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046775342510080
+    m_Localized: 'Torn Page: ''45'''
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046777976532992
+    m_Localized: Just the number 45, written with a heavy hand, the pen almost tearing
+      through the paper. Why this number? It means nothing to me. At least, I don't
+      think it does...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046235837575168
+    m_Localized: The ink is smeared by a dark, dried stain. The faint, coppery smell
+      leaves no doubt... it's blood. Someone tried to wipe something with this page,
+      or the blood simply dripped on it, erasing whatever was written. It's evidence,
+      but of what?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10047457013379072
+    m_Localized: 'Torn Page: ''95'''
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10047483999531008
+    m_Localized: Just the number 95, written with a heavy hand, the pen almost tearing
+      through the paper. Why this number? It means nothing to me. At least, I don't
+      think it does...
     m_Metadata:
       m_Items: []
   references:

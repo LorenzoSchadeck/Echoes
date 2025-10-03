@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88ca0dd2511fa3244b367cd38c81e6b7
+    m_Address: ItemsSubtitles_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d6c05b45aa1257b44b83d2a00c362e9c
     m_Address: interaction_prompts_pt-BR
     m_ReadOnly: 1

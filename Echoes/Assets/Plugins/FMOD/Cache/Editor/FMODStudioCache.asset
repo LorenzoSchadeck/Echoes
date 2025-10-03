@@ -97,10 +97,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638949314623303823
+  lastModified: 638950406952526341
   FileSizes:
   - Name: Desktop
-    Value: 1248608
+    Value: 3483808
   Exists: 1
 --- !u!114 &-3004535292404850156
 MonoBehaviour:
@@ -170,10 +170,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638949314623338978
+  lastModified: 638950406952556443
   FileSizes:
   - Name: Desktop
-    Value: 1142
+    Value: 1228
   Exists: 1
 --- !u!114 &-114601762871034247
 MonoBehaviour:
@@ -225,13 +225,42 @@ MonoBehaviour:
   - {fileID: -6357037119161835125}
   - {fileID: 6732807126588829607}
   - {fileID: -114601762871034247}
+  - {fileID: 2575528354121318786}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3017828741721620663}
   StringsBanks:
   - {fileID: -917116490150385184}
-  cacheTime: 638949314623338978
+  cacheTime: 638950406952556443
   cacheVersion: 131632
+--- !u!114 &2575528354121318786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambience/Thriller
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Thriller
+  Guid:
+    Data1: -2027167253
+    Data2: 1173118592
+    Data3: -1687239806
+    Data4: -1338571040
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 3731681273974522389}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3446573080800989767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +289,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &3731681273974522389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Thriller/tension
+  m_EditorClassIdentifier: 
+  Name: tension
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 1131382624
+    data2: 505942754
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &6623980567319386669
 MonoBehaviour:
   m_ObjectHideFlags: 0

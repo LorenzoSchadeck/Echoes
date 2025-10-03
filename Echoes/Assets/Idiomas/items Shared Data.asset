@@ -16,21 +16,97 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 5373a4b41a2689f448d773f15860e4e2
   m_Entries:
   - m_Id: 8592928768
-    m_Key: ITEM_NAME_OLD_PHOTO
+    m_Key: ITEM_NAME_FADED_MEMORY
     m_Metadata:
       m_Items: []
   - m_Id: 372918562816
-    m_Key: ITEM_DESC_OLD_PHOTO
+    m_Key: ITEM_DESC_FADED_MEMORY
     m_Metadata:
       m_Items: []
   - m_Id: 18550532976640
-    m_Key: 'ITEM_NAME_DIARY
+    m_Key: 'ITEM_NAME_WINTER_SILENCE
 
 '
     m_Metadata:
       m_Items: []
   - m_Id: 18857769938944
-    m_Key: ITEM_DESC_DIARY
+    m_Key: ITEM_DESC_WINTER_SILENCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985037595160576
+    m_Key: ITEM_NAME_FIRST_HEADLINE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985121753870336
+    m_Key: ITEM_DESC_FIRST_HEADLINE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985600999239680
+    m_Key: ITEM_NAME_MEDICAL_REPORT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986011684515840
+    m_Key: ITEM_DESC_MEDICAL_REPORT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986369865494528
+    m_Key: ITEM_NAME_STAINED_PAGES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986466921689088
+    m_Key: ITEM_DESC_STAINED_PAGES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994016211709952
+    m_Key: ITEM_NAME_TAPES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994019151917056
+    m_Key: ITEM_DESC_TAPES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994982784872448
+    m_Key: ITEM_NAME_SMILE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994985020436480
+    m_Key: ITEM_DESC_SMILE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10038187895140352
+    m_Key: ITEM_NAME_KNIFE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10038230131781632
+    m_Key: ITEM_DESC_KNIFE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046071412469760
+    m_Key: ITEM_NAME_FREQUENCY_DIRTY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046235837575168
+    m_Key: ITEM_DESC_FREQUENCY_DIRTY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046775342510080
+    m_Key: ITEM_NAME_FREQUENCY_45
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046777976532992
+    m_Key: 'ITEM_DESC_FREQUENCY_45
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10047457013379072
+    m_Key: ITEM_NAME_FREQUENCY_95
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10047483999531008
+    m_Key: 'ITEM_DESC_FREQUENCY_95
+
+'
     m_Metadata:
       m_Items: []
   m_Metadata:

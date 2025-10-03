@@ -19,19 +19,123 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 8592928768
-    m_Localized: Foto Antiga
+    m_Localized: Porta-Retrato
     m_Metadata:
       m_Items: []
   - m_Id: 372918562816
-    m_Localized: "Uma foto desbotada de uma fam\xEDlia que n\xE3o reconhe\xE7o."
+    m_Localized: "Uma fotografia antiga de dois homens lado a lado. Voc\xEA reconhece
+      a si mesmo, mas o outro\u2026 seu rosto desperta algo entre familiaridade e
+      repulsa, como um eco esquecido."
     m_Metadata:
       m_Items: []
   - m_Id: 18550532976640
-    m_Localized: "Di\xE1rio"
+    m_Localized: Porta-Retrato
     m_Metadata:
       m_Items: []
   - m_Id: 18857769938944
-    m_Localized: "\xC9 Secreto"
+    m_Localized: "Uma paisagem coberta de neve, com uma pequena casa isolada no horizonte.
+      A cena parece serena\u2026 mas h\xE1 algo na foto que causa um frio que n\xE3o
+      vem do inverno."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985121753870336
+    m_Localized: "Um retrato seu em sua primeira reportagem. O sorriso \xE9 nervoso,
+      os olhos desviam da c\xE2mera\u2026 como se j\xE1 temessem aquilo que um dia
+      seriam for\xE7ados a encarar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985037595160576
+    m_Localized: Porta-Retrato
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9985600999239680
+    m_Localized: "Laudo M\xE9dico"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986011684515840
+    m_Localized: "\rCL\xCDNICA DE SA\xDADE MENTAL NEW LEAF\r\nDra. Helena Costa\r\nLicen\xE7a
+      M\xE9dica N\xBA: NY-123456\n\r\nLAUDO PSIQUI\xC1TRICO\r\nPaciente: Ethan Myers\r\nData:
+      18/09/2005\r\n\nDiagn\xF3stico: Transtorno de Estresse P\xF3s-Traum\xE1tico
+      (TEPT) com sintomas dissociativos graves.\r\nGatilhos dos Sintomas: Paciente
+      sofre crises agudas marcadas por um r\xE1pido in\xEDcio de vis\xE3o em t\xFAnel
+      e alucina\xE7\xF5es, resultando em perda de mem\xF3ria (\"apag\xF5es\").\r\n\nDIRETRIZES
+      CR\xCDTICAS:\r\nAo primeiro sinal dos sintomas, tomar uma dose de Serenil IMEDIATAMENTE.\r\nUm
+      timer de alerta m\xE9dico no seu quarto servir\xE1 como aviso.\r\n\nAVISO DE
+      RISCO: A falha em tomar a medica\xE7\xE3o durante uma crise pode levar a choque
+      sist\xEAmico e parada card\xEDaca. Esta condi\xE7\xE3o pode ser fatal.\r\n_________________________\r\nDra.
+      Helena Costa\r\nPsiquiatra Cl\xEDnica\r\nPsiquiatra Cl\xEDnica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986369865494528
+    m_Localized: "P\xE1ginas Manchadas"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9986466921689088
+    m_Localized: "An old, weathered journal, its pages recounting brutal crimes in
+      disturbing detail. Some lines feel eerily familiar\u2026 yet it\u2019s impossible
+      to tell if they\u2019re memories or merely a stranger\u2019s words."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994016211709952
+    m_Localized: Porta-Retrato
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994019151917056
+    m_Localized: "Um retrato seu em meio a uma cena de crime antiga. A fita de isolamento
+      corta a imagem ao meio, e h\xE1 algo na sua postura \u2014 n\xE3o \xE9 apenas
+      um rep\xF3rter cumprindo o dever\u2026 parece algu\xE9m que se lembra mais
+      do que deveria."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994982784872448
+    m_Localized: Porta-Retrato
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9994985020436480
+    m_Localized: "Uma fotografia desbotada mostra voc\xEA ao lado de uma mulher sorridente.
+      A cena parece inocente, mas h\xE1 um desconforto sutil em seus olhares\u2026
+      como se um segredo estivesse escondido entre eles, preso no instante em que
+      a foto foi tirada."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10038187895140352
+    m_Localized: Faca de Cozinha
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10038230131781632
+    m_Localized: "O peso... o equil\xEDbrio. Parece... certo na minha m\xE3o. Mais
+      do que deveria para quem s\xF3 corta cebolas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046071412469760
+    m_Localized: "P\xE1gina Borrada"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046775342510080
+    m_Localized: "P\xE1gina Rasgada: '45'"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046777976532992
+    m_Localized: "Apenas o n\xFAmero 45, escrito com for\xE7a, a caneta quase rasgando
+      o papel. Por que esse n\xFAmero? N\xE3o significa nada para mim. Pelo menos,
+      acho que n\xE3o..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10046235837575168
+    m_Localized: "A tinta est\xE1 borrada por uma mancha escura e seca. O cheiro
+      fraco de ferrugem n\xE3o deixa d\xFAvidas... \xE9 sangue. Algu\xE9m tentou
+      limpar algo com esta p\xE1gina, ou o sangue simplesmente caiu sobre ela, apagando
+      o que quer que estivesse escrito. \xC9 uma evid\xEAncia, mas de qu\xEA?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10047457013379072
+    m_Localized: "P\xE1gina Rasgada: '95'"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10047483999531008
+    m_Localized: "Apenas o n\xFAmero 95, escrito com for\xE7a, a caneta quase rasgando
+      o papel. Por que esse n\xFAmero? N\xE3o significa nada para mim. Pelo menos,
+      acho que n\xE3o..."
     m_Metadata:
       m_Items: []
   references:
