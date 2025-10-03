@@ -54,16 +54,21 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9986011684515840
     m_Localized: "\rCL\xCDNICA DE SA\xDADE MENTAL NEW LEAF\r\nDra. Helena Costa\r\nLicen\xE7a
-      M\xE9dica N\xBA: NY-123456\n\r\nLAUDO PSIQUI\xC1TRICO\r\nPaciente: Ethan Myers\r\nData:
+      M\xE9dica N\xBA: NY-123456\r\n\nLAUDO PSIQUI\xC1TRICO\r\nPaciente: Ethan Myers\r\nData:
       18/09/2005\r\n\nDiagn\xF3stico: Transtorno de Estresse P\xF3s-Traum\xE1tico
       (TEPT) com sintomas dissociativos graves.\r\nGatilhos dos Sintomas: Paciente
       sofre crises agudas marcadas por um r\xE1pido in\xEDcio de vis\xE3o em t\xFAnel
       e alucina\xE7\xF5es, resultando em perda de mem\xF3ria (\"apag\xF5es\").\r\n\nDIRETRIZES
       CR\xCDTICAS:\r\nAo primeiro sinal dos sintomas, tomar uma dose de Serenil IMEDIATAMENTE.\r\nUm
-      timer de alerta m\xE9dico no seu quarto servir\xE1 como aviso.\r\n\nAVISO DE
-      RISCO: A falha em tomar a medica\xE7\xE3o durante uma crise pode levar a choque
-      sist\xEAmico e parada card\xEDaca. Esta condi\xE7\xE3o pode ser fatal.\r\n_________________________\r\nDra.
-      Helena Costa\r\nPsiquiatra Cl\xEDnica\r\nPsiquiatra Cl\xEDnica"
+      timer de alerta m\xE9dico no seu quarto servir\xE1 como aviso.\r\n\nRECOMENDA\xC7\xD5ES
+      ADICIONAIS:\r\nO paciente demonstra um padr\xE3o de hipervigil\xE2ncia, manifestado
+      pela observa\xE7\xE3o compulsiva de seus vizinhos atrav\xE9s do olho m\xE1gico.
+      Esta a\xE7\xE3o exacerba significativamente seus sintomas de paranoia e pode
+      induzir um epis\xF3dio dissociativo. \xC9 imperativo que o paciente resista
+      a esse impulso para manter sua estabilidade.\r\n\nAVISO DE RISCO: A falha em
+      tomar a medica\xE7\xE3o durante uma crise pode levar a choque sist\xEAmico
+      e parada card\xEDaca. Esta condi\xE7\xE3o pode ser fatal.\r\n__________________________________________________\nDra.
+      Helena Costa\r\nPsiquiatra Cl\xEDnica\r"
     m_Metadata:
       m_Items: []
   - m_Id: 9986369865494528

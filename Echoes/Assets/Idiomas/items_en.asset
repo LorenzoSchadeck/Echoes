@@ -55,58 +55,58 @@ MonoBehaviour:
   - m_Id: 9986011684515840
     m_Localized: 'NEW LEAF MENTAL HEALTH CLINIC
 
-      Helena Costa, M.D.
+      Dr. Helena Costa
 
       Medical
       License No: NY-123456
 
 
+      PSYCHIATRIC EVALUATION
 
-      PSYCHIATRIC REPORT
+      Patient: Ethan
+      Myers
 
-      Patient: Ethan Myers
-
-      Date:
-      09/18/2005
-
+      Date: 09/18/2005
 
 
-      Diagnosis: Post-Traumatic Stress Disorder (PTSD) with severe
-      dissociative symptoms.
+      Diagnosis: Post-Traumatic Stress Disorder
+      (PTSD) with severe dissociative symptoms.
 
-      Symptom Triggers: Patient experiences acute episodes
-      marked by a rapid onset of tunnel vision and hallucinations, leading to memory
-      loss ("blackouts").
+      Symptom Triggers: Patient
+      experiences acute episodes marked by a rapid onset of tunnel vision and hallucinations,
+      resulting in memory loss (''blackouts'').
 
 
       CRITICAL DIRECTIVES:
 
-      At the first sign of
-      symptoms, take one dose of Serenil IMMEDIATELY.
+      At
+      the first sign of symptoms, take one dose of Serenil IMMEDIATELY.
 
-      A medical alert timer
-      in your bedroom will provide a warning.
+      A
+      medical alert timer in your room will serve as a warning.
 
 
-      RISK WARNING: Failure to medicate
-      during an episode can lead to severe system shock and cardiac arrest. This
-      condition can be fatal.
+      ADDITIONAL
+      RECOMMENDATIONS:
 
-      _________________________
+      Patient exhibits a pattern of hypervigilance, manifested
+      by the compulsive observation of his neighbors through the peephole. This action
+      significantly exacerbates his symptoms of paranoia and may induce a dissociative
+      episode. It is imperative that the patient resists this impulse to maintain
+      stability.
 
-      Helena Costa,
-      M.D.
 
-      Clinical Psychiatrist
+      RISK WARNING: Failure to take medication during an episode
+      may lead to systemic shock and cardiac arrest. This condition can be fatal.
 
-      Sincerely,
-
-      _________________________
+      __________________________________________________
 
       Helena
       Costa, M.D.
 
-      Clinical Psychiatrist'
+      Clinical Psychiatrist
+
+      Sincerely,'
     m_Metadata:
       m_Items: []
   - m_Id: 9986369865494528
@@ -213,17 +213,16 @@ MonoBehaviour:
   - m_Id: 10143149086060544
     m_Localized: 'Neighbor,
 
-      
-
-      Apologies for the commotion. I''ve just
-      settled in across the hall. It takes a while to get everything in its proper
-      place.
-
-      I get the feeling we''ll be seeing a lot of each other.
 
 
-      -
-      J.'
+      Apologies for the commotion. I''ve just settled
+      in across the hall. It takes a while to get everything in its proper place.
+
+      I
+      get the feeling we''ll be seeing a lot of each other.
+
+
+      - J.'
     m_Metadata:
       m_Items: []
   - m_Id: 10143144258416640
