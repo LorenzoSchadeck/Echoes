@@ -360,7 +360,6 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-2122583458332249340-6232547438158977167
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-418638248382796547-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-5982376732337805742-0
-        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-75742127-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1673056018-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1191936444-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-270668372036160714-0
@@ -410,6 +409,12 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-722526741-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1274853666-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1892696701-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-4935349387193334655-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1580692484-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-174262802-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-781588566-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-820182978-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1305696518-0
         values:
         - colorIndex: 9
           iconNameOrGuid: BoxCollider Icon
@@ -491,8 +496,6 @@ MonoBehaviour:
           iconNameOrGuid: 
         - colorIndex: 3
           iconNameOrGuid: 
-        - colorIndex: 9
-          iconNameOrGuid: BoxCollider Icon
         - colorIndex: 9
           iconNameOrGuid: BoxCollider Icon
         - colorIndex: 9
@@ -595,5 +598,17 @@ MonoBehaviour:
           iconNameOrGuid: Canvas Icon
         - colorIndex: 9
           iconNameOrGuid: BoxCollider Icon
+        - colorIndex: 9
+          iconNameOrGuid: BoxCollider Icon
+        - colorIndex: 9
+          iconNameOrGuid: BoxCollider Icon
+        - colorIndex: 7
+          iconNameOrGuid: AudioSource Icon
+        - colorIndex: 7
+          iconNameOrGuid: AudioSource Icon
+        - colorIndex: 7
+          iconNameOrGuid: AudioSource Icon
+        - colorIndex: 2
+          iconNameOrGuid: Settings Icon
         - colorIndex: 9
           iconNameOrGuid: BoxCollider Icon

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Localization;
+using FMODUnity;
 
 [RequireComponent(typeof(Collider))]
 public class RemedyPack : MonoBehaviour, IInteractable
@@ -12,6 +13,12 @@ public class RemedyPack : MonoBehaviour, IInteractable
     
     [Header("Remedy Settings")]
     [SerializeField] private int remedyCount = 3;
+
+    [Header("🔊 Audio Settings")]
+    [Tooltip("Evento FMOD tocado quando o remédio é usado")]
+    [SerializeField] private EventReference remedyUseSoundEvent;
+
+
 
     // Monta a string dinamicamente.
     public string InteractionPrompt
@@ -37,6 +44,9 @@ public class RemedyPack : MonoBehaviour, IInteractable
     {
         if (remedyCount > 0)
         {
+            // Toca o som de uso do remédio
+            PlayRemedyUseSound();
+            
             remedyCount--;
             Debug.Log($"Remédio usado do pacote! Restam: {remedyCount}");
             
@@ -48,6 +58,30 @@ public class RemedyPack : MonoBehaviour, IInteractable
         {
             Debug.Log("Não há mais remédios neste pacote!");
             return false;
+        }
+    }
+    
+    /// <summary>
+    /// Toca o som de uso do remédio como áudio 2D (não espacial)
+    /// </summary>
+    private void PlayRemedyUseSound()
+    {
+        if (remedyUseSoundEvent.IsNull) return;
+        
+        try
+        {
+            // Cria uma instância 2D do evento FMOD (não espacial)
+            var remedySoundInstance = RuntimeManager.CreateInstance(remedyUseSoundEvent);
+            
+            // Inicia o som imediatamente (sem posicionamento 3D)
+            remedySoundInstance.start();
+            
+            // Libera a instância automaticamente após tocar
+            remedySoundInstance.release();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[RemedyPack] {name}: Erro ao tocar som de uso do remédio: {e.Message}");
         }
     }
 }

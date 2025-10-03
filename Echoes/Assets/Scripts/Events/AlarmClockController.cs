@@ -22,6 +22,13 @@ public class AlarmClockController : MonoBehaviour
     [SerializeField] private FMODUnity.EventReference alarmEvent;
     [SerializeField] private float blinkInterval = 0.5f;
 
+    [Header("🔊 Audio Spatial Settings")]
+    [Tooltip("Distância mínima onde o volume do alarme é máximo")]
+    [SerializeField, Range(1f, 50f)] private float alarmMinDistance = 5f;
+    
+    [Tooltip("Distância máxima onde o alarme ainda é audível")]
+    [SerializeField, Range(10f, 500f)] private float alarmMaxDistance = 200f;
+
     private FMODAudioTrigger audioTrigger;
     private Coroutine blinkingLightRoutine;
     
@@ -36,6 +43,12 @@ public class AlarmClockController : MonoBehaviour
     {
         audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
         propBlock = new MaterialPropertyBlock();
+        
+        // Configura a range do áudio do alarme usando as variáveis configuráveis
+        if (audioTrigger != null)
+        {
+            audioTrigger.SetSpatialRange(alarmMinDistance, alarmMaxDistance);
+        }
         
         // Armazena o mesh original da barra
         if (sanityBarMeshFilter != null)
@@ -245,6 +258,24 @@ public class AlarmClockController : MonoBehaviour
     }
 
     /// <summary>
+    /// Atualiza as configurações de range espacial do áudio do alarme
+    /// </summary>
+    /// <param name="minDistance">Nova distância mínima</param>
+    /// <param name="maxDistance">Nova distância máxima</param>
+    public void UpdateAlarmAudioRange(float minDistance, float maxDistance)
+    {
+        alarmMinDistance = Mathf.Clamp(minDistance, 1f, 50f);
+        alarmMaxDistance = Mathf.Clamp(maxDistance, 10f, 500f);
+        
+        if (audioTrigger != null)
+        {
+            audioTrigger.SetSpatialRange(alarmMinDistance, alarmMaxDistance);
+        }
+        
+        Debug.Log($"[AlarmClockController] Audio range atualizada: {alarmMinDistance:F1}m - {alarmMaxDistance:F1}m");
+    }
+
+    /// <summary>
     /// Método de teste para verificar diferentes níveis de sanidade.
     /// Remove depois dos testes!
     /// </summary>
@@ -269,4 +300,17 @@ public class AlarmClockController : MonoBehaviour
     
     [ContextMenu("Test Sanity 0%")]
     private void TestSanity0() => TestSanityLevel(0.0f);
+
+    // Métodos de teste para configurações de áudio
+    [ContextMenu("Test Audio - Short Range")]
+    private void TestAudioShortRange() => UpdateAlarmAudioRange(2f, 50f);
+    
+    [ContextMenu("Test Audio - Medium Range")]
+    private void TestAudioMediumRange() => UpdateAlarmAudioRange(5f, 100f);
+    
+    [ContextMenu("Test Audio - Long Range")]
+    private void TestAudioLongRange() => UpdateAlarmAudioRange(5f, 200f);
+    
+    [ContextMenu("Test Audio - Maximum Range")]
+    private void TestAudioMaxRange() => UpdateAlarmAudioRange(10f, 500f);
 }

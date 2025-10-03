@@ -180,6 +180,56 @@ MonoBehaviour:
       think it does...
     m_Metadata:
       m_Items: []
+  - m_Id: 10118792422993920
+    m_Localized: 'Ethan,
+
+
+
+      I watch you chasing the shadows, and I almost feel
+      sorry for you. You try so hard to make sense of the chaos, to find a pattern
+      where there is none. Or so you think.
+
+      You write about my work. You analyze
+      it, you judge it. You call it monstrous. But don''t you feel a flicker of pride
+      deep down? A sense of... completion? This is our little secret. Our shared
+      masterpiece.
+
+      They give you pills to quiet the noise, don''t they? To
+      help you forget. But I am not a symptom to be medicated away. I am the truth
+      you''ve been searching for this whole time.
+
+      Stop looking for a monster
+      in the dark. The real mystery is right behind your own eyes.
+
+
+      See you
+      on the next.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10118733295890432
+    m_Localized: Letter From A Friend?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10143149086060544
+    m_Localized: 'Neighbor,
+
+      
+
+      Apologies for the commotion. I''ve just
+      settled in across the hall. It takes a while to get everything in its proper
+      place.
+
+      I get the feeling we''ll be seeing a lot of each other.
+
+
+      -
+      J.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10143144258416640
+    m_Localized: Hello
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

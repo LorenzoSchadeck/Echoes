@@ -138,6 +138,35 @@ MonoBehaviour:
       acho que n\xE3o..."
     m_Metadata:
       m_Items: []
+  - m_Id: 10118792422993920
+    m_Localized: "Ethan,\n\r\nEu observo voc\xEA ca\xE7ando as sombras, e quase sinto
+      pena. Voc\xEA se esfor\xE7a tanto para dar sentido ao caos, para encontrar
+      um padr\xE3o onde n\xE3o existe nenhum. Ou \xE9 o que voc\xEA pensa.\r\nVoc\xEA
+      escreve sobre o meu trabalho. Voc\xEA o analisa, voc\xEA o julga. Voc\xEA o
+      chama de monstruoso. Mas voc\xEA n\xE3o sente uma centelha de orgulho l\xE1
+      no fundo? Uma sensa\xE7\xE3o de... dever cumprido? Este \xE9 o nosso pequeno
+      segredo. A nossa obra-prima compartilhada.\r\nEles te d\xE3o rem\xE9dios para
+      silenciar o barulho, n\xE3o \xE9? Para te ajudar a esquecer. Mas eu n\xE3o
+      sou um sintoma a ser curado com p\xEDlulas. Eu sou a verdade que voc\xEA esteve
+      procurando o tempo todo.\r\nPare de procurar por um monstro no escuro. O verdadeiro
+      mist\xE9rio est\xE1 bem atr\xE1s dos seus pr\xF3prios olhos.\r\n\nA gente se
+      v\xEA na pr\xF3xima."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10118733295890432
+    m_Localized: Carta De Um Amigo?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10143149086060544
+    m_Localized: "Vizinho,\n\r\nPe\xE7o desculpas pela agita\xE7\xE3o. Acabei de
+      me instalar no apartamento da frente. Leva um tempo para colocar tudo no lugar.\r\nTenho
+      a impress\xE3o de que nos veremos muito por a\xED.\r\n\n- J."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10143144258416640
+    m_Localized: "Ol\xE1"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

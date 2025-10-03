@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
+using FMODUnity;
 
 public class FlashbackEffectController : MonoBehaviour
 {
@@ -23,6 +24,13 @@ public class FlashbackEffectController : MonoBehaviour
     [Header("Profile Dependencies")]
     [Tooltip("Referência ao PostProcessingManager para obter valores de perfil.")]
     [SerializeField] private PostProcessingManager postProcessingManager;
+
+    [Header("🔊 Audio Settings")]
+    [Tooltip("Som 2D tocado quando o jogador entra no flashback (duração: 3.0s)")]
+    [SerializeField] private EventReference flashbackEntrySoundEvent;
+    
+    [Tooltip("Som 2D tocado quando o jogador sai do flashback (duração: 3.0s)")]
+    [SerializeField] private EventReference flashbackExitSoundEvent;
 
     private Vector3 originalPlayerPosition;
     private Quaternion originalPlayerRotation;
@@ -64,12 +72,19 @@ public class FlashbackEffectController : MonoBehaviour
         GameObject teleportPoint = GameObject.FindWithTag("FlashbackTeleport");
         if (teleportPoint == null) return;
         
+        // Toca o som de entrada do flashback (2D)
+        PlayFlashbackEntrySound();
+        
         StartAnimation(FlashbackEntryRoutine(teleportPoint.transform));
     }
     
     private void PlayExitAnimation()
     {
         postProcessingManager.StopAllVisualEffects();
+        
+        // Toca o som de saída do flashback (2D)
+        PlayFlashbackExitSound();
+        
         StartAnimation(FlashbackExitRoutine());
     }
     
@@ -77,6 +92,46 @@ public class FlashbackEffectController : MonoBehaviour
     {
         if (activeAnimationCoroutine != null) StopCoroutine(activeAnimationCoroutine);
         activeAnimationCoroutine = StartCoroutine(routine);
+    }
+
+    /// <summary>
+    /// Toca o som 2D de entrada no flashback
+    /// </summary>
+    private void PlayFlashbackEntrySound()
+    {
+        if (flashbackEntrySoundEvent.IsNull) return;
+        
+        try
+        {
+            // Cria uma instância 2D do evento FMOD (não espacial)
+            var entryInstance = RuntimeManager.CreateInstance(flashbackEntrySoundEvent);
+            entryInstance.start();
+            entryInstance.release();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[FlashbackEffectController] Erro ao tocar som de entrada do flashback: {e.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Toca o som 2D de saída do flashback
+    /// </summary>
+    private void PlayFlashbackExitSound()
+    {
+        if (flashbackExitSoundEvent.IsNull) return;
+        
+        try
+        {
+            // Cria uma instância 2D do evento FMOD (não espacial)
+            var exitInstance = RuntimeManager.CreateInstance(flashbackExitSoundEvent);
+            exitInstance.start();
+            exitInstance.release();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[FlashbackEffectController] Erro ao tocar som de saída do flashback: {e.Message}");
+        }
     }
 
     private IEnumerator FlashbackEntryRoutine(Transform teleportDestination)

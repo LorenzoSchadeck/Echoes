@@ -32,6 +32,12 @@ public class DoorController : MonoBehaviour, IInteractable
     [SerializeField] private EventReference closeEvent;
     [SerializeField] private EventReference lockedEvent;
     [SerializeField] private EventReference jammedEvent;
+    
+    [Header("Batida na Porta")]
+    [Tooltip("Som 2D que toca quando alguém bate na porta (disparado pelo rádio)")]
+    [SerializeField] private EventReference doorKnockEvent;
+    [Tooltip("Se deve responder aos eventos de batida na porta")]
+    [SerializeField] private bool respondToDoorKnock = false;
 
     private FMODAudioTrigger audioTrigger;
     private Quaternion initialRotation;
@@ -65,6 +71,22 @@ public class DoorController : MonoBehaviour, IInteractable
             pivot = transform.parent;
         }
         initialRotation = pivot.rotation;
+    }
+
+    private void OnEnable()
+    {
+        if (respondToDoorKnock)
+        {
+            GameEvents.OnDoorKnockTriggered += OnDoorKnockReceived;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (respondToDoorKnock)
+        {
+            GameEvents.OnDoorKnockTriggered -= OnDoorKnockReceived;
+        }
     }
 
     public bool Interact(Transform interactor)
@@ -152,6 +174,19 @@ public class DoorController : MonoBehaviour, IInteractable
         {
             audioTrigger.Stop();
         }
+    }
+
+    /// <summary>
+    /// Responde ao evento de batida na porta disparado pelo rádio
+    /// </summary>
+    private void OnDoorKnockReceived()
+    {
+        if (!respondToDoorKnock || doorKnockEvent.IsNull) return;
+
+        Debug.Log($"DoorController: Recebido evento de batida na porta - {gameObject.name}");
+        
+        // Toca o som de batida na porta como som 2D
+        FMODUnity.RuntimeManager.PlayOneShot(doorKnockEvent);
     }
 
     public void LockDoor() { currentState = DoorState.Locked; }

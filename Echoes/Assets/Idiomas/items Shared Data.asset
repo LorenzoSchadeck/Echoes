@@ -109,6 +109,22 @@ MonoBehaviour:
 '
     m_Metadata:
       m_Items: []
+  - m_Id: 10118733295890432
+    m_Key: ITEM_NAME_LETTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10118792422993920
+    m_Key: ITEM_DESC_LETTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10143144258416640
+    m_Key: ITEM_NAME_HELLO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10143149086060544
+    m_Key: ITEM_DESC_HELLO
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

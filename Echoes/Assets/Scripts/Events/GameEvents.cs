@@ -63,4 +63,12 @@ public static class GameEvents
 
     public static event Action OnAudioPuzzleSolved;
     public static void TriggerAudioPuzzleSolved() => OnAudioPuzzleSolved?.Invoke();
+
+    // Evento para batida na porta (quando Track 1 do rádio é ativada)
+    public static event Action OnDoorKnockTriggered;
+    public static void TriggerDoorKnock() => OnDoorKnockTriggered?.Invoke();
+
+    // Evento para quando a Track 1 do rádio termina (fim do período seguro)
+    public static event Action OnRadioTrack1Completed;
+    public static void TriggerRadioTrack1Completed() => OnRadioTrack1Completed?.Invoke();
 }

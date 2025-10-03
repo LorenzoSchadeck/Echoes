@@ -35,13 +35,39 @@ public class RadioController : MonoBehaviour, IInteractable
     [SerializeField] private GameObject fineDialOutlineObject;
     [SerializeField] private GameObject coarseDialOutlineObject;
 
-    [Header("Sistema de Transmissões")]
-    [SerializeField] private RadioTransmission[] availableTransmissions;
     private FMODAudioTrigger audioTrigger;
-    private Coroutine radioCoroutine;
     private bool isRadioOn = false;
     private bool canInteract = true; // Controla se o rádio pode ser interagido
     [SerializeField] private bool isPuzzleMode = false;
+    
+    [Header("🔊 Sistema de Faixas")]
+    [Tooltip("Primeira faixa - toca na primeira ativação")]
+    [SerializeField] private EventReference track1Event;
+    
+    [Tooltip("Segunda faixa - toca na segunda ativação (modo puzzle)")]
+    [SerializeField] private EventReference track2Event;
+    
+    [Tooltip("Terceira faixa - toca após resolver o puzzle")]
+    [SerializeField] private EventReference track3Event;
+    
+    [Header("⏱️ Durações das Faixas")]
+    [Tooltip("Duração da primeira faixa em segundos")]
+    [SerializeField] private float track1Duration = 30f;
+    
+    [Tooltip("Duração da segunda faixa em segundos")]
+    [SerializeField] private float track2Duration = 25f;
+    
+    [Tooltip("Duração da terceira faixa em segundos")]
+    [SerializeField] private float track3Duration = 20f;
+    
+    [Header("🚪 Evento da Porta")]
+    [Tooltip("Objeto que será habilitado após a primeira ativação")]
+    [SerializeField] private GameObject objectToEnable;
+    
+    // Estado do sistema de faixas
+    private int currentTrack = 0; // 0 = não iniciado, 1 = primeira faixa, 2 = segunda faixa, 3 = terceira faixa
+    private bool isInStaticLoop = false;
+    private bool puzzleSolved = false;
     
     [Header("Debug")]
     [SerializeField] private bool showDebugLogs = true;
@@ -74,8 +100,6 @@ public class RadioController : MonoBehaviour, IInteractable
         inputActions.Player.SwitchDial.performed += OnSwitchDial;
         inputActions.Player.Tune.performed += OnTune;
         inputActions.Player.Interact.performed += OnExitInteraction;
-        GameEvents.OnRadioActivated += OnRadioActivated;
-        GameEvents.OnRadioTransmissionStarted += OnRadioTransmissionStarted;
     }
 
     private void OnDisable()
@@ -83,29 +107,56 @@ public class RadioController : MonoBehaviour, IInteractable
         inputActions.Player.SwitchDial.performed -= OnSwitchDial;
         inputActions.Player.Tune.performed -= OnTune;
         inputActions.Player.Interact.performed -= OnExitInteraction;
-        GameEvents.OnRadioActivated -= OnRadioActivated;
-        GameEvents.OnRadioTransmissionStarted -= OnRadioTransmissionStarted;
     }
 
     public bool Interact(Transform interactor)
     {
-        if (isSolved || !canInteract) return false;
+        if (!canInteract) return false;
 
         playerInteractor = interactor.GetComponent<PlayerInteractor>();
         if (playerInteractor == null) return false;
 
-        // Se não for puzzle, apenas desliga o rádio (se estiver ligado)
-        if (!isPuzzleMode)
+        // Primeira ativação - Faixa 1
+        if (currentTrack == 0)
         {
-            if (isRadioOn)
-            {
-                TurnOffRadio();
-                canInteract = false; // Desabilita interação até próxima transmissão
-            }
+            StartTrack1();
             return true;
         }
 
-        // Modo puzzle: comportamento completo com câmera e controles
+        // Segunda ativação - Faixa 2 (quando Track 1 terminou e está em estática)
+        if (currentTrack == 1 && isInStaticLoop)
+        {
+            StartTrack2();
+            return true;
+        }
+
+        // Se está em estática e não é modo puzzle, pode desligar
+        if (!isPuzzleMode && isInStaticLoop)
+        {
+            TurnOffRadio();
+            canInteract = false;
+            return true;
+        }
+
+        // Se é modo puzzle, entra no modo de resolução
+        if (isPuzzleMode && !puzzleSolved)
+        {
+            return EnterPuzzleMode(interactor);
+        }
+
+        // Se puzzle foi resolvido e está em estática, pode desligar
+        if (puzzleSolved && isInStaticLoop)
+        {
+            TurnOffRadio();
+            canInteract = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool EnterPuzzleMode(Transform interactor)
+    {
         if (isInteracting) return false;
 
         isInteracting = true;
@@ -127,31 +178,181 @@ public class RadioController : MonoBehaviour, IInteractable
         return true;
     }
 
-    // Método chamado pelo GameEvent quando o rádio deve ser ativado (primeira vez)
-    private void OnRadioActivated()
+    #region Track System Methods
+
+    /// <summary>
+    /// Inicia a primeira faixa e toca o evento de batida na porta
+    /// </summary>
+    private void StartTrack1()
     {
-        if (showDebugLogs) Debug.Log($"RadioController: Evento OnRadioActivated recebido! isPuzzleMode: {isPuzzleMode}");
-        if (!isPuzzleMode && availableTransmissions.Length > 0)
+        if (track1Event.IsNull) 
         {
-            if (showDebugLogs) Debug.Log("RadioController: Iniciando primeira transmissão...");
-            StartTransmission(availableTransmissions[0]);
+            Debug.LogWarning("RadioController: Track 1 event não configurado!");
+            return;
         }
+
+        currentTrack = 1;
+        isRadioOn = true;
+        canInteract = false; // Desabilita durante a reprodução
+
+        if (showDebugLogs) Debug.Log("RadioController: Iniciando Track 1");
+
+        // Reproduz a faixa 1 via FMOD
+        audioTrigger.fmodEvent = track1Event;
+        audioTrigger.PlayAtPosition(transform.position);
+
+        // Dispara evento para batida na porta
+        if (showDebugLogs) Debug.Log("RadioController: Disparando evento de batida na porta");
+        GameEvents.TriggerDoorKnock();
+
+        // Ativa o GameObject se configurado
+        if (objectToEnable != null)
+        {
+            if (showDebugLogs) Debug.Log($"RadioController: Ativando objeto {objectToEnable.name}");
+            objectToEnable.SetActive(true);
+        }
+
+        // Inicia corrotina para gerenciar fim da faixa
+        StartCoroutine(SimpleTrackCoroutine(track1Duration, OnTrack1Complete));
     }
 
-    // Método chamado quando uma transmissão específica deve ser iniciada
-    private void OnRadioTransmissionStarted(int transmissionIndex)
+    /// <summary>
+    /// Chamado quando a faixa 1 termina
+    /// </summary>
+    private void OnTrack1Complete()
     {
-        if (showDebugLogs) Debug.Log($"RadioController: Transmissão {transmissionIndex} solicitada!");
+        if (showDebugLogs) Debug.Log("RadioController: Track 1 completa, fim do período seguro!");
         
-        if (transmissionIndex >= 0 && transmissionIndex < availableTransmissions.Length)
-        {
-            StartTransmission(availableTransmissions[transmissionIndex]);
-        }
-        else
-        {
-            Debug.LogWarning($"RadioController: Índice de transmissão inválido: {transmissionIndex}");
-        }
+        // Dispara evento indicando que o período seguro terminou
+        GameEvents.TriggerRadioTrack1Completed();
+        
+        // Entra em loop de estática
+        isInStaticLoop = true;
+        canInteract = true;
+
+        // Reproduz estática de fundo
+        PlayStaticLoop();
     }
+
+    /// <summary>
+    /// Inicia a segunda faixa após segunda ativação
+    /// </summary>
+    private void StartTrack2()
+    {
+        if (track2Event.IsNull) 
+        {
+            Debug.LogWarning("RadioController: Track 2 event não configurado!");
+            return;
+        }
+
+        if (showDebugLogs) Debug.Log("RadioController: Iniciando Track 2");
+
+        currentTrack = 2;
+        isInStaticLoop = false;
+        canInteract = false;
+
+        // Para a estática
+        StopStaticLoop();
+
+        // Reproduz a faixa 2 via FMOD
+        audioTrigger.fmodEvent = track2Event;
+        audioTrigger.PlayAtPosition(transform.position);
+
+        // Inicia corrotina para gerenciar fim da faixa
+        StartCoroutine(SimpleTrackCoroutine(track2Duration, OnTrack2Complete));
+    }
+
+    /// <summary>
+    /// Chamado quando a faixa 2 termina - entra em modo puzzle
+    /// </summary>
+    private void OnTrack2Complete()
+    {
+        if (showDebugLogs) Debug.Log("RadioController: Track 2 completa, ativando modo puzzle");
+        
+        isPuzzleMode = true;
+        isInStaticLoop = true;
+        canInteract = true;
+
+        // Reproduz estática de fundo
+        PlayStaticLoop();
+    }
+
+    /// <summary>
+    /// Inicia a terceira faixa após puzzle resolvido
+    /// </summary>
+    private void StartTrack3()
+    {
+        if (track3Event.IsNull) 
+        {
+            Debug.LogWarning("RadioController: Track 3 event não configurado!");
+            return;
+        }
+
+        if (showDebugLogs) Debug.Log("RadioController: Iniciando Track 3");
+
+        currentTrack = 3;
+        isInStaticLoop = false;
+        canInteract = false;
+        puzzleSolved = true;
+
+        // Para a estática
+        StopStaticLoop();
+
+        // Reproduz a faixa 3 via FMOD
+        audioTrigger.fmodEvent = track3Event;
+        audioTrigger.PlayAtPosition(transform.position);
+
+        // Inicia corrotina para gerenciar fim da faixa
+        StartCoroutine(SimpleTrackCoroutine(track3Duration, OnTrack3Complete));
+    }
+
+    /// <summary>
+    /// Chamado quando a faixa 3 termina
+    /// </summary>
+    private void OnTrack3Complete()
+    {
+        if (showDebugLogs) Debug.Log("RadioController: Track 3 completa, retornando à estática");
+        
+        isInStaticLoop = true;
+        canInteract = true;
+
+        // Reproduz estática de fundo
+        PlayStaticLoop();
+    }
+
+    /// <summary>
+    /// Corrotina simplificada para gerenciar reprodução de faixas
+    /// </summary>
+    private IEnumerator SimpleTrackCoroutine(float duration, System.Action onComplete)
+    {
+        if (onComplete == null) yield break;
+
+        if (showDebugLogs) Debug.Log($"RadioController: Aguardando {duration}s para completar track");
+        
+        yield return new WaitForSeconds(duration);
+
+        onComplete?.Invoke();
+    }
+
+    /// <summary>
+    /// Reproduz loop de estática
+    /// </summary>
+    private void PlayStaticLoop()
+    {
+        if (showDebugLogs) Debug.Log("RadioController: Iniciando loop de estática");
+        // TODO: Implementar reprodução de estática em loop usando FMOD
+    }
+
+    /// <summary>
+    /// Para o loop de estática
+    /// </summary>
+    private void StopStaticLoop()
+    {
+        if (showDebugLogs) Debug.Log("RadioController: Parando loop de estática");
+        // TODO: Implementar parada da estática
+    }
+
+    #endregion
 
     private void ExitInteraction()
     {
@@ -177,32 +378,6 @@ public class RadioController : MonoBehaviour, IInteractable
         if (frequencyDisplayText != null && !isSolved)
             frequencyDisplayText.enabled = false;
     }
-    
-    // --- Sistema Modular de Transmissões ---
-    private void StartTransmission(RadioTransmission transmission)
-    {
-        if (transmission == null)
-        {
-            Debug.LogWarning("RadioController: Transmissão nula!");
-            return;
-        }
-
-        if (isRadioOn)
-        {
-            TurnOffRadio();
-        }
-
-        canInteract = true; // Habilita interação quando uma nova transmissão inicia
-        isRadioOn = true;
-        
-        // Configura o audioTrigger com o evento da transmissão
-        audioTrigger.fmodEvent = transmission.radioEvent;
-        
-        if (showDebugLogs) Debug.Log($"RadioController: Iniciando transmissão '{transmission.transmissionName}'");
-        
-        if (radioCoroutine != null) StopCoroutine(radioCoroutine);
-        radioCoroutine = StartCoroutine(TransmissionRoutine(transmission));
-    }
 
     private void TurnOffRadio()
     {
@@ -211,40 +386,7 @@ public class RadioController : MonoBehaviour, IInteractable
         if (showDebugLogs) Debug.Log("RadioController: Desligando rádio...");
         
         isRadioOn = false;
-        if (radioCoroutine != null)
-        {
-            StopCoroutine(radioCoroutine);
-            radioCoroutine = null;
-        }
         audioTrigger.Stop();
-    }
-
-    // Rotina completa de uma transmissão: startup -> mumble -> estática
-    private IEnumerator TransmissionRoutine(RadioTransmission transmission)
-    {
-        if (showDebugLogs) Debug.Log($"RadioController: Iniciando rotina da transmissão '{transmission.transmissionName}'");
-        
-        // 1. "Startup" - toca completamente antes de começar mumble
-        if (showDebugLogs) Debug.Log($"RadioController: Startup - parâmetro {transmission.startupParameterValue}");
-        audioTrigger.SetParameter(transmission.radioParameter, transmission.startupParameterValue);
-        audioTrigger.PlayAtPosition(transform.position);
-        yield return new WaitForSeconds(transmission.startupDuration);
-
-        // 2. "Mumble" - cada parâmetro toca por 1 segundo completo
-        if (showDebugLogs) Debug.Log($"RadioController: Mumble por {transmission.transmissionDuration}s");
-        float timer = 0f;
-        while (timer < transmission.transmissionDuration)
-        {
-            int mumbleValue = Random.Range(transmission.mumbleMinValue, transmission.mumbleMaxValue + 1);
-            if (showDebugLogs) Debug.Log($"RadioController: Mumble - parâmetro {mumbleValue}");
-            audioTrigger.SetParameterRealTime(transmission.radioParameter, mumbleValue);
-            yield return new WaitForSeconds(transmission.mumbleChangeInterval);
-            timer += transmission.mumbleChangeInterval;
-        }
-
-        // 3. "Estática" - permanece até o player desligar
-        if (showDebugLogs) Debug.Log($"RadioController: Estática - parâmetro {transmission.staticParameterValue}");
-        audioTrigger.SetParameterRealTime(transmission.radioParameter, transmission.staticParameterValue);
     }
 
     private void OnExitInteraction(InputAction.CallbackContext context)
@@ -366,16 +508,19 @@ public class RadioController : MonoBehaviour, IInteractable
         if (IsFrequencyCorrect())
         {
             isSolved = true;
-            Debug.Log("Frequência sintonizada corretamente!");
+            puzzleSolved = true;
+            
+            if (showDebugLogs) Debug.Log("RadioController: Frequência sintonizada corretamente! Puzzle resolvido!");
 
-            // Aqui você pode tocar um som de sucesso ou mensagem, se desejar
-            // Exemplo: radioInstance.setParameterByName(radioParameter, <label_sucesso>);
-
+            // Desabilita controles do puzzle
             inputActions.Player.SwitchDial.Disable();
             inputActions.Player.Tune.Disable();
 
-            // FMOD: Não há como saber a duração do evento diretamente, ajuste conforme necessário
-            float exitDelay = 5f;
+            // Inicia a Track 3 após resolver o puzzle
+            StartTrack3();
+
+            // Sai da interação após um delay
+            float exitDelay = 3f;
             Invoke(nameof(ExitInteraction), exitDelay);
         }
     }

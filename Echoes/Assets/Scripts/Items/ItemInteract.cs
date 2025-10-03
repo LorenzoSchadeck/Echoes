@@ -2,8 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Components;
-
+using FMODUnity;
 
 [RequireComponent(typeof(Collider))]
 public class ItemInteract : MonoBehaviour, IInteractable
@@ -28,6 +27,10 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [SerializeField] private float inspectionDistance = 0.8f;
     [SerializeField] private float rotationSpeed = 10f;
 
+    [Header("🔊 Audio Settings")]
+    [Tooltip("Evento FMOD tocado quando o item é inspecionado")]
+    [SerializeField] private EventReference itemPickupSoundEvent;
+
     // Referências privadas
     private Transform cameraTransform;
     private bool isInspecting = false;
@@ -36,6 +39,9 @@ public class ItemInteract : MonoBehaviour, IInteractable
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Transform originalParent;
+    
+    // Sistema de áudio FMOD seguindo padrão do projeto
+    private FMODAudioTrigger audioTrigger;
 
     // Propriedade da Interface: Monta o prompt dinamicamente com os textos localizados
     public string InteractionPrompt
@@ -53,6 +59,32 @@ public class ItemInteract : MonoBehaviour, IInteractable
         }
     }
 
+    private void Start()
+    {
+        // Inicializa o sistema de áudio FMOD seguindo o padrão do projeto
+        InitializeAudioSystem();
+    }
+    
+    /// <summary>
+    /// Inicializa o sistema de áudio FMOD seguindo o padrão estabelecido no projeto
+    /// </summary>
+    private void InitializeAudioSystem()
+    {
+        // Cria o componente FMODAudioTrigger seguindo o padrão dos outros scripts
+        audioTrigger = gameObject.GetComponent<FMODAudioTrigger>();
+        if (audioTrigger == null)
+        {
+            audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
+        }
+        
+        // Configura o evento FMOD se estiver definido
+        if (!itemPickupSoundEvent.IsNull)
+        {
+            audioTrigger.fmodEvent = itemPickupSoundEvent;
+            audioTrigger.playOnStart = false; // Controle manual
+        }
+    }
+
     public bool Interact(Transform interactor)
     {
         if (isInspecting) return false;
@@ -64,11 +96,60 @@ public class ItemInteract : MonoBehaviour, IInteractable
             cameraTransform = playerInteractor.CameraTransform;
             if (cameraTransform != null)
             {
+                // Toca o som de pickup se configurado
+                PlayPickupSound();
+                
                 StartInspection();
                 return true;
             }
         }
         return false;
+    }
+    
+    /// <summary>
+    /// Toca o som de pickup do item usando o sistema FMOD integrado
+    /// </summary>
+    private void PlayPickupSound()
+    {
+        if (itemPickupSoundEvent.IsNull || audioTrigger == null) return;
+        
+        try
+        {
+            // Usa o sistema FMODAudioTrigger para tocar o som na posição do item
+            audioTrigger.PlayAtPosition(transform.position);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[ItemInteract] {name}: Erro ao tocar som de pickup: {e.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Toca o som de soltura do item com delay de 0.5 segundos
+    /// </summary>
+    private void PlayDropSound()
+    {
+        if (itemPickupSoundEvent.IsNull || audioTrigger == null) return;
+        
+        StartCoroutine(PlayDropSoundDelayed());
+    }
+
+    /// <summary>
+    /// Corrotina para tocar o som de soltura com delay
+    /// </summary>
+    private IEnumerator PlayDropSoundDelayed()
+    {
+        yield return new WaitForSeconds(0.2f);
+        
+        try
+        {
+            // Toca o mesmo som na posição original do item
+            audioTrigger.PlayAtPosition(originalPosition);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[ItemInteract] {name}: Erro ao tocar som de soltura: {e.Message}");
+        }
     }
 
     private void Update()
@@ -111,6 +192,9 @@ public class ItemInteract : MonoBehaviour, IInteractable
         if (!isInspecting) return;
         isInspecting = false;
         playerInteractor.SetInspectionMode(false);
+
+        // Toca o som de soltura (com delay de 0.5s)
+        PlayDropSound();
 
         if (activeTransition != null) StopCoroutine(activeTransition);
         activeTransition = StartCoroutine(MoveToTarget(originalPosition, originalRotation, true));

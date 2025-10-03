@@ -28,6 +28,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-7656811021087426562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Whoosh
+  m_EditorClassIdentifier: 
+  Path: event:/Effects/Whoosh
+  Guid:
+    Data1: -676188831
+    Data2: 1175209844
+    Data3: -656068966
+    Data4: 1268363152
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3056
 --- !u!114 &-7619052494944824666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,6 +109,87 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-5391695018967226273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Door_Knock_2
+  m_EditorClassIdentifier: 
+  Path: event:/Effects/Door_Knock_2
+  Guid:
+    Data1: -1304722811
+    Data2: 1215286126
+    Data3: 1249407920
+    Data4: 131157385
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1515
+--- !u!114 &-5202972326211783411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Grab/Pages
+  m_EditorClassIdentifier: 
+  Path: event:/Grab/Pages
+  Guid:
+    Data1: 1245156269
+    Data2: 1239566737
+    Data3: -1431763268
+    Data4: -696832339
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 940
+--- !u!114 &-4247407560513225786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Door_Knock
+  m_EditorClassIdentifier: 
+  Path: event:/Effects/Door_Knock
+  Guid:
+    Data1: -867772689
+    Data2: 1300018464
+    Data3: 1675343783
+    Data4: -1313039469
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1149
 --- !u!114 &-3017828741721620663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,10 +205,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638950406952526341
+  lastModified: 638950564288661347
   FileSizes:
   - Name: Desktop
-    Value: 3483808
+    Value: 2218912
   Exists: 1
 --- !u!114 &-3004535292404850156
 MonoBehaviour:
@@ -128,6 +236,60 @@ MonoBehaviour:
   - Value A
   - Value B
   Exists: 1
+--- !u!114 &-2203614143448505094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Alarm
+  m_EditorClassIdentifier: 
+  Path: event:/Effects/Alarm
+  Guid:
+    Data1: 655201601
+    Data2: 1223913183
+    Data3: -391278439
+    Data4: 1894838044
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 21970
+--- !u!114 &-2151640784507057044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Pills
+  m_EditorClassIdentifier: 
+  Path: event:/Effects/Pills
+  Guid:
+    Data1: -1528780387
+    Data2: 1116907966
+    Data3: 1961609126
+    Data4: -1400051993
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2140
 --- !u!114 &-1157071218279379052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,10 +332,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638950406952556443
+  lastModified: 638950564288696482
   FileSizes:
   - Name: Desktop
-    Value: 1228
+    Value: 1540
   Exists: 1
 --- !u!114 &-114601762871034247
 MonoBehaviour:
@@ -197,7 +359,7 @@ MonoBehaviour:
   - {fileID: -3017828741721620663}
   IsStream: 1
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -226,13 +388,48 @@ MonoBehaviour:
   - {fileID: 6732807126588829607}
   - {fileID: -114601762871034247}
   - {fileID: 2575528354121318786}
+  - {fileID: 4919466455813065443}
+  - {fileID: -5202972326211783411}
+  - {fileID: -2203614143448505094}
+  - {fileID: -7656811021087426562}
+  - {fileID: 132974427429127144}
+  - {fileID: -5391695018967226273}
+  - {fileID: -2151640784507057044}
+  - {fileID: -4247407560513225786}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3017828741721620663}
   StringsBanks:
   - {fileID: -917116490150385184}
-  cacheTime: 638950406952556443
+  cacheTime: 638950564288696482
   cacheVersion: 131632
+--- !u!114 &132974427429127144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Whoosh2
+  m_EditorClassIdentifier: 
+  Path: event:/Effects/Whoosh2
+  Guid:
+    Data1: -403749252
+    Data2: 1131150605
+    Data3: -121045366
+    Data4: 1592828153
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3056
 --- !u!114 &2575528354121318786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,12 +452,11 @@ MonoBehaviour:
   - {fileID: -3017828741721620663}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: 3731681273974522389}
+  IsOneShot: 0
+  Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 137400
 --- !u!114 &3446573080800989767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,7 +485,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &3731681273974522389
+--- !u!114 &4919466455813065443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,21 +494,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Thriller/tension
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Grab/Grab_Drop
   m_EditorClassIdentifier: 
-  Name: tension
-  StudioPath: 
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 1131382624
-    data2: 505942754
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
+  Path: event:/Grab/Grab_Drop
+  Guid:
+    Data1: -971252860
+    Data2: 1207593508
+    Data3: -237867884
+    Data4: -1471691241
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 992
 --- !u!114 &6623980567319386669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +570,7 @@ MonoBehaviour:
   - {fileID: -3017828741721620663}
   IsStream: 1
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20

@@ -8,13 +8,22 @@ public class FlashbackItem : MonoBehaviour, IInteractable
     [Tooltip("Referência à chave do prompt de interação (ex: PROMPT_REMEMBER).")]
     [SerializeField] private LocalizedString interactionPrompt;
     
-    public string InteractionPrompt => interactionPrompt.GetLocalizedString();
+    public string InteractionPrompt => CanInteract() ? interactionPrompt.GetLocalizedString() : string.Empty;
     private bool isActivated = false;
+
+    /// <summary>
+    /// Verifica se a interação com flashback está permitida
+    /// </summary>
+    private bool CanInteract()
+    {
+        // Verifica se ainda não foi ativado e se flashbacks estão permitidos pelo período seguro
+        return !isActivated && SafePeriodManager.IsFlashbackAllowed;
+    }
 
     // Método da interface IInteractable
     public bool Interact(Transform interactor)
     {
-        if (isActivated)
+        if (!CanInteract())
         {
             return false;
         }
