@@ -4,8 +4,8 @@ using UnityEngine.Localization;
 using TMPro;
 
 /// <summary>
-/// Script simples para interação com itens que exibe um texto temporário na tela.
-/// Quando o jogador interage, um TextMeshProUGUI é ativado por um tempo determinado.
+/// Script simples para interação com itens que exibe um texto na tela.
+/// O texto permanece ativo enquanto o jogador estiver em contato com o SimpleItemDisplay.
 /// </summary>
 [RequireComponent(typeof(Collider))]
 public class SimpleItemDisplay : MonoBehaviour, IInteractable
@@ -13,33 +13,51 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
     [Header("Localization Data")]
     [Tooltip("Referência à chave do prompt de interação (ex: PROMPT_READ_ITEM).")]
     [SerializeField] private LocalizedString promptString;
-    [Tooltip("Referência à chave do texto que será exibido temporariamente (ex: ITEM_TEXT_NOTE).")]
+    [Tooltip("Referência à chave do texto que será exibido (ex: ITEM_TEXT_NOTE).")]
     [SerializeField] private LocalizedString displayTextString;
 
+    [Header("Interaction Settings")]
+    [Tooltip("Distância máxima em que este item pode ser interagido")]
+    [SerializeField] private float interactionDistance = 2f;
+    
     [Header("Display Settings")]
     [Tooltip("O TextMeshProUGUI que será ativado para exibir o texto.")]
     [SerializeField] private TextMeshProUGUI displayText;
-    [Tooltip("Tempo em segundos que o texto ficará visível.")]
-    [SerializeField] private float displayDuration = 3f;
     [Tooltip("Se verdadeiro, permite múltiplas interações. Se falso, só pode ser usado uma vez.")]
     [SerializeField] private bool canInteractMultipleTimes = true;
 
     // Controle interno
     private bool hasBeenUsed = false;
-    private Coroutine currentDisplayCoroutine = null;
+    private bool isDisplayActive = false;
+    private bool wasBeingLookedAt = false;
 
-    // Propriedade da Interface
+    // Propriedades da Interface IInteractable
     public string InteractionPrompt
     {
         get
         {
             // Se já foi usado e não pode ser reutilizado, não mostra prompt
             if (hasBeenUsed && !canInteractMultipleTimes)
+            {
+                wasBeingLookedAt = false;
                 return string.Empty;
+            }
 
+            // Se está exibindo texto, detecta se está sendo olhado ou não
+            if (isDisplayActive)
+            {
+                // Se este método está sendo chamado, significa que o jogador está olhando
+                wasBeingLookedAt = true;
+                return string.Empty; // Não mostra prompt para evitar múltiplas interações
+            }
+
+            // Se chegou aqui, o jogador está olhando e pode interagir
+            wasBeingLookedAt = true;
             return promptString?.GetLocalizedString() ?? "Interagir";
         }
     }
+    
+    public float InteractionDistance => interactionDistance;
 
     public bool Interact(Transform interactor)
     {
@@ -48,7 +66,7 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
             return false;
 
         // Verifica se já está exibindo texto
-        if (currentDisplayCoroutine != null)
+        if (isDisplayActive)
             return false;
 
         // Verifica se tem o componente de texto
@@ -67,19 +85,27 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         return true;
     }
 
-    private void ShowDisplayText()
+    private void Update()
     {
-        // Para qualquer corrotina anterior
-        if (currentDisplayCoroutine != null)
+        // Se o texto está ativo, verifica se o jogador parou de olhar
+        if (isDisplayActive)
         {
-            StopCoroutine(currentDisplayCoroutine);
+            // Se na última frame estava sendo olhado, mas agora não está mais
+            if (wasBeingLookedAt)
+            {
+                // Reset o flag para detectar quando parar de ser olhado
+                wasBeingLookedAt = false;
+            }
+            else
+            {
+                // Se o flag ainda está false, significa que InteractionPrompt não foi chamado
+                // ou seja, o jogador não está mais olhando para o objeto
+                HideDisplayText();
+            }
         }
-
-        // Inicia nova exibição
-        currentDisplayCoroutine = StartCoroutine(DisplayTextCoroutine());
     }
 
-    private IEnumerator DisplayTextCoroutine()
+    private void ShowDisplayText()
     {
         // Obtém o texto localizado
         string textToDisplay = displayTextString?.GetLocalizedString() ?? "Texto não configurado";
@@ -87,30 +113,42 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         // Configura e ativa o texto
         displayText.text = textToDisplay;
         displayText.enabled = true;
+        isDisplayActive = true;
 
         // LOG para debug
-        Debug.Log($"Exibindo texto: {textToDisplay} por {displayDuration} segundos", this);
-
-        // Aguarda o tempo especificado
-        yield return new WaitForSeconds(displayDuration);
-
-        // Desativa o texto
-        displayText.enabled = false;
-        currentDisplayCoroutine = null;
+        Debug.Log($"Exibindo texto: {textToDisplay}", this);
     }
 
-    private void OnValidate()
+    /// <summary>
+    /// Esconde o texto quando o jogador não está mais olhando para o objeto
+    /// Chamado automaticamente pelo sistema quando InteractionPrompt retorna string vazia
+    /// </summary>
+    public void HideDisplayText()
     {
-        // Garante que a duração seja positiva
-        if (displayDuration <= 0)
-            displayDuration = 1f;
+        if (!isDisplayActive) return;
+
+        // Desativa o texto
+        if (displayText != null)
+        {
+            displayText.enabled = false;
+        }
+        
+        isDisplayActive = false;
+
+        // Se permite múltiplas interações, marca como não usado para permitir nova interação
+        if (canInteractMultipleTimes)
+        {
+            hasBeenUsed = false;
+        }
+
+        Debug.Log("Texto escondido - jogador não está mais olhando para o objeto", this);
     }
 
     private void Reset()
     {
         // Configurações padrão quando o componente é adicionado
-        displayDuration = 3f;
         canInteractMultipleTimes = true;
+        interactionDistance = 2f;
         
         // Tenta encontrar automaticamente um TextMeshProUGUI no mesmo GameObject
         if (displayText == null)

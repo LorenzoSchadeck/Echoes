@@ -32,6 +32,13 @@ public class FlashbackEffectController : MonoBehaviour
     [Tooltip("Som 2D tocado quando o jogador sai do flashback (duração: 3.0s)")]
     [SerializeField] private EventReference flashbackExitSoundEvent;
 
+    [Header("📦 GameObject Control")]
+    [Tooltip("GameObjects que serão ATIVADOS quando o jogador entrar na lembrança")]
+    [SerializeField] private GameObject[] objectsToActivateInFlashback;
+    
+    [Tooltip("GameObjects que serão DESATIVADOS quando o jogador entrar na lembrança")]
+    [SerializeField] private GameObject[] objectsToDeactivateInFlashback;
+
     private Vector3 originalPlayerPosition;
     private Quaternion originalPlayerRotation;
 
@@ -40,6 +47,10 @@ public class FlashbackEffectController : MonoBehaviour
     private Vignette vignette;
 
     private Coroutine activeAnimationCoroutine;
+    
+    // Controle de estado dos GameObjects
+    private bool[] originalActivateStates;  // Estado original dos objetos que serão ativados
+    private bool[] originalDeactivateStates; // Estado original dos objetos que serão desativados
 
     private void Awake()
     {
@@ -53,6 +64,9 @@ public class FlashbackEffectController : MonoBehaviour
         if (!postProcessVolume.profile.TryGet(out lensDistortion)) Debug.LogWarning("Lens Distortion not found on Volume.");
         if (!postProcessVolume.profile.TryGet(out colorAdjustments)) Debug.LogWarning("Color Adjustments not found on Volume.");
         if (!postProcessVolume.profile.TryGet(out vignette)) Debug.LogWarning("Vignette not found on Volume.");
+        
+        // Inicializa os arrays para controle de GameObjects
+        InitializeGameObjectArrays();
     }
 
     private void OnEnable()
@@ -75,15 +89,23 @@ public class FlashbackEffectController : MonoBehaviour
         // Toca o som de entrada do flashback (2D)
         PlayFlashbackEntrySound();
         
+        // Configura GameObjects para o flashback
+        SetFlashbackGameObjects();
+        
         StartAnimation(FlashbackEntryRoutine(teleportPoint.transform));
     }
     
     private void PlayExitAnimation()
     {
+        // Notifica o PostProcessingManager que a saída do flashback começou
+        postProcessingManager.NotifyFlashbackExitStarted();
         postProcessingManager.StopAllVisualEffects();
         
         // Toca o som de saída do flashback (2D)
         PlayFlashbackExitSound();
+        
+        // Restaura GameObjects ao estado original
+        RestoreOriginalGameObjects();
         
         StartAnimation(FlashbackExitRoutine());
     }
@@ -229,7 +251,112 @@ public class FlashbackEffectController : MonoBehaviour
         colorAdjustments.postExposure.value = targetExposure;
         vignette.intensity.value = targetVignetteIntensity;
 
+        // Notifica o PostProcessingManager que a saída do flashback foi concluída
+        postProcessingManager.NotifyFlashbackExitCompleted();
+
         activeAnimationCoroutine = null;
     }
+
+    #region GameObject Control Methods
+
+    /// <summary>
+    /// Inicializa os arrays para controle de GameObjects, salvando seus estados originais
+    /// </summary>
+    private void InitializeGameObjectArrays()
+    {
+        // Inicializa array para objetos que serão ativados
+        if (objectsToActivateInFlashback != null)
+        {
+            originalActivateStates = new bool[objectsToActivateInFlashback.Length];
+            for (int i = 0; i < objectsToActivateInFlashback.Length; i++)
+            {
+                if (objectsToActivateInFlashback[i] != null)
+                {
+                    originalActivateStates[i] = objectsToActivateInFlashback[i].activeInHierarchy;
+                }
+            }
+        }
+
+        // Inicializa array para objetos que serão desativados
+        if (objectsToDeactivateInFlashback != null)
+        {
+            originalDeactivateStates = new bool[objectsToDeactivateInFlashback.Length];
+            for (int i = 0; i < objectsToDeactivateInFlashback.Length; i++)
+            {
+                if (objectsToDeactivateInFlashback[i] != null)
+                {
+                    originalDeactivateStates[i] = objectsToDeactivateInFlashback[i].activeInHierarchy;
+                }
+            }
+        }
+
+        Debug.Log($"[FlashbackEffectController] Inicializados {originalActivateStates?.Length ?? 0} objetos para ativação e {originalDeactivateStates?.Length ?? 0} objetos para desativação");
+    }
+
+    /// <summary>
+    /// Ativa os objetos configurados para o flashback e desativa os objetos normais
+    /// </summary>
+    private void SetFlashbackGameObjects()
+    {
+        // Ativa objetos do flashback
+        if (objectsToActivateInFlashback != null)
+        {
+            for (int i = 0; i < objectsToActivateInFlashback.Length; i++)
+            {
+                if (objectsToActivateInFlashback[i] != null)
+                {
+                    objectsToActivateInFlashback[i].SetActive(true);
+                    Debug.Log($"[FlashbackEffectController] Ativado objeto: {objectsToActivateInFlashback[i].name}");
+                }
+            }
+        }
+
+        // Desativa objetos normais
+        if (objectsToDeactivateInFlashback != null)
+        {
+            for (int i = 0; i < objectsToDeactivateInFlashback.Length; i++)
+            {
+                if (objectsToDeactivateInFlashback[i] != null)
+                {
+                    objectsToDeactivateInFlashback[i].SetActive(false);
+                    Debug.Log($"[FlashbackEffectController] Desativado objeto: {objectsToDeactivateInFlashback[i].name}");
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Restaura o estado original de todos os GameObjects controlados
+    /// </summary>
+    private void RestoreOriginalGameObjects()
+    {
+        // Restaura objetos que foram ativados no flashback
+        if (objectsToActivateInFlashback != null && originalActivateStates != null)
+        {
+            for (int i = 0; i < objectsToActivateInFlashback.Length; i++)
+            {
+                if (objectsToActivateInFlashback[i] != null && i < originalActivateStates.Length)
+                {
+                    objectsToActivateInFlashback[i].SetActive(originalActivateStates[i]);
+                    Debug.Log($"[FlashbackEffectController] Restaurado objeto: {objectsToActivateInFlashback[i].name} para {originalActivateStates[i]}");
+                }
+            }
+        }
+
+        // Restaura objetos que foram desativados no flashback
+        if (objectsToDeactivateInFlashback != null && originalDeactivateStates != null)
+        {
+            for (int i = 0; i < objectsToDeactivateInFlashback.Length; i++)
+            {
+                if (objectsToDeactivateInFlashback[i] != null && i < originalDeactivateStates.Length)
+                {
+                    objectsToDeactivateInFlashback[i].SetActive(originalDeactivateStates[i]);
+                    Debug.Log($"[FlashbackEffectController] Restaurado objeto: {objectsToDeactivateInFlashback[i].name} para {originalDeactivateStates[i]}");
+                }
+            }
+        }
+    }
+
+    #endregion
 
 }

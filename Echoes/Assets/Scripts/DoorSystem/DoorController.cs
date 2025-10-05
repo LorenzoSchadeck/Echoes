@@ -6,6 +6,10 @@ public class DoorController : MonoBehaviour, IInteractable
 {
     public enum DoorState { Unlocked, Locked, Jammed }
 
+    [Header("Interaction Settings")]
+    [Tooltip("Distância máxima em que esta porta pode ser interagida")]
+    [SerializeField] private float interactionDistance = 3f;
+    
     [Header("State Settings")]
     [SerializeField] private DoorState currentState = DoorState.Unlocked;
 
@@ -61,6 +65,8 @@ public class DoorController : MonoBehaviour, IInteractable
             }
         }
     }
+    
+    public float InteractionDistance => interactionDistance;
 
     private void Awake()
     {
@@ -185,8 +191,17 @@ public class DoorController : MonoBehaviour, IInteractable
 
         Debug.Log($"DoorController: Recebido evento de batida na porta - {gameObject.name}");
         
-        // Toca o som de batida na porta como som 2D
-        FMODUnity.RuntimeManager.PlayOneShot(doorKnockEvent);
+        // Toca o som de batida na porta com range de 70m
+        FMOD.Studio.EventInstance knockInstance = FMODUnity.RuntimeManager.CreateInstance(doorKnockEvent);
+        
+        if (knockInstance.isValid())
+        {
+            // Define posição 3D e range máximo de 70m
+            knockInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
+            knockInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, 70f);
+            knockInstance.start();
+            knockInstance.release(); // Libera automaticamente quando terminar
+        }
     }
 
     public void LockDoor() { currentState = DoorState.Locked; }

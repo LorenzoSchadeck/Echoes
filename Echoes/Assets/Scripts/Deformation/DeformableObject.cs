@@ -12,20 +12,12 @@ namespace Echoes.Deformation
         [Header("🎯 Deformation Configuration")]
         [SerializeField] private DeformableObjectConfig configuration = new DeformableObjectConfig();
         
-        [Header("🔧 Performance")]
-        [Tooltip("Distância máxima para aplicar deformação (otimização)")]
-        [SerializeField] private float maxDeformationDistance = 50f;
-        
-        [Tooltip("Usar LOD baseado em distância")]
-        [SerializeField] private bool useLOD = true;
-        
-        [Header("🐛 Debug")]
+        [Header(" Debug")]
         [SerializeField] private bool showDebugInfo = false;
         
         // Componentes cacheados
         private Renderer cachedRenderer;
         private Transform cachedTransform;
-        private Camera playerCamera;
         
         // Estado
         private bool isRegistered = false;
@@ -58,10 +50,6 @@ namespace Echoes.Deformation
         {
             if (showDebugInfo)
             {
-                // Mostra raio de deformação
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(transform.position, maxDeformationDistance);
-                
                 // Indica tipo de deformação
                 Gizmos.color = configuration.allowMeshDeformation ? Color.red : Color.gray;
                 Gizmos.DrawWireCube(transform.position + Vector3.up, Vector3.one * 0.5f);
@@ -77,9 +65,6 @@ namespace Echoes.Deformation
         
         private void InitializeObject()
         {
-            // Encontra a câmera do jogador para cálculos de distância
-            playerCamera = Camera.main ?? FindFirstObjectByType<Camera>();
-            
             // Valida configuração
             ValidateConfiguration();
             
@@ -158,27 +143,7 @@ namespace Echoes.Deformation
             return cachedRenderer;
         }
         
-        /// <summary>
-        /// Verifica se o objeto está dentro da distância de deformação
-        /// </summary>
-        public bool IsWithinDeformationRange()
-        {
-            if (playerCamera == null) return true;
-            
-            float distance = Vector3.Distance(cachedTransform.position, playerCamera.transform.position);
-            return distance <= maxDeformationDistance;
-        }
-        
-        /// <summary>
-        /// Obtém o fator LOD baseado na distância (0 = longe, 1 = perto)
-        /// </summary>
-        public float GetLODFactor()
-        {
-            if (!useLOD || playerCamera == null) return 1f;
-            
-            float distance = Vector3.Distance(cachedTransform.position, playerCamera.transform.position);
-            return Mathf.Clamp01(1f - (distance / maxDeformationDistance));
-        }
+
         
         /// <summary>
         /// Define nova configuração de deformação
@@ -260,9 +225,6 @@ namespace Echoes.Deformation
         [Range(0f, 3f)] public float textureIntensityMultiplier = 1f;
         
         [Header("⚙️ Advanced Settings")]
-        [Tooltip("Prioridade deste objeto (maior = processado primeiro)")]
-        [Range(0, 10)] public int priority = 5;
-        
         [Tooltip("Usar interpolação suave nas transições")]
         public bool useSmoothTransitions = true;
     }

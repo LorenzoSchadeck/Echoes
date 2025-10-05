@@ -36,6 +36,8 @@ public class ShaderInsanityController : MonoBehaviour
         InsanityManager.OnSanityChanged += HandleSanityChange;
         GameEvents.OnRemedyUsed += HandleRemedyUsed;
         GameEvents.OnDeathSequenceCancelled += HandleRemedyUsed;
+        GameEvents.OnFlashbackStarted += HandleFlashbackStarted;
+        GameEvents.OnFlashbackEnded += HandleFlashbackEnded;
     }
 
     private void OnDisable()
@@ -43,6 +45,8 @@ public class ShaderInsanityController : MonoBehaviour
         InsanityManager.OnSanityChanged -= HandleSanityChange;
         GameEvents.OnRemedyUsed -= HandleRemedyUsed;
         GameEvents.OnDeathSequenceCancelled -= HandleRemedyUsed;
+        GameEvents.OnFlashbackStarted -= HandleFlashbackStarted;
+        GameEvents.OnFlashbackEnded -= HandleFlashbackEnded;
     }
 
     private void Update()
@@ -66,11 +70,21 @@ public class ShaderInsanityController : MonoBehaviour
     // Função chamada pelo evento. Apenas atualiza o valor alvo.
     private void HandleSanityChange(float newSanity)
     {
+        // Durante transição de remédio, ignora mudanças de sanidade para não interferir na transição suave
+        if (isRemedyTransitionActive)
+        {
+            if (enableDebugLogs)
+            {
+                Debug.Log($"[ShaderInsanityController] ❌ Sanity change to {newSanity:F2} BLOCKED - remedy transition active");
+            }
+            return;
+        }
+        
         currentSanity = newSanity;
         
         if (enableDebugLogs)
         {
-            Debug.Log($"[ShaderInsanityController] Sanity changed to {newSanity:F2}");
+            Debug.Log($"[ShaderInsanityController] ✅ Sanity changed to {newSanity:F2}");
         }
     }
     
@@ -79,6 +93,13 @@ public class ShaderInsanityController : MonoBehaviour
         if (enableDebugLogs)
         {
             Debug.Log($"[ShaderInsanityController] Remedy used - starting smooth transition");
+        }
+        
+        // IMPORTANTE: Ativa a flag IMEDIATAMENTE para bloquear mudanças de sanidade
+        isRemedyTransitionActive = true;
+        if (enableDebugLogs)
+        {
+            Debug.Log($"[ShaderInsanityController] 🔒 Remedy transition flag activated - blocking sanity changes");
         }
         
         // Para qualquer transição anterior
@@ -91,9 +112,33 @@ public class ShaderInsanityController : MonoBehaviour
         remedyTransitionCoroutine = StartCoroutine(RemedyTransitionRoutine());
     }
     
+    private void HandleFlashbackStarted()
+    {
+        // Durante flashback, reseta imediatamente para estado limpo
+        if (materialInstance != null)
+        {
+            materialInstance.SetFloat(InsanityLevelID, 0f);
+        }
+        
+        if (enableDebugLogs)
+        {
+            Debug.Log($"[ShaderInsanityController] Flashback started - shader reset to clean state");
+        }
+    }
+    
+    private void HandleFlashbackEnded()
+    {
+        // Quando sai do flashback, força atualização baseada na sanidade atual
+        // A sanidade já foi resetada para 1.0 pelo InsanityManager
+        if (enableDebugLogs)
+        {
+            Debug.Log($"[ShaderInsanityController] Flashback ended - resuming normal shader behavior");
+        }
+    }
+    
     private IEnumerator RemedyTransitionRoutine()
     {
-        isRemedyTransitionActive = true;
+        // A flag isRemedyTransitionActive já foi ativada em HandleRemedyUsed
         
         float startInsanityLevel = currentInsanityLevel;
         float targetInsanityLevel = 0f; // Estado limpo

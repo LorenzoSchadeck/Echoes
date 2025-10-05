@@ -11,6 +11,10 @@ public class RemedyPack : MonoBehaviour, IInteractable
     [Tooltip("Referência à chave para o prompt de 'vazio'.")]
     [SerializeField] private LocalizedString emptyPrompt;
     
+    [Header("Interaction Settings")]
+    [Tooltip("Distância máxima em que este item pode ser interagido")]
+    [SerializeField] private float interactionDistance = 2.5f;
+    
     [Header("Remedy Settings")]
     [SerializeField] private int remedyCount = 3;
 
@@ -39,6 +43,8 @@ public class RemedyPack : MonoBehaviour, IInteractable
             }
         }
     }
+    
+    public float InteractionDistance => interactionDistance;
 
     public bool Interact(Transform interactor)
     {

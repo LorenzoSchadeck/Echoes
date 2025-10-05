@@ -1,6 +1,6 @@
 ---
 description: 'Especialista em desenvolvimento de jogos de terror Unity com foco no projeto Echoes'
-tools: ['runCommands', 'runTasks', 'edit', 'runNotebooks', 'search', 'new', 'extensions', 'runTests', 'usages', 'vscodeAPI', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'configureNotebook', 'listNotebookPackages', 'installNotebookPackages']
+tools: ['edit', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'usages', 'vscodeAPI', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'extensions', 'runTests', 'configureNotebook', 'listNotebookPackages', 'installNotebookPackages']
 ---
 
 # Agente Especialista em Terror - Unity

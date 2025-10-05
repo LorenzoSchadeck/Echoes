@@ -23,13 +23,36 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [Tooltip("O campo de texto para a descrição do item. DEVE ter o componente 'Localize String Event'.")]
     [SerializeField] private TMPro.TextMeshProUGUI itemDescriptionText;
 
+    [Header("Interaction Settings")]
+    [Tooltip("Distância máxima em que este item pode ser interagido")]
+    [SerializeField] private float interactionDistance = 2.5f;
+    
     [Header("Inspection Settings")]
     [SerializeField] private float inspectionDistance = 0.8f;
     [SerializeField] private float rotationSpeed = 10f;
+    [Tooltip("Rotação adicional aplicada APÓS orientar o item para a câmera. Use para corrigir orientação (ex: 0,180,0 para virar de cabeça para baixo).")]
+    [SerializeField] private Vector3 customInspectionRotation = Vector3.zero;
+    [Tooltip("Se deve aplicar a rotação customizada adicional após orientar para a câmera")]
+    [SerializeField] private bool useCustomRotation = false;
 
     [Header("🔊 Audio Settings")]
     [Tooltip("Evento FMOD tocado quando o item é inspecionado")]
     [SerializeField] private EventReference itemPickupSoundEvent;
+    
+    [Header("📻 Radio Trigger Settings")]
+    [Tooltip("Se este item deve disparar eventos do rádio quando inspecionado")]
+    [SerializeField] private bool triggerRadioEvents = false;
+    [Tooltip("Tipo de trigger do rádio a ser disparado")]
+    [SerializeField] private RadioTriggerType radioTriggerType = RadioTriggerType.None;
+    [Tooltip("Se deve disparar apenas uma vez")]
+    [SerializeField] private bool triggerOnlyOnce = true;
+    
+    public enum RadioTriggerType
+    {
+        None,           // Não dispara eventos do rádio
+        FirstTrigger,   // Dispara OnRadioFirstTrigger (liga rádio primeira vez)
+        PaperTrigger    // Dispara OnRadioPaperTrigger (ativa modo puzzle)
+    }
 
     // Referências privadas
     private Transform cameraTransform;
@@ -42,8 +65,11 @@ public class ItemInteract : MonoBehaviour, IInteractable
     
     // Sistema de áudio FMOD seguindo padrão do projeto
     private FMODAudioTrigger audioTrigger;
+    
+    // Controle de trigger do rádio
+    private bool hasTriggeredRadio = false;
 
-    // Propriedade da Interface: Monta o prompt dinamicamente com os textos localizados
+    // Propriedades da Interface IInteractable
     public string InteractionPrompt
     {
         get
@@ -58,6 +84,8 @@ public class ItemInteract : MonoBehaviour, IInteractable
             return promptTemplate.Replace("{itemName}", localizedItemName);
         }
     }
+    
+    public float InteractionDistance => interactionDistance;
 
     private void Start()
     {
@@ -99,6 +127,9 @@ public class ItemInteract : MonoBehaviour, IInteractable
                 // Toca o som de pickup se configurado
                 PlayPickupSound();
                 
+                // Dispara eventos do rádio se configurado
+                TriggerRadioEvent();
+                
                 StartInspection();
                 return true;
             }
@@ -121,6 +152,70 @@ public class ItemInteract : MonoBehaviour, IInteractable
         catch (System.Exception e)
         {
             Debug.LogWarning($"[ItemInteract] {name}: Erro ao tocar som de pickup: {e.Message}");
+        }
+    }
+    
+    /// <summary>
+    /// Dispara eventos do rádio baseado na configuração
+    /// </summary>
+    private void TriggerRadioEvent()
+    {
+        Debug.Log($"[ItemInteract] {name}: TriggerRadioEvent chamado - triggerRadioEvents: {triggerRadioEvents}, radioTriggerType: {radioTriggerType}");
+        
+        // Verifica se deve disparar eventos do rádio
+        if (!triggerRadioEvents || radioTriggerType == RadioTriggerType.None) 
+        {
+            Debug.Log($"[ItemInteract] {name}: Não disparando evento - triggerRadioEvents: {triggerRadioEvents}, radioTriggerType: {radioTriggerType}");
+            return;
+        }
+        
+        // Verifica se já disparou e deve disparar apenas uma vez
+        if (triggerOnlyOnce && hasTriggeredRadio) 
+        {
+            Debug.Log($"[ItemInteract] {name}: Evento já foi disparado e triggerOnlyOnce está ativo");
+            return;
+        }
+        
+        Debug.Log($"[ItemInteract] {name}: Disparando evento do rádio tipo {radioTriggerType}");
+        
+        // Marca como disparado
+        hasTriggeredRadio = true;
+        
+        // Dispara o evento baseado no tipo
+        switch (radioTriggerType)
+        {
+            case RadioTriggerType.FirstTrigger:
+                GameEvents.TriggerRadioFirstTrigger();
+                Debug.Log($"[ItemInteract] {name}: Disparando OnRadioFirstTrigger - rádio liga primeira vez");
+                break;
+                
+            case RadioTriggerType.PaperTrigger:
+                // Para PaperTrigger, usa o componente RadioPaperTrigger se existir
+                RadioPaperTrigger paperTrigger = GetComponent<RadioPaperTrigger>();
+                if (paperTrigger != null && paperTrigger.CanTrigger())
+                {
+                    bool success = paperTrigger.TriggerRadioPaperEvent();
+                    if (success)
+                    {
+                        Debug.Log($"[ItemInteract] {name}: Usando RadioPaperTrigger para disparar evento do papel");
+                        // Note: hasTriggeredRadio será marcado apenas quando o RadioController confirmar sucesso
+                        // Por isso, resetamos aqui para permitir novas tentativas até o sucesso
+                        hasTriggeredRadio = false;
+                    }
+                    else
+                    {
+                        hasTriggeredRadio = false; // Permite tentar novamente
+                        Debug.Log($"[ItemInteract] {name}: RadioPaperTrigger não pôde ser disparado - condições não atendidas");
+                    }
+                }
+                else
+                {
+                    // Fallback: dispara diretamente se não houver componente RadioPaperTrigger
+                    GameEvents.TriggerRadioPaperTrigger();
+                    Debug.Log($"[ItemInteract] {name}: Disparando OnRadioPaperTrigger diretamente (fallback)");
+                    hasTriggeredRadio = false; // Permite tentar novamente até confirmar sucesso
+                }
+                break;
         }
     }
 
@@ -179,7 +274,22 @@ public class ItemInteract : MonoBehaviour, IInteractable
         GetComponent<Collider>().enabled = false;
 
         Vector3 inspectionPosition = cameraTransform.position + cameraTransform.forward * inspectionDistance;
-        Quaternion inspectionRotation = cameraTransform.rotation * Quaternion.Euler(0, 180, 0);
+        Quaternion inspectionRotation;
+        
+        // Define a rotação baseada na configuração
+        if (useCustomRotation)
+        {
+            // Combina a orientação da câmera com a rotação customizada
+            // Primeiro orienta para a câmera, depois aplica a rotação customizada
+            Quaternion cameraOrientation = cameraTransform.rotation * Quaternion.Euler(0, 180, 0);
+            Quaternion customOffset = Quaternion.Euler(customInspectionRotation);
+            inspectionRotation = cameraOrientation * customOffset;
+        }
+        else
+        {
+            // Usa a orientação padrão baseada na câmera
+            inspectionRotation = cameraTransform.rotation * Quaternion.Euler(0, 180, 0);
+        }
 
         if (activeTransition != null) StopCoroutine(activeTransition);
         activeTransition = StartCoroutine(MoveToTarget(inspectionPosition, inspectionRotation));
@@ -258,5 +368,81 @@ public class ItemInteract : MonoBehaviour, IInteractable
         
         transform.Rotate(cameraTransform.up, -rotationX, Space.World);
         transform.Rotate(cameraTransform.right, rotationY, Space.World);
+    }
+    
+    /// <summary>
+    /// Verifica se este ItemInteract é do tipo PaperTrigger
+    /// </summary>
+    public bool IsPaperTrigger()
+    {
+        return triggerRadioEvents && radioTriggerType == RadioTriggerType.PaperTrigger;
+    }
+
+    /// <summary>
+    /// Marca o trigger do rádio como utilizado com sucesso (chamado pelo RadioController)
+    /// </summary>
+    public void MarkRadioTriggerAsUsed()
+    {
+        hasTriggeredRadio = true;
+        Debug.Log($"[ItemInteract] {name}: Radio trigger marcado como utilizado com sucesso pelo RadioController");
+    }
+
+    /// <summary>
+    /// Reseta o trigger do rádio para permitir nova ativação (útil para debug/testes)
+    /// </summary>
+    [ContextMenu("Reset Radio Trigger")]
+    public void ResetRadioTrigger()
+    {
+        hasTriggeredRadio = false;
+        Debug.Log($"[ItemInteract] {name}: Radio trigger resetado");
+    }
+    
+    /// <summary>
+    /// Captura a diferença entre a rotação atual e a orientação da câmera como offset customizado
+    /// </summary>
+    [ContextMenu("Capture Current Rotation as Custom Offset")]
+    public void CaptureCurrentRotationAsCustomOffset()
+    {
+        if (cameraTransform != null)
+        {
+            // Calcula o offset necessário para atingir a rotação atual a partir da orientação da câmera
+            Quaternion cameraOrientation = cameraTransform.rotation * Quaternion.Euler(0, 180, 0);
+            Quaternion currentRotation = transform.rotation;
+            Quaternion offset = Quaternion.Inverse(cameraOrientation) * currentRotation;
+            customInspectionRotation = offset.eulerAngles;
+            useCustomRotation = true;
+            Debug.Log($"[ItemInteract] {name}: Offset de rotação capturado: {customInspectionRotation}");
+        }
+        else
+        {
+            Debug.LogWarning($"[ItemInteract] {name}: Câmera não encontrada. Execute durante o modo de inspeção ou após interagir uma vez.");
+        }
+    }
+    
+    /// <summary>
+    /// Define orientações pré-definidas comuns para facilitar a configuração
+    /// </summary>
+    [ContextMenu("Set No Additional Rotation")]
+    public void SetNoAdditionalRotation()
+    {
+        customInspectionRotation = Vector3.zero;
+        useCustomRotation = false;
+        Debug.Log($"[ItemInteract] {name}: Sem rotação adicional - apenas orientação da câmera");
+    }
+    
+    [ContextMenu("Set Flip Vertically (180° on Y)")]
+    public void SetFlipVertically()
+    {
+        customInspectionRotation = new Vector3(0, 180, 0);
+        useCustomRotation = true;
+        Debug.Log($"[ItemInteract] {name}: Configurado para virar verticalmente (0,180,0)");
+    }
+    
+    [ContextMenu("Set Flip Horizontally (180° on Z)")]
+    public void SetFlipHorizontally()
+    {
+        customInspectionRotation = new Vector3(0, 0, 180);
+        useCustomRotation = true;
+        Debug.Log($"[ItemInteract] {name}: Configurado para virar horizontalmente (0,0,180)");
     }
 }

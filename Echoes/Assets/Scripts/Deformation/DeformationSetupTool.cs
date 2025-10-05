@@ -199,7 +199,6 @@ namespace Echoes.Deformation.Utils
                 allowTextureDeformation = false,
                 meshIntensityMultiplier = 1f,
                 textureIntensityMultiplier = 0f,
-                priority = 5,
                 useSmoothTransitions = true
             };
             
@@ -218,7 +217,6 @@ namespace Echoes.Deformation.Utils
                 allowTextureDeformation = true,
                 meshIntensityMultiplier = 0f,
                 textureIntensityMultiplier = 1f,
-                priority = 5,
                 useSmoothTransitions = true
             };
             
@@ -237,7 +235,6 @@ namespace Echoes.Deformation.Utils
                 allowTextureDeformation = true,
                 meshIntensityMultiplier = 1f,
                 textureIntensityMultiplier = 1f,
-                priority = 5,
                 useSmoothTransitions = true
             };
             
@@ -256,7 +253,6 @@ namespace Echoes.Deformation.Utils
                 allowTextureDeformation = true,
                 meshIntensityMultiplier = 0.5f,
                 textureIntensityMultiplier = 0.7f,
-                priority = 3,
                 useSmoothTransitions = false
             };
             

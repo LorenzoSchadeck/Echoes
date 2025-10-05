@@ -4,11 +4,17 @@ using UnityEngine.Localization;
 [RequireComponent(typeof(Collider))]
 public class FlashbackItem : MonoBehaviour, IInteractable
 {
+    [Header("Interaction Settings")]
+    [Tooltip("Distância máxima em que este flashback pode ser interagido")]
+    [SerializeField] private float interactionDistance = 2f;
+    
     [Header("Localization")]
     [Tooltip("Referência à chave do prompt de interação (ex: PROMPT_REMEMBER).")]
     [SerializeField] private LocalizedString interactionPrompt;
     
     public string InteractionPrompt => CanInteract() ? interactionPrompt.GetLocalizedString() : string.Empty;
+    public float InteractionDistance => interactionDistance;
+    
     private bool isActivated = false;
 
     /// <summary>

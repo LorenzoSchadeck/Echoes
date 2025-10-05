@@ -71,4 +71,16 @@ public static class GameEvents
     // Evento para quando a Track 1 do rádio termina (fim do período seguro)
     public static event Action OnRadioTrack1Completed;
     public static void TriggerRadioTrack1Completed() => OnRadioTrack1Completed?.Invoke();
+
+    // Evento para quando a Track 2 do rádio é desligada (libera lembranças)
+    public static event Action OnRadioTrack2Completed;
+    public static void TriggerRadioTrack2Completed() => OnRadioTrack2Completed?.Invoke();
+
+    // Evento para ativação inicial do rádio via trigger
+    public static event Action OnRadioFirstTrigger;
+    public static void TriggerRadioFirstTrigger() => OnRadioFirstTrigger?.Invoke();
+
+    // Evento para ativação da segunda faixa via papel
+    public static event Action OnRadioPaperTrigger;
+    public static void TriggerRadioPaperTrigger() => OnRadioPaperTrigger?.Invoke();
 }

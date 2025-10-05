@@ -6,7 +6,8 @@ using Unity.Cinemachine;
 public class PlayerInteractor : MonoBehaviour
 {
     [Header("Interaction Settings")]
-    [SerializeField] private float interactDistance = 3f;
+    [Tooltip("Distância máxima de detecção (usado como limite superior - objetos definem suas próprias distâncias)")]
+    [SerializeField] private float interactDistance = 12f;
     [SerializeField] private LayerMask interactLayer;
     [SerializeField] private Transform cameraTransform;
 
@@ -109,30 +110,39 @@ public class PlayerInteractor : MonoBehaviour
     private void CheckForInteractable()
     {
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        
+        // Primeiro fazemos um raycast mais amplo para detectar objetos interativos
         if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, interactLayer))
         {
             if (hit.collider.TryGetComponent(out IInteractable interactable))
             {
-                // Se estamos mirando em um objeto novo, definimos como o atual
-                if (interactable != currentInteractable)
+                // Verifica se estamos dentro da distância específica do objeto
+                float objectDistance = interactable.InteractionDistance;
+                float actualDistance = Vector3.Distance(cameraTransform.position, hit.point);
+                
+                if (actualDistance <= objectDistance)
                 {
-                    currentInteractable = interactable;
-                }
+                    // Se estamos mirando em um objeto novo, definimos como o atual
+                    if (interactable != currentInteractable)
+                    {
+                        currentInteractable = interactable;
+                    }
 
-                // AGORA, a cada frame que olhamos para um item,
-                // pegamos a string do prompt atual.
-                string newPrompt = currentInteractable.InteractionPrompt;
+                    // AGORA, a cada frame que olhamos para um item,
+                    // pegamos a string do prompt atual.
+                    string newPrompt = currentInteractable.InteractionPrompt;
 
-                // Só atualizamos a UI se o texto mudou ou se a UI estava desligada.
-                if (!interactionText.enabled || interactionText.text != newPrompt)
-                {
-                    UpdateInteractionUI(true, newPrompt);
+                    // Só atualizamos a UI se o texto mudou ou se a UI estava desligada.
+                    if (!interactionText.enabled || interactionText.text != newPrompt)
+                    {
+                        UpdateInteractionUI(true, newPrompt);
+                    }
+                    return;
                 }
-                return;
             }
         }
 
-        // Se não acertou nada, limpamos tudo
+        // Se não acertou nada ou está fora da distância específica, limpamos tudo
         if (currentInteractable != null)
         {
             currentInteractable = null;

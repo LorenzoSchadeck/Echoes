@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Gerencia o período seguro do jogo, desabilitando o FlashbackEffectController
-/// até que a Track 1 do rádio termine, bloqueando teleportes para flashback
-/// e oferecendo ao jogador um início sem pressão.
+/// até que a Track 2 do rádio termine, bloqueando teleportes para flashback
+/// e oferecendo ao jogador um início sem pressão durante todo o processo inicial do rádio.
 /// </summary>
 public class SafePeriodManager : MonoBehaviour
 {
@@ -71,7 +71,7 @@ public class SafePeriodManager : MonoBehaviour
         
         if (showDebugLogs)
         {
-            Debug.Log("SafePeriodManager: Iniciando período seguro - FlashbackItems serão desabilitados até Track 1 terminar");
+            Debug.Log("SafePeriodManager: Iniciando período seguro - FlashbackItems serão desabilitados até Track 2 terminar");
         }
         
         StartSafePeriod();
@@ -81,7 +81,8 @@ public class SafePeriodManager : MonoBehaviour
     {
         if (enableSafePeriod)
         {
-            GameEvents.OnRadioTrack1Completed += EndSafePeriod;
+            // Mudança no fluxo: agora escuta Track 2 ao invés de Track 1
+            GameEvents.OnRadioTrack2Completed += EndSafePeriod;
         }
     }
 
@@ -89,7 +90,7 @@ public class SafePeriodManager : MonoBehaviour
     {
         if (enableSafePeriod)
         {
-            GameEvents.OnRadioTrack1Completed -= EndSafePeriod;
+            GameEvents.OnRadioTrack2Completed -= EndSafePeriod;
         }
     }
 
@@ -142,7 +143,7 @@ public class SafePeriodManager : MonoBehaviour
             if (showDebugLogs)
             {
                 Debug.Log($"SafePeriodManager: FlashbackEffectController '{flashbackEffectController.gameObject.name}' FORÇADAMENTE desabilitado (enabled = false)");
-                Debug.Log($"SafePeriodManager: ✅ PERÍODO SEGURO ATIVO - Flashbacks bloqueados (teleporte + interação) até Track 1 terminar");
+                Debug.Log($"SafePeriodManager: ✅ PERÍODO SEGURO ATIVO - Flashbacks bloqueados (teleporte + interação) até Track 2 terminar");
             }
         }
         else

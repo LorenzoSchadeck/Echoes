@@ -184,7 +184,6 @@ MonoBehaviour:
     m_Localized: 'Ethan,
 
 
-
       I watch you chasing the shadows, and I almost feel
       sorry for you. You try so hard to make sense of the chaos, to find a pattern
       where there is none. Or so you think.
@@ -214,7 +213,6 @@ MonoBehaviour:
     m_Localized: 'Neighbor,
 
 
-
       Apologies for the commotion. I''ve just settled
       in across the hall. It takes a while to get everything in its proper place.
 
@@ -226,7 +224,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10143144258416640
-    m_Localized: Hello
+    m_Localized: Letter
     m_Metadata:
       m_Items: []
   references:

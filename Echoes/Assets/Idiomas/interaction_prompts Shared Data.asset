@@ -67,6 +67,18 @@ MonoBehaviour:
     m_Key: PROMPT_TURN_OFF
     m_Metadata:
       m_Items: []
+  - m_Id: 10400116614475776
+    m_Key: PROMPT_OPEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10400191927398400
+    m_Key: PROMPT_CLOSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10777992547381248
+    m_Key: PROMPT_BLOCKED
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -42,6 +42,11 @@ public class PostProcessingManager : MonoBehaviour
     private bool hasLensDistortionOverride = false;
     private float overrideLensDistortionIntensity = 0f;
     private float overrideLensDistortionScale = 1f;
+    
+    // Sistema de coordenação flashback-remédio
+    private bool isFlashbackExitInProgress = false;
+    private bool hasPendingRemedyTransition = false;
+    private bool isRemedyTransitionActive = false;
 
     private void Awake()
     {
@@ -63,13 +68,18 @@ public class PostProcessingManager : MonoBehaviour
 
     private void Update()
     {
-        if (activeVisualEffectCoroutine == null)
+        // Não aplica mudanças automáticas durante transições ativas ou de remédio
+        if (activeVisualEffectCoroutine == null && !isRemedyTransitionActive)
         {
             // Calcula o 't' (0 a 1) para a interpolação com base no limiar.
             float t = Mathf.InverseLerp(visualEffectStartThreshold, 0f, currentSanity);
 
             // Usa o 't' calculado para aplicar a mistura dos perfis.
             ApplyBlendedProfile(t);
+        }
+        else if (isRemedyTransitionActive && Time.frameCount % 60 == 0) // Log a cada segundo aprox
+        {
+            Debug.Log($"[PostProcessingManager] 🔒 Update blocked - remedy transition active (sanity: {currentSanity:F2})");
         }
     }
 
@@ -93,15 +103,32 @@ public class PostProcessingManager : MonoBehaviour
 
     private void HandleInsanityChange(float newInsanityValue)
     {
+        // Durante transição de remédio, ignora mudanças de sanidade para não interferir na transição suave
+        if (isRemedyTransitionActive)
+        {
+            Debug.Log($"[PostProcessingManager] ❌ Sanity change to {newInsanityValue:F2} BLOCKED - remedy transition active");
+            return;
+        }
+        
+        // Sempre atualiza a sanidade interna
+        float previousSanity = currentSanity;
+        currentSanity = newInsanityValue;
+        
+        // Se não há transição ativa, permite que o Update() aplique as mudanças
         if (activeVisualEffectCoroutine == null)
         {
-            currentSanity = newInsanityValue;
+            Debug.Log($"[PostProcessingManager] ✅ Sanity updated: {previousSanity:F2} → {newInsanityValue:F2} - applying blend");
+        }
+        else
+        {
+            Debug.Log($"[PostProcessingManager] ⏳ Sanity updated: {previousSanity:F2} → {newInsanityValue:F2} - transition active, stored for later");
         }
     }
 
     /// <summary>
     /// Interrompe qualquer coroutine de efeito visual que esteja em andamento.
     /// Chamado por controladores externos (como o FlashbackEffectController) para assumir a prioridade.
+    /// NOTA: Este método NÃO remove overrides de lente - eles devem ser removidos explicitamente.
     /// </summary>
     public void StopAllVisualEffects()
     {
@@ -110,12 +137,73 @@ public class PostProcessingManager : MonoBehaviour
             StopCoroutine(activeVisualEffectCoroutine);
             activeVisualEffectCoroutine = null;
         }
+        
+        // Reset da flag de transição de remédio se necessário
+        if (isRemedyTransitionActive)
+        {
+            isRemedyTransitionActive = false;
+            Debug.Log("[PostProcessingManager] Remedy transition flag reset due to StopAllVisualEffects");
+        }
+    }
+    
+    /// <summary>
+    /// Marca que uma saída de flashback está em progresso.
+    /// Usado para coordenar com transições de remédio pendentes.
+    /// </summary>
+    public void NotifyFlashbackExitStarted()
+    {
+        isFlashbackExitInProgress = true;
+        Debug.Log("[PostProcessingManager] Flashback exit started - coordinating with remedy system");
+    }
+    
+    /// <summary>
+    /// Marca que uma saída de flashback foi concluída.
+    /// Se houver uma transição de remédio pendente, ela será executada agora.
+    /// </summary>
+    public void NotifyFlashbackExitCompleted()
+    {
+        isFlashbackExitInProgress = false;
+        Debug.Log("[PostProcessingManager] Flashback exit completed");
+        
+        // Se há uma transição de remédio pendente, executa agora
+        if (hasPendingRemedyTransition)
+        {
+            hasPendingRemedyTransition = false;
+            
+            // IMPORTANTE: Ativa a flag antes da transição
+            isRemedyTransitionActive = true;
+            Debug.Log("[PostProcessingManager] Remedy transition flag activated for pending transition");
+            
+            Debug.Log("[PostProcessingManager] Executing pending remedy transition");
+            StartVisualEffect(SmoothRemedyTransitionRoutine());
+        }
     }
 
     // --- Disparadores de Efeitos ---
     private void OnFlashbackStarted() => StartVisualEffect(TransitionToProfileRoutine(flashbackProfile, stateTransitionDuration));
     private void OnFlashbackEnded() => StartVisualEffect(TransitionToProfileRoutine(saneProfile, stateTransitionDuration));
-    private void OnDeathSequenceCancelled() => StartVisualEffect(TransitionToProfileRoutine(saneProfile, remedyTransitionDuration));
+    private void OnDeathSequenceCancelled() 
+    {
+        Debug.Log("[PostProcessingManager] Death sequence cancelled - remedy used");
+        
+        // Se uma saída de flashback está em progresso, agenda a transição de remédio para depois
+        if (isFlashbackExitInProgress)
+        {
+            hasPendingRemedyTransition = true;
+            Debug.Log("[PostProcessingManager] Remedy transition scheduled after flashback exit");
+        }
+        else
+        {
+            // IMPORTANTE: Marca imediatamente que a transição de remédio começou
+            // para bloquear mudanças de sanidade que possam interferir
+            isRemedyTransitionActive = true;
+            Debug.Log("[PostProcessingManager] Remedy transition flag activated - blocking sanity changes");
+            
+            // Executa transição suave para o perfil são
+            Debug.Log("[PostProcessingManager] Starting remedy transition to sane profile");
+            StartVisualEffect(SmoothRemedyTransitionRoutine());
+        }
+    }
     private void OnDeathSequenceStarted(float duration) => StartVisualEffect(DeathEffectRoutine(duration));
 
     // --- Gerenciador e Coroutines ---
@@ -173,12 +261,35 @@ public class PostProcessingManager : MonoBehaviour
             yield return null;
         }
 
-        // Garante o estado final e ressincroniza com o InsanityManager.
-        ApplyBlendedProfile(0f); // Garante que o visual fique 100% no perfil de destino (são/flashback)
-        currentSanity = 1.0f;  // Sincroniza o valor interno para o estado "são"
+        // Garante o estado final preciso
+        vignette.intensity.value = targetProfile.vignetteIntensity;
+        bloom.intensity.value = targetProfile.bloomIntensity;
+        bloom.threshold.value = targetProfile.bloomThreshold;
+        chromaticAberration.intensity.value = targetProfile.chromaticAberrationIntensity;
+        lensDistortion.intensity.value = targetProfile.lensDistortionIntensity;
+        lensDistortion.scale.value = targetProfile.lensDistortionScale;
+        colorAdjustments.postExposure.value = targetProfile.postExposure;
+        colorAdjustments.contrast.value = targetProfile.contrast;
+        colorAdjustments.colorFilter.value = targetProfile.colorFilter;
+        colorAdjustments.hueShift.value = targetProfile.hueShift;
+        colorAdjustments.saturation.value = targetProfile.saturation;
+
+        // Atualiza perfis para o novo estado
+        if (targetProfile == saneProfile)
+        {
+            currentBaseProfile = saneProfile;
+            currentInsanityProfile = insaneProfile;
+            currentSanity = 1.0f; // Sincroniza apenas se for transição para são
+        }
+        else if (targetProfile == flashbackProfile)
+        {
+            currentBaseProfile = flashbackProfile;
+            currentInsanityProfile = insaneProfile;
+            currentSanity = 1.0f; // No flashback também reseta a sanidade
+        }
 
         activeVisualEffectCoroutine = null;
-        Debug.Log("Transição concluída.");
+        Debug.Log($"Transição para {targetProfile.name} concluída.");
     }
 
     private IEnumerator DeathEffectRoutine(float duration)
@@ -200,6 +311,89 @@ public class PostProcessingManager : MonoBehaviour
         
         if (colorAdjustments != null) { colorAdjustments.saturation.value = -100f; colorAdjustments.postExposure.value = targetExposure; }
         if (vignette != null) vignette.intensity.value = 1f;
+    }
+
+    private IEnumerator SmoothRemedyTransitionRoutine()
+    {
+        Debug.Log("[PostProcessingManager] Starting smooth remedy transition");
+        
+        // A flag isRemedyTransitionActive já foi ativada em OnDeathSequenceCancelled
+        // Apenas confirma que está ativa para garantir
+        
+        // Captura o estado atual de TODOS os valores
+        float startVignetteIntensity = vignette.intensity.value;
+        float startBloomIntensity = bloom.intensity.value;
+        float startBloomThreshold = bloom.threshold.value;
+        float startChromaIntensity = chromaticAberration.intensity.value;
+        float startLensDistortionIntensity = lensDistortion.intensity.value;
+        float startLensDistortionScale = lensDistortion.scale.value;
+        float startExposure = colorAdjustments.postExposure.value;
+        float startContrast = colorAdjustments.contrast.value;
+        Color startColorFilter = colorAdjustments.colorFilter.value;
+        float startHueShift = colorAdjustments.hueShift.value;
+        float startSaturation = colorAdjustments.saturation.value;
+
+        // Valores alvo do perfil são
+        float targetVignetteIntensity = saneProfile.vignetteIntensity;
+        float targetBloomIntensity = saneProfile.bloomIntensity;
+        float targetBloomThreshold = saneProfile.bloomThreshold;
+        float targetChromaIntensity = saneProfile.chromaticAberrationIntensity;
+        float targetLensDistortionIntensity = saneProfile.lensDistortionIntensity;
+        float targetLensDistortionScale = saneProfile.lensDistortionScale;
+        float targetExposure = saneProfile.postExposure;
+        float targetContrast = saneProfile.contrast;
+        Color targetColorFilter = saneProfile.colorFilter;
+        float targetHueShift = saneProfile.hueShift;
+        float targetSaturation = saneProfile.saturation;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < remedyTransitionDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / remedyTransitionDuration;
+            
+            // Aplicar curva suave
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            // Interpola cada valor suavemente
+            vignette.intensity.value = Mathf.Lerp(startVignetteIntensity, targetVignetteIntensity, t);
+            bloom.intensity.value = Mathf.Lerp(startBloomIntensity, targetBloomIntensity, t);
+            bloom.threshold.value = Mathf.Lerp(startBloomThreshold, targetBloomThreshold, t);
+            chromaticAberration.intensity.value = Mathf.Lerp(startChromaIntensity, targetChromaIntensity, t);
+            lensDistortion.intensity.value = Mathf.Lerp(startLensDistortionIntensity, targetLensDistortionIntensity, t);
+            lensDistortion.scale.value = Mathf.Lerp(startLensDistortionScale, targetLensDistortionScale, t);
+            colorAdjustments.postExposure.value = Mathf.Lerp(startExposure, targetExposure, t);
+            colorAdjustments.contrast.value = Mathf.Lerp(startContrast, targetContrast, t);
+            colorAdjustments.colorFilter.value = Color.Lerp(startColorFilter, targetColorFilter, t);
+            colorAdjustments.hueShift.value = Mathf.Lerp(startHueShift, targetHueShift, t);
+            colorAdjustments.saturation.value = Mathf.Lerp(startSaturation, targetSaturation, t);
+
+            yield return null;
+        }
+
+        // Garante os valores finais exatos
+        vignette.intensity.value = targetVignetteIntensity;
+        bloom.intensity.value = targetBloomIntensity;
+        bloom.threshold.value = targetBloomThreshold;
+        chromaticAberration.intensity.value = targetChromaIntensity;
+        lensDistortion.intensity.value = targetLensDistortionIntensity;
+        lensDistortion.scale.value = targetLensDistortionScale;
+        colorAdjustments.postExposure.value = targetExposure;
+        colorAdjustments.contrast.value = targetContrast;
+        colorAdjustments.colorFilter.value = targetColorFilter;
+        colorAdjustments.hueShift.value = targetHueShift;
+        colorAdjustments.saturation.value = targetSaturation;
+
+        // Atualiza o estado para perfil são
+        currentBaseProfile = saneProfile;
+        currentInsanityProfile = insaneProfile;
+        currentSanity = 1.0f;
+
+        // DESBLOQUEIA mudanças de sanidade após a transição
+        isRemedyTransitionActive = false;
+        
+        activeVisualEffectCoroutine = null;
+        Debug.Log("[PostProcessingManager] Smooth remedy transition completed");
     }
 
     private void ApplyBlendedProfile(float t)
@@ -252,11 +446,49 @@ public class PostProcessingManager : MonoBehaviour
     }
     
     /// <summary>
+    /// Obtém o valor da distorção de lente que deveria estar ativo baseado na sanidade atual,
+    /// considerando se há uma transição visual ativa ou não.
+    /// </summary>
+    public float GetSanityBasedLensDistortionIntensity()
+    {
+        if (currentBaseProfile == null || currentInsanityProfile == null) 
+            return 0f;
+            
+        // Se há uma transição ativa, usa o perfil base atual
+        if (activeVisualEffectCoroutine != null)
+        {
+            return currentBaseProfile.lensDistortionIntensity;
+        }
+        
+        // Calcula baseado na sanidade atual
+        float t = Mathf.InverseLerp(visualEffectStartThreshold, 0f, currentSanity);
+        t = Mathf.Clamp01(t);
+        
+        return Mathf.Lerp(currentBaseProfile.lensDistortionIntensity, currentInsanityProfile.lensDistortionIntensity, t);
+    }
+    
+    /// <summary>
     /// Verifica se há um override ativo na distorção de lente.
     /// </summary>
     public bool HasLensDistortionOverride()
     {
         return hasLensDistortionOverride;
+    }
+    
+    /// <summary>
+    /// Obtém o valor atual da intensidade da distorção de lente.
+    /// </summary>
+    public float GetCurrentLensDistortionIntensity()
+    {
+        return lensDistortion != null ? lensDistortion.intensity.value : 0f;
+    }
+    
+    /// <summary>
+    /// Obtém o valor atual da escala da distorção de lente.
+    /// </summary>
+    public float GetCurrentLensDistortionScale()
+    {
+        return lensDistortion != null ? lensDistortion.scale.value : 1f;
     }
     
     /// <summary>
@@ -279,15 +511,71 @@ public class PostProcessingManager : MonoBehaviour
     }
     
     /// <summary>
+    /// Interpola suavemente a distorção de lente temporária de um valor para outro.
+    /// </summary>
+    /// <param name="startIntensity">Intensidade inicial da distorção</param>
+    /// <param name="targetIntensity">Intensidade alvo da distorção</param>
+    /// <param name="duration">Duração da interpolação em segundos</param>
+    /// <param name="startScale">Escala inicial da distorção</param>
+    /// <param name="targetScale">Escala alvo da distorção</param>
+    /// <returns>Coroutine da interpolação</returns>
+    public IEnumerator InterpolateLensDistortion(float startIntensity, float targetIntensity, float duration, float startScale = 1f, float targetScale = 1f)
+    {
+        if (duration <= 0f) yield break;
+        
+        hasLensDistortionOverride = true;
+        
+        float elapsedTime = 0f;
+        
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+            
+            // Aplica curva suave (ease-in-out)
+            t = Mathf.SmoothStep(0f, 1f, t);
+            
+            // Interpola os valores
+            float currentIntensity = Mathf.Lerp(startIntensity, targetIntensity, t);
+            float currentScale = Mathf.Lerp(startScale, targetScale, t);
+            
+            // Atualiza os valores de override
+            overrideLensDistortionIntensity = Mathf.Clamp(currentIntensity, -1f, 1f);
+            overrideLensDistortionScale = Mathf.Clamp(currentScale, 0.01f, 1f);
+            
+            // Aplica os valores interpolados
+            if (lensDistortion != null)
+            {
+                lensDistortion.intensity.value = overrideLensDistortionIntensity;
+                lensDistortion.scale.value = overrideLensDistortionScale;
+            }
+            
+            yield return null;
+        }
+        
+        // Garante os valores finais exatos
+        overrideLensDistortionIntensity = Mathf.Clamp(targetIntensity, -1f, 1f);
+        overrideLensDistortionScale = Mathf.Clamp(targetScale, 0.01f, 1f);
+        
+        if (lensDistortion != null)
+        {
+            lensDistortion.intensity.value = overrideLensDistortionIntensity;
+            lensDistortion.scale.value = overrideLensDistortionScale;
+        }
+    }
+    
+    /// <summary>
     /// Remove o override da distorção de lente e restaura ao estado baseado na sanidade atual.
     /// </summary>
     public void RestoreLensDistortionToSanityState()
     {
         hasLensDistortionOverride = false;
         
-        if (activeVisualEffectCoroutine == null && currentBaseProfile != null && currentInsanityProfile != null)
+        // Força a aplicação imediata do estado baseado na sanidade
+        if (currentBaseProfile != null && currentInsanityProfile != null)
         {
-            float t = Mathf.InverseLerp(visualEffectStartThreshold, 0f, currentSanity);
+            float t = activeVisualEffectCoroutine == null ? 
+                Mathf.InverseLerp(visualEffectStartThreshold, 0f, currentSanity) : 0f;
             t = Mathf.Clamp01(t);
             
             if (lensDistortion != null)
@@ -296,5 +584,142 @@ public class PostProcessingManager : MonoBehaviour
                 lensDistortion.scale.value = Mathf.Lerp(currentBaseProfile.lensDistortionScale, currentInsanityProfile.lensDistortionScale, t);
             }
         }
+        
+        Debug.Log("Override de distorção de lente removido e estado da sanidade restaurado");
+    }
+
+    /// <summary>
+    /// Força uma transição imediata para o estado são sem animação.
+    /// Usado para debug ou situações de emergência.
+    /// </summary>
+    public void ForceResetToSaneState()
+    {
+        if (activeVisualEffectCoroutine != null)
+        {
+            StopCoroutine(activeVisualEffectCoroutine);
+            activeVisualEffectCoroutine = null;
+        }
+
+        // Reset do estado de transição de remédio
+        isRemedyTransitionActive = false;
+
+        // Aplica valores do perfil são imediatamente
+        if (saneProfile != null)
+        {
+            vignette.intensity.value = saneProfile.vignetteIntensity;
+            bloom.intensity.value = saneProfile.bloomIntensity;
+            bloom.threshold.value = saneProfile.bloomThreshold;
+            chromaticAberration.intensity.value = saneProfile.chromaticAberrationIntensity;
+            lensDistortion.intensity.value = saneProfile.lensDistortionIntensity;
+            lensDistortion.scale.value = saneProfile.lensDistortionScale;
+            colorAdjustments.postExposure.value = saneProfile.postExposure;
+            colorAdjustments.contrast.value = saneProfile.contrast;
+            colorAdjustments.colorFilter.value = saneProfile.colorFilter;
+            colorAdjustments.hueShift.value = saneProfile.hueShift;
+            colorAdjustments.saturation.value = saneProfile.saturation;
+
+            currentBaseProfile = saneProfile;
+            currentInsanityProfile = insaneProfile;
+            currentSanity = 1.0f;
+        }
+
+        // Remove qualquer override de lens distortion
+        hasLensDistortionOverride = false;
+
+        Debug.Log("[PostProcessingManager] FORCE RESET - All values set to sane profile");
+    }
+
+    /// <summary>
+    /// Debug: Mostra o estado atual de todos os componentes de post-processing
+    /// </summary>
+    public void DebugCurrentState()
+    {
+        Debug.Log($"[PostProcessingManager] === CURRENT STATE DEBUG ===");
+        Debug.Log($"Current Sanity: {currentSanity:F3}");
+        Debug.Log($"Active Transition: {(activeVisualEffectCoroutine != null ? "YES" : "NO")}");
+        Debug.Log($"Remedy Transition Active: {isRemedyTransitionActive}");
+        Debug.Log($"Flashback Exit Progress: {isFlashbackExitInProgress}");
+        Debug.Log($"Pending Remedy: {hasPendingRemedyTransition}");
+        Debug.Log($"Base Profile: {(currentBaseProfile != null ? currentBaseProfile.name : "NULL")}");
+        Debug.Log($"Insanity Profile: {(currentInsanityProfile != null ? currentInsanityProfile.name : "NULL")}");
+        
+        if (vignette != null) Debug.Log($"Vignette Intensity: {vignette.intensity.value:F3}");
+        if (bloom != null) Debug.Log($"Bloom Intensity: {bloom.intensity.value:F3}");
+        if (chromaticAberration != null) Debug.Log($"Chromatic Aberration: {chromaticAberration.intensity.value:F3}");
+        if (lensDistortion != null) Debug.Log($"Lens Distortion: {lensDistortion.intensity.value:F3} (Scale: {lensDistortion.scale.value:F3})");
+        if (colorAdjustments != null) 
+        {
+            Debug.Log($"Post Exposure: {colorAdjustments.postExposure.value:F3}");
+            Debug.Log($"Saturation: {colorAdjustments.saturation.value:F3}");
+        }
+        Debug.Log($"=== END DEBUG ===");
+    }
+
+    /// <summary>
+    /// Método de teste para simular uso de remédio fora do flashback
+    /// </summary>
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    public void TestRemedyOutsideFlashback()
+    {
+        Debug.Log("[PostProcessingManager] === TESTING REMEDY OUTSIDE FLASHBACK ===");
+        
+        // Simula sanidade baixa
+        currentSanity = 0.3f;
+        Debug.Log($"Set sanity to {currentSanity}");
+        
+        // Espera um frame para o Update aplicar
+        StartCoroutine(TestRemedySequence());
+    }
+
+    /// <summary>
+    /// Teste específico para verificar se o bloqueio de sanidade está funcionando
+    /// </summary>
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    public void TestSanityBlocking()
+    {
+        Debug.Log("[PostProcessingManager] === TESTING SANITY BLOCKING ===");
+        
+        // Estado inicial
+        currentSanity = 0.2f;
+        DebugCurrentState();
+        
+        // Ativa a flag de remédio
+        isRemedyTransitionActive = true;
+        Debug.Log("🔒 Remedy transition flag activated");
+        
+        // Tenta mudar a sanidade (deve ser bloqueado)
+        HandleInsanityChange(1.0f);
+        
+        // Verifica estado
+        DebugCurrentState();
+        
+        // Desbloqueia
+        isRemedyTransitionActive = false;
+        Debug.Log("🔓 Remedy transition flag deactivated");
+        
+        // Tenta mudar novamente (deve funcionar)
+        HandleInsanityChange(1.0f);
+        
+        // Estado final
+        DebugCurrentState();
+    }
+
+    private IEnumerator TestRemedySequence()
+    {
+        yield return null; // Espera um frame
+        
+        Debug.Log("Current visual state applied, now triggering remedy...");
+        DebugCurrentState();
+        
+        yield return new WaitForSeconds(2f); // Espera 2 segundos para ver o efeito
+        
+        // Simula o uso do remédio
+        Debug.Log("Triggering remedy effect...");
+        OnDeathSequenceCancelled();
+        
+        yield return new WaitForSeconds(remedyTransitionDuration + 1f);
+        
+        Debug.Log("Test complete - final state:");
+        DebugCurrentState();
     }
 }

@@ -4,6 +4,10 @@ using UnityEngine.Localization;
 [RequireComponent(typeof(Collider))]
 public class ChoirSolver : MonoBehaviour, IInteractable
 {
+    [Header("Interaction Settings")]
+    [Tooltip("Distância máxima em que este solver pode ser interagido")]
+    [SerializeField] private float interactionDistance = 2.5f;
+    
     [Header("Localization")]
     [Tooltip("Prompt para quando o puzzle está ATIVO e este item pode ser usado para resolvê-lo.")]
     [SerializeField] private LocalizedString activePrompt;
@@ -31,6 +35,8 @@ public class ChoirSolver : MonoBehaviour, IInteractable
             }
         }
     }
+    
+    public float InteractionDistance => interactionDistance;
 
     public bool Interact(Transform interactor)
     {

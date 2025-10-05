@@ -155,6 +155,16 @@ namespace Echoes.Deformation
         
         private void OnSanityChanged(float newSanity)
         {
+            // Durante transição de remédio, ignora mudanças de sanidade para não interferir na transição suave
+            if (isRemedyTransitionActive)
+            {
+                if (enableDebugLogs)
+                {
+                    Debug.Log($"[DeformationManager] ❌ Sanity change to {newSanity:F2} BLOCKED - remedy transition active");
+                }
+                return;
+            }
+            
             currentSanity = newSanity;
             
             // Sistema de 3 Fases:
@@ -218,6 +228,32 @@ namespace Echoes.Deformation
             {
                 Debug.Log("[DeformationManager] System resumed after flashback");
             }
+            
+            // Se a sanidade foi resetada para 1.0 por um remédio durante o flashback,
+            // força uma transição suave para o estado limpo
+            if (currentSanity >= 1.0f && currentDeformationLevel > 0f)
+            {
+                if (enableDebugLogs)
+                {
+                    Debug.Log("[DeformationManager] Detected remedy effect after flashback - executing clean transition");
+                }
+                
+                // IMPORTANTE: Ativa a flag para bloquear mudanças de sanidade
+                isRemedyTransitionActive = true;
+                if (enableDebugLogs)
+                {
+                    Debug.Log("[DeformationManager] 🔒 Remedy transition flag activated for flashback end transition");
+                }
+                
+                // Para qualquer transição anterior
+                if (remedyTransitionCoroutine != null)
+                {
+                    StopCoroutine(remedyTransitionCoroutine);
+                }
+                
+                // Inicia a transição suave para o estado limpo
+                remedyTransitionCoroutine = StartCoroutine(RemedyTransitionRoutine());
+            }
         }
         
         private void OnRemedyUsed()
@@ -227,10 +263,29 @@ namespace Echoes.Deformation
                 Debug.Log("[DeformationManager] Remedy used - starting smooth transition to clean state");
             }
             
+            // IMPORTANTE: Ativa a flag IMEDIATAMENTE para bloquear mudanças de sanidade
+            isRemedyTransitionActive = true;
+            if (enableDebugLogs)
+            {
+                Debug.Log("[DeformationManager] 🔒 Remedy transition flag activated - blocking sanity changes");
+            }
+            
             // Para qualquer transição anterior
             if (remedyTransitionCoroutine != null)
             {
                 StopCoroutine(remedyTransitionCoroutine);
+            }
+            
+            // Se o sistema está pausado (flashback), agenda a transição para quando sair do flashback
+            if (isSystemPaused)
+            {
+                if (enableDebugLogs)
+                {
+                    Debug.Log("[DeformationManager] System is paused (flashback) - remedy transition will execute after flashback ends");
+                }
+                // A transição será executada automaticamente quando OnFlashbackEnded for chamado
+                // por causa da sincronização da sanidade no InsanityManager
+                return;
             }
             
             // Inicia a transição suave para o estado limpo
@@ -239,7 +294,7 @@ namespace Echoes.Deformation
         
         private IEnumerator RemedyTransitionRoutine()
         {
-            isRemedyTransitionActive = true;
+            // A flag isRemedyTransitionActive já foi ativada em OnRemedyUsed
             
             // Captura os valores atuais de deformação
             float startDeformationLevel = currentDeformationLevel;

@@ -73,6 +73,18 @@ MonoBehaviour:
     m_Localized: (E) Turn Off
     m_Metadata:
       m_Items: []
+  - m_Id: 10400116614475776
+    m_Localized: (E) Open
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10400191927398400
+    m_Localized: (E) Close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10777992547381248
+    m_Localized: Blocked
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

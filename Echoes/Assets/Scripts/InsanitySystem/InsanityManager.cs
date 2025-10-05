@@ -177,19 +177,35 @@ public class InsanityManager : MonoBehaviour
 
         if (remedyCoroutine != null) StopCoroutine(remedyCoroutine);
 
+        // A rotina que gerencia o estado da sanidade sempre roda PRIMEIRO
+        remedyCoroutine = StartCoroutine(RemedyEffectRoutine());
+        
+        // Depois dispara os eventos apropriados com um pequeno delay para garantir ordem
+        StartCoroutine(DelayedRemedyEvents());
+    }
+    
+    private IEnumerator DelayedRemedyEvents()
+    {
+        // PRIMEIRO: Dispara os eventos de cura ANTES de atualizar a sanidade
         // Prioridade: Flashback
         if (isInFlashback)
         {
+            Debug.Log("InsanityManager: Disparando fim de flashback por remédio");
             GameEvents.TriggerFlashbackEnded();
         }
         // Cura no estado normal
         else if (isDeathSequenceActive || currentSanity < 1.0f)
         {
+            Debug.Log("InsanityManager: Disparando cancelamento de sequência de morte por remédio");
             GameEvents.TriggerDeathSequenceCancelled();
         }
+
+        // SEGUNDO: Aguarda para garantir que a transição visual começou
+        yield return new WaitForSeconds(0.1f);
         
-        // A rotina que gerencia o estado da sanidade sempre roda
-        remedyCoroutine = StartCoroutine(RemedyEffectRoutine());
+        // TERCEIRO: Atualiza a sanidade nos dados (sem disparar eventos visuais)
+        UpdateSanityAndDispatchEvent(1.0f);
+        Debug.Log("InsanityManager: Sanidade atualizada para 100% após início da transição visual");
     }
 
     // --- COROUTINE DE CURA CORRIGIDA E FINAL ---
@@ -198,13 +214,7 @@ public class InsanityManager : MonoBehaviour
         // FASE 1: Ações Imediatas
         isSanityDrainPaused = true;
         
-        // AQUI ESTÁ A CORREÇÃO CRÍTICA QUE FALTAVA:
-        // A sanidade é restaurada para 100% nos DADOS.
-        // O PostProcessingManager irá ignorar essa mudança abrupta
-        // e fará sua própria animação suave.
-        CurrentSanity = 1.0f; 
-        
-        Debug.Log("Perda de sanidade PAUSADA. Sanidade resetada para 100%.");
+        Debug.Log("Perda de sanidade PAUSADA. Aguardando transição visual antes de atualizar sanidade...");
 
         // FASE 2: Espera pela duração da pausa
         yield return new WaitForSeconds(sanityDrainPauseDuration);
