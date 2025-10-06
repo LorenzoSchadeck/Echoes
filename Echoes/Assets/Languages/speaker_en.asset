@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: speaker_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 99bc9609f8d23a748a71959a91edeb7b, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 10010603520
+    m_Localized: 'ETHAN:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51660042240
+    m_Localized: 'ANCHOR:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 82236518400
+    m_Localized: 'KILLER:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116378152960
+    m_Localized: 'NEIGHBOR:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1263042146304
+    m_Localized: 'UNKNOWN VOICE:'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

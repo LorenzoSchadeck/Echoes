@@ -476,7 +476,16 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1328629827-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1039238955-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-36397294-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-375657811-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1436838585-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-218657161-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-8439572400637058668-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-6367894917283162990-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-415223328-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1303435471-0
         values:
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon
         - colorIndex: 9
           iconNameOrGuid: BoxCollider Icon
         - colorIndex: 9
@@ -489,9 +498,7 @@ MonoBehaviour:
           iconNameOrGuid: BoxCollider Icon
         - colorIndex: 9
           iconNameOrGuid: BoxCollider Icon
-        - colorIndex: 9
-          iconNameOrGuid: BoxCollider Icon
-        - colorIndex: 2
+        - colorIndex: 6
           iconNameOrGuid: AvatarMask On Icon
         - colorIndex: 3
           iconNameOrGuid: Light Icon
@@ -795,3 +802,17 @@ MonoBehaviour:
           iconNameOrGuid: MeshCollider Icon
         - colorIndex: 6
           iconNameOrGuid: MeshCollider Icon
+        - colorIndex: 2
+          iconNameOrGuid: Settings Icon
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon
+        - colorIndex: 6
+          iconNameOrGuid: MeshCollider Icon
+        - colorIndex: 9
+          iconNameOrGuid: BoxCollider Icon
+        - colorIndex: 9
+          iconNameOrGuid: BoxCollider Icon
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon

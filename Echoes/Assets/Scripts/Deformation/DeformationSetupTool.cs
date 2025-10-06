@@ -147,9 +147,9 @@ namespace Echoes.Deformation.Utils
         
         private bool HasDeformableShader(Renderer renderer)
         {
-            if (renderer == null || renderer.material == null) return false;
+            if (renderer == null || renderer.sharedMaterial == null) return false;
             
-            var material = renderer.material;
+            var material = renderer.sharedMaterial;
             var shaderName = material.shader.name;
             
             // Verifica se usa o shader deformável ou tem propriedades específicas

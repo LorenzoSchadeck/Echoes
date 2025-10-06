@@ -32,7 +32,6 @@ namespace Echoes.Deformation
         [SerializeField] private DeformationValues initialValues = new DeformationValues();
         [SerializeField] private DeformationValues finalValues = new DeformationValues();
         [SerializeField, Range(1f, 60f)] private float updateFrequency = 30f;
-        [SerializeField] private int maxObjectsPerFrame = 20;
         [SerializeField] private bool enableDebugLogs = false;
         [SerializeField] private bool showDebugGUI = false;
         
@@ -376,12 +375,9 @@ namespace Echoes.Deformation
         
         private void UpdateObjectsDeformation()
         {
-            int processedCount = 0;
-            
+            // Processa TODOS os objetos registrados a cada frame (sem limitação)
             for (int i = registeredObjects.Count - 1; i >= 0; i--)
             {
-                if (processedCount >= maxObjectsPerFrame) break;
-                
                 var obj = registeredObjects[i];
                 
                 if (obj == null)
@@ -391,7 +387,6 @@ namespace Echoes.Deformation
                 }
                 
                 UpdateObjectDeformation(obj);
-                processedCount++;
             }
         }
         
@@ -400,7 +395,7 @@ namespace Echoes.Deformation
             var config = deformableObject.GetConfiguration();
             var renderer = deformableObject.GetRenderer();
             
-            if (renderer == null || renderer.material == null) return;
+            if (renderer == null || renderer.sharedMaterial == null) return;
             
             var currentValues = InterpolateValues(currentDeformationLevel);
             ApplyDeformation(renderer, config, currentValues);
@@ -471,12 +466,13 @@ namespace Echoes.Deformation
         
         private void ApplyDeformation(Renderer renderer, DeformableObjectConfig config, DeformationValues values)
         {
-            var material = renderer.material;
+            // ✅ CORREÇÃO: Usa sharedMaterial para evitar criar instâncias
+            var sharedMaterial = renderer.sharedMaterial;
             
-            if (!materialBlocks.TryGetValue(material, out MaterialPropertyBlock propertyBlock))
+            if (!materialBlocks.TryGetValue(sharedMaterial, out MaterialPropertyBlock propertyBlock))
             {
                 propertyBlock = new MaterialPropertyBlock();
-                materialBlocks[material] = propertyBlock;
+                materialBlocks[sharedMaterial] = propertyBlock;
             }
             
             renderer.GetPropertyBlock(propertyBlock);
@@ -515,7 +511,8 @@ namespace Echoes.Deformation
         public string GetSystemStats()
         {
             string remedyStatus = isRemedyTransitionActive ? "Remedy Transition Active" : "Normal";
-            return $"Sanity: {currentSanity:F2} | Deformation: {currentDeformationLevel:F2} | Objects: {registeredObjects.Count} | Paused: {isSystemPaused} | Status: {remedyStatus} | Melting: {(currentSanity <= textureTransitionStartThreshold ? meltingPhase.ToString("F2") : "Inactive")}";
+            string phase = GetCurrentPhase(currentSanity);
+            return $"Sanity: {currentSanity:F2} | Phase: {phase} | Deformation: {currentDeformationLevel:F2} | Objects: {registeredObjects.Count} | Paused: {isSystemPaused} | Status: {remedyStatus} | Melting: {(currentSanity <= textureTransitionStartThreshold ? meltingPhase.ToString("F2") : "Inactive")}";
         }
         
         /// <summary>
@@ -558,6 +555,60 @@ namespace Echoes.Deformation
                     UpdateObjectDeformation(obj);
                 }
             }
+        }
+        
+        /// <summary>
+        /// Lista todos os objetos registrados para debug
+        /// </summary>
+        [ContextMenu("Debug: List All Registered Objects")]
+        public void DebugListAllRegisteredObjects()
+        {
+            Debug.Log($"=== 🎭 DEFORMATION MANAGER - REGISTERED OBJECTS ({registeredObjects.Count}) ===");
+            
+            if (registeredObjects.Count == 0)
+            {
+                Debug.LogWarning("❌ No objects registered! Make sure objects have DeformableObject component and are active.");
+                return;
+            }
+            
+            int activeCount = 0;
+            int validCount = 0;
+            
+            for (int i = 0; i < registeredObjects.Count; i++)
+            {
+                var obj = registeredObjects[i];
+                
+                if (obj == null)
+                {
+                    Debug.Log($"{i + 1:D2}. ❌ NULL OBJECT (will be cleaned up)");
+                    continue;
+                }
+                
+                validCount++;
+                
+                bool isActive = obj.gameObject.activeInHierarchy;
+                if (isActive) activeCount++;
+                
+                var renderer = obj.GetRenderer();
+                var config = obj.GetConfiguration();
+                
+                string materialInfo = "NO MATERIAL";
+                if (renderer?.sharedMaterial != null)
+                {
+                    materialInfo = $"'{renderer.sharedMaterial.name}' ({renderer.sharedMaterial.shader.name})";
+                }
+                
+                string status = isActive ? "✅ ACTIVE" : "⚠️ INACTIVE";
+                
+                Debug.Log($"{i + 1:D2}. {status} '{obj.name}'");
+                Debug.Log($"    🎨 Material: {materialInfo}");
+                Debug.Log($"    ⚙️ Config: Mesh={config.allowMeshDeformation}, Texture={config.allowTextureDeformation}");
+                Debug.Log($"    📍 Position: {obj.transform.position}");
+            }
+            
+            Debug.Log($"📊 Summary: {validCount} valid objects, {activeCount} active, {registeredObjects.Count - validCount} null");
+            Debug.Log($"🎛️ System Status: {GetSystemStats()}");
+            Debug.Log("=== END OBJECT LIST ===");
         }
         
         private void OnGUI()

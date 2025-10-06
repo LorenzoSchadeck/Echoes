@@ -81,7 +81,7 @@ namespace Echoes.Deformation
                 return;
             }
             
-            if (cachedRenderer.material == null)
+            if (cachedRenderer.sharedMaterial == null)
             {
                 Debug.LogError($"[DeformableObject] {name}: Material not found on renderer!");
                 enabled = false;
@@ -89,7 +89,7 @@ namespace Echoes.Deformation
             }
             
             // Verifica se o material suporta as propriedades do shader
-            var material = cachedRenderer.material;
+            var material = cachedRenderer.sharedMaterial;
             if (!material.HasProperty("_DeformStrength") && configuration.allowMeshDeformation)
             {
                 Debug.LogWarning($"[DeformableObject] {name}: Material doesn't have _DeformStrength property for mesh deformation!");
@@ -192,9 +192,9 @@ namespace Echoes.Deformation
         [ContextMenu("Auto Configure Based On Material")]
         private void AutoConfigureBasedOnMaterial()
         {
-            if (cachedRenderer == null || cachedRenderer.material == null) return;
+            if (cachedRenderer == null || cachedRenderer.sharedMaterial == null) return;
             
-            var material = cachedRenderer.material;
+            var material = cachedRenderer.sharedMaterial;
             configuration.allowMeshDeformation = material.HasProperty("_DeformStrength");
             configuration.allowTextureDeformation = material.HasProperty("_InsanityLevel");
             

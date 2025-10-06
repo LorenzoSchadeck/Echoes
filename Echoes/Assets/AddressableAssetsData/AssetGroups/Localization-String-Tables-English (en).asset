@@ -21,6 +21,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 213cbd564e70aab4d8c19285537187d6
+    m_Address: track_1_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 444c8a1a66184804fba532880a16a05f
+    m_Address: track_2_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5eab0d4d35dbdf04aab9538d00c0f701
     m_Address: choir_prompts_en
     m_ReadOnly: 1
@@ -35,6 +47,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a50f50bf7ff914746a789fe8390d391c
     m_Address: interaction_prompts_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1560b022d403c5418010da58101f572
+    m_Address: speaker_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fbddd86eb6bad7e4da1cfbf96f8eccb7
+    m_Address: track_3_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

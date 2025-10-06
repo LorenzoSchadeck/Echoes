@@ -20,8 +20,23 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 127465aa726d437408f1f50df4321569
+    m_Address: Assets/Languages/track_3 Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5373a4b41a2689f448d773f15860e4e2
     m_Address: Assets/Idiomas/items Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5933e423417603f41be254bea44d62b5
+    m_Address: Assets/Languages/track_2 Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a795d790bcfa814ca9a7c445c143efb
+    m_Address: Assets/Languages/Radio_Sub Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -32,6 +47,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 92235af238093414588734b3070b84f1
     m_Address: Assets/Idiomas/interaction_prompts Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99bc9609f8d23a748a71959a91edeb7b
+    m_Address: Assets/Languages/speaker Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

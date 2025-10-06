@@ -15,14 +15,32 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Portuguese (Brazil) (pt-BR)
   m_GUID: e2d38bb6b47350649847d68387f886b9
   m_SerializeEntries:
+  - m_GUID: 1808bec121fd04c408896b66db9b1713
+    m_Address: track_2_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7b2268432ddf95f4c9c2b3acc450c692
     m_Address: choir_prompts_pt-BR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 871fb7bc759d7e04d883443e56121167
+    m_Address: track_1_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 88ca0dd2511fa3244b367cd38c81e6b7
     m_Address: ItemsSubtitles_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cfb3d429687b20f499f5a050ecff0e4d
+    m_Address: track_3_pt-BR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt-BR
@@ -35,6 +53,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d6d2a7466c03ac347a7bfcc7c5c3307d
     m_Address: items_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1903e15726e53d4db2a13483b89da21
+    m_Address: speaker_pt-BR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt-BR

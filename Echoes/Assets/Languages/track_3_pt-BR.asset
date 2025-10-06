@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: track_3_pt-BR
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: pt-BR
+  m_SharedData: {fileID: 11400000, guid: 127465aa726d437408f1f50df4321569, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 4033720320
+    m_Localized: "WZNY Not\xEDcias volta ao ar. Obrigado por sintonizar conosco,
+      Ethan."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 57968275456
+    m_Localized: "A cidade continua em p\xE2nico, mas os piores segredos n\xE3o est\xE3o
+      l\xE1 fora."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73751441408
+    m_Localized: "Eles est\xE3o na sua casa, n\xE3o est\xE3o? Voc\xEA procurou tanto
+      por mim..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 106500567040
+    m_Localized: "Voc\xEA estava t\xE3o perto de entender. O que aconteceu com toda
+      essa clareza, jornalista?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 118030708736
+    m_Localized: "Talvez seus remedinhos tenham cortado a linha de pesquisa... A
+      sua e a da pol\xEDcia."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 141011300352
+    m_Localized: "Mas a verdade \xE9 dif\xEDcil de matar. Est\xE1 misturada nos seus
+      pertences."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 156987404288
+    m_Localized: "Seu vizinho... Ele est\xE1 t\xE3o perto. Ele viu voc\xEA. Ou ser\xE1
+      que era voc\xEA que o estava olhando? Voc\xEA n\xE3o sabe mais quem \xE9 quem."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 170673418240
+    m_Localized: "Ou\xE7a com aten\xE7\xE3o, Ethan. O pr\xF3ximo passo quem dar\xE1
+      s\xE3o os seus ouvidos..."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -161,7 +161,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 2037
+  Length: 2000
 --- !u!114 &-4307123099591143568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 2037
+  Length: 2000
 --- !u!114 &-4247407560513225786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,10 +285,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638952860332111987
+  lastModified: 638953185139150831
   FileSizes:
   - Name: Desktop
-    Value: 3265792
+    Value: 3428992
   Exists: 1
 --- !u!114 &-3004535292404850156
 MonoBehaviour:
@@ -316,6 +316,33 @@ MonoBehaviour:
   - Value A
   - Value B
   Exists: 1
+--- !u!114 &-2632224822797588083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambience/Heartbeat
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ambience/Heartbeat
+  Guid:
+    Data1: -339040087
+    Data2: 1174328883
+    Data3: 932128675
+    Data4: 1082947989
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1267
 --- !u!114 &-2203614143448505094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,10 +466,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638952860332167214
+  lastModified: 638953185139175967
   FileSizes:
   - Name: Desktop
-    Value: 1782
+    Value: 1860
   Exists: 1
 --- !u!114 &-114601762871034247
 MonoBehaviour:
@@ -509,12 +536,14 @@ MonoBehaviour:
   - {fileID: 150830752149382664}
   - {fileID: -4307123099591143568}
   - {fileID: -4637566258369239317}
+  - {fileID: 7588936630576108779}
+  - {fileID: -2632224822797588083}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3017828741721620663}
   StringsBanks:
   - {fileID: -917116490150385184}
-  cacheTime: 638952860332167214
+  cacheTime: 638953185139175967
   cacheVersion: 131632
 --- !u!114 &132974427429127144
 MonoBehaviour:
@@ -706,3 +735,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 21012
+--- !u!114 &7588936630576108779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Falling
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Effects/Falling
+  Guid:
+    Data1: -1472377027
+    Data2: 1149709177
+    Data3: 989504651
+    Data4: 2027396354
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1220

@@ -1,0 +1,242 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa02a4b0fe984048aeeebd336462ce2, type: 3}
+  m_Name: Track 1
+  m_EditorClassIdentifier: Assembly-CSharp::RadioSubtitleData
+  trackName: Track 1
+  trackDuration: 32
+  subtitles:
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 151929073664
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 0
+    duration: 3.5
+    firstTimeOnly: 1
+    useItalic: 0
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 216307445760
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 3.5
+    duration: 4
+    firstTimeOnly: 1
+    useItalic: 0
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 239778770944
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 7.5
+    duration: 4
+    firstTimeOnly: 1
+    useItalic: 0
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 7023348264960
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 11.5
+    duration: 4
+    firstTimeOnly: 1
+    useItalic: 0
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 7046005895168
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 15.5
+    duration: 3.5
+    firstTimeOnly: 1
+    useItalic: 0
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 7069187813376
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 19
+    duration: 3.5
+    firstTimeOnly: 1
+    useItalic: 0
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 7088208982016
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 1263042146304
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 22.5
+    duration: 2.3
+    firstTimeOnly: 1
+    useItalic: 1
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 7106173186048
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 24.8
+    duration: 1.7
+    firstTimeOnly: 1
+    useItalic: 0
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 7125529899008
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 26.5
+    duration: 2.5
+    firstTimeOnly: 1
+    useItalic: 0
+  - subtitleText:
+      m_TableReference:
+        m_TableCollectionName: GUID:8a795d790bcfa814ca9a7c445c143efb
+      m_TableEntryReference:
+        m_KeyId: 7900624695296
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    speakerName:
+      m_TableReference:
+        m_TableCollectionName: GUID:99bc9609f8d23a748a71959a91edeb7b
+      m_TableEntryReference:
+        m_KeyId: 51660042240
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    startTime: 29
+    duration: 1.8
+    firstTimeOnly: 1
+    useItalic: 0
+  startDelay: 1.2
+  maxDuration: 32
+  references:
+    version: 2
+    RefIds: []

@@ -18,7 +18,7 @@ MonoBehaviour:
   bloomThreshold: 0.9
   chromaticAberrationIntensity: 0.25
   tonemappingMode: 2
-  postExposure: 3.9
+  postExposure: 3.8
   contrast: 20
   colorFilter: {r: 0.6, g: 0.76862746, b: 1, a: 1}
   hueShift: -11

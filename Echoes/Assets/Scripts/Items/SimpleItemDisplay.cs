@@ -36,6 +36,13 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
     {
         get
         {
+            // NOVA VERIFICAÇÃO: Se legendas do rádio estão ativas, não mostra prompt
+            if (RadioSubtitleManager.AreRadioSubtitlesActive())
+            {
+                wasBeingLookedAt = false;
+                return string.Empty;
+            }
+            
             // Se já foi usado e não pode ser reutilizado, não mostra prompt
             if (hasBeenUsed && !canInteractMultipleTimes)
             {
@@ -61,6 +68,13 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
 
     public bool Interact(Transform interactor)
     {
+        // NOVA VERIFICAÇÃO: Se legendas do rádio estão ativas, bloqueia interação
+        if (RadioSubtitleManager.AreRadioSubtitlesActive())
+        {
+            Debug.Log($"SimpleItemDisplay: Interação bloqueada - legendas do rádio estão ativas");
+            return false;
+        }
+        
         // Verifica se pode interagir
         if (hasBeenUsed && !canInteractMultipleTimes)
             return false;
@@ -90,6 +104,13 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         // Se o texto está ativo, verifica se o jogador parou de olhar
         if (isDisplayActive)
         {
+            // CORREÇÃO: Não esconde texto se legendas do rádio estão ativas
+            if (RadioSubtitleManager.AreRadioSubtitlesActive())
+            {
+                // Mantém o texto ativo mesmo que o prompt não apareça
+                return;
+            }
+            
             // Se na última frame estava sendo olhado, mas agora não está mais
             if (wasBeingLookedAt)
             {
@@ -110,13 +131,13 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         // Obtém o texto localizado
         string textToDisplay = displayTextString?.GetLocalizedString() ?? "Texto não configurado";
         
-        // Configura e ativa o texto
-        displayText.text = textToDisplay;
+        // ATIVA o componente e configura o texto
         displayText.enabled = true;
+        displayText.text = textToDisplay;
         isDisplayActive = true;
 
         // LOG para debug
-        Debug.Log($"Exibindo texto: {textToDisplay}", this);
+        Debug.Log($"SimpleItemDisplay: Exibindo texto e HABILITANDO componente: {textToDisplay}", this);
     }
 
     /// <summary>
@@ -127,10 +148,11 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
     {
         if (!isDisplayActive) return;
 
-        // Desativa o texto
+        // DESATIVA o componente completamente
         if (displayText != null)
         {
             displayText.enabled = false;
+            displayText.text = "";
         }
         
         isDisplayActive = false;
@@ -141,7 +163,7 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
             hasBeenUsed = false;
         }
 
-        Debug.Log("Texto escondido - jogador não está mais olhando para o objeto", this);
+        Debug.Log("SimpleItemDisplay: Texto escondido e componente DESABILITADO - jogador não está mais olhando", this);
     }
 
     private void Reset()

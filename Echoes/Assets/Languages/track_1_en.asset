@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: track_1_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 8a795d790bcfa814ca9a7c445c143efb, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 151929073664
+    m_Localized: This is WZNY News. We resume our urgent news coverage that has shaken
+      the tranquility of Harrow Creek...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 216307445760
+    m_Localized: Three victims have been confirmed dead in the last week, brutally
+      attacked.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 239778770944
+    m_Localized: Authorities confirm that the pattern of violence and the modus operandi
+      are identical...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7023348264960
+    m_Localized: to the crimes of the infamous "Butcher of Shadow Creek", the serial
+      killer who terrorized the city in the 90s.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7046005895168
+    m_Localized: Police had listed the primary suspect as disappeared or, presumably,
+      deceased, but...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7069187813376
+    m_Localized: ...It appears the ghost has returned to claim new lives.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7088208982016
+    m_Localized: You remember the paper, don't you? The one with the stains.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7106173186048
+    m_Localized: 'The recommendation is clear:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7125529899008
+    m_Localized: Citizens must avoid walking alone after dark. Avoid isolated areas.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7900624695296
+    m_Localized: '*You have to look for it.* Report any suspicious activity, call
+      911.'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

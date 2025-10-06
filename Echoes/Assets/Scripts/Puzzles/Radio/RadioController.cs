@@ -224,6 +224,10 @@ public class RadioController : MonoBehaviour, IInteractable
     [Tooltip("Objeto que será habilitado após a primeira ativação")]
     [SerializeField] private GameObject objectToEnable;
     
+    [Header("📝 Sistema de Legendas")]
+    [Tooltip("Gerenciador de legendas do rádio (opcional)")]
+    [SerializeField] private RadioSubtitleManager subtitleManager;
+    
     // Estado do sistema de faixas - NOVO FLUXO
     public enum RadioState { Off, Track1Playing, Track1Static, Track2Playing, Track2Static, PuzzleMode, Track3Playing }
     private RadioState currentState = RadioState.Off;
@@ -404,9 +408,12 @@ public class RadioController : MonoBehaviour, IInteractable
 
         currentState = RadioState.Track1Playing;
         canInteract = true; // Permite desligar durante reprodução
+        
+        // Verifica se é a primeira vez antes de marcar como tocada
+        bool isFirstTimeTrack1 = !track1HasBeenPlayed;
         track1HasBeenPlayed = true; // Marca que Track 1 foi tocada
 
-        if (showDebugLogs) Debug.Log("RadioController: Iniciando Track 1 - Track 1 marcada como tocada");
+        if (showDebugLogs) Debug.Log($"RadioController: Iniciando Track 1 (primeira vez: {isFirstTimeTrack1}) - Track 1 marcada como tocada");
 
         // Reproduz a faixa 1 via FMOD usando instância direta
         currentEventInstance = FMODUnity.RuntimeManager.CreateInstance(track1Event);
@@ -434,6 +441,18 @@ public class RadioController : MonoBehaviour, IInteractable
         // Marca o tempo de início
         trackStartTime = Time.time;
 
+        // Inicia legendas se o manager estiver configurado
+        if (subtitleManager != null)
+        {
+            if (showDebugLogs) Debug.Log($"RadioController: CHAMANDO StartTrack1Subtitles (primeira vez: {isFirstTimeTrack1})");
+            subtitleManager.StartTrack1Subtitles(isFirstTimeTrack1);
+            if (showDebugLogs) Debug.Log($"RadioController: Legendas da Track 1 iniciadas (primeira vez: {isFirstTimeTrack1})");
+        }
+        else
+        {
+            if (showDebugLogs) Debug.LogWarning("RadioController: ERRO - subtitleManager está NULL! Legendas não serão exibidas!");
+        }
+
         // Inicia corrotina para monitorar fim da faixa
         StartCoroutine(MonitorTrackCompletion(OnTrack1Complete));
     }
@@ -455,6 +474,13 @@ public class RadioController : MonoBehaviour, IInteractable
         // Entra em estática após Track 1
         currentState = RadioState.Track1Static;
         canInteract = true;
+
+        // Para as legendas da Track 1 quando ela termina naturalmente
+        if (subtitleManager != null)
+        {
+            subtitleManager.StopSubtitles();
+            if (showDebugLogs) Debug.Log("RadioController: Legendas da Track 1 paradas (track completa)");
+        }
 
         if (showDebugLogs) Debug.Log($"RadioController: Track 1 encerrada naturalmente - papel ainda não pode ser usado (rádio ainda ligado)");
 
@@ -505,6 +531,18 @@ public class RadioController : MonoBehaviour, IInteractable
         
         // Marca o tempo de início
         trackStartTime = Time.time;
+
+        // Inicia legendas se o manager estiver configurado
+        if (subtitleManager != null)
+        {
+            if (showDebugLogs) Debug.Log("RadioController: CHAMANDO StartTrack2Subtitles (primeira vez: true)");
+            subtitleManager.StartTrack2Subtitles(true);
+            if (showDebugLogs) Debug.Log("RadioController: Legendas da Track 2 iniciadas (primeira vez: true)");
+        }
+        else
+        {
+            if (showDebugLogs) Debug.LogWarning("RadioController: ERRO - subtitleManager está NULL! Legendas Track 2 não serão exibidas!");
+        }
 
         // Inicia corrotina para ativar modo puzzle após 33 segundos
         StartCoroutine(ActivatePuzzleModeAfterDelay());
@@ -650,6 +688,18 @@ public class RadioController : MonoBehaviour, IInteractable
         // Marca o tempo de início
         trackStartTime = Time.time;
 
+        // Inicia legendas se o manager estiver configurado
+        if (subtitleManager != null)
+        {
+            if (showDebugLogs) Debug.Log("RadioController: CHAMANDO StartTrack3Subtitles (primeira vez: true)");
+            subtitleManager.StartTrack3Subtitles(true);
+            if (showDebugLogs) Debug.Log("RadioController: Legendas da Track 3 iniciadas (primeira vez: true)");
+        }
+        else
+        {
+            if (showDebugLogs) Debug.LogWarning("RadioController: ERRO - subtitleManager está NULL! Legendas Track 3 não serão exibidas!");
+        }
+
         // Inicia corrotina para monitorar fim da faixa
         StartCoroutine(MonitorTrackCompletion(OnTrack3Complete));
     }
@@ -665,6 +715,13 @@ public class RadioController : MonoBehaviour, IInteractable
         currentState = RadioState.Off;
         canInteract = false;
         isPuzzleMode = false;
+        
+        // Para as legendas se o manager estiver configurado
+        if (subtitleManager != null)
+        {
+            subtitleManager.StopSubtitles();
+            if (showDebugLogs) Debug.Log("RadioController: Legendas da Track 3 paradas automaticamente");
+        }
         
         // Para todos os áudios
         StopStaticLoop();
@@ -791,6 +848,13 @@ public class RadioController : MonoBehaviour, IInteractable
         
         // Para todas as corrotinas para evitar interferência
         StopAllCoroutines();
+        
+        // Para as legendas se o manager estiver configurado
+        if (subtitleManager != null)
+        {
+            subtitleManager.StopSubtitles();
+            if (showDebugLogs) Debug.Log("RadioController: Legendas paradas");
+        }
         
         // Para todos os áudios
         audioTrigger.Stop();

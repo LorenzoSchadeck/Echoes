@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// Gerencia o período seguro do jogo, desabilitando o FlashbackEffectController
-/// até que a Track 2 do rádio termine, bloqueando teleportes para flashback
-/// e oferecendo ao jogador um início sem pressão durante todo o processo inicial do rádio.
+/// Gerencia o período seguro do jogo, controlando a visibilidade dos GameObjects de lembranças
+/// até que a Track 2 do rádio termine. Durante o período seguro, mantém ativos os objetos
+/// não-interagíveis (lembranças "bloqueadas") e desativa os objetos interagíveis.
+/// Após Track 2 terminar, inverte os estados oferecendo ao jogador acesso às lembranças.
 /// </summary>
 public class SafePeriodManager : MonoBehaviour
 {
@@ -13,13 +14,12 @@ public class SafePeriodManager : MonoBehaviour
     [Tooltip("Se o sistema de período seguro deve estar ativo")]
     [SerializeField] private bool enableSafePeriod = true;
     
-    [Header("Componentes a Controlar")]
-    [Tooltip("FlashbackEffectController que será desabilitado durante o período seguro")]
-    [SerializeField] private FlashbackEffectController flashbackEffectController;
+    [Header("GameObjects das Lembranças")]
+    [Tooltip("GameObjects das lembranças (com script + cosméticos) que serão ATIVADOS quando o SafePeriod terminar")]
+    [SerializeField] private GameObject[] memoryGameObjects;
     
-    [Header("Auto-Discovery")]
-    [Tooltip("Se deve buscar automaticamente o FlashbackEffectController na cena")]
-    [SerializeField] private bool autoFindFlashbackController = true;
+    [Tooltip("GameObjects que representam lembranças não-interagíveis que serão DESATIVADOS quando o SafePeriod terminar")]
+    [SerializeField] private GameObject[] nonInteractableMemoryObjects;
     
     [Header("Debug")]
     [SerializeField] private bool showDebugLogs = true;
@@ -31,6 +31,10 @@ public class SafePeriodManager : MonoBehaviour
     
     // Referência estática para acesso global
     private static SafePeriodManager instance;
+    
+    // Estados originais dos GameObjects para restauração
+    private bool[] originalMemoryObjectsStates;
+    private bool[] originalNonInteractableObjectsStates;
 
     private void Awake()
     {
@@ -47,10 +51,8 @@ public class SafePeriodManager : MonoBehaviour
             return;
         }
 
-        if (autoFindFlashbackController)
-        {
-            FindFlashbackEffectController();
-        }
+        // Salva os estados originais dos GameObjects
+        SaveOriginalGameObjectStates();
     }
 
     private void Start()
@@ -100,33 +102,53 @@ public class SafePeriodManager : MonoBehaviour
         {
             instance = null;
             IsFlashbackAllowed = true; // Libera por segurança quando destruído
+            
+            // Restaura estados originais dos GameObjects por segurança
+            RestoreOriginalGameObjectStates();
         }
     }
 
+
+
     /// <summary>
-    /// Encontra automaticamente o FlashbackEffectController na cena
+    /// Salva os estados originais dos GameObjects para restauração posterior
     /// </summary>
-    private void FindFlashbackEffectController()
+    private void SaveOriginalGameObjectStates()
     {
-        FlashbackEffectController foundController = FindAnyObjectByType<FlashbackEffectController>();
-        flashbackEffectController = foundController;
-        
+        // Salva estados dos GameObjects de lembranças interagíveis
+        if (memoryGameObjects != null)
+        {
+            originalMemoryObjectsStates = new bool[memoryGameObjects.Length];
+            for (int i = 0; i < memoryGameObjects.Length; i++)
+            {
+                if (memoryGameObjects[i] != null)
+                {
+                    originalMemoryObjectsStates[i] = memoryGameObjects[i].activeInHierarchy;
+                }
+            }
+        }
+
+        // Salva estados dos GameObjects de lembranças não-interagíveis
+        if (nonInteractableMemoryObjects != null)
+        {
+            originalNonInteractableObjectsStates = new bool[nonInteractableMemoryObjects.Length];
+            for (int i = 0; i < nonInteractableMemoryObjects.Length; i++)
+            {
+                if (nonInteractableMemoryObjects[i] != null)
+                {
+                    originalNonInteractableObjectsStates[i] = nonInteractableMemoryObjects[i].activeInHierarchy;
+                }
+            }
+        }
+
         if (showDebugLogs)
         {
-            if (flashbackEffectController != null)
-            {
-                Debug.Log($"SafePeriodManager: 🔍 BUSCA AUTOMÁTICA - FlashbackEffectController encontrado: '{flashbackEffectController.gameObject.name}' (enabled: {flashbackEffectController.enabled})");
-            }
-            else
-            {
-                Debug.LogWarning("SafePeriodManager: ⚠️ NENHUM FlashbackEffectController encontrado na busca automática!");
-                Debug.LogWarning("SafePeriodManager: Verifique se há um FlashbackEffectController na cena ou configure manualmente no Inspector");
-            }
+            Debug.Log($"SafePeriodManager: Estados originais salvos - {originalMemoryObjectsStates?.Length ?? 0} objetos de lembrança e {originalNonInteractableObjectsStates?.Length ?? 0} objetos não-interagíveis");
         }
     }
 
     /// <summary>
-    /// Inicia o período seguro desabilitando o FlashbackEffectController
+    /// Inicia o período seguro configurando a visibilidade dos GameObjects de lembranças
     /// </summary>
     private void StartSafePeriod()
     {
@@ -135,29 +157,20 @@ public class SafePeriodManager : MonoBehaviour
         // Define estado global para bloquear interações
         IsFlashbackAllowed = false;
 
-        if (flashbackEffectController != null)
+        // DESATIVA os GameObjects de lembranças interagíveis (ficam ocultos durante SafePeriod)
+        SetMemoryGameObjectsActive(false);
+        
+        // MANTÉM ATIVOS os GameObjects não-interagíveis (representam lembranças bloqueadas)
+        SetNonInteractableMemoryObjectsActive(true);
+        
+        if (showDebugLogs)
         {
-            // Força a desabilitação do FlashbackEffectController
-            flashbackEffectController.enabled = false;
-            
-            if (showDebugLogs)
-            {
-                Debug.Log($"SafePeriodManager: FlashbackEffectController '{flashbackEffectController.gameObject.name}' FORÇADAMENTE desabilitado (enabled = false)");
-                Debug.Log($"SafePeriodManager: ✅ PERÍODO SEGURO ATIVO - Flashbacks bloqueados (teleporte + interação) até Track 2 terminar");
-            }
-        }
-        else
-        {
-            if (showDebugLogs)
-            {
-                Debug.LogWarning("SafePeriodManager: ⚠️ ATENÇÃO - FlashbackEffectController não encontrado!");
-                Debug.LogWarning("SafePeriodManager: Verifique se há um FlashbackEffectController na cena ou configure manualmente no Inspector");
-            }
+            Debug.Log($"SafePeriodManager: ✅ PERÍODO SEGURO ATIVO - Lembranças interagíveis DESATIVADAS e não-interagíveis ATIVAS até Track 2 terminar");
         }
     }
 
     /// <summary>
-    /// Termina o período seguro habilitando o FlashbackEffectController
+    /// Termina o período seguro liberando as lembranças interagíveis
     /// </summary>
     private void EndSafePeriod()
     {
@@ -168,36 +181,34 @@ public class SafePeriodManager : MonoBehaviour
         // Libera estado global para permitir interações
         IsFlashbackAllowed = true;
 
-        if (flashbackEffectController != null)
+        // ATIVA os GameObjects de lembranças interagíveis (tornam-se disponíveis)
+        SetMemoryGameObjectsActive(true);
+        
+        // DESATIVA os GameObjects não-interagíveis (não são mais necessários)
+        SetNonInteractableMemoryObjectsActive(false);
+        
+        if (showDebugLogs)
         {
-            flashbackEffectController.enabled = true;
-            
-            if (showDebugLogs)
-            {
-                Debug.Log($"SafePeriodManager: FlashbackEffectController '{flashbackEffectController.gameObject.name}' HABILITADO (enabled = true)");
-                Debug.Log($"SafePeriodManager: 🎯 PERÍODO SEGURO TERMINADO - Flashbacks liberados (teleporte + interação) agora estão disponíveis!");
-            }
-        }
-        else
-        {
-            if (showDebugLogs)
-            {
-                Debug.LogWarning("SafePeriodManager: ⚠️ FlashbackEffectController não encontrado durante EndSafePeriod!");
-            }
+            Debug.Log($"SafePeriodManager: 🎯 PERÍODO SEGURO TERMINADO - Lembranças interagíveis ATIVADAS e não-interagíveis DESATIVADAS!");
         }
     }
 
     /// <summary>
-    /// Configura manualmente o FlashbackEffectController
+    /// Configura manualmente os GameObjects de lembranças
     /// </summary>
-    public void SetFlashbackEffectController(FlashbackEffectController controller)
+    public void SetMemoryGameObjects(GameObject[] memoryObjects, GameObject[] nonInteractableObjects)
     {
-        flashbackEffectController = controller;
+        memoryGameObjects = memoryObjects;
+        nonInteractableMemoryObjects = nonInteractableObjects;
         
-        // Se estamos no período seguro, desabilita o controller imediatamente
-        if (safePeriodActive && enableSafePeriod && controller != null)
+        // Salva novos estados originais
+        SaveOriginalGameObjectStates();
+        
+        // Se estamos no período seguro, aplica as configurações imediatamente
+        if (safePeriodActive && enableSafePeriod)
         {
-            controller.enabled = false;
+            SetMemoryGameObjectsActive(false);
+            SetNonInteractableMemoryObjectsActive(true);
         }
     }
 
@@ -219,4 +230,90 @@ public class SafePeriodManager : MonoBehaviour
         safePeriodActive = true;
         StartSafePeriod();
     }
+
+    #region GameObject Control Methods
+
+    /// <summary>
+    /// Ativa/desativa os GameObjects de lembranças interagíveis
+    /// </summary>
+    private void SetMemoryGameObjectsActive(bool active)
+    {
+        if (memoryGameObjects == null) return;
+
+        for (int i = 0; i < memoryGameObjects.Length; i++)
+        {
+            if (memoryGameObjects[i] != null)
+            {
+                memoryGameObjects[i].SetActive(active);
+                
+                if (showDebugLogs)
+                {
+                    Debug.Log($"SafePeriodManager: GameObject de lembrança '{memoryGameObjects[i].name}' definido como {(active ? "ATIVO" : "INATIVO")}");
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Ativa/desativa os GameObjects de lembranças não-interagíveis
+    /// </summary>
+    private void SetNonInteractableMemoryObjectsActive(bool active)
+    {
+        if (nonInteractableMemoryObjects == null) return;
+
+        for (int i = 0; i < nonInteractableMemoryObjects.Length; i++)
+        {
+            if (nonInteractableMemoryObjects[i] != null)
+            {
+                nonInteractableMemoryObjects[i].SetActive(active);
+                
+                if (showDebugLogs)
+                {
+                    Debug.Log($"SafePeriodManager: GameObject não-interagível '{nonInteractableMemoryObjects[i].name}' definido como {(active ? "ATIVO" : "INATIVO")}");
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Restaura os estados originais de todos os GameObjects controlados
+    /// </summary>
+    private void RestoreOriginalGameObjectStates()
+    {
+        // Restaura estados dos GameObjects de lembranças interagíveis
+        if (memoryGameObjects != null && originalMemoryObjectsStates != null)
+        {
+            for (int i = 0; i < memoryGameObjects.Length && i < originalMemoryObjectsStates.Length; i++)
+            {
+                if (memoryGameObjects[i] != null)
+                {
+                    memoryGameObjects[i].SetActive(originalMemoryObjectsStates[i]);
+                    
+                    if (showDebugLogs)
+                    {
+                        Debug.Log($"SafePeriodManager: Estado original restaurado para '{memoryGameObjects[i].name}': {originalMemoryObjectsStates[i]}");
+                    }
+                }
+            }
+        }
+
+        // Restaura estados dos GameObjects não-interagíveis
+        if (nonInteractableMemoryObjects != null && originalNonInteractableObjectsStates != null)
+        {
+            for (int i = 0; i < nonInteractableMemoryObjects.Length && i < originalNonInteractableObjectsStates.Length; i++)
+            {
+                if (nonInteractableMemoryObjects[i] != null)
+                {
+                    nonInteractableMemoryObjects[i].SetActive(originalNonInteractableObjectsStates[i]);
+                    
+                    if (showDebugLogs)
+                    {
+                        Debug.Log($"SafePeriodManager: Estado original restaurado para '{nonInteractableMemoryObjects[i].name}': {originalNonInteractableObjectsStates[i]}");
+                    }
+                }
+            }
+        }
+    }
+
+    #endregion
 }

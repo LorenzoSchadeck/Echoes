@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: track_2_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 5933e423417603f41be254bea44d62b5, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 5715636224
+    m_Localized: The tension in Harrow Creek is palpable. The curfew keeps most people
+      indoors, but fear is our new guest.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8202858496
+    m_Localized: 'Social panic has led to a rise in false reports. Psychologists
+      warn: Distrust is natural, but paranoia is contagious.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10224513024
+    m_Localized: Look. Through. The. Peephole. Just to be sure. He is moving now.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12044840960
+    m_Localized: 'Remember: the Butcher of the 90s was discreet. Your neighbor, your
+      friend, your colleague... they could be the danger.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14301376512
+    m_Localized: You saw the note. He wants to talk. What will you say to him?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15333175296
+    m_Localized: Police still have no concrete leads. The hope for a quick end fades
+      with every night in Harrow Creek.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15991681024
+    m_Localized: Do not open the door to strangers, or even familiar faces. The city
+      is not safe.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16654381056
+    m_Localized: 'Repeating: look for ANY detail out of place...'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
