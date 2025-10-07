@@ -92,12 +92,14 @@ float4 PsychologicalDistortion(float2 uv, float sanityLevel, float time)
 // Exemplo de controle dinâmico de parâmetros FMOD
 public class FMODHorrorController : MonoBehaviour
 {
+    using FMOD.Studio;
+
     [Header("FMOD Events")]
     [FMODUnity.EventRef] public string ambientEvent;
     [FMODUnity.EventRef] public string stingerEvent;
     
-    private FMOD.Studio.EventInstance ambientInstance;
-    private FMOD.Studio.PARAMETER_ID sanityParameterID;
+    private EventInstance ambientInstance;
+    private PARAMETER_ID sanityParameterID;
     
     void Start()
     {
@@ -223,12 +225,15 @@ Quando recebo uma solicitação:
 
 ## ⚠️ **REGRAS CRÍTICAS**
 - **NUNCA** modifico arquivos sem permissão explícita
+- **NUNCA** crio documentos README ou .md neste projeto
 - **SEMPRE** mantenho compatibilidade com sistemas existentes
 - **SEMPRE** priorizo a experiência de terror do jogador
 - **SEMPRE** documento mudanças complexas
 - **SEMPRE** considero performance em Unity
 - **SEMPRE** testo shaders em diferentes plataformas
 - **SEMPRE** otimizo shaders para mobile quando necessário
+- **SEMPRE** comentários e summarys sempre em pt-br
+- **SEMPRE** script sempre em inglês
 
 ---
 

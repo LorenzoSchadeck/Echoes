@@ -3,13 +3,16 @@ using UnityEngine.UI;
 using Unity.Cinemachine;
 using System.Collections;
 using FMODUnity;
+using TMPro;
 
 /// <summary>
 /// Gerenciador principal da interface do menu
-/// Conecta os botões da UI com o controlador da câmera e outros sistemas
+/// Conecta os botões da UI com o CustomInputAxisController e outros sistemas
+/// Integrado com GameSettings para controle de volume e sensibilidade
 /// </summary>
 public class MenuUIManager : MonoBehaviour
 {
+    
     [Header("Menu Camera")]
     [SerializeField] private MenuCameraController cameraController;
 
@@ -18,7 +21,7 @@ public class MenuUIManager : MonoBehaviour
     [SerializeField] private CinemachineCamera playerCamera;
     
     [Header("Player Camera Control")]
-    [SerializeField] private CinemachineInputAxisController inputAxisController; // Input Axis Controller do Cinemachine
+    [SerializeField] private CustomInputAxisController customInputAxisController; // Custom Input Axis Controller
     
     [Header("Game Start Rotation")]
     [SerializeField] private Transform objectToRotate;
@@ -38,6 +41,14 @@ public class MenuUIManager : MonoBehaviour
     [Header("Options Menu")]
     [SerializeField] private Button backButton;
     
+    [Header("Settings Sliders")]
+    [SerializeField] private Slider masterVolumeSlider;
+    [SerializeField] private Slider mouseSensitivitySlider;
+    
+    [Header("Settings Labels")]
+    [SerializeField] private TextMeshProUGUI masterVolumeLabel;
+    [SerializeField] private TextMeshProUGUI mouseSensitivityLabel;
+    
     [Header("Audio Events")]
     [SerializeField] private EventReference clickEvent;
     [SerializeField] private EventReference rotationStartEvent;
@@ -52,9 +63,13 @@ public class MenuUIManager : MonoBehaviour
     void Start()
     {
         SetupButtonEvents();
+        SetupSettingsSliders();
         ShowMainMenu();
         InitializeMenuState();
+        InitializeGameSettings();
     }
+    
+
     
     #endregion
     
@@ -81,6 +96,53 @@ public class MenuUIManager : MonoBehaviour
     }
     
     /// <summary>
+    /// Sets up settings sliders events and initial values
+    /// </summary>
+    private void SetupSettingsSliders()
+    {
+        // Master Volume Slider
+        if (masterVolumeSlider != null)
+        {
+            masterVolumeSlider.minValue = 0f;
+            masterVolumeSlider.maxValue = 1f;
+            masterVolumeSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
+        }
+        
+        // Mouse Sensitivity Slider  
+        if (mouseSensitivitySlider != null)
+        {
+            mouseSensitivitySlider.minValue = 0.01f;
+            mouseSensitivitySlider.maxValue = 3f;
+            mouseSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChanged);
+        }
+    }
+    
+
+    
+    /// <summary>
+    /// Initializes GameSettings and applies current values to sliders
+    /// </summary>
+    private void InitializeGameSettings()
+    {
+        // Ensure GameSettings exists
+        if (GameSettings.Instance == null)
+        {
+            // Create GameSettings if it doesn't exist
+            GameObject settingsObj = new GameObject("GameSettings");
+            settingsObj.AddComponent<GameSettings>();
+        }
+        
+        // Pass customInputAxisController reference to GameSettings
+        if (GameSettings.Instance != null && customInputAxisController != null)
+        {
+            GameSettings.Instance.SetCustomInputAxisController(customInputAxisController);
+        }
+        
+        // Update sliders with current settings values
+        UpdateSlidersFromSettings();
+    }
+    
+    /// <summary>
     /// Initializes menu state - disables player movement, crosshair and player camera
     /// </summary>
     private void InitializeMenuState()
@@ -97,10 +159,10 @@ public class MenuUIManager : MonoBehaviour
             playerCamera.enabled = false;
         }
         
-        // Disable input axis controller (mouse look) during menu
-        if (inputAxisController != null) 
+        // Disable custom input axis controller (mouse look) during menu
+        if (customInputAxisController != null) 
         {
-            inputAxisController.enabled = false;
+            customInputAxisController.enabled = false;
         }
         
         // Disable crosshair during menu
@@ -202,10 +264,16 @@ public class MenuUIManager : MonoBehaviour
             playerCamera.enabled = true;
         }
         
-        // Enable input axis controller (mouse look) for gameplay
-        if (inputAxisController != null) 
+        // Enable custom input axis controller (mouse look) for gameplay
+        if (customInputAxisController != null) 
         {
-            inputAxisController.enabled = true;
+            customInputAxisController.enabled = true;
+            
+            // Apply current sensitivity settings when enabling the controller
+            if (GameSettings.Instance != null)
+            {
+                GameSettings.Instance.ApplyMouseSensitivity();
+            }
         }
         
         // Enable crosshair for gameplay
@@ -291,6 +359,9 @@ public class MenuUIManager : MonoBehaviour
         
         // Hide back button when in main menu
         if (backButton != null) backButton.gameObject.SetActive(false);
+        
+        // Hide settings sliders in main menu
+        ShowSettingsSliders(false);
     }
     
     /// <summary>
@@ -302,6 +373,116 @@ public class MenuUIManager : MonoBehaviour
         
         // Show back button when in options menu
         if (backButton != null) backButton.gameObject.SetActive(true);
+        
+        // Show settings sliders in options menu
+        ShowSettingsSliders(true);
+        
+        // Update sliders with current values
+        UpdateSlidersFromSettings();
+    }
+    
+    #endregion
+    
+    #region Settings Management
+    
+    /// <summary>
+    /// Updates sliders values from current GameSettings
+    /// </summary>
+    private void UpdateSlidersFromSettings()
+    {
+        if (GameSettings.Instance == null) return;
+        
+        // Update master volume slider
+        if (masterVolumeSlider != null)
+        {
+            masterVolumeSlider.SetValueWithoutNotify(GameSettings.Instance.MasterVolume);
+        }
+        
+        // Update mouse sensitivity slider
+        if (mouseSensitivitySlider != null)
+        {
+            mouseSensitivitySlider.SetValueWithoutNotify(GameSettings.Instance.MouseSensitivity);
+        }
+        
+        // Update labels
+        UpdateSettingsLabels();
+    }
+    
+    /// <summary>
+    /// Updates settings labels with current values
+    /// </summary>
+    private void UpdateSettingsLabels()
+    {
+        UpdateSettingsLabelsWithoutLocalization();
+    }
+    
+    /// <summary>
+    /// Fallback method to update settings labels without localization
+    /// </summary>
+    private void UpdateSettingsLabelsWithoutLocalization()
+    {
+        if (GameSettings.Instance == null) return;
+        
+        // Update master volume label
+        if (masterVolumeLabel != null)
+        {
+            int volumePercentage = GameSettings.Instance.GetMasterVolumePercentage();
+            masterVolumeLabel.text = $"{volumePercentage}%";
+        }
+        
+        // Update mouse sensitivity label
+        if (mouseSensitivityLabel != null)
+        {
+            int sensitivityPercentage = GameSettings.Instance.GetMouseSensitivityPercentage();
+            mouseSensitivityLabel.text = $"{sensitivityPercentage}%";
+        }
+    }
+    
+
+    
+    /// <summary>
+    /// Called when master volume slider value changes
+    /// </summary>
+    /// <param name="value">New volume value (0.0 - 1.0)</param>
+    private void OnMasterVolumeChanged(float value)
+    {
+        if (GameSettings.Instance != null)
+        {
+            GameSettings.Instance.SetMasterVolume(value);
+            UpdateSettingsLabels();
+        }
+    }
+    
+    /// <summary>
+    /// Called when mouse sensitivity slider value changes
+    /// </summary>
+    /// <param name="value">New sensitivity value (0.01 - 3.0)</param>
+    private void OnMouseSensitivityChanged(float value)
+    {
+        if (GameSettings.Instance != null)
+        {
+            GameSettings.Instance.SetMouseSensitivity(value);
+            UpdateSettingsLabels();
+        }
+    }
+    
+    /// <summary>
+    /// Shows or hides settings sliders and labels
+    /// </summary>
+    /// <param name="show">True to show, false to hide</param>
+    private void ShowSettingsSliders(bool show)
+    {
+        // Show/hide volume slider and label
+        if (masterVolumeSlider != null) 
+            masterVolumeSlider.gameObject.SetActive(show);
+        if (masterVolumeLabel != null) 
+            masterVolumeLabel.gameObject.SetActive(show);
+            
+        // Show/hide sensitivity slider and label
+        if (mouseSensitivitySlider != null) 
+            mouseSensitivitySlider.gameObject.SetActive(show);
+        if (mouseSensitivityLabel != null) 
+            mouseSensitivityLabel.gameObject.SetActive(show);
     }
     
     #endregion
@@ -342,6 +523,18 @@ public class MenuUIManager : MonoBehaviour
     public void ForceReturnToMainMenu()
     {
         OnBackClicked();
+    }
+    
+    /// <summary>
+    /// Resets all settings to default values (for Reset button)
+    /// </summary>
+    public void ResetSettingsToDefaults()
+    {
+        if (GameSettings.Instance != null)
+        {
+            GameSettings.Instance.ResetToDefaults();
+            UpdateSlidersFromSettings();
+        }
     }
     
     #endregion
