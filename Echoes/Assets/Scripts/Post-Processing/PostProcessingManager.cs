@@ -77,10 +77,6 @@ public class PostProcessingManager : MonoBehaviour
             // Usa o 't' calculado para aplicar a mistura dos perfis.
             ApplyBlendedProfile(t);
         }
-        else if (isRemedyTransitionActive && Time.frameCount % 60 == 0) // Log a cada segundo aprox
-        {
-            Debug.Log($"[PostProcessingManager] 🔒 Update blocked - remedy transition active (sanity: {currentSanity:F2})");
-        }
     }
 
     private void OnEnable()
@@ -104,25 +100,10 @@ public class PostProcessingManager : MonoBehaviour
     private void HandleInsanityChange(float newInsanityValue)
     {
         // Durante transição de remédio, ignora mudanças de sanidade para não interferir na transição suave
-        if (isRemedyTransitionActive)
-        {
-            Debug.Log($"[PostProcessingManager] ❌ Sanity change to {newInsanityValue:F2} BLOCKED - remedy transition active");
-            return;
-        }
+        if (isRemedyTransitionActive) return;
         
         // Sempre atualiza a sanidade interna
-        float previousSanity = currentSanity;
         currentSanity = newInsanityValue;
-        
-        // Se não há transição ativa, permite que o Update() aplique as mudanças
-        if (activeVisualEffectCoroutine == null)
-        {
-            Debug.Log($"[PostProcessingManager] ✅ Sanity updated: {previousSanity:F2} → {newInsanityValue:F2} - applying blend");
-        }
-        else
-        {
-            Debug.Log($"[PostProcessingManager] ⏳ Sanity updated: {previousSanity:F2} → {newInsanityValue:F2} - transition active, stored for later");
-        }
     }
 
     /// <summary>
@@ -142,7 +123,6 @@ public class PostProcessingManager : MonoBehaviour
         if (isRemedyTransitionActive)
         {
             isRemedyTransitionActive = false;
-            Debug.Log("[PostProcessingManager] Remedy transition flag reset due to StopAllVisualEffects");
         }
     }
     
@@ -153,7 +133,6 @@ public class PostProcessingManager : MonoBehaviour
     public void NotifyFlashbackExitStarted()
     {
         isFlashbackExitInProgress = true;
-        Debug.Log("[PostProcessingManager] Flashback exit started - coordinating with remedy system");
     }
     
     /// <summary>
@@ -163,7 +142,6 @@ public class PostProcessingManager : MonoBehaviour
     public void NotifyFlashbackExitCompleted()
     {
         isFlashbackExitInProgress = false;
-        Debug.Log("[PostProcessingManager] Flashback exit completed");
         
         // Se há uma transição de remédio pendente, executa agora
         if (hasPendingRemedyTransition)
@@ -172,9 +150,7 @@ public class PostProcessingManager : MonoBehaviour
             
             // IMPORTANTE: Ativa a flag antes da transição
             isRemedyTransitionActive = true;
-            Debug.Log("[PostProcessingManager] Remedy transition flag activated for pending transition");
-            
-            Debug.Log("[PostProcessingManager] Executing pending remedy transition");
+
             StartVisualEffect(SmoothRemedyTransitionRoutine());
         }
     }
@@ -183,24 +159,19 @@ public class PostProcessingManager : MonoBehaviour
     private void OnFlashbackStarted() => StartVisualEffect(TransitionToProfileRoutine(flashbackProfile, stateTransitionDuration));
     private void OnFlashbackEnded() => StartVisualEffect(TransitionToProfileRoutine(saneProfile, stateTransitionDuration));
     private void OnDeathSequenceCancelled() 
-    {
-        Debug.Log("[PostProcessingManager] Death sequence cancelled - remedy used");
-        
+    {     
         // Se uma saída de flashback está em progresso, agenda a transição de remédio para depois
         if (isFlashbackExitInProgress)
         {
             hasPendingRemedyTransition = true;
-            Debug.Log("[PostProcessingManager] Remedy transition scheduled after flashback exit");
         }
         else
         {
             // IMPORTANTE: Marca imediatamente que a transição de remédio começou
             // para bloquear mudanças de sanidade que possam interferir
             isRemedyTransitionActive = true;
-            Debug.Log("[PostProcessingManager] Remedy transition flag activated - blocking sanity changes");
             
             // Executa transição suave para o perfil são
-            Debug.Log("[PostProcessingManager] Starting remedy transition to sane profile");
             StartVisualEffect(SmoothRemedyTransitionRoutine());
         }
     }
@@ -289,7 +260,6 @@ public class PostProcessingManager : MonoBehaviour
         }
 
         activeVisualEffectCoroutine = null;
-        Debug.Log($"Transição para {targetProfile.name} concluída.");
     }
 
     private IEnumerator DeathEffectRoutine(float duration)
@@ -314,9 +284,7 @@ public class PostProcessingManager : MonoBehaviour
     }
 
     private IEnumerator SmoothRemedyTransitionRoutine()
-    {
-        Debug.Log("[PostProcessingManager] Starting smooth remedy transition");
-        
+    { 
         // A flag isRemedyTransitionActive já foi ativada em OnDeathSequenceCancelled
         // Apenas confirma que está ativa para garantir
         
@@ -393,7 +361,6 @@ public class PostProcessingManager : MonoBehaviour
         isRemedyTransitionActive = false;
         
         activeVisualEffectCoroutine = null;
-        Debug.Log("[PostProcessingManager] Smooth remedy transition completed");
     }
 
     private void ApplyBlendedProfile(float t)
@@ -584,13 +551,11 @@ public class PostProcessingManager : MonoBehaviour
                 lensDistortion.scale.value = Mathf.Lerp(currentBaseProfile.lensDistortionScale, currentInsanityProfile.lensDistortionScale, t);
             }
         }
-        
-        Debug.Log("Override de distorção de lente removido e estado da sanidade restaurado");
     }
 
     /// <summary>
     /// Força uma transição imediata para o estado são sem animação.
-    /// Usado para debug ou situações de emergência.
+    /// Usado para situações de emergência.
     /// </summary>
     public void ForceResetToSaneState()
     {
@@ -625,101 +590,7 @@ public class PostProcessingManager : MonoBehaviour
 
         // Remove qualquer override de lens distortion
         hasLensDistortionOverride = false;
-
-        Debug.Log("[PostProcessingManager] FORCE RESET - All values set to sane profile");
     }
 
-    /// <summary>
-    /// Debug: Mostra o estado atual de todos os componentes de post-processing
-    /// </summary>
-    public void DebugCurrentState()
-    {
-        Debug.Log($"[PostProcessingManager] === CURRENT STATE DEBUG ===");
-        Debug.Log($"Current Sanity: {currentSanity:F3}");
-        Debug.Log($"Active Transition: {(activeVisualEffectCoroutine != null ? "YES" : "NO")}");
-        Debug.Log($"Remedy Transition Active: {isRemedyTransitionActive}");
-        Debug.Log($"Flashback Exit Progress: {isFlashbackExitInProgress}");
-        Debug.Log($"Pending Remedy: {hasPendingRemedyTransition}");
-        Debug.Log($"Base Profile: {(currentBaseProfile != null ? currentBaseProfile.name : "NULL")}");
-        Debug.Log($"Insanity Profile: {(currentInsanityProfile != null ? currentInsanityProfile.name : "NULL")}");
-        
-        if (vignette != null) Debug.Log($"Vignette Intensity: {vignette.intensity.value:F3}");
-        if (bloom != null) Debug.Log($"Bloom Intensity: {bloom.intensity.value:F3}");
-        if (chromaticAberration != null) Debug.Log($"Chromatic Aberration: {chromaticAberration.intensity.value:F3}");
-        if (lensDistortion != null) Debug.Log($"Lens Distortion: {lensDistortion.intensity.value:F3} (Scale: {lensDistortion.scale.value:F3})");
-        if (colorAdjustments != null) 
-        {
-            Debug.Log($"Post Exposure: {colorAdjustments.postExposure.value:F3}");
-            Debug.Log($"Saturation: {colorAdjustments.saturation.value:F3}");
-        }
-        Debug.Log($"=== END DEBUG ===");
-    }
 
-    /// <summary>
-    /// Método de teste para simular uso de remédio fora do flashback
-    /// </summary>
-    [System.Diagnostics.Conditional("UNITY_EDITOR")]
-    public void TestRemedyOutsideFlashback()
-    {
-        Debug.Log("[PostProcessingManager] === TESTING REMEDY OUTSIDE FLASHBACK ===");
-        
-        // Simula sanidade baixa
-        currentSanity = 0.3f;
-        Debug.Log($"Set sanity to {currentSanity}");
-        
-        // Espera um frame para o Update aplicar
-        StartCoroutine(TestRemedySequence());
-    }
-
-    /// <summary>
-    /// Teste específico para verificar se o bloqueio de sanidade está funcionando
-    /// </summary>
-    [System.Diagnostics.Conditional("UNITY_EDITOR")]
-    public void TestSanityBlocking()
-    {
-        Debug.Log("[PostProcessingManager] === TESTING SANITY BLOCKING ===");
-        
-        // Estado inicial
-        currentSanity = 0.2f;
-        DebugCurrentState();
-        
-        // Ativa a flag de remédio
-        isRemedyTransitionActive = true;
-        Debug.Log("🔒 Remedy transition flag activated");
-        
-        // Tenta mudar a sanidade (deve ser bloqueado)
-        HandleInsanityChange(1.0f);
-        
-        // Verifica estado
-        DebugCurrentState();
-        
-        // Desbloqueia
-        isRemedyTransitionActive = false;
-        Debug.Log("🔓 Remedy transition flag deactivated");
-        
-        // Tenta mudar novamente (deve funcionar)
-        HandleInsanityChange(1.0f);
-        
-        // Estado final
-        DebugCurrentState();
-    }
-
-    private IEnumerator TestRemedySequence()
-    {
-        yield return null; // Espera um frame
-        
-        Debug.Log("Current visual state applied, now triggering remedy...");
-        DebugCurrentState();
-        
-        yield return new WaitForSeconds(2f); // Espera 2 segundos para ver o efeito
-        
-        // Simula o uso do remédio
-        Debug.Log("Triggering remedy effect...");
-        OnDeathSequenceCancelled();
-        
-        yield return new WaitForSeconds(remedyTransitionDuration + 1f);
-        
-        Debug.Log("Test complete - final state:");
-        DebugCurrentState();
-    }
 }

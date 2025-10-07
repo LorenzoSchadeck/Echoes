@@ -1,5 +1,59 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9135930538647045659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Menu/Typewritter
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Menu/Typewritter
+  Guid:
+    Data1: 1974119030
+    Data2: 1259646180
+    Data3: -949552240
+    Data4: -580761162
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 313
+--- !u!114 &-8819306263117659835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Death
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Effects/Death
+  Guid:
+    Data1: 1409468969
+    Data2: 1143884689
+    Data3: 1299051435
+    Data4: 1925725146
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4071
 --- !u!114 &-7656811021087426562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,10 +339,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638953185139150831
+  lastModified: 638954045217310727
   FileSizes:
   - Name: Desktop
-    Value: 3428992
+    Value: 3792032
   Exists: 1
 --- !u!114 &-3004535292404850156
 MonoBehaviour:
@@ -466,10 +520,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638953185139175967
+  lastModified: 638954045217345916
   FileSizes:
   - Name: Desktop
-    Value: 1860
+    Value: 1942
   Exists: 1
 --- !u!114 &-114601762871034247
 MonoBehaviour:
@@ -538,12 +592,14 @@ MonoBehaviour:
   - {fileID: -4637566258369239317}
   - {fileID: 7588936630576108779}
   - {fileID: -2632224822797588083}
+  - {fileID: -8819306263117659835}
+  - {fileID: -9135930538647045659}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3017828741721620663}
   StringsBanks:
   - {fileID: -917116490150385184}
-  cacheTime: 638953185139175967
+  cacheTime: 638954045217345916
   cacheVersion: 131632
 --- !u!114 &132974427429127144
 MonoBehaviour:

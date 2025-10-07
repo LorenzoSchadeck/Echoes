@@ -479,23 +479,34 @@ namespace Echoes.Deformation
             
             if (config.allowMeshDeformation)
             {
-                propertyBlock.SetFloat("_DeformStrength", values.deformStrength);
-                propertyBlock.SetFloat("_DeformFrequency", values.deformFrequency);
+                // ✅ APLICAÇÃO DOS MULTIPLICADORES DE MESH
+                float finalDeformStrength = values.deformStrength * config.meshIntensityMultiplier;
+                float finalDeformFrequency = values.deformFrequency * config.meshIntensityMultiplier;
+                
+                propertyBlock.SetFloat("_DeformStrength", finalDeformStrength);
+                propertyBlock.SetFloat("_DeformFrequency", finalDeformFrequency);
             }
             
             if (config.allowTextureDeformation)
             {
-                propertyBlock.SetFloat("_InsanityLevel", values.insanityLevel);
-                propertyBlock.SetFloat("_UVDisplacementStrength", values.uvDisplacementStrength);
-                propertyBlock.SetFloat("_CorruptionInfluence", values.corruptionInfluence);
-                propertyBlock.SetFloat("_CorruptionNormalStrength", values.corruptionNormalStrength);
+                // ✅ APLICAÇÃO DOS MULTIPLICADORES DE TEXTURA
+                float finalInsanityLevel = values.insanityLevel * config.textureIntensityMultiplier;
+                float finalUVDisplacement = values.uvDisplacementStrength * config.textureIntensityMultiplier;
+                float finalCorruptionInfluence = values.corruptionInfluence * config.textureIntensityMultiplier;
+                float finalCorruptionNormal = values.corruptionNormalStrength * config.textureIntensityMultiplier;
+                
+                propertyBlock.SetFloat("_InsanityLevel", finalInsanityLevel);
+                propertyBlock.SetFloat("_UVDisplacementStrength", finalUVDisplacement);
+                propertyBlock.SetFloat("_CorruptionInfluence", finalCorruptionInfluence);
+                propertyBlock.SetFloat("_CorruptionNormalStrength", finalCorruptionNormal);
                 
                 // Propriedades do efeito de derretimento contínuo
                 if (currentSanity <= textureTransitionStartThreshold)
                 {
                     propertyBlock.SetFloat("_MeltingTime", meltingTime);
                     propertyBlock.SetFloat("_MeltingPhase", meltingPhase);
-                    propertyBlock.SetFloat("_MeltingIntensity", meltingIntensity);
+                    // ✅ MULTIPLICADOR TAMBÉM APLICADO AO MELTING
+                    propertyBlock.SetFloat("_MeltingIntensity", meltingIntensity * config.textureIntensityMultiplier);
                     propertyBlock.SetVector("_MeltingDirection", new Vector4(meltingDirection.x, meltingDirection.y, 0, 0));
                 }
             }
@@ -556,6 +567,10 @@ namespace Echoes.Deformation
                 }
             }
         }
+        
+
+        
+
         
         /// <summary>
         /// Lista todos os objetos registrados para debug

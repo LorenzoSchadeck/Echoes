@@ -35,6 +35,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5daa65c5d360c674f9be71a6a6e2d909
+    m_Address: Assets/Languages/menu Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8a795d790bcfa814ca9a7c445c143efb
     m_Address: Assets/Languages/Radio_Sub Shared Data.asset
     m_ReadOnly: 1
