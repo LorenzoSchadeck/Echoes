@@ -38,18 +38,6 @@ MonoBehaviour:
     m_Localized: EXIT
     m_Metadata:
       m_Items: []
-  - m_Id: 70731814514688
-    m_Localized: GENERAL VOLUME
-    m_Metadata:
-      m_Items: []
-  - m_Id: 70751544520704
-    m_Localized: MOUSE SENSIBILITY
-    m_Metadata:
-      m_Items: []
-  - m_Id: 70773971464192
-    m_Localized: LANGUAGE
-    m_Metadata:
-      m_Items: []
   - m_Id: 70795123456789
     m_Localized: BACK
     m_Metadata:
@@ -67,15 +55,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 70800000000004
-    m_Localized: Name
+    m_Localized: NAME
     m_Metadata:
       m_Items: []
   - m_Id: 70800000000005
-    m_Localized: Age
+    m_Localized: AGE
     m_Metadata:
       m_Items: []
   - m_Id: 70800000000006
-    m_Localized: Gender
+    m_Localized: GENDER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 260813347467264
+    m_Localized: CREDITS
     m_Metadata:
       m_Items: []
   references:

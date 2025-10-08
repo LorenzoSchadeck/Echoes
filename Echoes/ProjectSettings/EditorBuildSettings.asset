@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/WarningScreen.unity
+    guid: 9c317397657b3454b9c74b4541396a5c
+  - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 349e790d780e3b54181c70866a4dbb36
   m_configObjects:

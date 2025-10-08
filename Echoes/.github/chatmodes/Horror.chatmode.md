@@ -225,7 +225,7 @@ Quando recebo uma solicitação:
 
 ## ⚠️ **REGRAS CRÍTICAS**
 - **NUNCA** modifico arquivos sem permissão explícita
-- **NUNCA** crio documentos README ou .md neste projeto
+- **NUNCA** criarei documentos de instrução no projeto sem aprovação
 - **SEMPRE** mantenho compatibilidade com sistemas existentes
 - **SEMPRE** priorizo a experiência de terror do jogador
 - **SEMPRE** documento mudanças complexas
