@@ -39,7 +39,6 @@ namespace Echoes.Deformation
         private float currentDeformationLevel = 0f;
         private List<DeformableObject> registeredObjects = new List<DeformableObject>();
         private Coroutine updateCoroutine;
-        private bool isSystemPaused = false;
         private readonly Dictionary<Material, MaterialPropertyBlock> materialBlocks = new Dictionary<Material, MaterialPropertyBlock>();
         
         // Variáveis para efeito de derretimento contínuo
@@ -49,6 +48,9 @@ namespace Echoes.Deformation
         // Variáveis para transição de remédio
         private bool isRemedyTransitionActive = false;
         private Coroutine remedyTransitionCoroutine;
+        
+        // Controle de estado de flashback para permitir deformações durante flashbacks
+        private bool isInFlashback = false;
         private float remedyTransitionDuration = 3f; // Sincronizado com PostProcessingManager
         
         private void Awake()
@@ -211,37 +213,73 @@ namespace Echoes.Deformation
         
         private void OnFlashbackStarted()
         {
-            isSystemPaused = true;
+            isInFlashback = true;
             
             if (enableDebugLogs)
             {
-                Debug.Log("[DeformationManager] System paused for flashback");
+                Debug.Log("[DeformationManager] Flashback started - deformations will respond to sanity changes during flashback");
+            }
+            
+            // CORREÇÃO: Durante flashback, inicia com estado limpo mas permite resposta à sanidade
+            if (currentDeformationLevel > 0f)
+            {
+                if (enableDebugLogs)
+                {
+                    Debug.Log("[DeformationManager] Resetting deformations to clean state for flashback start");
+                }
+                
+                // Se há uma transição de remédio em andamento, permite que ela termine naturalmente
+                if (isRemedyTransitionActive && remedyTransitionCoroutine != null)
+                {
+                    if (enableDebugLogs)
+                    {
+                        Debug.Log("[DeformationManager] Flashback started during remedy transition - allowing remedy to complete");
+                    }
+                    // A transição de remédio continuará até o estado limpo
+                }
+                else
+                {
+                    // Se não há transição ativa, reseta para estado limpo inicial
+                    isRemedyTransitionActive = false;
+                    currentDeformationLevel = 0f;
+                    ApplyValuesToAllObjects(initialValues); // Estado limpo
+                    
+                    if (enableDebugLogs)
+                    {
+                        Debug.Log("[DeformationManager] Deformations reset to clean state, ready to respond to sanity changes during flashback");
+                    }
+                }
+            }
+            
+            if (enableDebugLogs)
+            {
+                Debug.Log("[DeformationManager] 🎬 Flashback mode: Deformations will respond to sanity changes during flashback");
             }
         }
         
         private void OnFlashbackEnded()
         {
-            isSystemPaused = false;
+            isInFlashback = false;
             
             if (enableDebugLogs)
             {
-                Debug.Log("[DeformationManager] System resumed after flashback");
+                Debug.Log("[DeformationManager] Flashback ended - checking if healing transition is needed");
             }
             
-            // Se a sanidade foi resetada para 1.0 por um remédio durante o flashback,
-            // força uma transição suave para o estado limpo
-            if (currentSanity >= 1.0f && currentDeformationLevel > 0f)
+            // Quando sai do flashback, verifica se precisa curar deformações
+            // A sanidade já foi resetada para 1.0 pelo InsanityManager
+            if (currentDeformationLevel > 0f)
             {
                 if (enableDebugLogs)
                 {
-                    Debug.Log("[DeformationManager] Detected remedy effect after flashback - executing clean transition");
+                    Debug.Log($"[DeformationManager] Detected deformations (level: {currentDeformationLevel:F2}) after flashback - starting healing transition");
                 }
                 
-                // IMPORTANTE: Ativa a flag para bloquear mudanças de sanidade
+                // IMPORTANTE: Ativa a flag para bloquear mudanças de sanidade durante a cura
                 isRemedyTransitionActive = true;
                 if (enableDebugLogs)
                 {
-                    Debug.Log("[DeformationManager] 🔒 Remedy transition flag activated for flashback end transition");
+                    Debug.Log("[DeformationManager] 🔒 Remedy transition flag activated for flashback end healing");
                 }
                 
                 // Para qualquer transição anterior
@@ -252,6 +290,10 @@ namespace Echoes.Deformation
                 
                 // Inicia a transição suave para o estado limpo
                 remedyTransitionCoroutine = StartCoroutine(RemedyTransitionRoutine());
+            }
+            else if (enableDebugLogs)
+            {
+                Debug.Log("[DeformationManager] Deformations already clean - no healing needed");
             }
         }
         
@@ -275,12 +317,12 @@ namespace Echoes.Deformation
                 StopCoroutine(remedyTransitionCoroutine);
             }
             
-            // Se o sistema está pausado (flashback), agenda a transição para quando sair do flashback
-            if (isSystemPaused)
+            // Se estamos em flashback, agenda a transição para quando sair do flashback
+            if (isInFlashback)
             {
                 if (enableDebugLogs)
                 {
-                    Debug.Log("[DeformationManager] System is paused (flashback) - remedy transition will execute after flashback ends");
+                    Debug.Log("[DeformationManager] In flashback - remedy transition will execute after flashback ends");
                 }
                 // A transição será executada automaticamente quando OnFlashbackEnded for chamado
                 // por causa da sincronização da sanidade no InsanityManager
@@ -363,8 +405,9 @@ namespace Echoes.Deformation
         {
             while (true)
             {
-                // Não atualiza durante pausas do sistema ou transições de remédio
-                if (!isSystemPaused && !isRemedyTransitionActive && currentDeformationLevel > 0f)
+                // Não atualiza apenas durante transições de remédio
+                // Durante flashbacks, permite atualizações normais de deformação
+                if (!isRemedyTransitionActive && currentDeformationLevel > 0f)
                 {
                     UpdateObjectsDeformation();
                 }
@@ -522,8 +565,9 @@ namespace Echoes.Deformation
         public string GetSystemStats()
         {
             string remedyStatus = isRemedyTransitionActive ? "Remedy Transition Active" : "Normal";
+            string flashbackStatus = isInFlashback ? "In Flashback" : "Normal World";
             string phase = GetCurrentPhase(currentSanity);
-            return $"Sanity: {currentSanity:F2} | Phase: {phase} | Deformation: {currentDeformationLevel:F2} | Objects: {registeredObjects.Count} | Paused: {isSystemPaused} | Status: {remedyStatus} | Melting: {(currentSanity <= textureTransitionStartThreshold ? meltingPhase.ToString("F2") : "Inactive")}";
+            return $"Sanity: {currentSanity:F2} | Phase: {phase} | Deformation: {currentDeformationLevel:F2} | Objects: {registeredObjects.Count} | State: {flashbackStatus} | Status: {remedyStatus} | Melting: {(currentSanity <= textureTransitionStartThreshold ? meltingPhase.ToString("F2") : "Inactive")}";
         }
         
         /// <summary>
@@ -557,7 +601,8 @@ namespace Echoes.Deformation
         
         public void ForceUpdateAll()
         {
-            if (isSystemPaused) return;
+            // Permite atualizações durante flashbacks, apenas bloqueia durante transições de remédio
+            if (isRemedyTransitionActive) return;
             
             foreach (var obj in registeredObjects)
             {
@@ -637,7 +682,7 @@ namespace Echoes.Deformation
             GUILayout.Label($"Current Sanity: {currentSanity:F2}");
             GUILayout.Label($"Deformation Level: {currentDeformationLevel:F2}");
             GUILayout.Label($"Registered Objects: {registeredObjects.Count}");
-            GUILayout.Label($"System Paused: {isSystemPaused}");
+            GUILayout.Label($"In Flashback: {isInFlashback}");
             
             // Mostra status da transição de remédio
             if (isRemedyTransitionActive)

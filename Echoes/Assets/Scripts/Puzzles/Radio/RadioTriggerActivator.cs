@@ -36,18 +36,14 @@ public class RadioTriggerActivator : MonoBehaviour
     {
         if (onlyOnce && hasActivated) return;
         
-        Debug.Log($"RadioTriggerActivator: Trigger ativado por {other.name} com tag {other.tag}");
-        
         if (other.CompareTag("Player"))
         {
             if (isFirstActivation)
             {
-                Debug.Log("RadioTriggerActivator: Player detectado! Primeira ativação do rádio...");
                 GameEvents.TriggerRadioActivation();
             }
             else
             {
-                Debug.Log($"RadioTriggerActivator: Player detectado! Iniciando transmissão {transmissionIndex}...");
                 GameEvents.TriggerRadioTransmission(transmissionIndex);
             }
             

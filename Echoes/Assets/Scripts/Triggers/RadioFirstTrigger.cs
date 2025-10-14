@@ -26,11 +26,6 @@ public class RadioFirstTrigger : MonoBehaviour
         // Verifica se já foi ativado (se onlyOnce estiver ativo)
         if (onlyOnce && hasTriggered) return;
         
-        if (showDebugLogs)
-        {
-            Debug.Log($"RadioFirstTrigger: Jogador entrou no trigger - ativando rádio pela primeira vez");
-        }
-        
         // Marca como ativado
         hasTriggered = true;
         
@@ -41,10 +36,6 @@ public class RadioFirstTrigger : MonoBehaviour
         if (onlyOnce)
         {
             gameObject.SetActive(false);
-            if (showDebugLogs)
-            {
-                Debug.Log("RadioFirstTrigger: Trigger desabilitado após primeira ativação");
-            }
         }
     }
     
@@ -56,10 +47,5 @@ public class RadioFirstTrigger : MonoBehaviour
     {
         hasTriggered = false;
         gameObject.SetActive(true);
-        
-        if (showDebugLogs)
-        {
-            Debug.Log("RadioFirstTrigger: Trigger resetado");
-        }
     }
 }

@@ -48,6 +48,13 @@ public class Peephole: MonoBehaviour, IInteractable
         // Se não foi atribuído no inspector, tenta encontrar automaticamente
         if (postProcessingManager == null)
             postProcessingManager = FindAnyObjectByType<PostProcessingManager>();
+            
+        // Garantir que a câmera inicia com prioridade -1 (inativa)
+        if (peekCamera != null)
+        {
+            peekCamera.Priority = -1;
+            Debug.Log($"[Peephole] Câmera inicializada com Priority: {peekCamera.Priority}");
+        }
     }
     
     private void OnDestroy()
@@ -101,14 +108,28 @@ public class Peephole: MonoBehaviour, IInteractable
         StartCoroutine(StartPeekingSequence());
         GameEvents.TriggerSanityLost(sanityLossAmount);
         playerInteractor?.SetInspectionMode(true);
-        if (peekCamera != null) peekCamera.Priority = 2;
+        
+        if (peekCamera != null) 
+        {
+            peekCamera.Priority = 10; // Prioridade alta quando ativo
+            Debug.Log($"[Peephole] Câmera ativada - Priority: {peekCamera.Priority}");
+        }
+        else
+        {
+            Debug.LogError("[Peephole] peekCamera é null! Verifique a atribuição no Inspector.");
+        }
     }
 
     private void StopPeeking()
     {
         isPeeking = false;
         playerInteractor.SetInspectionMode(false);
-        if (peekCamera != null) peekCamera.Priority = 0;
+        
+        if (peekCamera != null) 
+        {
+            peekCamera.Priority = -1; // Inativo - Priority -1
+            Debug.Log($"[Peephole] Câmera desativada - Priority: {peekCamera.Priority}");
+        }
         
         // Para qualquer transição de distorção em andamento
         if (lensDistortionCoroutine != null)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f974ebb5cd41de74683ff3a0eb9cb068, type: 3}
   m_Name: Warning
   m_EditorClassIdentifier: 
-  title: WARNING
-  text: This game contains themes and imagery that may not be suitable for all audiences.
-    This includes, but is not limited to, depictions of violence, strong language,
-    and mature dramatic situations.
+  title: AVISO
+  text: "Este jogo cont\xE9m temas e imagens que podem n\xE3o ser adequados para
+    todos os p\xFAblicos. Isto inclui, mas n\xE3o se limita a, representa\xE7\xF5es
+    de viol\xEAncia, linguagem forte e situa\xE7\xF5es dram\xE1ticas maduras."

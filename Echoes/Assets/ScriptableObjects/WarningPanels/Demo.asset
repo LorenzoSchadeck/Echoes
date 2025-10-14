@@ -12,11 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f974ebb5cd41de74683ff3a0eb9cb068, type: 3}
   m_Name: Demo
   m_EditorClassIdentifier: 
-  title: WELCOME TO THE DEMO
-  text: 'This game is a Demonstration (Demo) and represents a limited preview of
-    the final experience. The Full Game will feature more content, features, and
-    overall polish.
-
-
-    Subsequent chapters of the story will be released with
-    the full product launch.'
+  title: Bem-Vindo a demo
+  text: "Este jogo \xE9 uma Demonstra\xE7\xE3o (Demo) e representa uma pr\xE9via
+    limitada da experi\xEAncia final. O Jogo Completo contar\xE1 com mais conte\xFAdo,
+    funcionalidades e um polimento geral superior.\n\nCap\xEDtulos subsequentes da
+    hist\xF3ria ser\xE3o lan\xE7ados com o lan\xE7amento do produto completo."

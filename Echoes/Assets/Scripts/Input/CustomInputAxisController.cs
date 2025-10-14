@@ -25,9 +25,6 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
     /// </summary>
     public InputActionReference LookAction => lookAction;
     
-    [Header("Debug")]
-    [SerializeField] private bool debugMode = false;
-    
     #endregion
     
     #region Private Fields
@@ -48,8 +45,6 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
         set 
         {
             mouseSensitivity = Mathf.Clamp(value, 0.01f, 3.0f);
-            if (debugMode)
-                Debug.Log($"[CustomInputAxisController] Sensitivity set to: {mouseSensitivity:F2}");
         }
     }
     
@@ -76,8 +71,6 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
             if (m_LookAction != null)
             {
                 m_LookAction.Enable();
-                if (debugMode)
-                    Debug.Log("[CustomInputAxisController] Input action enabled");
             }
         }
         
@@ -95,8 +88,6 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
         if (m_LookAction != null)
         {
             m_LookAction.Disable();
-            if (debugMode)
-                Debug.Log("[CustomInputAxisController] Input action disabled");
         }
     }
     
@@ -119,9 +110,6 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
     public void UpdateSensitivity(float newSensitivity)
     {
         MouseSensitivity = newSensitivity;
-        
-        if (debugMode)
-            Debug.Log($"[CustomInputAxisController] ✅ Sensitivity updated from GameSettings: {newSensitivity:F2}");
     }
     
     #endregion
@@ -186,12 +174,6 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
             // Return the appropriate axis value
             float value = axisIndex == 0 ? mouseInput.x : mouseInput.y;
             
-            if (controller.debugMode && Mathf.Abs(value) > 0.1f)
-            {
-                string axisName = axisIndex == 0 ? "X" : "Y";
-                Debug.Log($"[CustomInputAxisController] {axisName} axis: {value:F2} (sensitivity: {controller.mouseSensitivity:F2})");
-            }
-            
             return value;
         }
         
@@ -203,42 +185,6 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
             // This method is now optional since we auto-detect the axis index
             // Kept for compatibility with the setup script
         }
-    }
-    
-    #endregion
-    
-    #region Debug Methods
-    
-    /// <summary>
-    /// Debug method to show current state
-    /// </summary>
-    [ContextMenu("Debug Controller State")]
-    public void DebugCurrentState()
-    {
-        Debug.Log($"[CustomInputAxisController] === STATE DEBUG ===");
-        Debug.Log($"  Sensitivity: {mouseSensitivity:F2}");
-        Debug.Log($"  Invert Y: {invertY}");
-        Debug.Log($"  Input Action: {(m_LookAction != null ? "✅" : "❌")}");
-        Debug.Log($"  Controllers Count: {Controllers?.Count ?? 0}");
-        
-        if (Controllers != null)
-        {
-            for (int i = 0; i < Controllers.Count; i++)
-            {
-                string axisName = i == 0 ? "X" : "Y";
-                Debug.Log($"    Axis {i} ({axisName}): {(Controllers[i] != null ? "✅" : "❌")}");
-            }
-        }
-    }
-    
-    /// <summary>
-    /// Toggle debug mode
-    /// </summary>
-    [ContextMenu("Toggle Debug Mode")]
-    public void ToggleDebugMode()
-    {
-        debugMode = !debugMode;
-        Debug.Log($"[CustomInputAxisController] Debug mode: {(debugMode ? "ON" : "OFF")}");
     }
     
     #endregion

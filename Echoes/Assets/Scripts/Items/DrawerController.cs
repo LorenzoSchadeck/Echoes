@@ -471,11 +471,6 @@ public class DrawerController : MonoBehaviour, IInteractable
         {
             initialPosition = transform.position;
             CalculateTargetPosition();
-            Debug.Log($"[DrawerController] Posição inicial resetada para: {initialPosition}");
-        }
-        else
-        {
-            Debug.Log("[DrawerController] Resetar posição inicial só funciona em runtime!");
         }
     }
 
@@ -487,31 +482,13 @@ public class DrawerController : MonoBehaviour, IInteractable
     {
         if (!Application.isPlaying)
         {
-            Debug.Log("[DrawerController] Verificação de portas só funciona em runtime!");
             return;
         }
 
         if (requiredOpenDoors == null || requiredOpenDoors.Length == 0)
         {
-            Debug.Log($"[DrawerController] {gameObject.name}: Nenhuma porta configurada. Acesso sempre permitido.");
             return;
         }
-
-        Debug.Log($"[DrawerController] {gameObject.name}: Status das portas:");
-        for (int i = 0; i < requiredOpenDoors.Length; i++)
-        {
-            var door = requiredOpenDoors[i];
-            if (door == null)
-            {
-                Debug.Log($"  Porta {i}: NULA");
-            }
-            else
-            {
-                Debug.Log($"  Porta {i} ({door.gameObject.name}): {(door.IsOpen ? "ABERTA" : "FECHADA")}");
-            }
-        }
-
-        Debug.Log($"[DrawerController] Acesso à gaveta: {(AreRequiredDoorsOpen() ? "PERMITIDO" : "BLOQUEADO")}");
     }
 
     #endif

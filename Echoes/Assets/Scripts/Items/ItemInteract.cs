@@ -76,10 +76,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
         {
             string promptTemplate = promptString.GetLocalizedString();
             string localizedItemName = itemNameString.GetLocalizedString();
-            
-            // LOG DE DEPURAÇÃO
-            if (string.IsNullOrEmpty(promptTemplate)) Debug.LogError("Prompt Template está vazio ou nulo!");
-            if (string.IsNullOrEmpty(localizedItemName)) Debug.LogError("Localized Item Name está vazio ou nulo!");
 
             return promptTemplate.Replace("{itemName}", localizedItemName);
         }
@@ -149,9 +145,9 @@ public class ItemInteract : MonoBehaviour, IInteractable
             // Usa o sistema FMODAudioTrigger para tocar o som na posição do item
             audioTrigger.PlayAtPosition(transform.position);
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
-            Debug.LogWarning($"[ItemInteract] {name}: Erro ao tocar som de pickup: {e.Message}");
+            // Silent error handling
         }
     }
     
@@ -160,23 +156,17 @@ public class ItemInteract : MonoBehaviour, IInteractable
     /// </summary>
     private void TriggerRadioEvent()
     {
-        Debug.Log($"[ItemInteract] {name}: TriggerRadioEvent chamado - triggerRadioEvents: {triggerRadioEvents}, radioTriggerType: {radioTriggerType}");
-        
         // Verifica se deve disparar eventos do rádio
         if (!triggerRadioEvents || radioTriggerType == RadioTriggerType.None) 
         {
-            Debug.Log($"[ItemInteract] {name}: Não disparando evento - triggerRadioEvents: {triggerRadioEvents}, radioTriggerType: {radioTriggerType}");
             return;
         }
         
         // Verifica se já disparou e deve disparar apenas uma vez
         if (triggerOnlyOnce && hasTriggeredRadio) 
         {
-            Debug.Log($"[ItemInteract] {name}: Evento já foi disparado e triggerOnlyOnce está ativo");
             return;
         }
-        
-        Debug.Log($"[ItemInteract] {name}: Disparando evento do rádio tipo {radioTriggerType}");
         
         // Marca como disparado
         hasTriggeredRadio = true;
@@ -186,7 +176,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
         {
             case RadioTriggerType.FirstTrigger:
                 GameEvents.TriggerRadioFirstTrigger();
-                Debug.Log($"[ItemInteract] {name}: Disparando OnRadioFirstTrigger - rádio liga primeira vez");
                 break;
                 
             case RadioTriggerType.PaperTrigger:
@@ -197,7 +186,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
                     bool success = paperTrigger.TriggerRadioPaperEvent();
                     if (success)
                     {
-                        Debug.Log($"[ItemInteract] {name}: Usando RadioPaperTrigger para disparar evento do papel");
                         // Note: hasTriggeredRadio será marcado apenas quando o RadioController confirmar sucesso
                         // Por isso, resetamos aqui para permitir novas tentativas até o sucesso
                         hasTriggeredRadio = false;
@@ -205,14 +193,12 @@ public class ItemInteract : MonoBehaviour, IInteractable
                     else
                     {
                         hasTriggeredRadio = false; // Permite tentar novamente
-                        Debug.Log($"[ItemInteract] {name}: RadioPaperTrigger não pôde ser disparado - condições não atendidas");
                     }
                 }
                 else
                 {
                     // Fallback: dispara diretamente se não houver componente RadioPaperTrigger
                     GameEvents.TriggerRadioPaperTrigger();
-                    Debug.Log($"[ItemInteract] {name}: Disparando OnRadioPaperTrigger diretamente (fallback)");
                     hasTriggeredRadio = false; // Permite tentar novamente até confirmar sucesso
                 }
                 break;
@@ -241,9 +227,9 @@ public class ItemInteract : MonoBehaviour, IInteractable
             // Toca o mesmo som na posição original do item
             audioTrigger.PlayAtPosition(originalPosition);
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
-            Debug.LogWarning($"[ItemInteract] {name}: Erro ao tocar som de soltura: {e.Message}");
+            // Silent error handling
         }
     }
 
@@ -384,7 +370,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     public void MarkRadioTriggerAsUsed()
     {
         hasTriggeredRadio = true;
-        Debug.Log($"[ItemInteract] {name}: Radio trigger marcado como utilizado com sucesso pelo RadioController");
     }
 
     /// <summary>
@@ -394,7 +379,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     public void ResetRadioTrigger()
     {
         hasTriggeredRadio = false;
-        Debug.Log($"[ItemInteract] {name}: Radio trigger resetado");
     }
     
     /// <summary>
@@ -411,11 +395,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
             Quaternion offset = Quaternion.Inverse(cameraOrientation) * currentRotation;
             customInspectionRotation = offset.eulerAngles;
             useCustomRotation = true;
-            Debug.Log($"[ItemInteract] {name}: Offset de rotação capturado: {customInspectionRotation}");
-        }
-        else
-        {
-            Debug.LogWarning($"[ItemInteract] {name}: Câmera não encontrada. Execute durante o modo de inspeção ou após interagir uma vez.");
         }
     }
     
@@ -427,7 +406,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     {
         customInspectionRotation = Vector3.zero;
         useCustomRotation = false;
-        Debug.Log($"[ItemInteract] {name}: Sem rotação adicional - apenas orientação da câmera");
     }
     
     [ContextMenu("Set Flip Vertically (180° on Y)")]
@@ -435,7 +413,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     {
         customInspectionRotation = new Vector3(0, 180, 0);
         useCustomRotation = true;
-        Debug.Log($"[ItemInteract] {name}: Configurado para virar verticalmente (0,180,0)");
     }
     
     [ContextMenu("Set Flip Horizontally (180° on Z)")]
@@ -443,6 +420,5 @@ public class ItemInteract : MonoBehaviour, IInteractable
     {
         customInspectionRotation = new Vector3(0, 0, 180);
         useCustomRotation = true;
-        Debug.Log($"[ItemInteract] {name}: Configurado para virar horizontalmente (0,0,180)");
     }
 }

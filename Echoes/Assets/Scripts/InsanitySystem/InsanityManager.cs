@@ -82,7 +82,6 @@ public class InsanityManager : MonoBehaviour
         if (enableSafePeriod)
         {
             safePeriodActive = true;
-            Debug.Log("InsanityManager: Período seguro ativado - sanidade protegida até Track 1 terminar");
         }
         else
         {
@@ -142,7 +141,6 @@ public class InsanityManager : MonoBehaviour
     {
         if (isPlayerDead) return;
         isPlayerDead = true;
-        Debug.Log("JOGADOR MORREU POR INSANIDADE!");
         GameEvents.TriggerPlayerDied();
         this.enabled = false;
     }
@@ -151,7 +149,6 @@ public class InsanityManager : MonoBehaviour
     {
         if (isPlayerDead || isSanityDrainPaused) return;
 
-        Debug.Log($"Perdendo {amount:P0} de sanidade por uma ação.");
         CurrentSanity -= amount;
     }
 
@@ -173,8 +170,6 @@ public class InsanityManager : MonoBehaviour
 
     private void UseRemedy()
     {
-        Debug.Log("InsanityManager: Remédio usado.");
-
         if (remedyCoroutine != null) StopCoroutine(remedyCoroutine);
 
         // A rotina que gerencia o estado da sanidade sempre roda PRIMEIRO
@@ -190,13 +185,11 @@ public class InsanityManager : MonoBehaviour
         // Prioridade: Flashback
         if (isInFlashback)
         {
-            Debug.Log("InsanityManager: Disparando fim de flashback por remédio");
             GameEvents.TriggerFlashbackEnded();
         }
         // Cura no estado normal
         else if (isDeathSequenceActive || currentSanity < 1.0f)
         {
-            Debug.Log("InsanityManager: Disparando cancelamento de sequência de morte por remédio");
             GameEvents.TriggerDeathSequenceCancelled();
         }
 
@@ -205,7 +198,6 @@ public class InsanityManager : MonoBehaviour
         
         // TERCEIRO: Atualiza a sanidade nos dados (sem disparar eventos visuais)
         UpdateSanityAndDispatchEvent(1.0f);
-        Debug.Log("InsanityManager: Sanidade atualizada para 100% após início da transição visual");
     }
 
     // --- COROUTINE DE CURA CORRIGIDA E FINAL ---
@@ -213,8 +205,6 @@ public class InsanityManager : MonoBehaviour
     {
         // FASE 1: Ações Imediatas
         isSanityDrainPaused = true;
-        
-        Debug.Log("Perda de sanidade PAUSADA. Aguardando transição visual antes de atualizar sanidade...");
 
         // FASE 2: Espera pela duração da pausa
         yield return new WaitForSeconds(sanityDrainPauseDuration);
@@ -222,7 +212,6 @@ public class InsanityManager : MonoBehaviour
         // FASE 3: Retoma a perda de sanidade
         isSanityDrainPaused = false;
         remedyCoroutine = null;
-        Debug.Log("Perda de sanidade RETOMADA.");
     }
 
     /// <summary>
@@ -233,7 +222,6 @@ public class InsanityManager : MonoBehaviour
         if (safePeriodActive)
         {
             safePeriodActive = false;
-            Debug.Log("InsanityManager: Período seguro terminado - perda de sanidade ativada!");
         }
     }
 }

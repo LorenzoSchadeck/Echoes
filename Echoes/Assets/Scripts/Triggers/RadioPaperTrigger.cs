@@ -25,31 +25,17 @@ public class RadioPaperTrigger : MonoBehaviour
         // Verifica se já foi ativado (se onlyOnce estiver ativo)
         if (onlyOnce && hasTriggered) 
         {
-            if (showDebugLogs)
-            {
-                Debug.Log($"RadioPaperTrigger: Trigger '{gameObject.name}' já foi ativado e onlyOnce está habilitado");
-            }
             return false;
         }
         
         // Sempre tenta disparar o evento - o RadioController decidirá se aceita ou não
         // Se o RadioController rejeitar, não marcamos como hasTriggered
         
-        if (showDebugLogs)
-        {
-            Debug.Log($"RadioPaperTrigger: Tentando disparar evento do papel '{gameObject.name}'");
-        }
-        
         // Dispara evento para ativar o Track 2 do rádio
         GameEvents.TriggerRadioPaperTrigger();
         
         // IMPORTANTE: NÃO marca como hasTriggered aqui!
         // Só será marcado quando o RadioController confirmar sucesso via MarkAsSuccessfullyUsed()
-        
-        if (showDebugLogs)
-        {
-            Debug.Log("RadioPaperTrigger: Evento OnRadioPaperTrigger disparado - aguardando confirmação do RadioController");
-        }
         
         return true;
     }
@@ -68,11 +54,6 @@ public class RadioPaperTrigger : MonoBehaviour
     public void MarkAsSuccessfullyUsed()
     {
         hasTriggered = true;
-        
-        if (showDebugLogs)
-        {
-            Debug.Log($"RadioPaperTrigger: '{gameObject.name}' marcado como utilizado com sucesso pelo RadioController");
-        }
     }
 
     /// <summary>
@@ -82,10 +63,5 @@ public class RadioPaperTrigger : MonoBehaviour
     public void ResetPaperTrigger()
     {
         hasTriggered = false;
-        
-        if (showDebugLogs)
-        {
-            Debug.Log("RadioPaperTrigger: Papel resetado - pode ser ativado novamente");
-        }
     }
 }

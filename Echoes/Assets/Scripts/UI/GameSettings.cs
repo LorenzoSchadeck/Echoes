@@ -140,8 +140,6 @@ public class GameSettings : MonoBehaviour
         
         // Apply saved language
         ApplyLanguage();
-        
-        Debug.Log("[GameSettings] Language system initialized");
     }
     
     /// <summary>
@@ -177,8 +175,6 @@ public class GameSettings : MonoBehaviour
         currentLanguage = languageCode;
         ApplyLanguage();
         SaveSettings();
-        
-        Debug.Log($"[GameSettings] Language changed to: {languageCode}");
     }
     
 
@@ -191,11 +187,6 @@ public class GameSettings : MonoBehaviour
         if (customInputAxisController != null)
         {
             customInputAxisController.UpdateSensitivity(mouseSensitivity);
-            Debug.Log($"[GameSettings] ✅ Applied sensitivity {mouseSensitivity:F2} to CustomInputAxisController");
-        }
-        else
-        {
-            Debug.LogWarning("[GameSettings] No CustomInputAxisController assigned! Please assign one in the References section.");
         }
     }
     
@@ -211,11 +202,6 @@ public class GameSettings : MonoBehaviour
         if (targetLocale != null)
         {
             LocalizationSettings.SelectedLocale = targetLocale;
-            Debug.Log($"[GameSettings] ✅ Applied language: {targetLocale.LocaleName} ({currentLanguage})");
-        }
-        else
-        {
-            Debug.LogWarning($"[GameSettings] Language '{currentLanguage}' not found in available locales. Using default.");
         }
     }
     
@@ -229,32 +215,9 @@ public class GameSettings : MonoBehaviour
     {
         customInputAxisController = controller;
         ApplyMouseSensitivity();
-        Debug.Log($"[GameSettings] ✅ CustomInputAxisController assigned and sensitivity applied");
     }
     
-    /// <summary>
-    /// Debug method - shows current CustomInputAxisController state
-    /// </summary>
-    [ContextMenu("Debug Custom Input Axis Controller")]
-    public void DebugCustomInputAxisController()
-    {
-        if (customInputAxisController == null)
-        {
-            Debug.LogWarning("[GameSettings] No CustomInputAxisController assigned.");
-            return;
-        }
-        
-        Debug.Log($"[GameSettings] === CustomInputAxisController Debug ===");
-        Debug.Log($"  GameObject: {customInputAxisController.gameObject.name}");
-        Debug.Log($"  Current Sensitivity: {mouseSensitivity:F2}");
-        Debug.Log($"  Controller Sensitivity: {customInputAxisController.MouseSensitivity:F2}");
-        Debug.Log($"  Look Action: {(customInputAxisController.LookAction != null ? "✅ Assigned" : "❌ Missing")}");
-        Debug.Log($"  Controllers Count: {customInputAxisController.Controllers?.Count ?? 0}");
-        Debug.Log($"  Invert Y: {customInputAxisController.InvertY}");
-        
-        // Trigger the controller's own debug method
-        customInputAxisController.DebugCurrentState();
-    }
+
     
     #endregion
     
@@ -269,8 +232,6 @@ public class GameSettings : MonoBehaviour
         PlayerPrefs.SetFloat("MouseSensitivity", mouseSensitivity);
         PlayerPrefs.SetString("CurrentLanguage", currentLanguage);
         PlayerPrefs.Save();
-        
-        Debug.Log($"[GameSettings] Settings saved: Volume={GetMasterVolumePercentage()}%, Sensitivity={GetMouseSensitivityPercentage()}%, Language={currentLanguage}");
     }
     
     /// <summary>
@@ -285,8 +246,6 @@ public class GameSettings : MonoBehaviour
         // Ensure values are within valid ranges
         masterVolume = Mathf.Clamp01(masterVolume);
         mouseSensitivity = Mathf.Clamp(mouseSensitivity, 0.01f, 3.0f);
-        
-        Debug.Log($"[GameSettings] Settings loaded: Volume={GetMasterVolumePercentage()}%, Sensitivity={GetMouseSensitivityPercentage()}%, Language={currentLanguage}");
     }
     
     /// <summary>
@@ -396,51 +355,6 @@ public class GameSettings : MonoBehaviour
         // Move to next locale
         int nextIndex = (currentIndex + 1) % locales.Count;
         SetLanguage(locales[nextIndex].Identifier.Code);
-    }
-    
-    #endregion
-    
-    #region Debug Methods
-    
-    /// <summary>
-    /// Logs current settings values (for debugging)
-    /// </summary>
-    [System.Diagnostics.Conditional("UNITY_EDITOR")]
-    public void LogCurrentSettings()
-    {
-        Debug.Log($"GameSettings - Master Volume: {masterVolume:F2} ({GetMasterVolumePercentage()}%), " +
-                  $"Mouse Sensitivity: {mouseSensitivity:F2} ({GetMouseSensitivityPercentage()}%), " +
-                  $"Language: {GetCurrentLanguageName()} ({currentLanguage})");
-    }
-    
-    /// <summary>
-    /// Debug method for language system
-    /// </summary>
-    [ContextMenu("Debug Language System")]
-    public void DebugLanguageSystem()
-    {
-        Debug.Log($"[GameSettings] === Language System Debug ===");
-        Debug.Log($"  Current Language Code: {currentLanguage}");
-        Debug.Log($"  Current Language Name: {GetCurrentLanguageName()}");
-        Debug.Log($"  Available Languages: {string.Join(", ", GetAvailableLanguages())}");
-        
-        if (LocalizationSettings.SelectedLocale != null)
-        {
-            Debug.Log($"  Unity Selected Locale: {LocalizationSettings.SelectedLocale.LocaleName}");
-        }
-        else
-        {
-            Debug.Log($"  Unity Selected Locale: ❌ None");
-        }
-    }
-    
-    /// <summary>
-    /// Context menu method to cycle language for testing
-    /// </summary>
-    [ContextMenu("Cycle Language")]
-    public void DebugCycleLanguage()
-    {
-        CycleToNextLanguage();
     }
     
     #endregion

@@ -538,6 +538,18 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-2084842088-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1072369151-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1395539535-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-234985359-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1684130130-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-502212038-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1059201977-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1953331548-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1967846300-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1944983982-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1179164962-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1340655528-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1567584543-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-115662393-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-985704201-0
         values:
         - colorIndex: 7
           iconNameOrGuid: Canvas Icon
@@ -977,7 +989,31 @@ MonoBehaviour:
           iconNameOrGuid: PreMatQuad
         - colorIndex: 0
           iconNameOrGuid: PreMatQuad
-        - colorIndex: 0
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
+          iconNameOrGuid: PreMatQuad
+        - colorIndex: 7
           iconNameOrGuid: PreMatQuad
     - goDatas_byGlobalId:
         keys:

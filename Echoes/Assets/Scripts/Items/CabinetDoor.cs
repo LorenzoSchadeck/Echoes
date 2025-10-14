@@ -41,6 +41,12 @@ public class CabinetDoor : MonoBehaviour, IInteractable
     [Tooltip("Som tocado quando a porta fecha")]
     [SerializeField] private EventReference closeSoundEvent;
 
+    [Header("🗂️ Drawer Dependencies")]
+    [Tooltip("Gavetas que devem estar fechadas para permitir abrir/fechar esta porta")]
+    [SerializeField] private DrawerController[] requiredClosedDrawers;
+    [Tooltip("Mensagem exibida quando gavetas estão abertas")]
+    [SerializeField] private LocalizedString drawersOpenPrompt;
+
     // Estado interno
     private Quaternion initialRotation;
     private bool isOpen = false;
@@ -49,6 +55,7 @@ public class CabinetDoor : MonoBehaviour, IInteractable
 
     // Propriedades públicas
     public bool IsOpen => isOpen;
+    public bool CanInteract => AreRequiredDrawersClosed();
     
     // Propriedades da interface IInteractable
     public string InteractionPrompt
@@ -56,6 +63,10 @@ public class CabinetDoor : MonoBehaviour, IInteractable
         get
         {
             if (isMoving) return string.Empty; // Sem prompt durante movimento
+            
+            // Verifica se gavetas estão fechadas
+            if (!AreRequiredDrawersClosed())
+                return drawersOpenPrompt?.GetLocalizedString() ?? "Feche as gavetas primeiro";
             
             if (isOpen)
                 return closePrompt?.GetLocalizedString() ?? "Fechar";
@@ -85,6 +96,9 @@ public class CabinetDoor : MonoBehaviour, IInteractable
     {
         // Não permite interação durante movimento
         if (isMoving) return false;
+
+        // Verifica se gavetas estão fechadas antes de permitir qualquer interação
+        if (!AreRequiredDrawersClosed()) return false;
 
         if (isOpen)
         {
@@ -162,6 +176,31 @@ public class CabinetDoor : MonoBehaviour, IInteractable
     }
 
     /// <summary>
+    /// Verifica se todas as gavetas necessárias estão fechadas
+    /// </summary>
+    private bool AreRequiredDrawersClosed()
+    {
+        // Se não há gavetas configuradas, sempre permite interação
+        if (requiredClosedDrawers == null || requiredClosedDrawers.Length == 0)
+            return true;
+
+        // Verifica se todas as gavetas estão fechadas
+        foreach (DrawerController drawer in requiredClosedDrawers)
+        {
+            if (drawer == null)
+            {
+                Debug.LogWarning($"[CabinetDoor] {gameObject.name}: Gaveta nula encontrada na lista de gavetas necessárias!", this);
+                continue;
+            }
+
+            if (drawer.IsOpen)
+                return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     /// Abre a porta via código (para uso em scripts)
     /// </summary>
     [ContextMenu("Open Door")]
@@ -211,6 +250,41 @@ public class CabinetDoor : MonoBehaviour, IInteractable
         }
     }
 
+    /// <summary>
+    /// Verifica o status das gavetas necessárias (para debug)
+    /// </summary>
+    [ContextMenu("Check Drawer Status")]
+    private void CheckDrawerStatus()
+    {
+        if (!Application.isPlaying)
+        {
+            Debug.Log("[CabinetDoor] Verificação de gavetas só funciona em runtime!");
+            return;
+        }
+
+        if (requiredClosedDrawers == null || requiredClosedDrawers.Length == 0)
+        {
+            Debug.Log($"[CabinetDoor] {gameObject.name}: Nenhuma gaveta configurada. Interação sempre permitida.");
+            return;
+        }
+
+        Debug.Log($"[CabinetDoor] {gameObject.name}: Status das gavetas:");
+        for (int i = 0; i < requiredClosedDrawers.Length; i++)
+        {
+            var drawer = requiredClosedDrawers[i];
+            if (drawer == null)
+            {
+                Debug.Log($"  Gaveta {i}: NULA");
+            }
+            else
+            {
+                Debug.Log($"  Gaveta {i} ({drawer.gameObject.name}): {(drawer.IsOpen ? "ABERTA" : "FECHADA")}");
+            }
+        }
+
+        Debug.Log($"[CabinetDoor] Interação com porta: {(AreRequiredDrawersClosed() ? "PERMITIDA" : "BLOQUEADA")}");
+    }
+
     #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
@@ -231,6 +305,15 @@ public class CabinetDoor : MonoBehaviour, IInteractable
         // Label informativo
         UnityEditor.Handles.Label(pivot.position + Vector3.up * 0.5f, 
             $"Abertura: {openAngle}° ({(openToPositiveSide ? "+" : "-")})");
+
+        // Status das gavetas necessárias
+        if (requiredClosedDrawers != null && requiredClosedDrawers.Length > 0)
+        {
+            string drawerStatus = Application.isPlaying ? 
+                (AreRequiredDrawersClosed() ? "Gavetas: FECHADAS" : "Gavetas: ABERTAS") : 
+                $"Gavetas: {requiredClosedDrawers.Length} configuradas";
+            UnityEditor.Handles.Label(pivot.position + Vector3.up * 0.7f, drawerStatus);
+        }
     }
     #endif
 }

@@ -71,7 +71,6 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         // NOVA VERIFICAÇÃO: Se legendas do rádio estão ativas, bloqueia interação
         if (RadioSubtitleManager.AreRadioSubtitlesActive())
         {
-            Debug.Log($"SimpleItemDisplay: Interação bloqueada - legendas do rádio estão ativas");
             return false;
         }
         
@@ -86,7 +85,6 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         // Verifica se tem o componente de texto
         if (displayText == null)
         {
-            Debug.LogWarning($"TextMeshProUGUI não está configurado em {gameObject.name}!", this);
             return false;
         }
 
@@ -135,9 +133,6 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         displayText.enabled = true;
         displayText.text = textToDisplay;
         isDisplayActive = true;
-
-        // LOG para debug
-        Debug.Log($"SimpleItemDisplay: Exibindo texto e HABILITANDO componente: {textToDisplay}", this);
     }
 
     /// <summary>
@@ -162,8 +157,6 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         {
             hasBeenUsed = false;
         }
-
-        Debug.Log("SimpleItemDisplay: Texto escondido e componente DESABILITADO - jogador não está mais olhando", this);
     }
 
     private void Reset()

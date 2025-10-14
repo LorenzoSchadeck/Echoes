@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - FlashbackTeleport
+  - Language
   layers:
   - Default
   - TransparentFX

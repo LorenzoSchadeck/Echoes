@@ -46,7 +46,6 @@ public class SafePeriodManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("SafePeriodManager: Múltiplas instâncias detectadas! Destruindo duplicata.");
             Destroy(gameObject);
             return;
         }
@@ -70,11 +69,6 @@ public class SafePeriodManager : MonoBehaviour
     private IEnumerator StartSafePeriodDelayed()
     {
         yield return null; // Aguarda um frame
-        
-        if (showDebugLogs)
-        {
-            Debug.Log("SafePeriodManager: Iniciando período seguro - FlashbackItems serão desabilitados até Track 2 terminar");
-        }
         
         StartSafePeriod();
     }
@@ -141,10 +135,7 @@ public class SafePeriodManager : MonoBehaviour
             }
         }
 
-        if (showDebugLogs)
-        {
-            Debug.Log($"SafePeriodManager: Estados originais salvos - {originalMemoryObjectsStates?.Length ?? 0} objetos de lembrança e {originalNonInteractableObjectsStates?.Length ?? 0} objetos não-interagíveis");
-        }
+
     }
 
     /// <summary>
@@ -163,10 +154,7 @@ public class SafePeriodManager : MonoBehaviour
         // MANTÉM ATIVOS os GameObjects não-interagíveis (representam lembranças bloqueadas)
         SetNonInteractableMemoryObjectsActive(true);
         
-        if (showDebugLogs)
-        {
-            Debug.Log($"SafePeriodManager: ✅ PERÍODO SEGURO ATIVO - Lembranças interagíveis DESATIVADAS e não-interagíveis ATIVAS até Track 2 terminar");
-        }
+
     }
 
     /// <summary>
@@ -187,10 +175,7 @@ public class SafePeriodManager : MonoBehaviour
         // DESATIVA os GameObjects não-interagíveis (não são mais necessários)
         SetNonInteractableMemoryObjectsActive(false);
         
-        if (showDebugLogs)
-        {
-            Debug.Log($"SafePeriodManager: 🎯 PERÍODO SEGURO TERMINADO - Lembranças interagíveis ATIVADAS e não-interagíveis DESATIVADAS!");
-        }
+
     }
 
     /// <summary>
@@ -246,10 +231,7 @@ public class SafePeriodManager : MonoBehaviour
             {
                 memoryGameObjects[i].SetActive(active);
                 
-                if (showDebugLogs)
-                {
-                    Debug.Log($"SafePeriodManager: GameObject de lembrança '{memoryGameObjects[i].name}' definido como {(active ? "ATIVO" : "INATIVO")}");
-                }
+
             }
         }
     }
@@ -267,10 +249,7 @@ public class SafePeriodManager : MonoBehaviour
             {
                 nonInteractableMemoryObjects[i].SetActive(active);
                 
-                if (showDebugLogs)
-                {
-                    Debug.Log($"SafePeriodManager: GameObject não-interagível '{nonInteractableMemoryObjects[i].name}' definido como {(active ? "ATIVO" : "INATIVO")}");
-                }
+
             }
         }
     }
@@ -289,10 +268,7 @@ public class SafePeriodManager : MonoBehaviour
                 {
                     memoryGameObjects[i].SetActive(originalMemoryObjectsStates[i]);
                     
-                    if (showDebugLogs)
-                    {
-                        Debug.Log($"SafePeriodManager: Estado original restaurado para '{memoryGameObjects[i].name}': {originalMemoryObjectsStates[i]}");
-                    }
+
                 }
             }
         }
@@ -306,10 +282,7 @@ public class SafePeriodManager : MonoBehaviour
                 {
                     nonInteractableMemoryObjects[i].SetActive(originalNonInteractableObjectsStates[i]);
                     
-                    if (showDebugLogs)
-                    {
-                        Debug.Log($"SafePeriodManager: Estado original restaurado para '{nonInteractableMemoryObjects[i].name}': {originalNonInteractableObjectsStates[i]}");
-                    }
+
                 }
             }
         }

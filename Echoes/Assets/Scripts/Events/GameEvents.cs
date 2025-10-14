@@ -83,4 +83,8 @@ public static class GameEvents
     // Evento para ativação da segunda faixa via papel
     public static event Action OnRadioPaperTrigger;
     public static void TriggerRadioPaperTrigger() => OnRadioPaperTrigger?.Invoke();
+    
+    // Evento para reset completo de todos os sistemas quando a cena é resetada
+    public static event Action OnSceneReset;
+    public static void TriggerSceneReset() => OnSceneReset?.Invoke();
 }

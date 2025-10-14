@@ -46,7 +46,24 @@ public class PostProcessingManager : MonoBehaviour
     // Sistema de coordenação flashback-remédio
     private bool isFlashbackExitInProgress = false;
     private bool hasPendingRemedyTransition = false;
-    private bool isRemedyTransitionActive = false;
+    private bool isPostProcessingRemedyActive = false;
+    
+    // DEBUG: Property para rastrear quem modifica a flag
+    private bool IsPostProcessingRemedyActive 
+    { 
+        get => isPostProcessingRemedyActive; 
+        set 
+        { 
+            if (value != isPostProcessingRemedyActive)
+            {
+                Debug.LogError($"[PostProcessing] 🔍 isPostProcessingRemedyActive changed to {value}\nStackTrace:\n{System.Environment.StackTrace}");
+                isPostProcessingRemedyActive = value;
+            }
+        } 
+    }
+    
+    // Controle de estado de flashback para permitir resposta à sanidade
+    private bool isInFlashback = false;
 
     private void Awake()
     {
@@ -68,8 +85,8 @@ public class PostProcessingManager : MonoBehaviour
 
     private void Update()
     {
-        // Não aplica mudanças automáticas durante transições ativas ou de remédio
-        if (activeVisualEffectCoroutine == null && !isRemedyTransitionActive)
+        // Não aplica mudanças automáticas durante transições ativas, de remédio, ou flashbacks
+        if (activeVisualEffectCoroutine == null && !IsPostProcessingRemedyActive && !isInFlashback)
         {
             // Calcula o 't' (0 a 1) para a interpolação com base no limiar.
             float t = Mathf.InverseLerp(visualEffectStartThreshold, 0f, currentSanity);
@@ -99,11 +116,24 @@ public class PostProcessingManager : MonoBehaviour
 
     private void HandleInsanityChange(float newInsanityValue)
     {
-        // Durante transição de remédio, ignora mudanças de sanidade para não interferir na transição suave
-        if (isRemedyTransitionActive) return;
-        
-        // Sempre atualiza a sanidade interna
+        // CORREÇÃO: Sempre atualiza a sanidade interna PRIMEIRO (para manter sincronização)
         currentSanity = newInsanityValue;
+        
+        // Durante transição de remédio E fora de flashback, bloqueia apenas aplicação de efeitos visuais
+        if (IsPostProcessingRemedyActive && !isInFlashback) 
+        {
+            Debug.Log($"[PostProcessing] ❌ Visual effects for sanity {newInsanityValue:F2} BLOCKED - post-processing remedy transition active (but sanity value updated)");
+            return;
+        }
+        Debug.Log($"[PostProcessing] ✅ Sanity changed to {newInsanityValue:F2} | isInFlashback: {isInFlashback} | activeCoroutine: {(activeVisualEffectCoroutine != null ? "ACTIVE" : "NULL")}");
+        
+        // Se estamos em flashback, aplica efeitos de pós-processamento baseados na sanidade
+        // SEMPRE aplica durante flashback, mesmo se há transição ativa
+        if (isInFlashback)
+        {
+            Debug.Log($"[PostProcessing] 🎬 Applying flashback effects - Sanity: {currentSanity:F2}");
+            ApplySanityEffectsOverFlashback();
+        }
     }
 
     /// <summary>
@@ -120,9 +150,9 @@ public class PostProcessingManager : MonoBehaviour
         }
         
         // Reset da flag de transição de remédio se necessário
-        if (isRemedyTransitionActive)
+        if (IsPostProcessingRemedyActive)
         {
-            isRemedyTransitionActive = false;
+            IsPostProcessingRemedyActive = false;
         }
     }
     
@@ -149,15 +179,25 @@ public class PostProcessingManager : MonoBehaviour
             hasPendingRemedyTransition = false;
             
             // IMPORTANTE: Ativa a flag antes da transição
-            isRemedyTransitionActive = true;
+            IsPostProcessingRemedyActive = true;
 
             StartVisualEffect(SmoothRemedyTransitionRoutine());
         }
     }
 
     // --- Disparadores de Efeitos ---
-    private void OnFlashbackStarted() => StartVisualEffect(TransitionToProfileRoutine(flashbackProfile, stateTransitionDuration));
-    private void OnFlashbackEnded() => StartVisualEffect(TransitionToProfileRoutine(saneProfile, stateTransitionDuration));
+    private void OnFlashbackStarted()
+    {
+        Debug.Log("[PostProcessing] 🎬 FLASHBACK STARTED - Setting up transition");
+        isInFlashback = true;
+        StartVisualEffect(TransitionToProfileRoutine(flashbackProfile, stateTransitionDuration));
+    }
+    
+    private void OnFlashbackEnded()
+    {
+        isInFlashback = false;
+        StartVisualEffect(TransitionToProfileRoutine(saneProfile, stateTransitionDuration));
+    }
     private void OnDeathSequenceCancelled() 
     {     
         // Se uma saída de flashback está em progresso, agenda a transição de remédio para depois
@@ -169,7 +209,7 @@ public class PostProcessingManager : MonoBehaviour
         {
             // IMPORTANTE: Marca imediatamente que a transição de remédio começou
             // para bloquear mudanças de sanidade que possam interferir
-            isRemedyTransitionActive = true;
+            IsPostProcessingRemedyActive = true;
             
             // Executa transição suave para o perfil são
             StartVisualEffect(SmoothRemedyTransitionRoutine());
@@ -250,16 +290,17 @@ public class PostProcessingManager : MonoBehaviour
         {
             currentBaseProfile = saneProfile;
             currentInsanityProfile = insaneProfile;
-            currentSanity = 1.0f; // Sincroniza apenas se for transição para são
+            // REMOVIDO: não resetar sanidade aqui - é gerenciada pelo InsanityManager
         }
         else if (targetProfile == flashbackProfile)
         {
             currentBaseProfile = flashbackProfile;
             currentInsanityProfile = insaneProfile;
-            currentSanity = 1.0f; // No flashback também reseta a sanidade
+            // REMOVIDO: não resetar sanidade aqui - é gerenciada pelo InsanityManager
         }
 
         activeVisualEffectCoroutine = null;
+        Debug.Log($"[PostProcessing] ✅ Transition completed - Target: {targetProfile.name} | isInFlashback: {isInFlashback}");
     }
 
     private IEnumerator DeathEffectRoutine(float duration)
@@ -355,10 +396,21 @@ public class PostProcessingManager : MonoBehaviour
         // Atualiza o estado para perfil são
         currentBaseProfile = saneProfile;
         currentInsanityProfile = insaneProfile;
-        currentSanity = 1.0f;
+        // REMOVIDO: sanidade é gerenciada pelo InsanityManager, não aqui
 
         // DESBLOQUEIA mudanças de sanidade após a transição
-        isRemedyTransitionActive = false;
+        IsPostProcessingRemedyActive = false;
+        
+        // CORREÇÃO: Força aplicação dos efeitos baseados na sanidade atual após a transição
+        // Isso garante que se a sanidade mudou durante a transição, os efeitos corretos sejam aplicados
+        Debug.Log($"[PostProcessing] 🔄 Remedy transition completed - Applying effects for current sanity: {currentSanity:F2}");
+        if (!isInFlashback && currentSanity < 1.0f)
+        {
+            // Se sanidade não está 100%, aplica efeitos de insanidade baseados no valor atual
+            float insanityLevel = 1f - currentSanity;
+            ApplyBlendedProfile(insanityLevel);
+            Debug.Log($"[PostProcessing] 🎯 Applied insanity effects for sanity {currentSanity:F2} (insanity level: {insanityLevel:F2})");
+        }
         
         activeVisualEffectCoroutine = null;
     }
@@ -566,7 +618,7 @@ public class PostProcessingManager : MonoBehaviour
         }
 
         // Reset do estado de transição de remédio
-        isRemedyTransitionActive = false;
+        IsPostProcessingRemedyActive = false;
 
         // Aplica valores do perfil são imediatamente
         if (saneProfile != null)
@@ -585,11 +637,67 @@ public class PostProcessingManager : MonoBehaviour
 
             currentBaseProfile = saneProfile;
             currentInsanityProfile = insaneProfile;
-            currentSanity = 1.0f;
+            // REMOVIDO: sanidade é gerenciada pelo InsanityManager
         }
 
         // Remove qualquer override de lens distortion
         hasLensDistortionOverride = false;
+    }
+
+    /// <summary>
+    /// Aplica transição de pós-processamento durante flashbacks,
+    /// interpolando do perfil de flashback para o perfil insano baseado na sanidade.
+    /// </summary>
+    private void ApplySanityEffectsOverFlashback()
+    {
+        if (flashbackProfile == null || insaneProfile == null) 
+        {
+            Debug.LogError("[PostProcessing] ❌ Missing profiles for flashback effects!");
+            return;
+        }
+
+        // Durante flashback, SEMPRE faz transição flashback -> insane baseado na sanidade
+        // 1.0f = 100% flashback, 0.0f = 100% insane
+        float insanityIntensity = 1.0f - currentSanity;
+        Debug.Log($"[PostProcessing] 🔄 Flashback transition - Sanity: {currentSanity:F2} | Insanity Intensity: {insanityIntensity:F2}");
+
+        // Interpola diretamente entre o perfil de flashback e o perfil insano
+        // 0 = 100% flashback profile, 1 = 100% insane profile
+        
+        // Vinheta: transição completa flashback -> insano
+        vignette.intensity.value = Mathf.Lerp(flashbackProfile.vignetteIntensity, 
+            insaneProfile.vignetteIntensity, insanityIntensity);
+
+        // Bloom: transição completa flashback -> insano
+        bloom.intensity.value = Mathf.Lerp(flashbackProfile.bloomIntensity, 
+            insaneProfile.bloomIntensity, insanityIntensity);
+        bloom.threshold.value = Mathf.Lerp(flashbackProfile.bloomThreshold, 
+            insaneProfile.bloomThreshold, insanityIntensity);
+
+        // Aberração cromática: transição completa flashback -> insano
+        chromaticAberration.intensity.value = Mathf.Lerp(flashbackProfile.chromaticAberrationIntensity, 
+            insaneProfile.chromaticAberrationIntensity, insanityIntensity);
+
+        // Distorção de lente: se não há override ativo, faz transição completa
+        if (!hasLensDistortionOverride)
+        {
+            lensDistortion.intensity.value = Mathf.Lerp(flashbackProfile.lensDistortionIntensity, 
+                insaneProfile.lensDistortionIntensity, insanityIntensity);
+            lensDistortion.scale.value = Mathf.Lerp(flashbackProfile.lensDistortionScale, 
+                insaneProfile.lensDistortionScale, insanityIntensity);
+        }
+
+        // Ajustes de cor: transição completa flashback -> insano
+        colorAdjustments.postExposure.value = Mathf.Lerp(flashbackProfile.postExposure, 
+            insaneProfile.postExposure, insanityIntensity);
+        colorAdjustments.contrast.value = Mathf.Lerp(flashbackProfile.contrast, 
+            insaneProfile.contrast, insanityIntensity);
+        colorAdjustments.colorFilter.value = Color.Lerp(flashbackProfile.colorFilter, 
+            insaneProfile.colorFilter, insanityIntensity);
+        colorAdjustments.hueShift.value = Mathf.Lerp(flashbackProfile.hueShift, 
+            insaneProfile.hueShift, insanityIntensity);
+        colorAdjustments.saturation.value = Mathf.Lerp(flashbackProfile.saturation, 
+            insaneProfile.saturation, insanityIntensity);
     }
 
 

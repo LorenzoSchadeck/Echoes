@@ -54,7 +54,6 @@ public class RemedyPack : MonoBehaviour, IInteractable
             PlayRemedyUseSound();
             
             remedyCount--;
-            Debug.Log($"Remédio usado do pacote! Restam: {remedyCount}");
             
             GameEvents.TriggerRemedyUsed();
             
@@ -62,7 +61,6 @@ public class RemedyPack : MonoBehaviour, IInteractable
         }
         else
         {
-            Debug.Log("Não há mais remédios neste pacote!");
             return false;
         }
     }
@@ -85,9 +83,9 @@ public class RemedyPack : MonoBehaviour, IInteractable
             // Libera a instância automaticamente após tocar
             remedySoundInstance.release();
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
-            Debug.LogWarning($"[RemedyPack] {name}: Erro ao tocar som de uso do remédio: {e.Message}");
+            // Silent error handling
         }
     }
 }

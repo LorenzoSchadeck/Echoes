@@ -416,17 +416,42 @@ public class DeathManager : MonoBehaviour
 
         try
         {
-            // Para todos os eventos FMOD antes de resetar
+            // 1. Dispara evento para todos os sistemas se prepararem para o reset
+            if (enableDebugLogs)
+                Debug.Log("[DeathManager] 📢 Disparando evento OnSceneReset para todos os sistemas");
+            GameEvents.TriggerSceneReset();
+            
+            // 2. Para todos os eventos FMOD antes de resetar para garantir limpeza completa
             if (RuntimeManager.IsInitialized)
             {
-                FMOD.RESULT result = RuntimeManager.StudioSystem.setParameterByName("Sanity", 1f);
+                // Para todos os eventos do master bus
+                FMOD.RESULT result = RuntimeManager.StudioSystem.getBus("bus:/", out FMOD.Studio.Bus masterBus);
+                if (result == FMOD.RESULT.OK)
+                {
+                    masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                    if (enableDebugLogs)
+                        Debug.Log("[DeathManager] Master bus - todos os eventos parados (IMMEDIATE)");
+                }
+                
+                // Reseta parâmetro de sanidade para o estado inicial
+                result = RuntimeManager.StudioSystem.setParameterByName("Sanity", 1f);
                 if (result != FMOD.RESULT.OK && enableDebugLogs)
                 {
                     Debug.LogWarning($"[DeathManager] Falha ao resetar parâmetro Sanity: {result}");
                 }
+                
+                // Force um update do sistema FMOD para aplicar as mudanças
+                RuntimeManager.StudioSystem.update();
+                
+                if (enableDebugLogs)
+                    Debug.Log("[DeathManager] 🔇 Sistema FMOD completamente limpo antes do reset da cena");
             }
-            
-            // Recarrega a cena atual
+            else if (enableDebugLogs)
+            {
+                Debug.LogWarning("[DeathManager] FMOD não inicializado - pulando limpeza de áudio");
+            }
+
+            // 3. Recarrega a cena atual
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
             
@@ -438,7 +463,7 @@ public class DeathManager : MonoBehaviour
             Debug.LogError($"[DeathManager] Erro ao resetar a cena: {ex.Message}");
         }
     }
-
+    
     #endregion
 
     #region Post-Reset Fade Out

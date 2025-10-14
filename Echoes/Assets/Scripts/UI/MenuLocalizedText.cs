@@ -59,7 +59,6 @@ public class MenuLocalizedText : MonoBehaviour
     {
         if (localizedString == null || localizedString.IsEmpty || textComponent == null)
         {
-            Debug.LogWarning($"[MenuLocalizedText] LocalizedString is not configured or text component missing for: {gameObject.name}");
             return;
         }
         
@@ -76,7 +75,6 @@ public class MenuLocalizedText : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"[MenuLocalizedText] Failed to get localized string for: {gameObject.name}");
                 if (textComponent != null)
                 {
                     textComponent.text = localizedString.TableEntryReference.ToString(); // Fallback
@@ -116,8 +114,6 @@ public class MenuLocalizedText : MonoBehaviour
     private void TestUpdateText()
     {
         UpdateText();
-        string keyInfo = localizedString != null ? localizedString.TableEntryReference.ToString() : "None";
-        Debug.Log($"[MenuLocalizedText] Updated text for: {gameObject.name} with LocalizedString: {keyInfo}");
     }
     
     /// <summary>
@@ -129,11 +125,6 @@ public class MenuLocalizedText : MonoBehaviour
         if (localizedString == null || localizedString.IsEmpty)
         {
             Debug.LogWarning($"[MenuLocalizedText] LocalizedString is not configured for: {gameObject.name}");
-        }
-        else
-        {
-            string keyInfo = localizedString.TableEntryReference.ToString();
-            Debug.Log($"[MenuLocalizedText] Configuration is valid for: {gameObject.name}, LocalizedString: {keyInfo}");
         }
         
         if (textComponent == null)

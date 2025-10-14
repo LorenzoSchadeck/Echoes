@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Localization;
+using System.Collections;
 
 [RequireComponent(typeof(Collider))]
 public class FlashbackItem : MonoBehaviour, IInteractable
@@ -34,14 +35,33 @@ public class FlashbackItem : MonoBehaviour, IInteractable
             return false;
         }
 
-        Debug.Log($"Interação com {gameObject.name} bem-sucedida. Iniciando flashback sem retorno automático.");  
+        Debug.Log($"Interação com {gameObject.name} bem-sucedida. Iniciando flashback com cura de texturas.");  
 
         isActivated = true;
-        GameEvents.TriggerFlashbackStarted();
+        
+        // CORREÇÃO: Dispara evento de remédio ANTES do flashback para curar texturas
+        Debug.Log($"[FlashbackItem] Disparando evento de remédio para curar texturas antes do flashback");
+        GameEvents.TriggerRemedyUsed();
+        
+        // Aguarda um frame para permitir que os sistemas processem o evento de remédio
+        StartCoroutine(StartFlashbackAfterRemedyFrame());
+        
         isActivated = false;
         
         // this.enabled = false; 
 
         return true;
+    }
+    
+    /// <summary>
+    /// Corrotina que inicia o flashback após um frame, permitindo que o sistema de remédio processe primeiro
+    /// </summary>
+    private System.Collections.IEnumerator StartFlashbackAfterRemedyFrame()
+    {
+        // Aguarda um frame para garantir que o evento de remédio seja processado primeiro
+        yield return null;
+        
+        Debug.Log($"[FlashbackItem] Iniciando flashback após processamento do remédio");
+        GameEvents.TriggerFlashbackStarted();
     }
 }

@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.Localization;
 using FMODUnity;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RadioController : MonoBehaviour, IInteractable
 {
@@ -33,35 +35,30 @@ public class RadioController : MonoBehaviour, IInteractable
         // PRIMEIRA VERIFICAÇÃO: Sem prompt se não pode interagir (desligado permanentemente)
         if (!canInteract) 
         {
-            if (showDebugLogs) Debug.Log("CanShowPrompt: FALSE - canInteract = false");
             return false;
         }
         
         // SEGUNDA VERIFICAÇÃO: Sem prompt enquanto o rádio estiver desligado
         if (currentState == RadioState.Off) 
         {
-            if (showDebugLogs) Debug.Log("CanShowPrompt: FALSE - currentState = Off");
             return false;
         }
         
         // TERCEIRA VERIFICAÇÃO: Track 2 - nunca mostra prompt (não pode ser desligada)
         if (currentState == RadioState.Track2Playing)
         {
-            if (showDebugLogs) Debug.Log("CanShowPrompt: FALSE - Track2Playing não pode ser desligada");
             return false;
         }
         
         // QUARTA VERIFICAÇÃO: Modo puzzle - sempre mostra prompt de sintonizar
         if (currentState == RadioState.PuzzleMode)
         {
-            if (showDebugLogs) Debug.Log("CanShowPrompt: TRUE - PuzzleMode ativo");
             return true;
         }
         
         // QUINTA VERIFICAÇÃO: Durante reprodução de tracks, verifica tempo mínimo
         if (IsPlayingTrack() && !HasMinimumPlayTimePassed())
         {
-            if (showDebugLogs) Debug.Log($"CanShowPrompt: FALSE - Track tocando mas tempo mínimo não passou ({Time.time - trackStartTime:F1}s/{minPlayTimeBeforeShutdown}s)");
             return false; // Não mostra prompt se ainda não passou tempo mínimo
         }
         
@@ -69,18 +66,15 @@ public class RadioController : MonoBehaviour, IInteractable
         if (currentState == RadioState.Track1Static || 
             (currentState == RadioState.Track3Playing && HasMinimumPlayTimePassed()))
         {
-            if (showDebugLogs) Debug.Log($"CanShowPrompt: TRUE - Estado {currentState} permite interação");
             return true;
         }
         
         // SÉTIMA VERIFICAÇÃO: Track 1 após tempo mínimo
         if (currentState == RadioState.Track1Playing && HasMinimumPlayTimePassed())
         {
-            if (showDebugLogs) Debug.Log("CanShowPrompt: TRUE - Track1 após tempo mínimo");
             return true;
         }
         
-        if (showDebugLogs) Debug.Log($"CanShowPrompt: FALSE - Nenhuma condição atendida (Estado: {currentState})");
         return false;
     }
     
@@ -190,6 +184,10 @@ public class RadioController : MonoBehaviour, IInteractable
 
     [Header("Lógica de Frequência")]
     [SerializeField] private float targetFrequency = 95.45f;
+    [Tooltip("Frequência mínima do rádio (MHz)")]
+    [SerializeField] private float minFrequency = 88.0f;
+    [Tooltip("Frequência máxima do rádio (MHz)")]
+    [SerializeField] private float maxFrequency = 108.0f;
     private float currentFrequency;
     private bool isSolved = false;
 
@@ -220,9 +218,9 @@ public class RadioController : MonoBehaviour, IInteractable
     [Tooltip("Distância máxima em que o áudio do rádio pode ser ouvido")]
     [SerializeField] private float maxAudioRange = 70f;
     
-    [Header("🚪 Evento da Porta")]
-    [Tooltip("Objeto que será habilitado após a primeira ativação")]
-    [SerializeField] private GameObject objectToEnable;
+    [Header("🚪 Eventos após Track 1")]
+    [Tooltip("Lista de objetos que serão habilitados após a primeira ativação (Track 1)")]
+    [SerializeField] private GameObject[] objectsToEnable;
     
     [Header("📝 Sistema de Legendas")]
     [Tooltip("Gerenciador de legendas do rádio (opcional)")]
@@ -243,11 +241,16 @@ public class RadioController : MonoBehaviour, IInteractable
     private bool track1HasBeenPlayed = false; // Se Track 1 já foi tocada
     private bool track1HasEnded = false; // Se Track 1 foi encerrada (terminada ou desligada)
     
-    [Header("Debug")]
-    [SerializeField] private bool showDebugLogs = true;
-
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI frequencyDisplayText;
+    
+    [Header("🎬 DEMO ONLY - Fade & Reset (Track 3) - REMOVER NA VERSÃO FINAL")]
+    [Tooltip("Canvas com a imagem preta para fade (DEMO ONLY)")]
+    [SerializeField] private Canvas fadeCanvas;
+    [Tooltip("Imagem preta para o fade (DEMO ONLY)")]
+    [SerializeField] private Image fadeImage;
+    [Tooltip("Duração do fade para preto (DEMO ONLY)")]
+    [SerializeField] private float fadeDuration = 2f;
 
     private PlayerInputActions inputActions;
     private PlayerInteractor playerInteractor;
@@ -260,6 +263,9 @@ public class RadioController : MonoBehaviour, IInteractable
         audioTrigger = gameObject.GetComponent<FMODAudioTrigger>();
         if (audioTrigger == null)
             audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
+            
+        // CORREÇÃO: Reset completo do estado do rádio quando a cena carrega
+        ResetRadioStateOnSceneLoad();
     }
 
     private void Update()
@@ -269,7 +275,6 @@ public class RadioController : MonoBehaviour, IInteractable
         {
             if (Mouse.current.rightButton.wasPressedThisFrame)
             {
-                if (showDebugLogs) Debug.Log("RadioController: Cancelamento via botão direito do mouse detectado");
                 ExitInteraction();
             }
         }
@@ -277,17 +282,18 @@ public class RadioController : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        currentFrequency = 88.00f;
+        // Validação da frequência alvo
+        ValidateFrequencySettings();
+        
+        currentFrequency = minFrequency; // Inicia na frequência mínima (88.00 MHz)
         UpdateFrequencyDisplay();
         UpdateDialHighlight();
         
-        if (showDebugLogs) Debug.Log($"RadioController: Start() chamado - Estado inicial: {currentState}");
-        
-        // Teste direto do evento para debug
-        if (showDebugLogs) 
+        // Garantir que a câmera inicia com prioridade -1 (inativa)
+        if (radioCamera != null)
         {
-            Debug.Log("RadioController: Testando se OnRadioPaperTrigger está funcionando...");
-            // Não vamos disparar o evento aqui, só confirmar que está inscrito
+            radioCamera.Priority.Value = -1;
+            Debug.Log($"[RadioController] Câmera inicializada com Priority: {radioCamera.Priority.Value}");
         }
     }
 
@@ -301,7 +307,9 @@ public class RadioController : MonoBehaviour, IInteractable
         GameEvents.OnRadioFirstTrigger += OnFirstTrigger;
         GameEvents.OnRadioPaperTrigger += OnPaperTrigger;
         
-        if (showDebugLogs) Debug.Log("RadioController: Eventos inscritos - OnRadioFirstTrigger e OnRadioPaperTrigger");
+        // CORREÇÃO: Listeners para reset completo do sistema
+        GameEvents.OnSceneReset += OnSceneResetTriggered;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
@@ -313,6 +321,10 @@ public class RadioController : MonoBehaviour, IInteractable
         // Remover eventos do fluxo
         GameEvents.OnRadioFirstTrigger -= OnFirstTrigger;
         GameEvents.OnRadioPaperTrigger -= OnPaperTrigger;
+        
+        // CORREÇÃO: Remove listeners de reset do sistema
+        GameEvents.OnSceneReset -= OnSceneResetTriggered;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public bool Interact(Transform interactor)
@@ -345,7 +357,6 @@ public class RadioController : MonoBehaviour, IInteractable
                 
             case RadioState.Track2Playing:
                 // Track 2 - não pode ser desligada, mas após 33s vira modo puzzle
-                if (showDebugLogs) Debug.Log("RadioController: Track 2 - aguardando 33s para modo puzzle");
                 return false;
                 
             case RadioState.Track2Static:
@@ -378,8 +389,20 @@ public class RadioController : MonoBehaviour, IInteractable
         PlayerMovement.canMove = false;
         playerInteractor.SetInspectionMode(true);
 
-        if (radioCamera != null) radioCamera.Priority.Value = 20;
-        if (playerCamera != null) playerCamera.Priority.Value = -1;
+        if (radioCamera != null) 
+        {
+            radioCamera.Priority.Value = 15; // Prioridade alta quando ativo
+            Debug.Log($"[RadioController] Câmera ativada - Priority: {radioCamera.Priority.Value}");
+        }
+        else
+        {
+            Debug.LogError("[RadioController] radioCamera é null! Verifique a atribuição no Inspector.");
+        }
+        
+        if (playerCamera != null) 
+        {
+            playerCamera.Priority.Value = 1; // Player camera mantém prioridade padrão
+        }
 
         inputActions.Player.SwitchDial.Enable();
         inputActions.Player.Tune.Enable();
@@ -413,8 +436,6 @@ public class RadioController : MonoBehaviour, IInteractable
         bool isFirstTimeTrack1 = !track1HasBeenPlayed;
         track1HasBeenPlayed = true; // Marca que Track 1 foi tocada
 
-        if (showDebugLogs) Debug.Log($"RadioController: Iniciando Track 1 (primeira vez: {isFirstTimeTrack1}) - Track 1 marcada como tocada");
-
         // Reproduz a faixa 1 via FMOD usando instância direta
         currentEventInstance = FMODUnity.RuntimeManager.CreateInstance(track1Event);
         
@@ -425,13 +446,6 @@ public class RadioController : MonoBehaviour, IInteractable
             currentEventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, maxAudioRange);
             
             FMOD.RESULT result = currentEventInstance.start();
-            
-            if (showDebugLogs) 
-            {
-                Debug.Log($"RadioController: Track 1 FMOD start result: {result}");
-                Debug.Log($"RadioController: Event instance válida: {currentEventInstance.isValid()}");
-                Debug.Log($"RadioController: Audio range definido para: {maxAudioRange}m");
-            }
         }
         else
         {
@@ -444,13 +458,7 @@ public class RadioController : MonoBehaviour, IInteractable
         // Inicia legendas se o manager estiver configurado
         if (subtitleManager != null)
         {
-            if (showDebugLogs) Debug.Log($"RadioController: CHAMANDO StartTrack1Subtitles (primeira vez: {isFirstTimeTrack1})");
             subtitleManager.StartTrack1Subtitles(isFirstTimeTrack1);
-            if (showDebugLogs) Debug.Log($"RadioController: Legendas da Track 1 iniciadas (primeira vez: {isFirstTimeTrack1})");
-        }
-        else
-        {
-            if (showDebugLogs) Debug.LogWarning("RadioController: ERRO - subtitleManager está NULL! Legendas não serão exibidas!");
         }
 
         // Inicia corrotina para monitorar fim da faixa
@@ -462,15 +470,12 @@ public class RadioController : MonoBehaviour, IInteractable
     /// </summary>
     private void OnTrack1Complete()
     {
-        if (showDebugLogs) Debug.Log("RadioController: Track 1 completa, entrando em estática!");
-        
         // Marca Track 1 como encerrada (terminou naturalmente)
         track1HasEnded = true;
-        
+
         // CORREÇÃO: Dispara evento para fim do período seguro de sanidade
         GameEvents.TriggerRadioTrack1Completed();
-        if (showDebugLogs) Debug.Log("RadioController: Evento OnRadioTrack1Completed disparado - período seguro de sanidade terminado!");
-        
+
         // Entra em estática após Track 1
         currentState = RadioState.Track1Static;
         canInteract = true;
@@ -479,33 +484,38 @@ public class RadioController : MonoBehaviour, IInteractable
         if (subtitleManager != null)
         {
             subtitleManager.StopSubtitles();
-            if (showDebugLogs) Debug.Log("RadioController: Legendas da Track 1 paradas (track completa)");
         }
 
-        if (showDebugLogs) Debug.Log($"RadioController: Track 1 encerrada naturalmente - papel ainda não pode ser usado (rádio ainda ligado)");
+        // Ativa objetos após término natural da Track 1
+        if (objectsToEnable != null && objectsToEnable.Length > 0)
+        {
+            for (int i = 0; i < objectsToEnable.Length; i++)
+            {
+                if (objectsToEnable[i] != null)
+                {
+                    objectsToEnable[i].SetActive(true);
+                }
+            }
+        }
 
-        // Reproduz estática de fundo
-        PlayStaticLoop();
-    }    /// <summary>
+        // Inicia corrotina para disparar evento da porta com delay de 1 segundo (término natural)
+        StartCoroutine(TriggerDoorKnockAfterDelay());
+
+    }    
+    
+    /// <summary>
     /// Inicia a segunda faixa após ativação por papel
     /// </summary>
     private void StartTrack2()
     {
-        if (showDebugLogs) Debug.Log("RadioController: StartTrack2() chamado - verificando configurações");
-        
         if (track2Event.IsNull) 
         {
             Debug.LogError("RadioController: ERRO - Track 2 event não configurado! Verifique no Inspector se track2Event está definido.");
             return;
         }
 
-        if (showDebugLogs) Debug.Log("RadioController: Track 2 event configurado corretamente - iniciando reprodução");
-
         currentState = RadioState.Track2Playing;
         canInteract = true; // Permite interação (modo puzzle após 33s)
-
-        // Para a estática
-        StopStaticLoop();
 
         // Reproduz a faixa 2 via FMOD usando instância direta
         currentEventInstance = FMODUnity.RuntimeManager.CreateInstance(track2Event);
@@ -517,12 +527,6 @@ public class RadioController : MonoBehaviour, IInteractable
             currentEventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, maxAudioRange);
             
             FMOD.RESULT result = currentEventInstance.start();
-            
-            if (showDebugLogs) 
-            {
-                Debug.Log($"RadioController: Track 2 FMOD start result: {result}");
-                Debug.Log($"RadioController: Audio range definido para: {maxAudioRange}m");
-            }
         }
         else
         {
@@ -535,13 +539,7 @@ public class RadioController : MonoBehaviour, IInteractable
         // Inicia legendas se o manager estiver configurado
         if (subtitleManager != null)
         {
-            if (showDebugLogs) Debug.Log("RadioController: CHAMANDO StartTrack2Subtitles (primeira vez: true)");
             subtitleManager.StartTrack2Subtitles(true);
-            if (showDebugLogs) Debug.Log("RadioController: Legendas da Track 2 iniciadas (primeira vez: true)");
-        }
-        else
-        {
-            if (showDebugLogs) Debug.LogWarning("RadioController: ERRO - subtitleManager está NULL! Legendas Track 2 não serão exibidas!");
         }
 
         // Inicia corrotina para ativar modo puzzle após 33 segundos
@@ -561,17 +559,12 @@ public class RadioController : MonoBehaviour, IInteractable
         
         if (currentState == RadioState.Track2Playing)
         {
-            if (showDebugLogs) Debug.Log("RadioController: 33 segundos passaram - ativando modo puzzle (Track 2 continua tocando)");
-            
             // Muda para modo puzzle mas mantém Track 2 tocando
             currentState = RadioState.PuzzleMode;
             isPuzzleMode = true;
             
-            // Dispara evento indicando que Track 2 atingiu o tempo necessário (ativa sanidade)
-            if (showDebugLogs) Debug.Log("RadioController: DISPARANDO GameEvents.TriggerRadioTrack2Completed() - sanidade deve ativar!");
-            GameEvents.TriggerRadioTrack2Completed();
-            
-            if (showDebugLogs) Debug.Log("RadioController: Modo puzzle ativado - Track 2 continua tocando, jogador pode sintonizar");
+            // Inicia corrotina para disparar evento Track 2 completada com delay de 1 segundo
+            StartCoroutine(TriggerRadioTrack2CompletedAfterDelay());
         }
     }
 
@@ -580,22 +573,19 @@ public class RadioController : MonoBehaviour, IInteractable
     /// </summary>
     private void OnTrack2Complete()
     {
-        if (showDebugLogs) Debug.Log("RadioController: Track 2 terminou naturalmente - reiniciando em loop");
-        
         // Se ainda não está em modo puzzle, ativa agora
         if (currentState != RadioState.PuzzleMode)
         {
             currentState = RadioState.PuzzleMode;
             isPuzzleMode = true;
             
-            // Dispara sanidade se ainda não foi disparada
-            GameEvents.TriggerRadioTrack2Completed();
+            // Inicia corrotina para disparar evento Track 2 completada com delay de 1 segundo
+            StartCoroutine(TriggerRadioTrack2CompletedAfterDelay());
         }
         
         // REINICIA Track 2 em loop - só para quando puzzle for resolvido
         if (currentState == RadioState.PuzzleMode && !isSolved)
         {
-            if (showDebugLogs) Debug.Log("RadioController: Reiniciando Track 2 em loop - puzzle ainda não resolvido");
             RestartTrack2Loop();
         }
     }
@@ -615,13 +605,8 @@ public class RadioController : MonoBehaviour, IInteractable
             // Define posição 3D e range máximo
             currentEventInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
             currentEventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, maxAudioRange);
-            
+
             FMOD.RESULT result = currentEventInstance.start();
-            
-            if (showDebugLogs) 
-            {
-                Debug.Log($"RadioController: Track 2 loop restart - FMOD result: {result}");
-            }
             
             // Continua monitorando para próximo loop
             StartCoroutine(MonitorTrackCompletion(OnTrack2Complete));
@@ -643,21 +628,15 @@ public class RadioController : MonoBehaviour, IInteractable
             return;
         }
 
-        if (showDebugLogs) Debug.Log("RadioController: PUZZLE RESOLVIDO - parando Track 2 e iniciando Track 3");
-
         currentState = RadioState.Track3Playing;
         canInteract = true; // Permite desligar durante reprodução
         isPuzzleMode = false; // Sai do modo puzzle
-
-        // Para a estática se estiver tocando
-        StopStaticLoop();
         
         // PARA DEFINITIVAMENTE a Track 2 (que estava em loop)
         if (currentEventInstance.isValid())
         {
             currentEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE); // Para imediatamente
             currentEventInstance.release();
-            if (showDebugLogs) Debug.Log("RadioController: Track 2 PARADA DEFINITIVAMENTE - puzzle resolvido");
         }
 
         // Para todas as corrotinas de monitoramento da Track 2
@@ -673,12 +652,6 @@ public class RadioController : MonoBehaviour, IInteractable
             currentEventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, maxAudioRange);
             
             FMOD.RESULT result = currentEventInstance.start();
-            
-            if (showDebugLogs) 
-            {
-                Debug.Log($"RadioController: Track 3 FMOD start result: {result}");
-                Debug.Log($"RadioController: Track 2 substituída por Track 3 - puzzle concluído!");
-            }
         }
         else
         {
@@ -691,26 +664,22 @@ public class RadioController : MonoBehaviour, IInteractable
         // Inicia legendas se o manager estiver configurado
         if (subtitleManager != null)
         {
-            if (showDebugLogs) Debug.Log("RadioController: CHAMANDO StartTrack3Subtitles (primeira vez: true)");
             subtitleManager.StartTrack3Subtitles(true);
-            if (showDebugLogs) Debug.Log("RadioController: Legendas da Track 3 iniciadas (primeira vez: true)");
-        }
-        else
-        {
-            if (showDebugLogs) Debug.LogWarning("RadioController: ERRO - subtitleManager está NULL! Legendas Track 3 não serão exibidas!");
         }
 
         // Inicia corrotina para monitorar fim da faixa
         StartCoroutine(MonitorTrackCompletion(OnTrack3Complete));
+        
+        // 🎬 DEMO ONLY: Inicia monitoramento para fade automático após 33 segundos
+        // TODO: REMOVER esta linha na versão final do jogo
+        StartCoroutine(MonitorTrack3FadeTimer());
     }
 
     /// <summary>
     /// Chamado quando a faixa 3 termina - fim da primeira fase
     /// </summary>
     private void OnTrack3Complete()
-    {
-        if (showDebugLogs) Debug.Log("RadioController: Track 3 completa - FIM DA PRIMEIRA FASE");
-        
+    { 
         // Rádio desliga automaticamente após Track 3 terminar
         currentState = RadioState.Off;
         canInteract = false;
@@ -720,11 +689,8 @@ public class RadioController : MonoBehaviour, IInteractable
         if (subtitleManager != null)
         {
             subtitleManager.StopSubtitles();
-            if (showDebugLogs) Debug.Log("RadioController: Legendas da Track 3 paradas automaticamente");
         }
         
-        // Para todos os áudios
-        StopStaticLoop();
         audioTrigger.Stop();
         
         // Limpa a instância FMOD
@@ -732,10 +698,7 @@ public class RadioController : MonoBehaviour, IInteractable
         {
             currentEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             currentEventInstance.release();
-            if (showDebugLogs) Debug.Log("RadioController: Track 3 FMOD instance parada e liberada");
         }
-        
-        if (showDebugLogs) Debug.Log("RadioController: Primeira fase do rádio COMPLETAMENTE concluída - rádio desligado automaticamente!");
     }
 
     /// <summary>
@@ -744,8 +707,6 @@ public class RadioController : MonoBehaviour, IInteractable
     private IEnumerator MonitorTrackCompletion(System.Action onComplete)
     {
         if (onComplete == null) yield break;
-
-        if (showDebugLogs) Debug.Log("RadioController: Monitorando fim da track via FMOD");
         
         // Aguarda pelo menos 1 segundo antes de começar a verificar
         yield return new WaitForSeconds(1f);
@@ -753,20 +714,12 @@ public class RadioController : MonoBehaviour, IInteractable
         // Monitora o estado do evento FMOD
         while (true)
         {
-            if (!currentEventInstance.isValid())
-            {
-                if (showDebugLogs) Debug.Log("RadioController: Instância FMOD inválida - track completa");
-                break;
-            }
+            if (!currentEventInstance.isValid()) break;
             
             FMOD.Studio.PLAYBACK_STATE playbackState;
             currentEventInstance.getPlaybackState(out playbackState);
             
-            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-            {
-                if (showDebugLogs) Debug.Log("RadioController: FMOD playback parou - track completa");
-                break;
-            }
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED) break;
             
             yield return new WaitForSeconds(0.1f); // Verifica a cada 100ms
         }
@@ -774,22 +727,28 @@ public class RadioController : MonoBehaviour, IInteractable
         onComplete?.Invoke();
     }
 
-    /// <summary>
-    /// Reproduz loop de estática
-    /// </summary>
-    private void PlayStaticLoop()
-    {
-        if (showDebugLogs) Debug.Log("RadioController: Iniciando loop de estática");
-        // TODO: Implementar reprodução de estática em loop usando FMOD
-    }
+    #endregion
+
+    #region Frequency Validation
 
     /// <summary>
-    /// Para o loop de estática
+    /// Valida as configurações de frequência no Inspector
     /// </summary>
-    private void StopStaticLoop()
+    private void ValidateFrequencySettings()
     {
-        if (showDebugLogs) Debug.Log("RadioController: Parando loop de estática");
-        // TODO: Implementar parada da estática
+        if (minFrequency >= maxFrequency)
+        {
+            Debug.LogError($"[RadioController] ERRO: minFrequency ({minFrequency}) deve ser menor que maxFrequency ({maxFrequency})!");
+            minFrequency = 88.0f;
+            maxFrequency = 108.0f;
+        }
+
+        if (targetFrequency < minFrequency || targetFrequency > maxFrequency)
+        {
+            Debug.LogWarning($"[RadioController] AVISO: targetFrequency ({targetFrequency}) está fora do range {minFrequency}-{maxFrequency} MHz!");
+            Debug.LogWarning($"[RadioController] Ajustando targetFrequency para estar dentro do range permitido.");
+            targetFrequency = Mathf.Clamp(targetFrequency, minFrequency, maxFrequency);
+        }
     }
 
     #endregion
@@ -800,8 +759,16 @@ public class RadioController : MonoBehaviour, IInteractable
         PlayerMovement.canMove = true;
         playerInteractor?.SetInspectionMode(false);
 
-        if (radioCamera != null) radioCamera.Priority.Value = 9;
-        if (playerCamera != null) playerCamera.Priority.Value = 10;
+        if (radioCamera != null) 
+        {
+            radioCamera.Priority.Value = -1; // Inativo - Priority -1
+            Debug.Log($"[RadioController] Câmera desativada - Priority: {radioCamera.Priority.Value}");
+        }
+        
+        if (playerCamera != null) 
+        {
+            playerCamera.Priority.Value = 1; // Player camera volta à prioridade padrão
+        }
 
         // NOVA LÓGICA: Não desliga rádio se Track 3 estiver tocando
         if (!isPuzzleMode && currentState != RadioState.Track3Playing)
@@ -810,7 +777,7 @@ public class RadioController : MonoBehaviour, IInteractable
         }
         else if (currentState == RadioState.Track3Playing)
         {
-            if (showDebugLogs) Debug.Log("RadioController: Saindo da interação mas mantendo Track 3 tocando");
+            Debug.Log("RadioController: Saindo da interação mas mantendo Track 3 tocando");
         }
 
         inputActions.Player.SwitchDial.Disable();
@@ -827,24 +794,23 @@ public class RadioController : MonoBehaviour, IInteractable
     {
         if (currentState == RadioState.Off) return;
         
-        if (showDebugLogs) Debug.Log($"RadioController: DESLIGANDO RÁDIO (estado atual: {currentState})");
-        
         // Se Track 1 foi reproduzida (mesmo que interrompida), marca como encerrada
         if (track1HasBeenPlayed)
         {
             track1HasEnded = true;
-            if (showDebugLogs) Debug.Log("RadioController: Track 1 marcada como encerrada (rádio desligado após Track 1 ter tocado)");
         }
         
         // Verifica se era Track 1 tocando - ativa objeto e evento da porta apenas neste caso
         bool wasTrack1Playing = currentState == RadioState.Track1Playing;
         
+        // 🎬 DEMO ONLY: Verifica se era Track 3 tocando - faz fade e reseta cena
+        // TODO: REMOVER esta funcionalidade na versão final do jogo
+        bool wasTrack3Playing = currentState == RadioState.Track3Playing;
+        
         // DESLIGA PERMANENTEMENTE
         currentState = RadioState.Off;
         canInteract = false; // Desabilita interação permanentemente após desligar
         isPuzzleMode = false; // Desativa modo puzzle
-        
-        if (showDebugLogs) Debug.Log($"RadioController: Estado alterado para OFF, canInteract = {canInteract}");
         
         // Para todas as corrotinas para evitar interferência
         StopAllCoroutines();
@@ -853,41 +819,47 @@ public class RadioController : MonoBehaviour, IInteractable
         if (subtitleManager != null)
         {
             subtitleManager.StopSubtitles();
-            if (showDebugLogs) Debug.Log("RadioController: Legendas paradas");
         }
         
         // Para todos os áudios
         audioTrigger.Stop();
-        StopStaticLoop();
         
         // Para a instância FMOD atual se existir
         if (currentEventInstance.isValid())
         {
             currentEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             currentEventInstance.release();
-            if (showDebugLogs) Debug.Log("RadioController: Instância FMOD parada e liberada");
         }
         
-        // Se era Track 1 tocando, ativa objeto e dispara evento da porta
+        // Se era Track 1 tocando, ativa objetos e dispara evento da porta com delay
         if (wasTrack1Playing)
         {
-            // Ativa o GameObject se configurado
-            if (objectToEnable != null)
+            // Ativa todos os GameObjects configurados na lista imediatamente
+            if (objectsToEnable != null && objectsToEnable.Length > 0)
             {
-                if (showDebugLogs) Debug.Log($"RadioController: Ativando objeto {objectToEnable.name}");
-                objectToEnable.SetActive(true);
+                for (int i = 0; i < objectsToEnable.Length; i++)
+                {
+                    if (objectsToEnable[i] != null)
+                    {
+                        objectsToEnable[i].SetActive(true);
+                    }
+                }
             }
             
-            // Dispara evento para batida na porta
-            if (showDebugLogs) Debug.Log("RadioController: Disparando evento de batida na porta");
-            GameEvents.TriggerDoorKnock();
+            // Inicia corrotina para disparar evento da porta com delay de 1 segundo
+            StartCoroutine(TriggerDoorKnockAfterDelay());
             
-            // CORREÇÃO: Dispara evento para fim do período seguro de sanidade quando Track 1 é interrompida
+            // CORREÇÃO: Dispara evento para fim do período seguro de sanidade quando Track 1 é interrompida (imediato)
             GameEvents.TriggerRadioTrack1Completed();
-            if (showDebugLogs) Debug.Log("RadioController: Evento OnRadioTrack1Completed disparado após interrupção da Track 1 - período seguro de sanidade terminado!");
         }
         
-        if (showDebugLogs) Debug.Log("RadioController: RÁDIO COMPLETAMENTE DESLIGADO - sem mais interações possíveis");
+        // 🎬 DEMO ONLY: Se era Track 3 tocando, inicia fade e reset da cena
+        // TODO: REMOVER todo este bloco na versão final do jogo
+        if (wasTrack3Playing)
+        {
+            StartCoroutine(FadeOutAndResetScene());
+            return; // Não executa o log final pois a cena será resetada
+        }
     }
 
     private void OnExitInteraction(InputAction.CallbackContext context)
@@ -955,7 +927,7 @@ public class RadioController : MonoBehaviour, IInteractable
         }
 
         currentFrequency = Mathf.Round((currentFrequency + frequencyChange) * 100f) / 100f;
-        currentFrequency = Mathf.Clamp(currentFrequency, 88.0f, 108.0f);
+        currentFrequency = Mathf.Clamp(currentFrequency, minFrequency, maxFrequency);
 
         if (currentDial == SelectedDial.Fine)
         {
@@ -973,6 +945,8 @@ public class RadioController : MonoBehaviour, IInteractable
             decimalPart = Mathf.Clamp(decimalPart, 0, 99);
 
             currentFrequency = intPart + (decimalPart / 100f);
+            // Aplica clamp final para garantir que não saia do range permitido
+            currentFrequency = Mathf.Clamp(currentFrequency, minFrequency, maxFrequency);
         }
 
         RotateDial(dialToRotate, direction);
@@ -1001,7 +975,6 @@ public class RadioController : MonoBehaviour, IInteractable
         }
     }
 
-    // --- Fim da lógica de áudio do rádio ---
     private void CheckForSolution()
     {
         if (isSolved) return;
@@ -1010,8 +983,6 @@ public class RadioController : MonoBehaviour, IInteractable
         {
             isSolved = true;
             // puzzleSolved = true;
-            
-            if (showDebugLogs) Debug.Log("RadioController: Frequência sintonizada corretamente! Puzzle resolvido!");
 
             // Desabilita controles do puzzle imediatamente
             inputActions.Player.SwitchDial.Disable();
@@ -1022,7 +993,6 @@ public class RadioController : MonoBehaviour, IInteractable
 
             // SAI AUTOMATICAMENTE após sintonização com delay reduzido
             float exitDelay = 1.5f; // Reduzido de 3s para 1.5s
-            if (showDebugLogs) Debug.Log("RadioController: Saindo automaticamente do modo sintonização em 1.5s (Track 3 continuará tocando)");
             Invoke(nameof(ExitInteraction), exitDelay);
         }
     }
@@ -1051,10 +1021,223 @@ public class RadioController : MonoBehaviour, IInteractable
                 paperInteractCount++;
             }
         }
+    }
+    
+    /// <summary>
+    /// Corrotina que dispara o evento da porta bater com delay de 1 segundo
+    /// </summary>
+    private IEnumerator TriggerDoorKnockAfterDelay()
+    {
+        // Aguarda 1 segundo
+        yield return new WaitForSeconds(1f);
         
-        if (showDebugLogs)
+        // Dispara evento para batida na porta
+        GameEvents.TriggerDoorKnock();
+    }
+    
+    /// <summary>
+    /// Corrotina que dispara o evento da Track 2 completada com delay de 1 segundo
+    /// </summary>
+    private IEnumerator TriggerRadioTrack2CompletedAfterDelay()
+    {
+        // Aguarda 1 segundo
+        yield return new WaitForSeconds(1f);
+        
+        // Dispara evento para Track 2 completada (ativa sanidade)
+        GameEvents.TriggerRadioTrack2Completed();
+    }
+    
+    #region 🎬 DEMO ONLY - Fade & Reset System - TODO: REMOVER NA VERSÃO FINAL
+    
+    /// <summary>
+    /// DEMO ONLY: Monitora a Track 3 e executa fade automático após 33 segundos
+    /// TODO: REMOVER este método inteiro na versão final do jogo
+    /// </summary>
+    private IEnumerator MonitorTrack3FadeTimer()
+    {
+        // Aguarda exatos 33 segundos
+        yield return new WaitForSeconds(minPlayTimeBeforeShutdown);
+        
+        // Verifica se ainda está tocando Track 3 (pode ter sido desligada manualmente)
+        if (currentState == RadioState.Track3Playing && currentEventInstance.isValid())
         {
-            Debug.Log($"RadioController: Marcados {paperTriggers.Length} RadioPaperTrigger(s) e {paperInteractCount} ItemInteract(s) PaperTrigger como utilizados com sucesso");
+            // Para todas as corrotinas para evitar conflitos
+            StopAllCoroutines();
+            
+            // Executa o fade e reset
+            StartCoroutine(FadeOutAndResetScene());
         }
     }
+    
+    /// <summary>
+    /// DEMO ONLY: Corrotina que faz fade para preto e reseta a cena atual
+    /// TODO: REMOVER este método inteiro na versão final do jogo
+    /// </summary>
+    private IEnumerator FadeOutAndResetScene()
+    {
+        // Configurar canvas de fade se não estiver configurado
+        if (fadeCanvas == null || fadeImage == null)
+        {
+            yield return new WaitForSeconds(1f); // Pequena pausa antes do reset
+            ResetCurrentScene();
+            yield break;
+        }
+        
+        // Garantir que o canvas está ativo
+        fadeCanvas.gameObject.SetActive(true);
+        
+        // Começar com transparente
+        Color startColor = new Color(0f, 0f, 0f, 0f);
+        Color targetColor = new Color(0f, 0f, 0f, 1f); // Preto opaco
+        fadeImage.color = startColor;
+        
+        // Fazer fade to black
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / fadeDuration);
+            fadeImage.color = Color.Lerp(startColor, targetColor, t);
+            yield return null;
+        }
+        
+        // Garantir que terminou completamente preto
+        fadeImage.color = targetColor;
+        
+        // Pequena pausa antes do reset
+        yield return new WaitForSeconds(0.5f);
+        
+        // Resetar a cena
+        ResetCurrentScene();
+    }
+    
+    /// <summary>
+    /// DEMO ONLY: Reseta a cena atual
+    /// TODO: REMOVER este método inteiro na versão final do jogo
+    /// </summary>
+    private void ResetCurrentScene()
+    {
+        try
+        {
+            // 1. Dispara evento para todos os sistemas se prepararem para o reset
+            GameEvents.TriggerSceneReset();
+            
+            // 2. Para e libera a instância atual antes do reset
+            if (currentEventInstance.isValid())
+            {
+                currentEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                currentEventInstance.release();
+            }
+            
+            // 3. Para todos os eventos do master bus para garantir total limpeza
+            if (RuntimeManager.IsInitialized)
+            {
+                FMOD.RESULT result = RuntimeManager.StudioSystem.getBus("bus:/", out FMOD.Studio.Bus masterBus);
+                if (result == FMOD.RESULT.OK)
+                {
+                    masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                }
+                
+                // Force um update para aplicar as mudanças
+                RuntimeManager.StudioSystem.update();
+            }
+
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            
+            SceneManager.LoadScene(currentSceneName);
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"RadioController: ❌ Erro ao resetar cena: {ex.Message}");
+        }
+    }
+    
+    #endregion
+    
+    #region Scene Reset Management
+    
+    /// <summary>
+    /// Callback chamado quando o sistema dispara reset de cena - limpeza imediata
+    /// </summary>
+    private void OnSceneResetTriggered()
+    {
+        // Para e libera qualquer instância FMOD ativa IMEDIATAMENTE
+        if (currentEventInstance.isValid())
+        {
+            currentEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            currentEventInstance.release();
+        }
+        
+        // Para todas as corrotinas que possam estar rodando
+        StopAllCoroutines();
+        
+        // Para sistema de legendas
+        if (subtitleManager != null)
+        {
+            subtitleManager.StopSubtitles();
+        }
+        
+        // Para áudio trigger
+        if (audioTrigger != null)
+        {
+            audioTrigger.Stop();
+        }
+    }
+    
+    /// <summary>
+    /// Callback chamado quando uma cena é carregada - garante reset adicional do rádio
+    /// </summary>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Só executa para carregamento single (reset de cena)
+        if (mode == LoadSceneMode.Single)
+        {
+            ResetRadioStateOnSceneLoad();
+        }
+    }
+    
+    /// <summary>
+    /// Reseta completamente o estado do rádio quando a cena é carregada
+    /// Garante que o rádio inicia sempre no estado OFF, sem áudios tocando
+    /// </summary>
+    private void ResetRadioStateOnSceneLoad()
+    {
+        // 1. Para qualquer instância FMOD que possa estar tocando
+        if (currentEventInstance.isValid())
+        {
+            currentEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            currentEventInstance.release();
+        }
+        
+        // 2. Reseta todos os estados do sistema
+        currentState = RadioState.Off;
+        canInteract = true; // Permite interação inicial
+        isPuzzleMode = false;
+        isInteracting = false;
+        isSolved = false;
+        
+        // 3. Reseta flags de progresso das tracks
+        track1HasBeenPlayed = false;
+        track1HasEnded = false;
+        
+        // 4. Reseta controles de tempo
+        trackStartTime = 0f;
+        
+        // 5. Para qualquer áudio trigger que possa estar ativo
+        if (audioTrigger != null)
+        {
+            audioTrigger.Stop();
+        }
+        
+        // 6. Para qualquer corrotina que possa estar rodando
+        StopAllCoroutines();
+        
+        // 7. Reseta sistema de legendas se configurado
+        if (subtitleManager != null)
+        {
+            subtitleManager.StopSubtitles();
+        }
+    }
+    
+    #endregion
 }
