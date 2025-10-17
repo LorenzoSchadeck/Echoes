@@ -103,6 +103,7 @@ public class PostProcessingManager : MonoBehaviour
         GameEvents.OnFlashbackEnded += OnFlashbackEnded;
         GameEvents.OnDeathSequenceStarted += OnDeathSequenceStarted;
         GameEvents.OnDeathSequenceCancelled += OnDeathSequenceCancelled;
+        GameEvents.OnTriggerVisualFlash += OnVisualFlashTriggered;
     }
 
     private void OnDisable()
@@ -112,6 +113,7 @@ public class PostProcessingManager : MonoBehaviour
         GameEvents.OnFlashbackEnded -= OnFlashbackEnded;
         GameEvents.OnDeathSequenceStarted -= OnDeathSequenceStarted;
         GameEvents.OnDeathSequenceCancelled -= OnDeathSequenceCancelled;
+        GameEvents.OnTriggerVisualFlash -= OnVisualFlashTriggered;
     }
 
     private void HandleInsanityChange(float newInsanityValue)
@@ -120,20 +122,10 @@ public class PostProcessingManager : MonoBehaviour
         currentSanity = newInsanityValue;
         
         // Durante transição de remédio E fora de flashback, bloqueia apenas aplicação de efeitos visuais
-        if (IsPostProcessingRemedyActive && !isInFlashback) 
-        {
-            Debug.Log($"[PostProcessing] ❌ Visual effects for sanity {newInsanityValue:F2} BLOCKED - post-processing remedy transition active (but sanity value updated)");
-            return;
-        }
-        Debug.Log($"[PostProcessing] ✅ Sanity changed to {newInsanityValue:F2} | isInFlashback: {isInFlashback} | activeCoroutine: {(activeVisualEffectCoroutine != null ? "ACTIVE" : "NULL")}");
-        
-        // Se estamos em flashback, aplica efeitos de pós-processamento baseados na sanidade
+        if (IsPostProcessingRemedyActive && !isInFlashback) return;
+
         // SEMPRE aplica durante flashback, mesmo se há transição ativa
-        if (isInFlashback)
-        {
-            Debug.Log($"[PostProcessing] 🎬 Applying flashback effects - Sanity: {currentSanity:F2}");
-            ApplySanityEffectsOverFlashback();
-        }
+        if (isInFlashback) ApplySanityEffectsOverFlashback(); 
     }
 
     /// <summary>
@@ -186,6 +178,12 @@ public class PostProcessingManager : MonoBehaviour
     }
 
     // --- Disparadores de Efeitos ---
+    private void OnVisualFlashTriggered(float peakInsanity, float duration)
+    {
+        Debug.Log($"[PostProcessing] ⚡ VISUAL FLASH TRIGGERED - Peak: {peakInsanity}, Duration: {duration}s");
+        StartVisualEffect(VisualFlashRoutine(peakInsanity, duration));
+    }
+    
     private void OnFlashbackStarted()
     {
         Debug.Log("[PostProcessing] 🎬 FLASHBACK STARTED - Setting up transition");
@@ -322,6 +320,27 @@ public class PostProcessingManager : MonoBehaviour
         
         if (colorAdjustments != null) { colorAdjustments.saturation.value = -100f; colorAdjustments.postExposure.value = targetExposure; }
         if (vignette != null) vignette.intensity.value = 1f;
+    }
+
+    private IEnumerator VisualFlashRoutine(float peakInsanity, float duration)
+    {
+        Debug.Log($"[PostProcessing] ⚡ Visual Flash iniciado - aplicando efeitos máximos de insanidade instantaneamente");
+        
+        // Aplica efeitos máximos de insanidade instantaneamente (sem transição suave)
+        ApplyBlendedProfile(peakInsanity); // peakInsanity = 1.0f (sanidade 0)
+        
+        // Aguarda a duração do flash
+        yield return new WaitForSeconds(duration);
+        
+        // Restaura ao estado baseado na sanidade atual
+        if (!isInFlashback && !IsPostProcessingRemedyActive)
+        {
+            float currentInsanityLevel = Mathf.InverseLerp(visualEffectStartThreshold, 0f, currentSanity);
+            ApplyBlendedProfile(currentInsanityLevel);
+            Debug.Log($"[PostProcessing] ⚡ Visual Flash encerrado - restaurado para sanidade atual: {currentSanity:F2}");
+        }
+        
+        activeVisualEffectCoroutine = null;
     }
 
     private IEnumerator SmoothRemedyTransitionRoutine()

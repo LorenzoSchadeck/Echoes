@@ -13,9 +13,6 @@ public class RadioFirstTrigger : MonoBehaviour
     [Tooltip("Tag do jogador para detecção")]
     [SerializeField] private string playerTag = "Player";
     
-    [Header("Debug")]
-    [SerializeField] private bool showDebugLogs = true;
-    
     private bool hasTriggered = false;
 
     private void OnTriggerEnter(Collider other)

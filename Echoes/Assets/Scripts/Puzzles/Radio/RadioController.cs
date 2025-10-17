@@ -5,11 +5,11 @@ using TMPro;
 using UnityEngine.Localization;
 using FMODUnity;
 using System.Collections;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class RadioController : MonoBehaviour, IInteractable
 {
+    public static RadioController Instance { get; private set; }
+    
     private enum SelectedDial { Fine, Coarse }
 
     [Header("Interaction Settings")]
@@ -84,6 +84,24 @@ public class RadioController : MonoBehaviour, IInteractable
                currentState == RadioState.Track2Playing || 
                currentState == RadioState.Track3Playing;
     }
+    
+    /// <summary>
+    /// Verifica se o rádio está atualmente tocando qualquer track.
+    /// Usado pelos eventos de horror para evitar interferência.
+    /// </summary>
+    public bool IsAnyTrackPlaying => IsPlayingTrack();
+    
+    /// <summary>
+    /// Verifica se o rádio está completamente desligado (Off).
+    /// Eventos de horror só podem ocorrer neste estado.
+    /// </summary>
+    public bool IsRadioOff => currentState == RadioState.Off;
+    
+    /// <summary>
+    /// Verifica se a Track 1 do rádio já foi encerrada (terminada ou desligada).
+    /// Eventos de horror só podem começar após Track 1 ter sido encerrada.
+    /// </summary>
+    public bool HasTrack1Ended => track1HasEnded;
     
     private bool HasMinimumPlayTimePassed()
     {
@@ -243,14 +261,6 @@ public class RadioController : MonoBehaviour, IInteractable
     
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI frequencyDisplayText;
-    
-    [Header("🎬 DEMO ONLY - Fade & Reset (Track 3) - REMOVER NA VERSÃO FINAL")]
-    [Tooltip("Canvas com a imagem preta para fade (DEMO ONLY)")]
-    [SerializeField] private Canvas fadeCanvas;
-    [Tooltip("Imagem preta para o fade (DEMO ONLY)")]
-    [SerializeField] private Image fadeImage;
-    [Tooltip("Duração do fade para preto (DEMO ONLY)")]
-    [SerializeField] private float fadeDuration = 2f;
 
     private PlayerInputActions inputActions;
     private PlayerInteractor playerInteractor;
@@ -259,13 +269,18 @@ public class RadioController : MonoBehaviour, IInteractable
 
     private void Awake()
     {
+        // Singleton setup
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        
         inputActions = new PlayerInputActions();
         audioTrigger = gameObject.GetComponent<FMODAudioTrigger>();
         if (audioTrigger == null)
             audioTrigger = gameObject.AddComponent<FMODAudioTrigger>();
-            
-        // CORREÇÃO: Reset completo do estado do rádio quando a cena carrega
-        ResetRadioStateOnSceneLoad();
     }
 
     private void Update()
@@ -306,10 +321,6 @@ public class RadioController : MonoBehaviour, IInteractable
         // Novos eventos do fluxo
         GameEvents.OnRadioFirstTrigger += OnFirstTrigger;
         GameEvents.OnRadioPaperTrigger += OnPaperTrigger;
-        
-        // CORREÇÃO: Listeners para reset completo do sistema
-        GameEvents.OnSceneReset += OnSceneResetTriggered;
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
@@ -321,10 +332,6 @@ public class RadioController : MonoBehaviour, IInteractable
         // Remover eventos do fluxo
         GameEvents.OnRadioFirstTrigger -= OnFirstTrigger;
         GameEvents.OnRadioPaperTrigger -= OnPaperTrigger;
-        
-        // CORREÇÃO: Remove listeners de reset do sistema
-        GameEvents.OnSceneReset -= OnSceneResetTriggered;
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public bool Interact(Transform interactor)
@@ -669,10 +676,6 @@ public class RadioController : MonoBehaviour, IInteractable
 
         // Inicia corrotina para monitorar fim da faixa
         StartCoroutine(MonitorTrackCompletion(OnTrack3Complete));
-        
-        // 🎬 DEMO ONLY: Inicia monitoramento para fade automático após 33 segundos
-        // TODO: REMOVER esta linha na versão final do jogo
-        StartCoroutine(MonitorTrack3FadeTimer());
     }
 
     /// <summary>
@@ -803,10 +806,6 @@ public class RadioController : MonoBehaviour, IInteractable
         // Verifica se era Track 1 tocando - ativa objeto e evento da porta apenas neste caso
         bool wasTrack1Playing = currentState == RadioState.Track1Playing;
         
-        // 🎬 DEMO ONLY: Verifica se era Track 3 tocando - faz fade e reseta cena
-        // TODO: REMOVER esta funcionalidade na versão final do jogo
-        bool wasTrack3Playing = currentState == RadioState.Track3Playing;
-        
         // DESLIGA PERMANENTEMENTE
         currentState = RadioState.Off;
         canInteract = false; // Desabilita interação permanentemente após desligar
@@ -851,14 +850,6 @@ public class RadioController : MonoBehaviour, IInteractable
             
             // CORREÇÃO: Dispara evento para fim do período seguro de sanidade quando Track 1 é interrompida (imediato)
             GameEvents.TriggerRadioTrack1Completed();
-        }
-        
-        // 🎬 DEMO ONLY: Se era Track 3 tocando, inicia fade e reset da cena
-        // TODO: REMOVER todo este bloco na versão final do jogo
-        if (wasTrack3Playing)
-        {
-            StartCoroutine(FadeOutAndResetScene());
-            return; // Não executa o log final pois a cena será resetada
         }
     }
 
@@ -1046,198 +1037,4 @@ public class RadioController : MonoBehaviour, IInteractable
         // Dispara evento para Track 2 completada (ativa sanidade)
         GameEvents.TriggerRadioTrack2Completed();
     }
-    
-    #region 🎬 DEMO ONLY - Fade & Reset System - TODO: REMOVER NA VERSÃO FINAL
-    
-    /// <summary>
-    /// DEMO ONLY: Monitora a Track 3 e executa fade automático após 33 segundos
-    /// TODO: REMOVER este método inteiro na versão final do jogo
-    /// </summary>
-    private IEnumerator MonitorTrack3FadeTimer()
-    {
-        // Aguarda exatos 33 segundos
-        yield return new WaitForSeconds(minPlayTimeBeforeShutdown);
-        
-        // Verifica se ainda está tocando Track 3 (pode ter sido desligada manualmente)
-        if (currentState == RadioState.Track3Playing && currentEventInstance.isValid())
-        {
-            // Para todas as corrotinas para evitar conflitos
-            StopAllCoroutines();
-            
-            // Executa o fade e reset
-            StartCoroutine(FadeOutAndResetScene());
-        }
-    }
-    
-    /// <summary>
-    /// DEMO ONLY: Corrotina que faz fade para preto e reseta a cena atual
-    /// TODO: REMOVER este método inteiro na versão final do jogo
-    /// </summary>
-    private IEnumerator FadeOutAndResetScene()
-    {
-        // Configurar canvas de fade se não estiver configurado
-        if (fadeCanvas == null || fadeImage == null)
-        {
-            yield return new WaitForSeconds(1f); // Pequena pausa antes do reset
-            ResetCurrentScene();
-            yield break;
-        }
-        
-        // Garantir que o canvas está ativo
-        fadeCanvas.gameObject.SetActive(true);
-        
-        // Começar com transparente
-        Color startColor = new Color(0f, 0f, 0f, 0f);
-        Color targetColor = new Color(0f, 0f, 0f, 1f); // Preto opaco
-        fadeImage.color = startColor;
-        
-        // Fazer fade to black
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / fadeDuration);
-            fadeImage.color = Color.Lerp(startColor, targetColor, t);
-            yield return null;
-        }
-        
-        // Garantir que terminou completamente preto
-        fadeImage.color = targetColor;
-        
-        // Pequena pausa antes do reset
-        yield return new WaitForSeconds(0.5f);
-        
-        // Resetar a cena
-        ResetCurrentScene();
-    }
-    
-    /// <summary>
-    /// DEMO ONLY: Reseta a cena atual
-    /// TODO: REMOVER este método inteiro na versão final do jogo
-    /// </summary>
-    private void ResetCurrentScene()
-    {
-        try
-        {
-            // 1. Dispara evento para todos os sistemas se prepararem para o reset
-            GameEvents.TriggerSceneReset();
-            
-            // 2. Para e libera a instância atual antes do reset
-            if (currentEventInstance.isValid())
-            {
-                currentEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                currentEventInstance.release();
-            }
-            
-            // 3. Para todos os eventos do master bus para garantir total limpeza
-            if (RuntimeManager.IsInitialized)
-            {
-                FMOD.RESULT result = RuntimeManager.StudioSystem.getBus("bus:/", out FMOD.Studio.Bus masterBus);
-                if (result == FMOD.RESULT.OK)
-                {
-                    masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                }
-                
-                // Force um update para aplicar as mudanças
-                RuntimeManager.StudioSystem.update();
-            }
-
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            
-            SceneManager.LoadScene(currentSceneName);
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError($"RadioController: ❌ Erro ao resetar cena: {ex.Message}");
-        }
-    }
-    
-    #endregion
-    
-    #region Scene Reset Management
-    
-    /// <summary>
-    /// Callback chamado quando o sistema dispara reset de cena - limpeza imediata
-    /// </summary>
-    private void OnSceneResetTriggered()
-    {
-        // Para e libera qualquer instância FMOD ativa IMEDIATAMENTE
-        if (currentEventInstance.isValid())
-        {
-            currentEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            currentEventInstance.release();
-        }
-        
-        // Para todas as corrotinas que possam estar rodando
-        StopAllCoroutines();
-        
-        // Para sistema de legendas
-        if (subtitleManager != null)
-        {
-            subtitleManager.StopSubtitles();
-        }
-        
-        // Para áudio trigger
-        if (audioTrigger != null)
-        {
-            audioTrigger.Stop();
-        }
-    }
-    
-    /// <summary>
-    /// Callback chamado quando uma cena é carregada - garante reset adicional do rádio
-    /// </summary>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // Só executa para carregamento single (reset de cena)
-        if (mode == LoadSceneMode.Single)
-        {
-            ResetRadioStateOnSceneLoad();
-        }
-    }
-    
-    /// <summary>
-    /// Reseta completamente o estado do rádio quando a cena é carregada
-    /// Garante que o rádio inicia sempre no estado OFF, sem áudios tocando
-    /// </summary>
-    private void ResetRadioStateOnSceneLoad()
-    {
-        // 1. Para qualquer instância FMOD que possa estar tocando
-        if (currentEventInstance.isValid())
-        {
-            currentEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            currentEventInstance.release();
-        }
-        
-        // 2. Reseta todos os estados do sistema
-        currentState = RadioState.Off;
-        canInteract = true; // Permite interação inicial
-        isPuzzleMode = false;
-        isInteracting = false;
-        isSolved = false;
-        
-        // 3. Reseta flags de progresso das tracks
-        track1HasBeenPlayed = false;
-        track1HasEnded = false;
-        
-        // 4. Reseta controles de tempo
-        trackStartTime = 0f;
-        
-        // 5. Para qualquer áudio trigger que possa estar ativo
-        if (audioTrigger != null)
-        {
-            audioTrigger.Stop();
-        }
-        
-        // 6. Para qualquer corrotina que possa estar rodando
-        StopAllCoroutines();
-        
-        // 7. Reseta sistema de legendas se configurado
-        if (subtitleManager != null)
-        {
-            subtitleManager.StopSubtitles();
-        }
-    }
-    
-    #endregion
 }

@@ -40,6 +40,9 @@ public class Peephole: MonoBehaviour, IInteractable
     private float originalLensDistortion = 0f;
     private float sanityBasedLensDistortion = 0f; // Valor baseado na sanidade no momento da interação
     private Coroutine lensDistortionCoroutine;
+    
+    // Sistema de sensibilidade para câmera do peephole
+    private CustomInputAxisController peekCameraInputController;
 
     private void Start()
     {
@@ -54,11 +57,49 @@ public class Peephole: MonoBehaviour, IInteractable
         {
             peekCamera.Priority = -1;
             Debug.Log($"[Peephole] Câmera inicializada com Priority: {peekCamera.Priority}");
+            
+            // Registra o controller da câmera do peephole no sistema de sensibilidade
+            RegisterPeekCameraInputController();
+        }
+
+        // Registra-se para eventos do sistema de vizinho
+        GameEvents.OnDoorKnockTriggered += OnDoorKnockTriggered;
+    }
+    
+    /// <summary>
+    /// Registra o controller de input da câmera do peephole no sistema de sensibilidade
+    /// </summary>
+    private void RegisterPeekCameraInputController()
+    {
+        if (peekCamera == null) return;
+        
+        // Busca o CustomInputAxisController na câmera do peephole
+        peekCameraInputController = peekCamera.GetComponentInChildren<CustomInputAxisController>();
+        
+        if (peekCameraInputController != null && GameSettings.Instance != null)
+        {
+            // Registra no GameSettings para receber atualizações de sensibilidade
+            GameSettings.Instance.RegisterInputAxisController(peekCameraInputController);
+            Debug.Log($"[Peephole] Controller da câmera do peephole registrado no sistema de sensibilidade");
+        }
+        else if (peekCameraInputController == null)
+        {
+            Debug.LogWarning($"[Peephole] Nenhum CustomInputAxisController encontrado na câmera do peephole '{peekCamera.name}'. Controle de sensibilidade não será aplicado.");
+        }
+        else
+        {
+            Debug.LogWarning("[Peephole] GameSettings.Instance não encontrado. Controller não pôde ser registrado.");
         }
     }
     
     private void OnDestroy()
     {
+        // Remove o controller do sistema de sensibilidade
+        if (peekCameraInputController != null && GameSettings.Instance != null)
+        {
+            GameSettings.Instance.UnregisterInputAxisController(peekCameraInputController);
+        }
+        
         // Limpa qualquer corrotina ativa ao destruir o objeto
         if (lensDistortionCoroutine != null)
         {
@@ -70,6 +111,27 @@ public class Peephole: MonoBehaviour, IInteractable
         if (isPeeking && postProcessingManager != null)
         {
             postProcessingManager.RestoreLensDistortionToSanityState();
+        }
+
+        // Remove registro dos eventos do sistema de vizinho
+        GameEvents.OnDoorKnockTriggered -= OnDoorKnockTriggered;
+    }
+
+    /// <summary>
+    /// Callback para quando a batida na porta acontece (pós-rádio)
+    /// Inicia o sistema de eventos do vizinho
+    /// </summary>
+    private void OnDoorKnockTriggered()
+    {
+        Debug.Log("[Peephole] 🚪 Batida na porta detectada - Iniciando sistema de eventos do vizinho");
+        
+        if (NeighborEventManager.Instance != null)
+        {
+            NeighborEventManager.Instance.StartNeighborEvents();
+        }
+        else
+        {
+            Debug.LogWarning("[Peephole] NeighborEventManager.Instance não encontrado!");
         }
     }
 
@@ -118,6 +180,14 @@ public class Peephole: MonoBehaviour, IInteractable
         {
             Debug.LogError("[Peephole] peekCamera é null! Verifique a atribuição no Inspector.");
         }
+
+        Debug.Log("[Peephole] 👁️ Jogador iniciou espiada através do olho mágico");
+        
+        // Ativa JumpScare pendente se houver
+        if (NeighborEventManager.Instance != null)
+        {
+            NeighborEventManager.Instance.ActivatePendingJumpScare();
+        }
     }
 
     private void StopPeeking()
@@ -145,6 +215,18 @@ public class Peephole: MonoBehaviour, IInteractable
         if (postProcessingManager != null)
         {
             StartCoroutine(RestoreOriginalDistortion());
+        }
+
+        // Finaliza evento atual do vizinho quando sair do olho mágico
+        Debug.Log("[Peephole] 👁️ Jogador saiu do olho mágico - Finalizando evento atual do vizinho");
+        
+        if (NeighborEventManager.Instance != null)
+        {
+            NeighborEventManager.Instance.FinalizeCurrentEvent();
+        }
+        else
+        {
+            Debug.LogWarning("[Peephole] NeighborEventManager.Instance não encontrado!");
         }
     }
 
@@ -178,8 +260,6 @@ public class Peephole: MonoBehaviour, IInteractable
         
         Debug.Log($"Transição completa - Câmera e distorção de lente sincronizadas: {peekLensDistortion}");
     }
-    
-
     
     /// <summary>
     /// Restaura apenas o EFEITO VISUAL da distorção de lente ao estado baseado na sanidade atual.

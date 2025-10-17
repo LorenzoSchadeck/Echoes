@@ -3,6 +3,9 @@ using System.Collections;
 
 public class AlarmClockController : MonoBehaviour
 {
+    // Range padrão para áudio espacial (mesmo que o rádio e outros eventos)
+    private const float STANDARD_AUDIO_MAX_RANGE = 70f;
+    
     [Header("3D Sanity Bar Components")]
     [Tooltip("Transform do quad da barra (será usado como container).")]
     [SerializeField] private Transform sanityBarContainer;
@@ -26,8 +29,8 @@ public class AlarmClockController : MonoBehaviour
     [Tooltip("Distância mínima onde o volume do alarme é máximo")]
     [SerializeField, Range(1f, 50f)] private float alarmMinDistance = 5f;
     
-    [Tooltip("Distância máxima onde o alarme ainda é audível")]
-    [SerializeField, Range(10f, 500f)] private float alarmMaxDistance = 200f;
+    [Tooltip("Distância máxima onde o alarme ainda é audível (padronizada igual ao rádio)")]
+    [SerializeField, Range(10f, 500f)] private float alarmMaxDistance = STANDARD_AUDIO_MAX_RANGE; // Padronizado igual ao rádio
 
     private FMODAudioTrigger audioTrigger;
     private Coroutine blinkingLightRoutine;

@@ -273,7 +273,8 @@ namespace Echoes.InsanitySystem
         
         private void Update()
         {
-            if (!isSystemInitialized || isRemedyTransitionActive || isInFlashback) return;
+            // CORREÇÃO: Remove bloqueio de flashback para permitir áudio de tensão durante flashback
+            if (!isSystemInitialized || isRemedyTransitionActive) return;
             
             // Atualiza tensão se necessário
             if (!Mathf.Approximately(currentTensionValue, targetTensionValue))
@@ -286,6 +287,13 @@ namespace Echoes.InsanitySystem
         private void HandleSanityChange(float newSanity)
         {
             currentSanity = newSanity;
+            
+            // Debug para verificar se está funcionando durante flashback
+            if (isInFlashback)
+            {
+                Debug.Log($"[AmbientAudio] Mudança de sanidade durante flashback: {newSanity:F2} - Recalculando tensão e heartbeat");
+            }
+            
             CalculateTensionValue();
         }
         
@@ -318,6 +326,7 @@ namespace Echoes.InsanitySystem
                 {
                     tensionEventInstance.start();
                     isTensionAudioPlaying = true;
+                    if (isInFlashback) Debug.Log("[AmbientAudio] Iniciando áudio de tensão durante flashback");
                 }
                 
                 // Inicia o batimento cardíaco se não estiver tocando
@@ -325,6 +334,7 @@ namespace Echoes.InsanitySystem
                 {
                     heartbeatEventInstance.start();
                     isHeartbeatAudioPlaying = true;
+                    if (isInFlashback) Debug.Log("[AmbientAudio] Iniciando heartbeat durante flashback");
                 }
                 
                 // Inverte a lógica: quanto menor a sanidade, maior a tensão
@@ -374,21 +384,12 @@ namespace Echoes.InsanitySystem
         {
             isInFlashback = true;
             preFlashbackTensionValue = currentTensionValue;
-            targetTensionValue = 0f;
             
-            // Para o áudio de tensão durante flashback
-            if (isTensionAudioPlaying)
-            {
-                tensionEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                isTensionAudioPlaying = false;
-            }
+            // CORREÇÃO: Não para os áudios durante flashback - permite que funcionem baseados na sanidade
+            // Remove o código que parava tensão e heartbeat, deixando-os responder à sanidade atual
             
-            // Para o batimento cardíaco durante flashback
-            if (isHeartbeatAudioPlaying)
-            {
-                heartbeatEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                isHeartbeatAudioPlaying = false;
-            }
+            // Recalcula tensão baseada na sanidade atual para iniciar flashback corretamente
+            CalculateTensionValue();
         }
         
         private void HandleFlashbackEnded()
@@ -397,6 +398,11 @@ namespace Echoes.InsanitySystem
             
             // Restaura tensão baseada na sanidade atual
             CalculateTensionValue();
+            
+            // CORREÇÃO: Reinicia áudio de tensão e heartbeat se necessário baseado na sanidade atual
+            InsanityManager insanityManager = FindFirstObjectByType<InsanityManager>();
+            float currentSanity = insanityManager != null ? insanityManager.CurrentSanity : 1.0f;
+            HandleSanityChange(currentSanity);
         }
         
         private IEnumerator RemedyTransitionRoutine()

@@ -8,6 +8,9 @@ using UnityEngine;
 /// </summary>
 public class FMODAudioTrigger : MonoBehaviour
 {
+    // Range padrão para áudio espacial (mesmo que o rádio e eventos de horror)
+    private const float STANDARD_AUDIO_MAX_RANGE = 70f;
+    
     [Tooltip("Evento FMOD a ser disparado.")]
     public EventReference fmodEvent;
 
@@ -18,8 +21,8 @@ public class FMODAudioTrigger : MonoBehaviour
     [Tooltip("Distância mínima onde o volume é máximo.")]
     [SerializeField] private float minDistance = 1f;
     
-    [Tooltip("Distância máxima onde o áudio ainda é audível.")]
-    [SerializeField] private float maxDistance = 20f;
+    [Tooltip("Distância máxima onde o áudio ainda é audível (padronizada igual ao rádio).")]
+    [SerializeField] private float maxDistance = STANDARD_AUDIO_MAX_RANGE;
     
     [Tooltip("Usa configurações customizadas de distância. Se false, usa as do FMOD Studio.")]
     [SerializeField] private bool useCustomDistances = true;

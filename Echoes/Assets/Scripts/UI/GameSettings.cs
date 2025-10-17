@@ -44,6 +44,9 @@ public class GameSettings : MonoBehaviour
     [Header("References")]
     [SerializeField] private CustomInputAxisController customInputAxisController;
     
+    // Lista de todos os controllers ativos para aplicar sensibilidade
+    private System.Collections.Generic.List<CustomInputAxisController> registeredControllers = new();
+    
     // Public properties for external access
     public float MasterVolume 
     { 
@@ -180,14 +183,31 @@ public class GameSettings : MonoBehaviour
 
     
     /// <summary>
-    /// Applies mouse sensitivity to CustomInputAxisController
+    /// Applies mouse sensitivity to all registered CustomInputAxisController instances
     /// </summary>
     public void ApplyMouseSensitivity()
     {
+        // Aplica no controller principal (compatibilidade com código anterior)
         if (customInputAxisController != null)
         {
             customInputAxisController.UpdateSensitivity(mouseSensitivity);
         }
+        
+        // Aplica em todos os controllers registrados
+        for (int i = registeredControllers.Count - 1; i >= 0; i--)
+        {
+            if (registeredControllers[i] != null)
+            {
+                registeredControllers[i].UpdateSensitivity(mouseSensitivity);
+            }
+            else
+            {
+                // Remove referências nulas
+                registeredControllers.RemoveAt(i);
+            }
+        }
+        
+        Debug.Log($"[GameSettings] Sensibilidade {mouseSensitivity:F2} aplicada a {registeredControllers.Count + (customInputAxisController != null ? 1 : 0)} controller(s)");
     }
     
     /// <summary>
@@ -215,6 +235,39 @@ public class GameSettings : MonoBehaviour
     {
         customInputAxisController = controller;
         ApplyMouseSensitivity();
+    }
+    
+    /// <summary>
+    /// Registra um CustomInputAxisController para receber atualizações de sensibilidade
+    /// Usado para câmeras adicionais como peephole, zoom, etc.
+    /// </summary>
+    /// <param name="controller">Controller para registrar</param>
+    public void RegisterInputAxisController(CustomInputAxisController controller)
+    {
+        if (controller == null) return;
+        
+        // Evita duplicatas
+        if (!registeredControllers.Contains(controller))
+        {
+            registeredControllers.Add(controller);
+            
+            // Aplica a sensibilidade atual imediatamente
+            controller.UpdateSensitivity(mouseSensitivity);
+            
+            Debug.Log($"[GameSettings] Controller registrado: {controller.name} - Total: {registeredControllers.Count}");
+        }
+    }
+    
+    /// <summary>
+    /// Remove um CustomInputAxisController da lista de registrados
+    /// </summary>
+    /// <param name="controller">Controller para remover</param>
+    public void UnregisterInputAxisController(CustomInputAxisController controller)
+    {
+        if (controller != null && registeredControllers.Remove(controller))
+        {
+            Debug.Log($"[GameSettings] Controller removido: {controller.name} - Total: {registeredControllers.Count}");
+        }
     }
     
 

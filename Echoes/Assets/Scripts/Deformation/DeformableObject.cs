@@ -87,18 +87,6 @@ namespace Echoes.Deformation
                 enabled = false;
                 return;
             }
-            
-            // Verifica se o material suporta as propriedades do shader
-            var material = cachedRenderer.sharedMaterial;
-            if (!material.HasProperty("_DeformStrength") && configuration.allowMeshDeformation)
-            {
-                Debug.LogWarning($"[DeformableObject] {name}: Material doesn't have _DeformStrength property for mesh deformation!");
-            }
-            
-            if (!material.HasProperty("_InsanityLevel") && configuration.allowTextureDeformation)
-            {
-                Debug.LogWarning($"[DeformableObject] {name}: Material doesn't have _InsanityLevel property for texture deformation!");
-            }
         }
         
         #endregion

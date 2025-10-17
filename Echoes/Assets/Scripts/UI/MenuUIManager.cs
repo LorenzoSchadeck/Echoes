@@ -251,6 +251,7 @@ public class MenuUIManager : MonoBehaviour
     private void TransitionToGame()
     {
         isTransitioning = true;
+        isInMainMenu = false; // CORREÇÃO: Player saiu do menu principal
         
         // Start game initialization rotation
         StartCoroutine(RotateObjectOnGameStart());
@@ -360,8 +361,8 @@ public class MenuUIManager : MonoBehaviour
         // Hide back button when in main menu
         if (backButton != null) backButton.gameObject.SetActive(false);
         
-        // Hide settings sliders in main menu
-        ShowSettingsSliders(false);
+        // CORREÇÃO: Sliders sempre visíveis - não esconde no menu principal
+        ShowSettingsSliders(true);
     }
     
     /// <summary>

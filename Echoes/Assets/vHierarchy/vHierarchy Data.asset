@@ -550,6 +550,33 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1567584543-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-115662393-0
         - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-985704201-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-116343279-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-199228928-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-2002529058-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1074088457-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-415026622-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-71921535-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1851849107-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-627850421-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-283863128-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-79583750-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1915680715-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1508690838-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-518532336-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1937678105-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1111870169-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1698963095092529955-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1244073053-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-266639668-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-316180652-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-250520150-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-818470863-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-643469656-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-1648082337-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-282260880-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-7857764-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-158289354-0
+        - globalObjectIdString: GlobalObjectId_V1-2-349e790d780e3b54181c70866a4dbb36-344539064-0
         values:
         - colorIndex: 7
           iconNameOrGuid: Canvas Icon
@@ -1015,6 +1042,60 @@ MonoBehaviour:
           iconNameOrGuid: PreMatQuad
         - colorIndex: 7
           iconNameOrGuid: PreMatQuad
+        - colorIndex: 2
+          iconNameOrGuid: Settings Icon
+        - colorIndex: 8
+          iconNameOrGuid: WheelCollider Icon
+        - colorIndex: 8
+          iconNameOrGuid: WheelCollider Icon
+        - colorIndex: 4
+          iconNameOrGuid: 
+        - colorIndex: 4
+          iconNameOrGuid: 
+        - colorIndex: 4
+          iconNameOrGuid: 
+        - colorIndex: 4
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 2
+          iconNameOrGuid: 
+        - colorIndex: 2
+          iconNameOrGuid: Settings Icon
+        - colorIndex: 7
+          iconNameOrGuid: AudioSource Icon
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-9c317397657b3454b9c74b4541396a5c-519420028-0
