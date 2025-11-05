@@ -4,6 +4,7 @@ using Unity.Cinemachine;
 using System.Collections;
 using FMODUnity;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Gerenciador principal da interface do menu
@@ -35,6 +36,7 @@ public class MenuUIManager : MonoBehaviour
     
     [Header("Main Menu Buttons")]
     [SerializeField] private Button startButton;
+    [SerializeField] private Button continueButton;
     [SerializeField] private Button optionsButton;
     [SerializeField] private Button exitButton;
     
@@ -67,6 +69,9 @@ public class MenuUIManager : MonoBehaviour
         ShowMainMenu();
         InitializeMenuState();
         InitializeGameSettings();
+        
+        // Initialize button states
+        UpdateButtonStates();
     }
     
 
@@ -83,6 +88,9 @@ public class MenuUIManager : MonoBehaviour
         // Main menu buttons
         if (startButton != null)
             startButton.onClick.AddListener(OnStartClicked);
+            
+        if (continueButton != null)
+            continueButton.onClick.AddListener(OnContinueClicked);
             
         if (optionsButton != null)
             optionsButton.onClick.AddListener(OnOptionsClicked);
@@ -151,12 +159,13 @@ public class MenuUIManager : MonoBehaviour
         PlayerMovement.canMove = false;
 
         // Set camera priorities - menu active, player inactive
-        if (menuCamera != null) menuCamera.Priority = 2;
+        if (menuCamera != null) 
+        {
+            menuCamera.Priority = 15; // High priority for menu
+        }
         if (playerCamera != null) 
         {
-            playerCamera.Priority = 0;
-            // Disable player camera to prevent mouse look during menu
-            playerCamera.enabled = false;
+            playerCamera.Priority = -1; // Low priority when in menu
         }
         
         // Disable custom input axis controller (mouse look) during menu
@@ -171,6 +180,43 @@ public class MenuUIManager : MonoBehaviour
         // Hide cursor and unlock it for menu navigation
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        
+        // Pause the game after setting up cameras (allows Cinemachine transitions to work)
+        StartCoroutine(PauseGameAfterFrame()); // UNCOMMENTED - with proper transition handling
+    }
+    
+    /// <summary>
+    /// Pauses the game after one frame to allow Cinemachine transitions
+    /// </summary>
+    private IEnumerator PauseGameAfterFrame()
+    {
+        Debug.Log("PauseGameAfterFrame: Waiting one frame...");
+        yield return null; // Wait one frame for camera transitions to start
+        Debug.Log($"PauseGameAfterFrame: Pausing game. Current timeScale: {Time.timeScale}");
+        Time.timeScale = 0f; // UNCOMMENTED - restore pause functionality
+        Debug.Log($"PauseGameAfterFrame: Game paused. New timeScale: {Time.timeScale}");
+    }
+    
+    /// <summary>
+    /// Forces Cinemachine Brain to update camera priorities
+    /// </summary>
+    private void ForceCinemachineBrainUpdate()
+    {
+        // Find Cinemachine Brain in scene
+        var brain = FindFirstObjectByType<Unity.Cinemachine.CinemachineBrain>();
+        if (brain != null)
+        {
+            Debug.Log($"Found CinemachineBrain: {brain.name} - Enabled: {brain.enabled}");
+            Debug.Log($"Brain Default Blend: {brain.DefaultBlend.Style} - Time: {brain.DefaultBlend.BlendTime}");
+            
+            // REMOVED: Don't disable/enable brain as it breaks smooth transitions
+            // Just log the state for debugging
+            Debug.Log("Brain found and should handle transitions automatically");
+        }
+        else
+        {
+            Debug.LogError("No CinemachineBrain found in scene!");
+        }
     }
     
     #endregion
@@ -178,16 +224,221 @@ public class MenuUIManager : MonoBehaviour
     #region UI Event Handlers
     
     /// <summary>
-    /// Handles click on "Start" button - Transitions from menu to game
+    /// Handles click on "Start" button - Transitions from menu to game OR restarts game if already started
     /// </summary>
     private void OnStartClicked()
     {
-        if (isTransitioning || gameStarted) return;
+        if (isTransitioning) return;
         
         PlayButtonClickSound();
         
-    // Start transition to game camera
-    TransitionToGame();
+        // Check if game has already started (pause mode)
+        if (gameStarted)
+        {
+            Debug.Log("MenuUIManager: Start button clicked in pause mode - RESTARTING SCENE");
+            RestartScene();
+        }
+        else
+        {
+            Debug.Log("MenuUIManager: Start button clicked in initial menu - STARTING GAME");
+            // Start transition to game camera
+            TransitionToGame();
+        }
+    }
+    
+    /// <summary>
+    /// Handles click on "Continue" button - Continues from pause
+    /// </summary>
+    private void OnContinueClicked()
+    {
+        if (isTransitioning) return;
+        
+        PlayButtonClickSound();
+        
+        // Continue from pause - transition back to game
+        TransitionToGame();
+    }
+    
+    /// <summary>
+    /// Reinicia a cena atual do zero
+    /// </summary>
+    private void RestartScene()
+    {
+        Debug.Log("=== RestartScene STARTED ===");
+        
+        // Reset game state variables
+        gameStarted = false;
+        isInMainMenu = true;
+        isTransitioning = false;
+        
+        // Reset static variables that don't automatically reset
+        PlayerMovement.canMove = true;
+        
+        // Force cleanup of persistent singletons that use DontDestroyOnLoad
+        CleanupPersistentSingletons();
+        
+        // Ensure time scale is normal before reloading
+        Time.timeScale = 1f;
+        
+        // Reload current scene
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log($"Restarting scene: {currentSceneName}");
+        
+        SceneManager.LoadScene(currentSceneName);
+    }
+    
+    /// <summary>
+    /// Limpa singletons persistentes que usam DontDestroyOnLoad para evitar referências quebradas
+    /// </summary>
+    private void CleanupPersistentSingletons()
+    {
+        Debug.Log("RestartScene: Starting cleanup of persistent singletons...");
+        
+        // STEP 1: Stop all FMOD audio immediately
+        StopAllFMODAudio();
+        
+        // STEP 1.5: Force cleanup of any lingering FMOD event instances
+        ForceCleanupFMODInstances();
+        
+        // STEP 2: Cleanup GameSettings if it exists
+        if (GameSettings.Instance != null)
+        {
+            Debug.Log("RestartScene: Destroying persistent GameSettings instance");
+            // Remove DontDestroyOnLoad status and destroy
+            GameSettings.Instance.transform.SetParent(null);
+            Destroy(GameSettings.Instance.gameObject);
+            
+            // Force clear static reference through reflection
+            ClearSingletonReference<GameSettings>("Instance");
+        }
+        
+        // STEP 3: Cleanup DeformationManager if it exists (also uses DontDestroyOnLoad)
+        var deformationManagerType = System.Type.GetType("Echoes.Deformation.DeformationManager");
+        if (deformationManagerType != null)
+        {
+            var instanceProperty = deformationManagerType.GetProperty("Instance", 
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+            if (instanceProperty != null)
+            {
+                var deformationInstance = instanceProperty.GetValue(null) as MonoBehaviour;
+                if (deformationInstance != null)
+                {
+                    Debug.Log("RestartScene: Destroying persistent DeformationManager instance");
+                    deformationInstance.transform.SetParent(null);
+                    Destroy(deformationInstance.gameObject);
+                    
+                    // Clear static reference
+                    if (instanceProperty.CanWrite)
+                    {
+                        instanceProperty.SetValue(null, null);
+                    }
+                }
+            }
+        }
+        
+        // STEP 4: Reset other static variables that might persist
+        ResetStaticVariables();
+        
+        Debug.Log("RestartScene: Persistent singletons cleanup completed");
+    }
+    
+    /// <summary>
+    /// Para todos os áudios FMOD ativos para evitar sons persistentes após reset
+    /// </summary>
+    private void StopAllFMODAudio()
+    {
+        try
+        {
+            Debug.Log("RestartScene: Stopping all FMOD audio...");
+            
+            // Reset global parameters first
+            RuntimeManager.StudioSystem.setParameterByName("Sanity", 1f);
+            
+            // Get and stop master bus
+            FMOD.Studio.Bus masterBus;
+            var result = RuntimeManager.StudioSystem.getBus("bus:/", out masterBus);
+            if (result == FMOD.RESULT.OK)
+            {
+                masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+            
+            // Stop all events in the system - using proper FMOD API
+            RuntimeManager.StudioSystem.flushCommands();
+            
+            // Additionally, stop any one-shot events that might be playing
+            // Note: FMOD Unity automatically manages most event cleanup
+            
+            Debug.Log("RestartScene: FMOD audio stopped successfully");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"RestartScene: Error stopping FMOD audio: {e.Message}");
+        }
+    }
+    
+    /// <summary>
+    /// Força limpeza adicional de instâncias FMOD que podem persistir
+    /// </summary>
+    private void ForceCleanupFMODInstances()
+    {
+        try
+        {
+            Debug.Log("RestartScene: Force cleaning FMOD instances...");
+            
+            // Stop all event instances that might be tracked by GameEvents
+            // This ensures events triggered by other scripts are also stopped
+            if (RuntimeManager.IsInitialized)
+            {
+                // Flush any pending commands
+                RuntimeManager.StudioSystem.flushCommands();
+                
+                // Force update to process stop commands
+                RuntimeManager.StudioSystem.update();
+                
+                Debug.Log("RestartScene: FMOD instances force cleanup completed");
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"RestartScene: Error in force FMOD cleanup: {e.Message}");
+        }
+    }
+    
+    /// <summary>
+    /// Reseta variáveis estáticas que podem persistir entre resets de cena
+    /// </summary>
+    private void ResetStaticVariables()
+    {
+        Debug.Log("RestartScene: Resetting static variables...");
+        
+        // Reset PlayerMovement static variable
+        PlayerMovement.canMove = true;
+        
+        // Add other static variable resets here if needed
+        // Example: SomeClass.staticVariable = defaultValue;
+        
+        Debug.Log("RestartScene: Static variables reset completed");
+    }
+    
+    /// <summary>
+    /// Método genérico para limpar referências de singleton via reflection
+    /// </summary>
+    private void ClearSingletonReference<T>(string propertyName) where T : class
+    {
+        try
+        {
+            var instanceProperty = typeof(T).GetProperty(propertyName, 
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+            if (instanceProperty != null && instanceProperty.CanWrite)
+            {
+                instanceProperty.SetValue(null, null);
+                Debug.Log($"RestartScene: Cleared {typeof(T).Name}.{propertyName} static reference");
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"RestartScene: Failed to clear {typeof(T).Name}.{propertyName}: {e.Message}");
+        }
     }
     
     /// <summary>
@@ -211,21 +462,15 @@ public class MenuUIManager : MonoBehaviour
         PlayButtonClickSound();
         
         // Small delay to let sound play before closing
-        StartCoroutine(ExitGameAfterDelay());
+        ExitGameAfterDelay();
     }
     
     /// <summary>
     /// Exits game after a small delay to let audio play
     /// </summary>
-    private IEnumerator ExitGameAfterDelay()
+    public void ExitGameAfterDelay()
     {
-        yield return new WaitForSeconds(0.2f); // Small delay for audio feedback
-        
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+        Application.Quit();
     }
     
     /// <summary>
@@ -253,16 +498,20 @@ public class MenuUIManager : MonoBehaviour
         isTransitioning = true;
         isInMainMenu = false; // CORREÇÃO: Player saiu do menu principal
         
+        // Resume the game when transitioning to gameplay
+        Time.timeScale = 1f; // UNCOMMENTED - need to unpause for gameplay
+        
         // Start game initialization rotation
         StartCoroutine(RotateObjectOnGameStart());
         
         // Start camera transition by changing priorities
-        if (menuCamera != null) menuCamera.Priority = 0;
+        if (menuCamera != null) 
+        {
+            menuCamera.Priority = -1; // Low priority during gameplay
+        }
         if (playerCamera != null) 
         {
-            playerCamera.Priority = 1;
-            // Enable player camera for mouse look
-            playerCamera.enabled = true;
+            playerCamera.Priority = 10; // High priority for gameplay
         }
         
         // Enable custom input axis controller (mouse look) for gameplay
@@ -287,6 +536,9 @@ public class MenuUIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         isTransitioning = false;
+        
+        // Re-enable MenuInteractable for future interactions
+        EnableMenuInteractable();
     }
     
     /// <summary>
@@ -345,6 +597,22 @@ public class MenuUIManager : MonoBehaviour
         {
             objectToRotate.rotation = Quaternion.Euler(endRotation);
         }
+        
+        // Re-enable MenuInteractable for future interactions
+        EnableMenuInteractable();
+    }
+    
+    /// <summary>
+    /// Re-enables MenuInteractable objects in the scene
+    /// </summary>
+    private void EnableMenuInteractable()
+    {
+        var menuInteractables = FindObjectsByType<MenuInteractable>(FindObjectsSortMode.None);
+        foreach (var interactable in menuInteractables)
+        {
+            interactable.EnableInteraction();
+        }
+        Debug.Log($"Re-enabled {menuInteractables.Length} MenuInteractable objects");
     }
     
     #endregion
@@ -363,6 +631,28 @@ public class MenuUIManager : MonoBehaviour
         
         // CORREÇÃO: Sliders sempre visíveis - não esconde no menu principal
         ShowSettingsSliders(true);
+        
+        // Update button states based on game status
+        UpdateButtonStates();
+    }
+    
+    /// <summary>
+    /// Atualiza o estado dos botões baseado no estado atual do jogo
+    /// </summary>
+    private void UpdateButtonStates()
+    {
+        // Continue button: only enabled when game has started (pause mode)
+        if (continueButton != null)
+        {
+            continueButton.interactable = gameStarted;
+            Debug.Log($"MenuUIManager: Continue button set to {(gameStarted ? "ENABLED" : "DISABLED")} (gameStarted: {gameStarted})");
+        }
+        
+        // Start button: always enabled
+        if (startButton != null)
+        {
+            startButton.interactable = true;
+        }
     }
     
     /// <summary>
@@ -527,6 +817,80 @@ public class MenuUIManager : MonoBehaviour
     }
     
     /// <summary>
+    /// Returns to menu from gameplay (for interaction with menu object during game)
+    /// </summary>
+    public void ReturnToMenuFromGameplay()
+    {
+        // FIXED: Allow return to menu if we're not already in menu (removed gameStarted check)
+        if (isInMainMenu || isTransitioning) return;
+        
+        Debug.Log("=== ReturnToMenuFromGameplay STARTED ===");
+        Debug.Log($"Current timeScale: {Time.timeScale}");
+        Debug.Log($"MenuCamera: {(menuCamera != null ? menuCamera.name : "NULL")} - Position: {(menuCamera != null ? menuCamera.transform.position.ToString() : "NULL")}");
+        Debug.Log($"PlayerCamera: {(playerCamera != null ? playerCamera.name : "NULL")} - Position: {(playerCamera != null ? playerCamera.transform.position.ToString() : "NULL")}");
+        Debug.Log($"Current menuCamera priority: {(menuCamera != null ? menuCamera.Priority.Value.ToString() : "null")}");
+        Debug.Log($"Current playerCamera priority: {(playerCamera != null ? playerCamera.Priority.Value.ToString() : "null")}");
+        
+        PlayButtonClickSound();
+        
+        // Mark as transitioning and return to menu state
+        isTransitioning = true;
+        isInMainMenu = true;
+        // CORREÇÃO: Manter gameStarted = true no modo pause para habilitar botão Continue
+        // gameStarted = false; // REMOVED - não resetar no pause, apenas no restart da cena
+        
+        // Disable player movement immediately
+        PlayerMovement.canMove = false;
+        
+        // Switch camera priorities back to menu IMMEDIATELY (like TransitionToGame does)
+        if (menuCamera != null) 
+        {
+            menuCamera.Priority = 15; // High priority for menu
+            Debug.Log($"Menu camera priority changed to: {menuCamera.Priority.Value}");
+        }
+        if (playerCamera != null) 
+        {
+            playerCamera.Priority = -1; // Low priority when returning to menu
+            Debug.Log($"Player camera priority changed to: {playerCamera.Priority.Value}");
+        }
+        
+        // Force Cinemachine Brain update
+        ForceCinemachineBrainUpdate();
+        
+        // Disable custom input axis controller (mouse look) immediately
+        if (customInputAxisController != null) 
+        {
+            customInputAxisController.enabled = false;
+        }
+        
+        // Disable crosshair
+        if (crosshairObject != null) crosshairObject.SetActive(false);
+        
+        // Setup menu cursor state
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        
+        // Show main menu UI
+        ShowMainMenu();
+        
+        // Go back to main menu camera position
+        if (cameraController != null)
+            cameraController.GoBackToMainMenu();
+        
+        // Pause the game after one frame (same as InitializeMenuState)
+        StartCoroutine(PauseGameAfterFrame()); // UNCOMMENTED - need to pause in menu
+        
+        isTransitioning = false;
+        
+        // Update button states after returning to menu (pause mode)
+        UpdateButtonStates();
+        
+        Debug.Log("=== ReturnToMenuFromGameplay COMPLETED ===");
+    }
+    
+    /// <summary>
+    
+    /// <summary>
     /// Resets all settings to default values (for Reset button)
     /// </summary>
     public void ResetSettingsToDefaults()
@@ -536,6 +900,34 @@ public class MenuUIManager : MonoBehaviour
             GameSettings.Instance.ResetToDefaults();
             UpdateSlidersFromSettings();
         }
+    }
+    
+    /// <summary>
+    /// Gets the start rotation used for menu position
+    /// </summary>
+    public Vector3 GetMenuRotation() => startRotation;
+    
+    /// <summary>
+    /// Gets the end rotation used for gameplay position
+    /// </summary>
+    public Vector3 GetGameplayRotation() => endRotation;
+    
+    /// <summary>
+    /// Gets whether local rotation is used
+    /// </summary>
+    public bool GetUseLocalRotation() => useLocalRotation;
+    
+    /// <summary>
+    /// Gets the rotation duration
+    /// </summary>
+    public float GetRotationDuration() => rotationDuration;
+    
+    /// <summary>
+    /// Reinicia a cena atual (para uso externo)
+    /// </summary>
+    public void RestartGame()
+    {
+        RestartScene();
     }
     
     #endregion

@@ -70,6 +70,19 @@ MonoBehaviour:
     m_Localized: Por Lorenzo D. Schadeck
     m_Metadata:
       m_Items: []
+  - m_Id: 5449377504931840
+    m_Localized: (E) Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5752345701756928
+    m_Localized: CONTINUAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8267308647428096
+    m_Localized: "Aquela chave... abriu o lugar errado. O que Ethan encontrou n\xE3o
+      pode ser real. A \xFAnica sa\xEDda \xE9 seguir adiante."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

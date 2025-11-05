@@ -43,10 +43,30 @@ public class DoorController : MonoBehaviour, IInteractable
     [Tooltip("Se deve responder aos eventos de batida na porta")]
     [SerializeField] private bool respondToDoorKnock = false;
 
+    [Header("🎵 Choir System")]
+    [Tooltip("Se esta porta faz parte do sistema de choir")]
+    [SerializeField] private bool isChoirDoor = false;
+    
+    [Tooltip("Som alto tocado quando a porta bate ao fechar no choir")]
+    [SerializeField] private EventReference choirSlamSound;
+    
+    [Tooltip("Tempo que a porta fica aberta antes de fechar no choir")]
+    [SerializeField] private float choirOpenDuration = 1.5f;
+    
+    [Tooltip("Delay antes de disparar o flashback após o som da porta")]
+    [SerializeField] private float flashbackDelay = 0.5f;
+    
+    [Header("🔒 Key System")]
+    [Tooltip("Se esta porta requer uma chave para ser destrancada")]
+    [SerializeField] private bool requiresKey = false;
+    [Tooltip("ID da chave necessária para abrir esta porta (deve corresponder ao ID da chave)")]
+    [SerializeField] private string requiredKeyID;
+
     private FMODAudioTrigger audioTrigger;
     private Quaternion initialRotation;
     private bool isOpen = false;
     private bool isMoving = false;
+    private bool canChoirActivate = false; // Controle para ativação via choir
     
 
     public string InteractionPrompt
@@ -54,11 +74,27 @@ public class DoorController : MonoBehaviour, IInteractable
         get
         {
             if (isMoving) return movingPrompt.GetLocalizedString();
+            
+            // Prompt especial para choir doors quando ativadas e puzzle não completado
+            if (isChoirDoor && canChoirActivate)
+            {
+                // Verifica se o puzzle foi completado
+                bool isChoirComplete = ChoirManager.Instance != null && ChoirManager.Instance.IsChoirComplete;
+                if (!isChoirComplete)
+                {
+                    return openPrompt.GetLocalizedString(); // Usa prompt de abrir durante o puzzle
+                }
+            }
+            
             switch (currentState)
             {
                 case DoorState.Locked:
                     return lockedPrompt.GetLocalizedString();
                 case DoorState.Jammed:
+                    // Portas jammed só mostram prompt se não for choir door ou se choir ativou
+                    if (!isChoirDoor || canChoirActivate)
+                        return isOpen ? closePrompt.GetLocalizedString() : openPrompt.GetLocalizedString();
+                    return string.Empty;
                 case DoorState.Unlocked:
                 default:
                     return isOpen ? closePrompt.GetLocalizedString() : openPrompt.GetLocalizedString();
@@ -113,11 +149,42 @@ public class DoorController : MonoBehaviour, IInteractable
                 MoveDoor(fullOpenAngle * direction, openEvent);
                 return true;
             case DoorState.Locked:
-                PlayFMODSound(lockedEvent);
-                return false;
+                // Verifica se está trancada por chave
+                if (IsLockedByKey())
+                {
+                    // Se o jogador tem a chave, destrava
+                    if (HasRequiredKey())
+                    {
+                        Debug.Log($"[DoorController] Chave '{requiredKeyID}' usada! Destrancando porta {gameObject.name}");
+                        currentState = DoorState.Unlocked;
+                        MoveDoor(fullOpenAngle * direction, openEvent);
+                        return true;
+                    }
+                    else
+                    {
+                        // Sem a chave, toca som de trancado
+                        PlayFMODSound(lockedEvent);
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Trancada por outro motivo
+                    PlayFMODSound(lockedEvent);
+                    return false;
+                }
             case DoorState.Jammed:
-                MoveDoor(jammedOpenAngle * direction, jammedEvent);
-                return true;
+                // Lógica especial para choir doors
+                if (isChoirDoor)
+                {
+                    return HandleChoirDoorInteraction(direction);
+                }
+                else
+                {
+                    // Comportamento normal para portas jammed
+                    MoveDoor(jammedOpenAngle * direction, jammedEvent);
+                    return true;
+                }
         }
         return false;
     }
@@ -167,6 +234,110 @@ public class DoorController : MonoBehaviour, IInteractable
         isMoving = false;
     }
 
+    /// <summary>
+    /// Gerencia a interação especial para portas do choir
+    /// </summary>
+    private bool HandleChoirDoorInteraction(float direction)
+    {
+        // Só permite interação se o choir ativou esta porta
+        if (!canChoirActivate)
+        {
+            Debug.Log($"[DoorController] Porta do choir {gameObject.name} ainda não foi ativada pelo sistema");
+            return false;
+        }
+
+        // Verifica se o choir já foi completado - se sim, bloqueia interação
+        if (ChoirManager.Instance != null && ChoirManager.Instance.IsChoirComplete)
+        {
+            Debug.Log($"[DoorController] Porta do choir {gameObject.name} - Puzzle completado, interação bloqueada");
+            return false;
+        }
+
+        // Durante o puzzle, permite sempre iniciar o flashback
+        Debug.Log($"[DoorController] 🚪 Iniciando sequência do choir na porta {gameObject.name}");
+
+        // Inicia a sequência especial do choir
+        StartCoroutine(ChoirDoorSequence(direction));
+        
+        return true;
+    }
+
+    /// <summary>
+    /// Sequência especial para portas do choir: abre, aguarda, fecha rapidamente, som alto, flashback
+    /// </summary>
+    private IEnumerator ChoirDoorSequence(float direction)
+    {
+        Debug.Log("[DoorController] 🔄 Iniciando sequência da porta do choir");
+
+        // 1. Abre a porta (movimento jammed)
+        float targetAngle = jammedOpenAngle * direction;
+        Quaternion targetRotation = initialRotation * Quaternion.Euler(0, 0, targetAngle);
+        
+        yield return StartCoroutine(AnimateDoor(targetRotation, jammedEvent, openDuration, true));
+        
+        Debug.Log($"[DoorController] ⬆️ Porta aberta - Aguardando {choirOpenDuration}s");
+
+        // 2. Aguarda o tempo configurado
+        yield return new WaitForSeconds(choirOpenDuration);
+
+        // 3. Fecha a porta rapidamente
+        Debug.Log("[DoorController] ⬇️ Fechando porta rapidamente");
+        yield return StartCoroutine(AnimateDoor(initialRotation, jammedEvent, closeDuration, false));
+
+        // 4. Toca som alto de batida
+        Debug.Log("[DoorController] 💥 Tocando som de batida da porta");
+        PlayChoirSlamSound();
+
+        // 5. Aguarda delay e dispara flashback
+        Debug.Log($"[DoorController] ⏱️ Aguardando {flashbackDelay}s antes do flashback");
+        yield return new WaitForSeconds(flashbackDelay);
+
+        // 6. Dispara flashback
+        Debug.Log("[DoorController] ✨ Disparando flashback do choir");
+        GameEvents.TriggerFlashbackStarted();
+
+        Debug.Log("[DoorController] ✅ Sequência da porta do choir completada");
+    }
+
+    /// <summary>
+    /// Reproduz o som alto de batida da porta no choir
+    /// </summary>
+    private void PlayChoirSlamSound()
+    {
+        if (choirSlamSound.IsNull)
+        {
+            Debug.LogWarning("[DoorController] Som de batida do choir não configurado!");
+            return;
+        }
+
+        // Cria instância do som de batida
+        var slamInstance = FMODUnity.RuntimeManager.CreateInstance(choirSlamSound);
+        
+        if (slamInstance.isValid())
+        {
+            // Define posicionamento 3D
+            slamInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
+            
+            // Define range máximo (mesmo do rádio)
+            slamInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, 70f);
+            
+            // Aumenta volume para enfatizar o som alto
+            slamInstance.setVolume(1.0f);
+            
+            // Inicia reprodução
+            slamInstance.start();
+            
+            // Auto-release quando terminar
+            slamInstance.release();
+            
+            Debug.Log("[DoorController] 💥 Som de batida do choir tocado com range 70m");
+        }
+        else
+        {
+            Debug.LogError("[DoorController] Falha ao criar instância do som de batida do choir!");
+        }
+    }
+
     private void PlayFMODSound(EventReference evt)
     {
         if (evt.IsNull) return;
@@ -207,4 +378,64 @@ public class DoorController : MonoBehaviour, IInteractable
     public void LockDoor() { currentState = DoorState.Locked; }
     public void UnlockDoor() { currentState = DoorState.Unlocked; }
     public void JamDoor() { currentState = DoorState.Jammed; }
+    
+    /// <summary>
+    /// Verifica se a porta está trancada por falta de chave
+    /// </summary>
+    private bool IsLockedByKey()
+    {
+        return requiresKey && !string.IsNullOrEmpty(requiredKeyID);
+    }
+    
+    /// <summary>
+    /// Verifica se o jogador possui a chave necessária
+    /// </summary>
+    private bool HasRequiredKey()
+    {
+        if (!requiresKey || string.IsNullOrEmpty(requiredKeyID))
+            return true; // Se não requer chave, sempre tem "acesso"
+        
+        return DoorKeyManager.Instance.HasKey(requiredKeyID);
+    }
+
+    /// <summary>
+    /// Ativa esta porta para o sistema de choir (chamado pelo ChoirManager)
+    /// </summary>
+    public void ActivateChoirDoor()
+    {
+        if (!isChoirDoor)
+        {
+            Debug.LogWarning($"[DoorController] Tentativa de ativar porta {gameObject.name} que não é choir door!");
+            return;
+        }
+
+        if (canChoirActivate)
+        {
+            Debug.LogWarning($"[DoorController] Porta do choir {gameObject.name} já estava ativada!");
+            return;
+        }
+
+        // Quando o choir ativa, a porta vira jammed e pode ser parte do puzzle
+        currentState = DoorState.Jammed;
+        canChoirActivate = true;
+        Debug.Log($"[DoorController] 🚪 Porta do choir {gameObject.name} ativada - Agora está jammed e pode ser interagida para o flashback");
+    }
+
+    /// <summary>
+    /// Reset da porta do choir para permitir nova ativação
+    /// </summary>
+    public void ResetChoirDoor()
+    {
+        if (!isChoirDoor) return;
+
+        // A porta permanece jammed e pode ser reutilizada
+        // Não precisa resetar estados, pois o comportamento é sempre o mesmo durante o puzzle
+        Debug.Log($"[DoorController] 🔄 Porta do choir {gameObject.name} pronta para nova interação");
+    }
+
+    /// <summary>
+    /// Propriedades públicas para verificação de estado
+    /// </summary>
+    public bool IsChoirDoor => isChoirDoor;
+    public bool CanChoirActivate => canChoirActivate;
 }

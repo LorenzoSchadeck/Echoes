@@ -33,6 +33,7 @@ public class NeighborEventManager : MonoBehaviour
     private NeighborEvent? pendingJumpScareEvent = null; // Evento de JumpScare aguardando ativação via olho mágico
     private Dictionary<GameObject, Vector3> originalRotations = new Dictionary<GameObject, Vector3>();
     private Dictionary<GameObject, bool> originalActiveStates = new Dictionary<GameObject, bool>();
+    private List<FMOD.Studio.EventInstance> activeAudioInstances = new List<FMOD.Studio.EventInstance>(); // Controla instâncias de áudio ativas
 
     private void Awake()
     {
@@ -123,6 +124,10 @@ public class NeighborEventManager : MonoBehaviour
         hasActiveEvent = false; // Reset do estado de evento ativo
         waitingForPeepholeFinalization = false; // Reset do estado de aguardo
         pendingJumpScareEvent = null; // Reset de JumpScare pendente
+        
+        // Limpa qualquer áudio que possa estar ativo de eventos anteriores
+        StopAllActiveAudio();
+        
         Debug.Log("[NeighborEventManager] 🏠 Sistema de eventos do vizinho INICIADO");
         
         if (eventRoutine != null)
@@ -251,10 +256,53 @@ public class NeighborEventManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Cria e executa uma instância de áudio FMOD, adicionando à lista de controle
+    /// </summary>
+    /// <param name="eventRef">Referência do evento FMOD</param>
+    /// <param name="target">Transform para posicionamento 3D</param>
+    /// <param name="volume">Volume do áudio (0.0 a 1.0)</param>
+    /// <param name="maxDistance">Distância máxima de audição</param>
+    private void PlayManagedAudio(EventReference eventRef, Transform target, float volume = 1.0f, float maxDistance = 90.0f)
+    {
+        if (eventRef.IsNull || target == null) return;
+
+        var eventInstance = RuntimeManager.CreateInstance(eventRef);
+        eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(target));
+        eventInstance.setVolume(volume);
+        eventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, maxDistance);
+        eventInstance.start();
+        
+        // Adiciona à lista de controle (NÃO faz release imediato)
+        activeAudioInstances.Add(eventInstance);
+        
+        Debug.Log($"[NeighborEventManager] 🔊 Áudio iniciado e adicionado ao controle");
+    }
+
+    /// <summary>
+    /// Para todas as instâncias de áudio ativas imediatamente
+    /// </summary>
+    private void StopAllActiveAudio()
+    {
+        foreach (var audioInstance in activeAudioInstances)
+        {
+            if (audioInstance.isValid())
+            {
+                audioInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                audioInstance.release();
+            }
+        }
+        activeAudioInstances.Clear();
+        Debug.Log("[NeighborEventManager] 🔇 Todas as instâncias de áudio ativas foram encerradas");
+    }
+
+    /// <summary>
     /// Restaura todos os objetos ao seu estado original
     /// </summary>
     private void RestoreOriginalStates()
     {
+        // Para todos os áudios ativos ANTES de restaurar estados
+        StopAllActiveAudio();
+
         // Restaura rotações originais
         foreach (var kvp in originalRotations)
         {
@@ -418,12 +466,7 @@ public class NeighborEventManager : MonoBehaviour
         if (evt.movingSounds != null && evt.movingSounds.Count > 0 && evt.audioTarget != null)
         {
             var randomSound = evt.movingSounds[Random.Range(0, evt.movingSounds.Count)];
-            var eventInstance = RuntimeManager.CreateInstance(randomSound);
-            eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(evt.audioTarget));
-            eventInstance.setVolume(1.0f);
-            eventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, 90.0f);
-            eventInstance.start();
-            eventInstance.release();
+            PlayManagedAudio(randomSound, evt.audioTarget.transform, 1.0f, 90.0f);
         }
 
         // 3. Rotaciona objetos
@@ -446,12 +489,7 @@ public class NeighborEventManager : MonoBehaviour
         if (evt.randomSounds != null && evt.randomSounds.Count > 0 && evt.soundTarget != null)
         {
             var randomSound = evt.randomSounds[Random.Range(0, evt.randomSounds.Count)];
-            var eventInstance = RuntimeManager.CreateInstance(randomSound);
-            eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(evt.soundTarget));
-            eventInstance.setVolume(1.0f);
-            eventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, 90.0f);
-            eventInstance.start();
-            eventInstance.release();
+            PlayManagedAudio(randomSound, evt.soundTarget.transform, 1.0f, 90.0f);
         }
 
         // 2. Rotaciona objetos
@@ -527,12 +565,7 @@ public class NeighborEventManager : MonoBehaviour
             {
                 if (!audioEvent.IsNull)
                 {
-                    var eventInstance = RuntimeManager.CreateInstance(audioEvent);
-                    eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(evt.audioOnlyTarget));
-                    eventInstance.setVolume(1.0f);
-                    eventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, 90.0f);
-                    eventInstance.start();
-                    eventInstance.release();
+                    PlayManagedAudio(audioEvent, evt.audioOnlyTarget.transform, 1.0f, 90.0f);
                     
                     if (evt.soundDelay > 0)
                     {
@@ -547,12 +580,7 @@ public class NeighborEventManager : MonoBehaviour
             var randomAudio = evt.audioOnlyEvents[Random.Range(0, evt.audioOnlyEvents.Count)];
             if (!randomAudio.IsNull)
             {
-                var eventInstance = RuntimeManager.CreateInstance(randomAudio);
-                eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(evt.audioOnlyTarget));
-                eventInstance.setVolume(1.0f);
-                eventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, 90.0f);
-                eventInstance.start();
-                eventInstance.release();
+                PlayManagedAudio(randomAudio, evt.audioOnlyTarget.transform, 1.0f, 90.0f);
             }
         }
     }
@@ -612,6 +640,7 @@ public class NeighborEventManager : MonoBehaviour
     public bool HasActiveEvent => hasActiveEvent;
     public bool IsWaitingForPeepholeFinalization => waitingForPeepholeFinalization;
     public bool HasPendingJumpScare => pendingJumpScareEvent.HasValue;
+    public int ActiveAudioCount => activeAudioInstances.Count; // Nova propriedade para debug
 
     /// <summary>
     /// Força um evento específico para testes (apenas em editor)

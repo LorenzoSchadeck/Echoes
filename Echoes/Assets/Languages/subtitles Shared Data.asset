@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: subtitles Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: subtitles
+  m_TableCollectionNameGuidString: b094697b7ba97884f852066b7a7ff5fc
+  m_Entries:
+  - m_Id: 10220318720
+    m_Key: SUB_TRACK_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66029727744
+    m_Key: SUB_TRACK_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91694673920
+    m_Key: SUB_TRACK_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 121100939264
+    m_Key: SUB_KEY_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 160456093696
+    m_Key: SUB_KEY_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215208538112
+    m_Key: SUB_INSANITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3809764814848
+    m_Key: SUB_PORTRAIT_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3866614411264
+    m_Key: SUB_PORTRAIT_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3871400112128
+    m_Key: SUB_PORTRAIT_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3908007997440
+    m_Key: SUB_PORTRAIT_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5353537122304
+    m_Key: SUB_PORTRAIT_5
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 115643967591678024
+  references:
+    version: 2
+    RefIds:
+    - rid: 115643967591678024
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1761756156079

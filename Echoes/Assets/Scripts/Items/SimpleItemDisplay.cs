@@ -36,8 +36,8 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
     {
         get
         {
-            // NOVA VERIFICAÇÃO: Se legendas do rádio estão ativas, não mostra prompt
-            if (RadioSubtitleManager.AreRadioSubtitlesActive())
+            // VERIFICAÇÃO: Se legendas estão ativas, não mostra prompt
+            if (SubtitleManager.IsSubtitleActive)
             {
                 wasBeingLookedAt = false;
                 return string.Empty;
@@ -68,8 +68,8 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
 
     public bool Interact(Transform interactor)
     {
-        // NOVA VERIFICAÇÃO: Se legendas do rádio estão ativas, bloqueia interação
-        if (RadioSubtitleManager.AreRadioSubtitlesActive())
+        // VERIFICAÇÃO: Se legendas estão ativas, bloqueia interação
+        if (SubtitleManager.IsSubtitleActive)
         {
             return false;
         }
@@ -102,8 +102,8 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         // Se o texto está ativo, verifica se o jogador parou de olhar
         if (isDisplayActive)
         {
-            // CORREÇÃO: Não esconde texto se legendas do rádio estão ativas
-            if (RadioSubtitleManager.AreRadioSubtitlesActive())
+            // CORREÇÃO: Não esconde texto se legendas estão ativas
+            if (SubtitleManager.IsSubtitleActive)
             {
                 // Mantém o texto ativo mesmo que o prompt não apareça
                 return;

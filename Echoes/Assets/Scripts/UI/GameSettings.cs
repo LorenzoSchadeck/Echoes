@@ -12,7 +12,7 @@ public class GameSettings : MonoBehaviour
     #region Singleton Pattern
     
     public static GameSettings Instance { get; private set; }
-    
+
     void Awake()
     {
         // Singleton pattern implementation

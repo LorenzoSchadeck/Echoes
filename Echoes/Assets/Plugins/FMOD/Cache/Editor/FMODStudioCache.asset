@@ -108,6 +108,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-7376962525086313963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Choir/choir_F_3
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Choir/choir_F_3
+  Guid:
+    Data1: -1566728762
+    Data2: 1323087019
+    Data3: -1703265133
+    Data4: -704063583
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7463
+--- !u!114 &-6600692187356907903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Choir/choir_T
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Choir/choir_T
+  Guid:
+    Data1: -2008864813
+    Data2: 1316978223
+    Data3: 1242715579
+    Data4: 1188636399
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 12716
 --- !u!114 &-6357037119161835125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +189,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-5422050437575008360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Choir/choir_F_1
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Choir/choir_F_1
+  Guid:
+    Data1: -1352220326
+    Data2: 1279587304
+    Data3: 851719100
+    Data4: -1583545214
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10049
 --- !u!114 &-5391695018967226273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +378,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1828
+--- !u!114 &-4110562134345056362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Choir/Door_slam
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Choir/Door_slam
+  Guid:
+    Data1: 1426077258
+    Data2: 1318562595
+    Data3: -1150016838
+    Data4: 539178901
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1872
 --- !u!114 &-3982402917358060565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,10 +474,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638962427668732303
+  lastModified: 638968637048346599
   FileSizes:
   - Name: Desktop
-    Value: 4055904
+    Value: 4540000
   Exists: 1
 --- !u!114 &-3004535292404850156
 MonoBehaviour:
@@ -547,10 +655,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638962427668783251
+  lastModified: 638968637048376971
   FileSizes:
   - Name: Desktop
-    Value: 2256
+    Value: 2508
   Exists: 1
 --- !u!114 &-551765533701357760
 MonoBehaviour:
@@ -579,6 +687,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &-269299135402453011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Choir/choir_F_2
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Choir/choir_F_2
+  Guid:
+    Data1: 1138007585
+    Data2: 1250952932
+    Data3: 2000777638
+    Data4: -508439360
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10275
 --- !u!114 &-114601762871034247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,6 +741,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 21000
+--- !u!114 &-25584159448722107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/Key
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Effects/Key
+  Guid:
+    Data1: 92840115
+    Data2: 1080936980
+    Data3: -1955894858
+    Data4: 1163209143
+  Banks:
+  - {fileID: -3017828741721620663}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 542
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,12 +817,18 @@ MonoBehaviour:
   - {fileID: 782569649499571178}
   - {fileID: 3163577213719941407}
   - {fileID: 6472214764324698941}
+  - {fileID: -269299135402453011}
+  - {fileID: -4110562134345056362}
+  - {fileID: -5422050437575008360}
+  - {fileID: -7376962525086313963}
+  - {fileID: -6600692187356907903}
+  - {fileID: -25584159448722107}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3017828741721620663}
   StringsBanks:
   - {fileID: -917116490150385184}
-  cacheTime: 638962427668783251
+  cacheTime: 638968637048376971
   cacheVersion: 131632
 --- !u!114 &132974427429127144
 MonoBehaviour:

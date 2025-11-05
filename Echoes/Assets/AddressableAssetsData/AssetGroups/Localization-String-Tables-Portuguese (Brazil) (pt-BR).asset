@@ -63,6 +63,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dac30005b61617a40afdd2044770f866
+    m_Address: subtitles_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e1903e15726e53d4db2a13483b89da21
     m_Address: speaker_pt-BR
     m_ReadOnly: 1

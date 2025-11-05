@@ -54,6 +54,9 @@ public class FlashbackEffectController : MonoBehaviour
 
     private void Awake()
     {
+        // SEGURANÇA: Garante que o movimento do jogador esteja liberado ao carregar a cena
+        PlayerMovement.canMove = true;
+        
         if (postProcessVolume == null || postProcessVolume.profile == null || playerTransform == null || playerRigidbody == null || postProcessingManager == null)
         {
             Debug.LogError("Uma ou mais dependências cruciais não foram atribuídas no FlashbackEffectController!", this);
@@ -84,7 +87,31 @@ public class FlashbackEffectController : MonoBehaviour
     private void PlayEntryAnimation()
     {
         GameObject teleportPoint = GameObject.FindWithTag("FlashbackTeleport");
-        if (teleportPoint == null) return;
+        if (teleportPoint == null) 
+        {
+            Debug.Log("[FlashbackEffectController] ❌ FlashbackTeleport não encontrado - ignorando evento");
+            return;
+        }
+        
+        // Verifica se é um flashback do choir (que tem seu próprio controlador)
+        bool isChoirActive = false;
+        try 
+        {
+            isChoirActive = ChoirManager.Instance != null && ChoirManager.Instance.IsChoirActive;
+        }
+        catch 
+        {
+            // Se não conseguir acessar ChoirManager, assume que não é choir
+            isChoirActive = false;
+        }
+        
+        if (isChoirActive)
+        {
+            Debug.Log("[FlashbackEffectController] ❌ Choir ativo detectado - ignorando flashback (será processado pelo ChoirFlashbackController)");
+            return;
+        }
+        
+        Debug.Log("[FlashbackEffectController] ✅ Processando flashback normal");
         
         // Toca o som de entrada do flashback (2D)
         PlayFlashbackEntrySound();
@@ -97,6 +124,25 @@ public class FlashbackEffectController : MonoBehaviour
     
     private void PlayExitAnimation()
     {
+        // Verifica se é um flashback do choir (que tem seu próprio controlador)
+        bool isChoirActive = false;
+        try 
+        {
+            isChoirActive = ChoirManager.Instance != null && ChoirManager.Instance.IsChoirActive;
+        }
+        catch 
+        {
+            isChoirActive = false;
+        }
+        
+        if (isChoirActive)
+        {
+            Debug.Log("[FlashbackEffectController] ❌ Choir ativo detectado - ignorando saída de flashback (será processado pelo ChoirFlashbackController)");
+            return;
+        }
+        
+        Debug.Log("[FlashbackEffectController] ✅ Processando saída de flashback normal");
+        
         // Notifica o PostProcessingManager que a saída do flashback começou
         postProcessingManager.NotifyFlashbackExitStarted();
         postProcessingManager.StopAllVisualEffects();
@@ -161,6 +207,10 @@ public class FlashbackEffectController : MonoBehaviour
         originalPlayerPosition = playerRigidbody.position;
         originalPlayerRotation = playerRigidbody.rotation;
 
+        // Trava movimento do jogador durante teleporte
+        PlayerMovement.canMove = false;
+        Debug.Log("[FlashbackEffectController] 🔒 Movimento do jogador travado");
+
         float originalExposure = colorAdjustments.postExposure.value;
         float targetExposure = postProcessingManager.GetFlashbackProfileExposure();
         float halfDuration = animationDuration / 2f;
@@ -194,11 +244,20 @@ public class FlashbackEffectController : MonoBehaviour
         }
 
         lensDistortion.intensity.value = 0f;
+        
+        // Libera movimento do jogador
+        PlayerMovement.canMove = true;
+        Debug.Log("[FlashbackEffectController] 🔓 Movimento do jogador liberado");
+        
         activeAnimationCoroutine = null;
     }
 
     private IEnumerator FlashbackExitRoutine()
     {
+        // Trava movimento do jogador durante teleporte de volta
+        PlayerMovement.canMove = false;
+        Debug.Log("[FlashbackEffectController] 🔒 Movimento do jogador travado para saída");
+
         float targetExposure = postProcessingManager.GetSaneProfileExposure();
         float targetVignetteIntensity = postProcessingManager.GetSaneProfileVignetteIntensity();
         float targetLensDistortionScale = postProcessingManager.GetSaneProfileLensDistortionScale();
@@ -253,6 +312,10 @@ public class FlashbackEffectController : MonoBehaviour
 
         // Notifica o PostProcessingManager que a saída do flashback foi concluída
         postProcessingManager.NotifyFlashbackExitCompleted();
+
+        // Libera movimento do jogador
+        PlayerMovement.canMove = true;
+        Debug.Log("[FlashbackEffectController] 🔓 Movimento do jogador liberado após saída");
 
         activeAnimationCoroutine = null;
     }

@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: subtitles_pt-BR
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: pt-BR
+  m_SharedData: {fileID: 11400000, guid: b094697b7ba97884f852066b7a7ff5fc, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 10220318720
+    m_Localized: "P\xE1ginas manchadas? O que isso significa?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66029727744
+    m_Localized: "Que barulho foi esse? Parece ter vindo do escrit\xF3rio..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91694673920
+    m_Localized: "Era... ele? C-Como? Por que ele est\xE1 falando comigo? O que ele
+      quis dizer com tudo isso?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 121100939264
+    m_Localized: "Esta chave... S\xE3o poucas as coisas que ficam trancadas nesta
+      casa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 160456093696
+    m_Localized: "Com este formato... s\xF3 pode haver um lugar que esta chave pode
+      abrir."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215208538112
+    m_Localized: "O que est\xE1 acontecendo?! As paredes... Que merda \xE9 essa?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3809764814848
+    m_Localized: "A casa de campo da fam\xEDlia... J\xE1 faz d\xE9cadas que ningu\xE9m
+      vai l\xE1."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3866614411264
+    m_Localized: Eu me lembro bem daquele dia. Foi o primeiro a visitar a casa de
+      campo em muito tempo. Acho que ele gostou...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3871400112128
+    m_Localized: "Minha primeira cobertura de campo... Foi terr\xEDvel presenciar
+      o \"trabalho do a\xE7ougueiro\" de t\xE3o perto."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3908007997440
+    m_Localized: Este foi um belo dia... Acho que foi o primeiro trabalho depois
+      de tudo aquilo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5353537122304
+    m_Localized: "Eu n\xE3o me lembro dela... Ser\xE1 que eu devia?"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

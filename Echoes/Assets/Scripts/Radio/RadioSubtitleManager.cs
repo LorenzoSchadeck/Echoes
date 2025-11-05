@@ -89,6 +89,14 @@ public class RadioSubtitleManager : MonoBehaviour
         if (showDebugLogs)
             Debug.Log($"RadioSubtitleManager: StartSubtitles() chamado - Track {trackNumber}, Primeira vez: {isFirstTime}");
         
+        // PRIORIDADE: Cancela legendas do SubtitleManager se estiverem ativas
+        if (SubtitleManager.IsSubtitleActive)
+        {
+            SubtitleManager.Instance?.CancelCurrentSubtitle();
+            if (showDebugLogs)
+                Debug.Log("RadioSubtitleManager: Legendas do SubtitleManager canceladas - Rádio tem prioridade");
+        }
+        
         // Para legendas anteriores se estiverem rodando
         StopSubtitles();
         
@@ -303,33 +311,34 @@ public class RadioSubtitleManager : MonoBehaviour
                     subtitleText.enabled = true;
                     subtitleText.text = newText;
                     
-                    // Atualiza o nome do falante se configurado
-                    if (speakerNameText != null)
-                    {
-                        if (!string.IsNullOrEmpty(newSpeakerName))
+                        // Atualiza o nome do falante se configurado
+                        if (speakerNameText != null)
                         {
-                            speakerNameText.enabled = true;
-                            speakerNameText.text = newSpeakerName;
-                        }
-                        else
-                        {
-                            speakerNameText.enabled = false;
-                            speakerNameText.text = "";
-                        }
-                    }
-                    
-                    if (showDebugLogs)
-                    {
-                        // Verifica se alguma legenda ativa usa itálico para mostrar no debug
-                        bool hasItalic = false;
-                        for (int i = 0; i < activeSubtitles.Length; i++)
-                        {
-                            if (activeSubtitles[i].useItalic)
+                            if (!string.IsNullOrEmpty(newSpeakerName))
                             {
-                                hasItalic = true;
-                                break;
+                                speakerNameText.enabled = true;
+                                speakerNameText.text = newSpeakerName;
+                            }
+                            else
+                            {
+                                speakerNameText.enabled = false;
+                                speakerNameText.text = "";
                             }
                         }
+                        
+                        if (showDebugLogs)
+                        {
+                            // Verifica se alguma legenda ativa usa itálico para mostrar no debug
+                            bool hasItalic = false;
+                            for (int i = 0; i < activeSubtitles.Length; i++)
+                            {
+                                if (activeSubtitles[i].useItalic)
+                                {
+                                    hasItalic = true;
+                                    break;
+                                }
+                            }
+                            
                         
                         string italicInfo = hasItalic ? " [ITÁLICO]" : "";
                         Debug.Log($"RadioSubtitleManager: Exibindo: \"{newText}\" [Falante: \"{newSpeakerName}\"]{italicInfo} - componente HABILITADO (tempo: {currentTime:F1}s)");

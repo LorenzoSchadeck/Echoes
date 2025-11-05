@@ -125,6 +125,14 @@ MonoBehaviour:
     m_Key: ITEM_DESC_HELLO
     m_Metadata:
       m_Items: []
+  - m_Id: 17315704439943168
+    m_Key: ITEM_NAME_BOX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17315916906606592
+    m_Key: ITEM_DESC_BOX
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

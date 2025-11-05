@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: subtitles_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: b094697b7ba97884f852066b7a7ff5fc, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 10220318720
+    m_Localized: Stained pages? What does that mean?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66029727744
+    m_Localized: What was that noise? It sounds like it came from the office...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91694673920
+    m_Localized: Was it... him? H-How? Why is he talking to me? What did he mean
+      by all of that?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 121100939264
+    m_Localized: This key... not many things are locked in this house.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 160456093696
+    m_Localized: That shape... there can only be one place that this key can open.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215208538112
+    m_Localized: What is going on?! The walls... What the hell is this?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3809764814848
+    m_Localized: The family's country house... it's been decades since anyone went
+      there.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3866614411264
+    m_Localized: I remember that day well. He was the first one to visit the country
+      house in a long time. I think he liked it...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3871400112128
+    m_Localized: My first field assignment... it was terrifying to witness that kind
+      of slaughter up close.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3908007997440
+    m_Localized: That was a beautiful day... I think it was the first job after everything.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5353537122304
+    m_Localized: I don't remember her. Should I?
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

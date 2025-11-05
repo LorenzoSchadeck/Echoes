@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f974ebb5cd41de74683ff3a0eb9cb068, type: 3}
+  m_Name: Lore-en-2
+  m_EditorClassIdentifier: 
+  language: 0
+  title: 
+  text: 'The cost of that investigation tore apart the mind of Ethan Myers. Years
+    have passed, but Post-Traumatic Stress Disorder (PTSD) keeps him a prisoner.
+
+
+    At
+    any moment, the real world shatters. His vision tunnels, the air becomes hostile,
+    and the terror of 1996 comes crawling back.
+
+
+    The only barrier between Ethan
+    and total madness is medication. He needs to stay doped, fighting daily to keep
+    the monster he covered from consuming him from within.'
+  displayDuration: 30
+  isSkippable: 1

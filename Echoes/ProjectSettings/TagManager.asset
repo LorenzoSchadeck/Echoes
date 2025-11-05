@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FlashbackTeleport
   - Language
+  - ChoirTeleport
   layers:
   - Default
   - TransparentFX

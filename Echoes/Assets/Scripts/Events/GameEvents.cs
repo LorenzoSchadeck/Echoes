@@ -167,13 +167,6 @@ public static class GameEvents
     public static event Action<int> OnRadioTransmissionStarted;
     public static void TriggerRadioTransmission(int transmissionIndex) => OnRadioTransmissionStarted?.Invoke(transmissionIndex);
 
-    // Evento de ativacao do puzzle sonoro
-    public static event Action OnAudioPuzzleStarted;
-    public static void TriggerAudioPuzzleStarted() => OnAudioPuzzleStarted?.Invoke();
-
-    public static event Action OnAudioPuzzleSolved;
-    public static void TriggerAudioPuzzleSolved() => OnAudioPuzzleSolved?.Invoke();
-
     // Evento para batida na porta (quando Track 1 do rádio é ativada)
     public static event Action OnDoorKnockTriggered;
     public static void TriggerDoorKnock() => OnDoorKnockTriggered?.Invoke();
@@ -186,6 +179,10 @@ public static class GameEvents
     public static event Action OnRadioTrack2Completed;
     public static void TriggerRadioTrack2Completed() => OnRadioTrack2Completed?.Invoke();
 
+    // Evento para quando a Track 3 do rádio termina (inicia mecânica de choir)
+    public static event Action OnRadioTrack3Completed;
+    public static void TriggerRadioTrack3Completed() => OnRadioTrack3Completed?.Invoke();
+
     // Evento para ativação inicial do rádio via trigger
     public static event Action OnRadioFirstTrigger;
     public static void TriggerRadioFirstTrigger() => OnRadioFirstTrigger?.Invoke();
@@ -197,4 +194,19 @@ public static class GameEvents
     // Evento para reset completo de todos os sistemas quando a cena é resetada
     public static event Action OnSceneReset;
     public static void TriggerSceneReset() => OnSceneReset?.Invoke();
+
+    // --- Subtitle System Events ---
+    
+    // Evento disparado quando uma chave de porta é coletada
+    public static event Action OnDoorKeyCollected;
+    public static void TriggerDoorKeyCollected() => OnDoorKeyCollected?.Invoke();
+
+    // Evento disparado quando uma chave de gaveta é coletada
+    public static event Action OnDrawerKeyCollected;
+    public static void TriggerDrawerKeyCollected() => OnDrawerKeyCollected?.Invoke();
+
+    // Evento disparado quando um ItemInteract específico quer mostrar legenda
+    public static event Action<UnityEngine.Localization.LocalizedString, float> OnItemInteractSubtitle;
+    public static void TriggerItemInteractSubtitle(UnityEngine.Localization.LocalizedString subtitleKey, float duration) 
+        => OnItemInteractSubtitle?.Invoke(subtitleKey, duration);
 }

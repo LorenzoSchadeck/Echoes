@@ -79,6 +79,10 @@ MonoBehaviour:
     m_Key: PROMPT_BLOCKED
     m_Metadata:
       m_Items: []
+  - m_Id: 17735521386999808
+    m_Key: PROMPT_TAKE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

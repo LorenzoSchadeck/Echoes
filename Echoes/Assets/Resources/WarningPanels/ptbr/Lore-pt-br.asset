@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f974ebb5cd41de74683ff3a0eb9cb068, type: 3}
+  m_Name: Lore-pt-br
+  m_EditorClassIdentifier: 
+  language: 1
+  title: 
+  text: "Em 1996, o ar de Harrow Creek era cortado pelo terror. O \"A\xE7ougueiro
+    de Harrow Creek\" n\xE3o era um monstro de lendas, mas um assassino real, manchando
+    a cidade com sangue. Seu cart\xE3o de visitas macabro: uma faca de cozinha enterrada
+    no peito de suas v\xEDtimas.\n\nEthan Myers, um jovem rep\xF3rter faminto por
+    verdade, mergulhou de cabe\xE7a na escurid\xE3o do caso.\n\nEnt\xE3o, em um sil\xEAncio
+    perturbador, o A\xE7ougueiro sumiu. N\xE3o houve corpo, n\xE3o houve confiss\xE3o.
+    A cidade nunca soube se ele morreu... ou apenas se escondeu. A sombra de sua
+    faca ainda paira sobre a cidade.\n\n"
+  displayDuration: 30
+  isSkippable: 1

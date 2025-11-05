@@ -70,6 +70,19 @@ MonoBehaviour:
     m_Localized: By Lorenzo D. Schadeck
     m_Metadata:
       m_Items: []
+  - m_Id: 5449377504931840
+    m_Localized: (E) Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5752345701756928
+    m_Localized: CONTINUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8267308647428096
+    m_Localized: That key... it opened the wrong place. What Ethan found cannot be
+      real. The only way out is to press on.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

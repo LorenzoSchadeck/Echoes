@@ -166,7 +166,14 @@ public class RadioController : MonoBehaviour, IInteractable
     
     private void OnPaperTrigger()
     {
-        Debug.Log($"[RadioController] OnPaperTrigger CHAMADO! Estado: {currentState}, Track1 encerrada: {track1HasEnded}");
+        Debug.Log($"[RadioController] OnPaperTrigger CHAMADO! Estado: {currentState}, Track1 encerrada: {track1HasEnded}, Track2 já ativada: {track2HasBeenActivated}");
+        
+        // PROTEÇÃO: Track 2 só pode ser ativada uma única vez
+        if (track2HasBeenActivated)
+        {
+            Debug.LogWarning("[RadioController] PAPEL NEGADO - Track 2 já foi ativada anteriormente! Não é possível ativar novamente.");
+            return;
+        }
         
         // REGRA RESTRITIVA: Papel só pode ser usado quando Track 1 terminou E rádio está desligado
         if (!track1HasEnded)
@@ -183,6 +190,9 @@ public class RadioController : MonoBehaviour, IInteractable
         }
         
         Debug.Log("[RadioController] PAPEL ACEITO! Track 1 encerrada e rádio desligado. Ligando rádio e iniciando Track 2");
+        
+        // Marca que Track 2 foi ativada
+        track2HasBeenActivated = true;
         
         // Liga o rádio novamente e inicia Track 2
         currentState = RadioState.Track2Playing;
@@ -258,6 +268,7 @@ public class RadioController : MonoBehaviour, IInteractable
     // Controle de progresso das tracks
     private bool track1HasBeenPlayed = false; // Se Track 1 já foi tocada
     private bool track1HasEnded = false; // Se Track 1 foi encerrada (terminada ou desligada)
+    private bool track2HasBeenActivated = false; // Se Track 2 já foi ativada pelo papel
     
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI frequencyDisplayText;
@@ -702,6 +713,10 @@ public class RadioController : MonoBehaviour, IInteractable
             currentEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             currentEventInstance.release();
         }
+        
+        // NOVO: Dispara evento para iniciar mecânica de choir
+        GameEvents.TriggerRadioTrack3Completed();
+        Debug.Log("[RadioController] Track 3 completada - Evento de choir disparado");
     }
 
     /// <summary>
@@ -797,6 +812,9 @@ public class RadioController : MonoBehaviour, IInteractable
     {
         if (currentState == RadioState.Off) return;
         
+        // Guarda o estado antes de desligar para verificar se era Track 3
+        RadioState previousState = currentState;
+        
         // Se Track 1 foi reproduzida (mesmo que interrompida), marca como encerrada
         if (track1HasBeenPlayed)
         {
@@ -828,6 +846,13 @@ public class RadioController : MonoBehaviour, IInteractable
         {
             currentEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             currentEventInstance.release();
+        }
+        
+        // Se era Track 3 tocando, dispara evento para iniciar choir
+        if (previousState == RadioState.Track3Playing)
+        {
+            Debug.Log("[RadioController] Track 3 desligada pelo player - Disparando evento de choir");
+            GameEvents.TriggerRadioTrack3Completed();
         }
         
         // Se era Track 1 tocando, ativa objetos e dispara evento da porta com delay

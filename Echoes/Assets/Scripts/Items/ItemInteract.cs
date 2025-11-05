@@ -47,6 +47,26 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [Tooltip("Se deve disparar apenas uma vez")]
     [SerializeField] private bool triggerOnlyOnce = true;
     
+    [Header("🔑 Key Detection Settings")]
+    [Tooltip("Se deve detectar chaves dentro deste item durante inspeção")]
+    [SerializeField] private bool canContainKeys = false;
+    [Tooltip("Distância máxima do raycast para detectar chaves dentro do item")]
+    [SerializeField] private float keyDetectionDistance = 2f;
+    [Tooltip("Layer das chaves para detecção via raycast")]
+    [SerializeField] private LayerMask keyLayer;
+    [Tooltip("Texto UI que exibirá o prompt de interação da chave")]
+    [SerializeField] private TMPro.TextMeshProUGUI keyInteractionText;
+    
+    [Header("📺 Subtitle Settings")]
+    [Tooltip("Se deve disparar legenda quando interagir com este item")]
+    [SerializeField] private bool triggerSubtitleOnInteract = false;
+    [Tooltip("Chave de localização da legenda a exibir")]
+    [SerializeField] private LocalizedString interactSubtitle;
+    [Tooltip("Duração da legenda em segundos")]
+    [SerializeField] private float subtitleDuration = 3f;
+    [Tooltip("Referência ao TextMeshProUGUI das legendas (mesmo usado pelo SubtitleManager)")]
+    [SerializeField] private TMPro.TextMeshProUGUI subtitleTextReference;
+    
     public enum RadioTriggerType
     {
         None,           // Não dispara eventos do rádio
@@ -127,6 +147,10 @@ public class ItemInteract : MonoBehaviour, IInteractable
                 TriggerRadioEvent();
                 
                 StartInspection();
+                
+                // Dispara evento de legenda APÓS abrir o painel (para não ser desabilitada)
+                TriggerSubtitleEvent();
+                
                 return true;
             }
         }
@@ -206,6 +230,23 @@ public class ItemInteract : MonoBehaviour, IInteractable
     }
 
     /// <summary>
+    /// Dispara evento de legenda se configurado
+    /// </summary>
+    private void TriggerSubtitleEvent()
+    {
+        if (!triggerSubtitleOnInteract) return;
+        
+        if (interactSubtitle == null || interactSubtitle.IsEmpty)
+        {
+            Debug.LogWarning($"[ItemInteract] {gameObject.name}: triggerSubtitleOnInteract está ativo mas interactSubtitle não foi configurado!", this);
+            return;
+        }
+        
+        // Dispara o evento de legenda
+        GameEvents.TriggerItemInteractSubtitle(interactSubtitle, subtitleDuration);
+    }
+
+    /// <summary>
     /// Toca o som de soltura do item com delay de 0.5 segundos
     /// </summary>
     private void PlayDropSound()
@@ -237,11 +278,19 @@ public class ItemInteract : MonoBehaviour, IInteractable
     {
         if (!isInspecting) return;
 
+        // Rotação do item
         if (Mouse.current.leftButton.isPressed)
         {
             RotateItem();
         }
+        
+        // Detecção de chaves via raycast durante inspeção
+        if (canContainKeys)
+        {
+            CheckForKeyInteraction();
+        }
 
+        // Sair da inspeção
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             ExitInspection();
@@ -289,6 +338,9 @@ public class ItemInteract : MonoBehaviour, IInteractable
         isInspecting = false;
         playerInteractor.SetInspectionMode(false);
 
+        // Esconde o prompt de chave ao sair da inspeção
+        UpdateKeyInteractionUI(false);
+
         // Toca o som de soltura (com delay de 0.5s)
         PlayDropSound();
 
@@ -301,6 +353,13 @@ public class ItemInteract : MonoBehaviour, IInteractable
     private void ShowInspectionPanel()
     {
         if (inspectionPanel == null || itemNameText == null || itemDescriptionText == null) return;
+        
+        // Desabilita texto de legenda APENAS se não houver legendas ativas
+        // Se SubtitleManager estiver ativo, mantém o texto habilitado
+        if (subtitleTextReference != null && !SubtitleManager.IsSubtitleActive)
+        {
+            subtitleTextReference.enabled = false;
+        }
         
         // Ativa o painel primeiro
         inspectionPanel.SetActive(true);
@@ -315,6 +374,14 @@ public class ItemInteract : MonoBehaviour, IInteractable
         if (inspectionPanel != null)
         {
             inspectionPanel.SetActive(false);
+        }
+        
+        // Reabilita texto de legenda apenas se não há legendas ativas
+        // Se há legendas ativas, o SubtitleManager já cuidou de ativar o componente
+        if (subtitleTextReference != null && !SubtitleManager.IsSubtitleActive)
+        {
+            // Desabilita o componente quando não há legendas e o painel foi fechado
+            subtitleTextReference.enabled = false;
         }
     }
 
@@ -354,6 +421,73 @@ public class ItemInteract : MonoBehaviour, IInteractable
         
         transform.Rotate(cameraTransform.up, -rotationX, Space.World);
         transform.Rotate(cameraTransform.right, rotationY, Space.World);
+    }
+    
+    /// <summary>
+    /// Verifica se o jogador está olhando para uma chave dentro do item inspecionado
+    /// e permite coletá-la com o botão de interação padrão
+    /// </summary>
+    private void CheckForKeyInteraction()
+    {
+        // Dispara raycast do centro da câmera
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        
+        if (Physics.Raycast(ray, out RaycastHit hit, keyDetectionDistance, keyLayer))
+        {
+            // Verifica se acertou uma chave
+            DrawerKey key = hit.collider.GetComponent<DrawerKey>();
+            
+            if (key != null && !key.IsCollected)
+            {
+                // Mostra o prompt de interação da chave
+                UpdateKeyInteractionUI(true, key.InteractionPrompt);
+                
+                // Debug: mostra que a chave foi detectada
+                Debug.Log($"[ItemInteract] Chave detectada: {key.KeyID} - Pressione E para coletar");
+                
+                // Verifica se o jogador pressionou o botão de interação
+                if (Keyboard.current.eKey.wasPressedThisFrame)
+                {
+                    Debug.Log($"[ItemInteract] Coletando chave: {key.KeyID}");
+                    
+                    // Coleta a chave
+                    bool collected = key.Interact(playerInteractor.transform);
+                    
+                    if (collected)
+                    {
+                        Debug.Log($"[ItemInteract] Chave {key.KeyID} coletada com sucesso!");
+                        
+                        // Esconde o prompt após coletar
+                        UpdateKeyInteractionUI(false);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[ItemInteract] Falha ao coletar chave {key.KeyID}");
+                    }
+                }
+                
+                return; // Sai para não esconder o prompt
+            }
+            else if (key == null)
+            {
+                Debug.LogWarning($"[ItemInteract] Raycast acertou objeto '{hit.collider.name}' mas não tem componente DrawerKey!");
+            }
+        }
+        
+        // Se não está olhando para nenhuma chave, esconde o prompt
+        UpdateKeyInteractionUI(false);
+    }
+    
+    /// <summary>
+    /// Atualiza a UI do prompt de interação da chave
+    /// </summary>
+    private void UpdateKeyInteractionUI(bool show, string prompt = "")
+    {
+        if (keyInteractionText != null)
+        {
+            keyInteractionText.enabled = show;
+            keyInteractionText.text = prompt;
+        }
     }
     
     /// <summary>
@@ -421,4 +555,102 @@ public class ItemInteract : MonoBehaviour, IInteractable
         customInspectionRotation = new Vector3(0, 0, 180);
         useCustomRotation = true;
     }
+    
+    #if UNITY_EDITOR
+    
+    /// <summary>
+    /// Testa a detecção de chaves filhas (para debug)
+    /// </summary>
+    [ContextMenu("Debug: List Child Keys")]
+    private void DebugListChildKeys()
+    {
+        DrawerKey[] keys = GetComponentsInChildren<DrawerKey>(true);
+        
+        if (keys.Length == 0)
+        {
+            Debug.Log($"[ItemInteract] {gameObject.name}: Nenhuma chave encontrada como filha deste objeto.");
+        }
+        else
+        {
+            Debug.Log($"[ItemInteract] {gameObject.name}: {keys.Length} chave(s) encontrada(s):");
+            foreach (DrawerKey key in keys)
+            {
+                Debug.Log($"  - {key.gameObject.name} (ID: {key.KeyID}, Layer: {LayerMask.LayerToName(key.gameObject.layer)})");
+            }
+        }
+        
+        // Verifica configuração
+        if (canContainKeys)
+        {
+            Debug.Log($"[ItemInteract] Can Contain Keys: ATIVADO");
+            Debug.Log($"[ItemInteract] Key Detection Distance: {keyDetectionDistance}m");
+            Debug.Log($"[ItemInteract] Key Layer Mask: {LayerMaskToString(keyLayer)}");
+        }
+        else
+        {
+            Debug.LogWarning($"[ItemInteract] Can Contain Keys: DESATIVADO - Ative para detectar chaves!");
+        }
+    }
+    
+    /// <summary>
+    /// Desenha o raycast de detecção de chaves durante inspeção (apenas para debug)
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        // Só desenha se está inspecionando e pode conter chaves
+        if (!isInspecting || !canContainKeys || cameraTransform == null) return;
+        
+        // Desenha o raycast
+        Vector3 rayOrigin = cameraTransform.position;
+        Vector3 rayDirection = cameraTransform.forward;
+        Vector3 rayEnd = rayOrigin + rayDirection * keyDetectionDistance;
+        
+        // Cor verde se acertou algo, vermelho se não acertou
+        Ray ray = new Ray(rayOrigin, rayDirection);
+        bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, keyDetectionDistance, keyLayer);
+        
+        Gizmos.color = hit ? Color.green : Color.red;
+        Gizmos.DrawLine(rayOrigin, hit ? hitInfo.point : rayEnd);
+        
+        // Desenha uma esfera no ponto de impacto
+        if (hit)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(hitInfo.point, 0.05f);
+            
+            // Verifica se é uma chave
+            DrawerKey key = hitInfo.collider.GetComponent<DrawerKey>();
+            if (key != null)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawWireSphere(hitInfo.point, 0.1f);
+                
+                UnityEditor.Handles.Label(hitInfo.point + Vector3.up * 0.1f, 
+                    $"CHAVE DETECTADA!\nID: {key.KeyID}");
+            }
+        }
+        
+        // Label com informações do raycast
+        UnityEditor.Handles.Label(rayOrigin + Vector3.up * 0.2f, 
+            $"Key Detection Raycast\nDistância: {keyDetectionDistance:F2}m\nLayer: {LayerMaskToString(keyLayer)}");
+    }
+    
+    /// <summary>
+    /// Converte LayerMask para string legível
+    /// </summary>
+    private string LayerMaskToString(LayerMask mask)
+    {
+        string result = "";
+        for (int i = 0; i < 32; i++)
+        {
+            if ((mask.value & (1 << i)) != 0)
+            {
+                if (result.Length > 0) result += ", ";
+                result += LayerMask.LayerToName(i);
+            }
+        }
+        return string.IsNullOrEmpty(result) ? "Nothing" : result;
+    }
+    
+    #endif
 }

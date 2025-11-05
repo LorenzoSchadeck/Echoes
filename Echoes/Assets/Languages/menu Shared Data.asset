@@ -67,6 +67,18 @@ MonoBehaviour:
     m_Key: M_CREDITS
     m_Metadata:
       m_Items: []
+  - m_Id: 5449377504931840
+    m_Key: M_MENU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5752345701756928
+    m_Key: M_CONTINUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8267308647428096
+    m_Key: M_FINAL
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -61,7 +61,7 @@ public class MenuCameraController : MonoBehaviour
         
         while (elapsedTime < rotationSpeed)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime; // Use unscaled time to work with timeScale = 0
             float progress = elapsedTime / rotationSpeed;
             
             cameraTransform.rotation = Quaternion.Lerp(startRotation, endRotation, progress);

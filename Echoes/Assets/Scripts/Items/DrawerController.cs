@@ -49,6 +49,20 @@ public class DrawerController : MonoBehaviour, IInteractable
     [SerializeField] private CabinetDoor[] requiredOpenDoors;
     [Tooltip("Mensagem exibida quando as portas não estão abertas")]
     [SerializeField] private LocalizedString doorsClosedPrompt;
+    
+    [Header("🔄 Door Notifications")]
+    [Tooltip("Portas que devem ser notificadas quando esta gaveta abre/fecha (usado apenas para gavetas de armário)")]
+    [SerializeField] private CabinetDoor[] doorsToNotify;
+    [Tooltip("Se verdadeiro, notifica as portas quando esta gaveta muda de estado")]
+    [SerializeField] private bool notifyDoorsOnStateChange = false;
+    
+    [Header("🔒 Lock System")]
+    [Tooltip("Se verdadeiro, esta gaveta requer uma chave para ser aberta")]
+    [SerializeField] private bool requiresKey = false;
+    [Tooltip("ID da chave necessária para abrir esta gaveta (deve corresponder ao ID da chave)")]
+    [SerializeField] private string requiredKeyID;
+    [Tooltip("Mensagem exibida quando a gaveta está trancada")]
+    [SerializeField] private LocalizedString lockedPrompt;
 
     [Header("🎯 Debug & Visualization")]
     [Tooltip("Mostra gizmos de debug no editor")]
@@ -82,6 +96,10 @@ public class DrawerController : MonoBehaviour, IInteractable
             // Se não permite interação durante movimento e está se movendo
             if (!allowInteractionDuringMovement && isMoving) 
                 return string.Empty;
+            
+            // Verifica se a gaveta está trancada
+            if (!isOpen && IsLocked())
+                return lockedPrompt?.GetLocalizedString() ?? "Trancado - Encontre a chave";
             
             // Verifica se as portas necessárias estão abertas
             if (!AreRequiredDoorsOpen())
@@ -133,6 +151,10 @@ public class DrawerController : MonoBehaviour, IInteractable
         // Verifica se pode interagir
         if (!allowInteractionDuringMovement && isMoving) 
             return false;
+        
+        // Verifica se está trancada (só ao tentar abrir)
+        if (!isOpen && IsLocked())
+            return false;
 
         // Verifica se as portas necessárias estão abertas (só para abrir gavetas)
         if (!isOpen && !AreRequiredDoorsOpen())
@@ -165,6 +187,9 @@ public class DrawerController : MonoBehaviour, IInteractable
     {
         if (isOpen || (!allowInteractionDuringMovement && isMoving)) return;
         
+        // Verifica se está trancada
+        if (IsLocked()) return;
+        
         // Verifica se as portas necessárias estão abertas
         if (!AreRequiredDoorsOpen()) return;
 
@@ -191,6 +216,7 @@ public class DrawerController : MonoBehaviour, IInteractable
     {
         StopCurrentMovement();
 
+        bool stateChanged = isOpen != open;
         isOpen = open;
         transform.position = open ? targetOpenPosition : initialPosition;
         
@@ -198,6 +224,12 @@ public class DrawerController : MonoBehaviour, IInteractable
         {
             EventReference soundToPlay = open ? openSoundEvent : closeSoundEvent;
             PlaySound(soundToPlay);
+        }
+        
+        // Notifica portas se o estado realmente mudou
+        if (stateChanged)
+        {
+            NotifyDoorsOfStateChange();
         }
     }
 
@@ -301,6 +333,9 @@ public class DrawerController : MonoBehaviour, IInteractable
         isOpen = willBeOpen;
         isMoving = false;
         currentMovementCoroutine = null;
+        
+        // Notifica portas sobre mudança de estado se configurado
+        NotifyDoorsOfStateChange();
     }
 
     /// <summary>
@@ -319,6 +354,28 @@ public class DrawerController : MonoBehaviour, IInteractable
         }
         
         audioTrigger.PlayAtPosition(transform.position);
+    }
+
+    /// <summary>
+    /// Notifica as portas configuradas sobre mudança de estado da gaveta
+    /// </summary>
+    private void NotifyDoorsOfStateChange()
+    {
+        // Só notifica se estiver configurado para isso
+        if (!notifyDoorsOnStateChange || doorsToNotify == null || doorsToNotify.Length == 0)
+            return;
+
+        foreach (CabinetDoor door in doorsToNotify)
+        {
+            if (door == null)
+            {
+                Debug.LogWarning($"[DrawerController] {gameObject.name}: Porta nula encontrada na lista de portas para notificar!", this);
+                continue;
+            }
+
+            // A porta vai re-verificar suas gavetas automaticamente na próxima interação
+            // Não precisamos fazer nada específico, apenas garantir que ela saiba que algo mudou
+        }
     }
 
     /// <summary>
@@ -344,6 +401,26 @@ public class DrawerController : MonoBehaviour, IInteractable
         }
 
         return true;
+    }
+    
+    /// <summary>
+    /// Verifica se esta gaveta está trancada e requer uma chave
+    /// </summary>
+    private bool IsLocked()
+    {
+        // Se não requer chave, nunca está trancada
+        if (!requiresKey)
+            return false;
+        
+        // Se não tem ID de chave configurado, trata como não trancada (com warning)
+        if (string.IsNullOrEmpty(requiredKeyID))
+        {
+            Debug.LogWarning($"[DrawerController] {gameObject.name}: requiresKey está ativo mas requiredKeyID está vazio!", this);
+            return false;
+        }
+        
+        // Verifica se o jogador tem a chave
+        return !DrawerKeyManager.Instance.HasKey(requiredKeyID);
     }
 
     /// <summary>
@@ -381,6 +458,32 @@ public class DrawerController : MonoBehaviour, IInteractable
             {
                 Debug.LogWarning($"[DrawerController] {gameObject.name}: {nullDoors} porta(s) nula(s) encontrada(s) no array de portas necessárias!", this);
             }
+        }
+        
+        // Valida configuração das portas para notificação
+        if (notifyDoorsOnStateChange && (doorsToNotify == null || doorsToNotify.Length == 0))
+        {
+            Debug.LogWarning($"[DrawerController] {gameObject.name}: Notificação de portas ativada mas nenhuma porta configurada para notificar!", this);
+        }
+        
+        if (doorsToNotify != null && doorsToNotify.Length > 0)
+        {
+            int nullNotifyDoors = 0;
+            foreach (var door in doorsToNotify)
+            {
+                if (door == null) nullNotifyDoors++;
+            }
+            
+            if (nullNotifyDoors > 0)
+            {
+                Debug.LogWarning($"[DrawerController] {gameObject.name}: {nullNotifyDoors} porta(s) nula(s) encontrada(s) no array de portas para notificar!", this);
+            }
+        }
+        
+        // Valida configuração de chaves
+        if (requiresKey && string.IsNullOrEmpty(requiredKeyID))
+        {
+            Debug.LogWarning($"[DrawerController] {gameObject.name}: requiresKey está ativo mas requiredKeyID está vazio!", this);
         }
     }
 
@@ -459,6 +562,28 @@ public class DrawerController : MonoBehaviour, IInteractable
             string doorStatus = Application.isPlaying ? (AreRequiredDoorsOpen() ? "Portas: ABERTAS" : "Portas: FECHADAS") : $"Portas: {requiredOpenDoors.Length} configuradas";
             UnityEditor.Handles.Label(transform.position + Vector3.up * 0.6f, doorStatus);
         }
+        
+        // Status de trava por chave
+        if (requiresKey)
+        {
+            string lockStatus;
+            if (Application.isPlaying)
+            {
+                lockStatus = IsLocked() ? $"🔒 TRANCADO (Chave: {requiredKeyID})" : $"🔓 DESTRANCADO";
+            }
+            else
+            {
+                lockStatus = $"🔒 Requer Chave: {(string.IsNullOrEmpty(requiredKeyID) ? "SEM ID!" : requiredKeyID)}";
+            }
+            UnityEditor.Handles.Label(transform.position + Vector3.up * 0.8f, lockStatus);
+        }
+        
+        // Status das portas para notificação
+        if (notifyDoorsOnStateChange && doorsToNotify != null && doorsToNotify.Length > 0)
+        {
+            string notifyStatus = $"Notifica: {doorsToNotify.Length} porta(s)";
+            UnityEditor.Handles.Label(transform.position + Vector3.up * 1.0f, notifyStatus);
+        }
     }
 
     /// <summary>
@@ -482,12 +607,73 @@ public class DrawerController : MonoBehaviour, IInteractable
     {
         if (!Application.isPlaying)
         {
+            Debug.Log("[DrawerController] Verificação de status só funciona em runtime!");
             return;
+        }
+
+        Debug.Log($"[DrawerController] {gameObject.name}: Status atual da gaveta: {(isOpen ? "ABERTA" : "FECHADA")}");
+        
+        // Status de trava
+        if (requiresKey)
+        {
+            bool locked = IsLocked();
+            Debug.Log($"[DrawerController] Sistema de chave: ATIVO");
+            Debug.Log($"  - ID da chave necessária: {requiredKeyID}");
+            Debug.Log($"  - Status: {(locked ? "TRANCADA" : "DESTRANCADA")}");
+            Debug.Log($"  - Jogador tem a chave: {(DrawerKeyManager.Instance.HasKey(requiredKeyID) ? "SIM" : "NÃO")}");
+        }
+        else
+        {
+            Debug.Log($"[DrawerController] Sistema de chave: DESATIVADO");
         }
 
         if (requiredOpenDoors == null || requiredOpenDoors.Length == 0)
         {
-            return;
+            Debug.Log($"[DrawerController] Nenhuma porta necessária configurada.");
+        }
+        else
+        {
+            Debug.Log($"[DrawerController] Status das portas necessárias:");
+            for (int i = 0; i < requiredOpenDoors.Length; i++)
+            {
+                var door = requiredOpenDoors[i];
+                if (door == null)
+                {
+                    Debug.Log($"  Porta {i}: NULA");
+                }
+                else
+                {
+                    Debug.Log($"  Porta {i} ({door.gameObject.name}): {(door.IsOpen ? "ABERTA" : "FECHADA")}");
+                }
+            }
+        }
+        
+        if (notifyDoorsOnStateChange)
+        {
+            if (doorsToNotify == null || doorsToNotify.Length == 0)
+            {
+                Debug.Log($"[DrawerController] Notificação ativada mas nenhuma porta configurada para notificar.");
+            }
+            else
+            {
+                Debug.Log($"[DrawerController] Portas que serão notificadas sobre mudanças:");
+                for (int i = 0; i < doorsToNotify.Length; i++)
+                {
+                    var door = doorsToNotify[i];
+                    if (door == null)
+                    {
+                        Debug.Log($"  Porta para notificar {i}: NULA");
+                    }
+                    else
+                    {
+                        Debug.Log($"  Porta para notificar {i} ({door.gameObject.name}): {(door.IsOpen ? "ABERTA" : "FECHADA")}");
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.Log($"[DrawerController] Notificação de portas desativada.");
         }
     }
 

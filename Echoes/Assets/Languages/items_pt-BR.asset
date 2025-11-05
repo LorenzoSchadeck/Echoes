@@ -173,6 +173,15 @@ MonoBehaviour:
     m_Localized: Carta
     m_Metadata:
       m_Items: []
+  - m_Id: 17315704439943168
+    m_Localized: Caixa Suspeita
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17315916906606592
+    m_Localized: "Uma caixa estranha escondida atr\xE1s de um painel met\xE1lico,
+      por que isso est\xE1 aqui? o que h\xE1 dentro dela?"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

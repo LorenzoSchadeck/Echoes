@@ -226,6 +226,15 @@ MonoBehaviour:
     m_Localized: Letter
     m_Metadata:
       m_Items: []
+  - m_Id: 17315704439943168
+    m_Localized: Suspicious Box
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17315916906606592
+    m_Localized: A strange box hidden behind a metal panel, why is it here? What's
+      inside it?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
