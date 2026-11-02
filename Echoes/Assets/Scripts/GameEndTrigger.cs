@@ -224,23 +224,7 @@ public class GameEndTrigger : MonoBehaviour
             yield break;
         }
         
-        float elapsed = 0f;
-        Color startColor = fadeImage.color;
-        Color targetColor = new Color(0f, 0f, 0f, 1f); // Preto opaco
-        
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            float normalizedTime = elapsed / fadeDuration;
-            
-            // Interpola o fade
-            fadeImage.color = Color.Lerp(startColor, targetColor, normalizedTime);
-            
-            yield return null;
-        }
-        
-        // Garante que chegou ao final
-        fadeImage.color = targetColor;
+        yield return Fade.Alpha(fadeImage, 1f, fadeDuration);
         
         if (enableDebugLogs)
             Debug.Log("[GameEndTrigger] ✅ Fade out completo!");
@@ -261,21 +245,7 @@ public class GameEndTrigger : MonoBehaviour
         endCanvas.gameObject.SetActive(true);
         panelGroup.alpha = 0f;
         
-        float elapsed = 0f;
-        
-        while (elapsed < canvasFadeInDuration)
-        {
-            elapsed += Time.deltaTime;
-            float normalizedTime = elapsed / canvasFadeInDuration;
-            
-            // Interpola o fade in do canvas/painel
-            panelGroup.alpha = Mathf.Lerp(0f, 1f, normalizedTime);
-            
-            yield return null;
-        }
-        
-        // Garante que chegou ao final
-        panelGroup.alpha = 1f;
+        yield return Fade.Alpha(panelGroup, 1f, canvasFadeInDuration);
         
         if (enableDebugLogs)
             Debug.Log("[GameEndTrigger] ✅ Canvas/Painel visível!");
@@ -296,29 +266,8 @@ public class GameEndTrigger : MonoBehaviour
         yield return StartCoroutine(UpdateLocalizedText());
         
         // Garante que o texto começa invisível
-        Color textColor = textComponent.color;
-        textColor.a = 0f;
-        textComponent.color = textColor;
-        
-        float elapsed = 0f;
-        
-        while (elapsed < textFadeInDuration)
-        {
-            elapsed += Time.deltaTime;
-            float normalizedTime = elapsed / textFadeInDuration;
-            
-            // Interpola o fade in do texto
-            textColor = textComponent.color;
-            textColor.a = Mathf.Lerp(0f, 1f, normalizedTime);
-            textComponent.color = textColor;
-            
-            yield return null;
-        }
-        
-        // Garante que chegou ao final
-        textColor = textComponent.color;
-        textColor.a = 1f;
-        textComponent.color = textColor;
+        Fade.SetAlpha(textComponent, 0f);
+        yield return Fade.Alpha(textComponent, 1f, textFadeInDuration);
         
         if (enableDebugLogs)
             Debug.Log("[GameEndTrigger] ✅ Texto visível!");
@@ -335,27 +284,7 @@ public class GameEndTrigger : MonoBehaviour
             yield break;
         }
         
-        float elapsed = 0f;
-        Color textColor = textComponent.color;
-        float startAlpha = textColor.a;
-        
-        while (elapsed < textFadeOutDuration)
-        {
-            elapsed += Time.deltaTime;
-            float normalizedTime = elapsed / textFadeOutDuration;
-            
-            // Interpola o fade out do texto
-            textColor = textComponent.color;
-            textColor.a = Mathf.Lerp(startAlpha, 0f, normalizedTime);
-            textComponent.color = textColor;
-            
-            yield return null;
-        }
-        
-        // Garante que chegou ao final
-        textColor = textComponent.color;
-        textColor.a = 0f;
-        textComponent.color = textColor;
+        yield return Fade.Alpha(textComponent, 0f, textFadeOutDuration);
         
         if (enableDebugLogs)
             Debug.Log("[GameEndTrigger] ✅ Texto invisível!");

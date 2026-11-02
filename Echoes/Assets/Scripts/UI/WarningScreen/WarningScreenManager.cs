@@ -378,17 +378,7 @@ namespace Echoes.UI.WarningScreen
         {
             if (panelCanvasGroup == null) yield break;
             
-            float startAlpha = panelCanvasGroup.alpha;
-            float elapsed = 0f;
-            
-            while (elapsed < fadeDuration)
-            {
-                elapsed += Time.deltaTime;
-                panelCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / fadeDuration);
-                yield return null;
-            }
-            
-            panelCanvasGroup.alpha = targetAlpha;
+            yield return Fade.Alpha(panelCanvasGroup, targetAlpha, fadeDuration);
         }
         
         [ContextMenu("Show Spinner")]
