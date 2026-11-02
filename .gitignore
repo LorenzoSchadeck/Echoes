@@ -103,3 +103,6 @@ InitTestScene*.unity*
 **/LightingData.asset.meta
 Echoes/Assets/Scenes/Game/LightingData.asset
 Echoes/Assets/Scenes/Game/LightingData.asset.meta
+
+# Solução gerada pela IDE
+*.slnx

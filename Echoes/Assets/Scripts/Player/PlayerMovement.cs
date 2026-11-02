@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float footstepTimer;
 
-    public static bool canMove = true;
+    private static bool CanMove => !PlayerControlLock.IsLocked;
 
     void Awake()
     {
@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        if (!canMove)
+        if (!CanMove)
         {
             rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
             return;
@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleFootsteps()
     {
-        if (!canMove) return;
+        if (!CanMove) return;
 
         // Verifica se o jogador está se movendo (temporariamente ignorando ground check)
         if (moveInput.magnitude > 0.1f)

@@ -54,9 +54,6 @@ public class FlashbackEffectController : MonoBehaviour
 
     private void Awake()
     {
-        // SEGURANÇA: Garante que o movimento do jogador esteja liberado ao carregar a cena
-        PlayerMovement.canMove = true;
-        
         if (postProcessVolume == null || postProcessVolume.profile == null || playerTransform == null || playerRigidbody == null || postProcessingManager == null)
         {
             Debug.LogError("Uma ou mais dependências cruciais não foram atribuídas no FlashbackEffectController!", this);
@@ -208,7 +205,7 @@ public class FlashbackEffectController : MonoBehaviour
         originalPlayerRotation = playerRigidbody.rotation;
 
         // Trava movimento do jogador durante teleporte
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         Debug.Log("[FlashbackEffectController] 🔒 Movimento do jogador travado");
 
         float originalExposure = colorAdjustments.postExposure.value;
@@ -246,7 +243,7 @@ public class FlashbackEffectController : MonoBehaviour
         lensDistortion.intensity.value = 0f;
         
         // Libera movimento do jogador
-        PlayerMovement.canMove = true;
+        PlayerControlLock.Release(this);
         Debug.Log("[FlashbackEffectController] 🔓 Movimento do jogador liberado");
         
         activeAnimationCoroutine = null;
@@ -255,7 +252,7 @@ public class FlashbackEffectController : MonoBehaviour
     private IEnumerator FlashbackExitRoutine()
     {
         // Trava movimento do jogador durante teleporte de volta
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         Debug.Log("[FlashbackEffectController] 🔒 Movimento do jogador travado para saída");
 
         float targetExposure = postProcessingManager.GetSaneProfileExposure();
@@ -314,7 +311,7 @@ public class FlashbackEffectController : MonoBehaviour
         postProcessingManager.NotifyFlashbackExitCompleted();
 
         // Libera movimento do jogador
-        PlayerMovement.canMove = true;
+        PlayerControlLock.Release(this);
         Debug.Log("[FlashbackEffectController] 🔓 Movimento do jogador liberado após saída");
 
         activeAnimationCoroutine = null;

@@ -31,7 +31,7 @@ public class InsanityManager : MonoBehaviour
     private float sanityDrainPauseDuration = 15.0f;
 
     [Header("Safe Period Settings")]
-    [Tooltip("Se deve proteger a sanidade até a Track 1 do rádio terminar.")]
+    [Tooltip("Se deve proteger a sanidade durante o prólogo (até a Track 1 do rádio terminar).")]
     [SerializeField]
     private bool enableSafePeriod = true;
 
@@ -41,9 +41,11 @@ public class InsanityManager : MonoBehaviour
     private bool isSanityDrainPaused = false;
     private bool isDeathSequenceActive = false;
     private bool isPlayerDead = false;
-    private bool safePeriodActive = true; // Inicia ativo
     private Coroutine remedyCoroutine;
     private float currentSanityDrainRate;
+
+    // O período seguro dura enquanto o jogo estiver no prólogo
+    private bool IsSafePeriodActive => enableSafePeriod && GameFlow.Current < GameAct.Investigation;
 
     // Propriedade pública para manipulação externa
     public float CurrentSanity { get => currentSanity; set => currentSanity = Mathf.Clamp01(value); }
@@ -54,11 +56,7 @@ public class InsanityManager : MonoBehaviour
         GameEvents.OnFlashbackEnded += EndFlashbackState;
         GameEvents.OnRemedyUsed += UseRemedy;
         GameEvents.OnSanityLost += LoseSanity;
-        
-        if (enableSafePeriod)
-        {
-            GameEvents.OnRadioTrack1Completed += EndSafePeriod;
-        }
+        GameEvents.OnSceneReset += ResetInsanitySystem;
     }
 
     private void OnDisable()
@@ -67,27 +65,12 @@ public class InsanityManager : MonoBehaviour
         GameEvents.OnFlashbackEnded -= EndFlashbackState;
         GameEvents.OnRemedyUsed -= UseRemedy;
         GameEvents.OnSanityLost -= LoseSanity;
-        
-        if (enableSafePeriod)
-        {
-            GameEvents.OnRadioTrack1Completed -= EndSafePeriod;
-        }
+        GameEvents.OnSceneReset -= ResetInsanitySystem;
     }
 
     private void Start()
     {
         currentSanityDrainRate = normalSanityDrainRate;
-        
-        // Configura período seguro inicial
-        if (enableSafePeriod)
-        {
-            safePeriodActive = true;
-        }
-        else
-        {
-            safePeriodActive = false;
-        }
-        
         UpdateSanityAndDispatchEvent(currentSanity);
     }
 
@@ -96,7 +79,7 @@ public class InsanityManager : MonoBehaviour
         if (isPlayerDead) return;
 
         // Perda Passiva de Sanidade (respeitando período seguro)
-        if (!isSanityDrainPaused && !safePeriodActive && currentSanity > 0f)
+        if (!isSanityDrainPaused && !IsSafePeriodActive && currentSanity > 0f)
         {
             currentSanity -= currentSanityDrainRate * Time.deltaTime;
         }
@@ -215,13 +198,30 @@ public class InsanityManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Chamado quando o período seguro termina (Track 1 do rádio completa)
+    /// Reseta completamente o sistema de insanidade quando a cena é resetada
     /// </summary>
-    private void EndSafePeriod()
+    private void ResetInsanitySystem()
     {
-        if (safePeriodActive)
+        // Para qualquer corrotina ativa
+        if (remedyCoroutine != null)
         {
-            safePeriodActive = false;
+            StopCoroutine(remedyCoroutine);
+            remedyCoroutine = null;
         }
+        
+        // Reseta todos os estados para valores iniciais
+        currentSanity = 1.0f;
+        previousSanity = 1.0f;
+        isInFlashback = false;
+        isSanityDrainPaused = false;
+        isDeathSequenceActive = false;
+        isPlayerDead = false;
+        zeroSanityTimer = 0f;
+        currentSanityDrainRate = normalSanityDrainRate;
+        
+        // Dispara evento de mudança de sanidade para atualizar todos os sistemas
+        OnSanityChanged?.Invoke(1.0f);
+        
+        Debug.Log("[InsanityManager] ✅ Sistema de insanidade resetado completamente");
     }
 }

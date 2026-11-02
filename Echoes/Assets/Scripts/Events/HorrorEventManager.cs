@@ -33,12 +33,14 @@ public class HorrorEventManager : MonoBehaviour
     {
         GameEvents.OnFlashbackStarted += OnFlashbackStart;
         GameEvents.OnFlashbackEnded += OnFlashbackEnd;
+        GameEvents.OnSceneReset += HandleSceneReset;
     }
 
     private void OnDisable()
     {
         GameEvents.OnFlashbackStarted -= OnFlashbackStart;
         GameEvents.OnFlashbackEnded -= OnFlashbackEnd;
+        GameEvents.OnSceneReset -= HandleSceneReset;
     }
 
     private void Start()
@@ -89,10 +91,10 @@ public class HorrorEventManager : MonoBehaviour
             return;
         }
 
-        // 2. BLOQUEIO: Track 1 do rádio ainda não foi encerrada
-        if (RadioController.Instance != null && !RadioController.Instance.HasTrack1Ended)
+        // 2. BLOQUEIO: ainda no prólogo (Track 1 do rádio não foi encerrada)
+        if (GameFlow.Current < GameAct.Investigation)
         {
-            Debug.Log("[HorrorEventManager] Tentativa de evento bloqueada - Track 1 do rádio ainda não foi encerrada");
+            Debug.Log("[HorrorEventManager] Tentativa de evento bloqueada - ainda no prólogo");
             return;
         }
 
@@ -267,6 +269,22 @@ public class HorrorEventManager : MonoBehaviour
         {
             Debug.LogWarning($"[HorrorEventManager] TESTE: Evento {eventType} não encontrado na biblioteca");
         }
+    }
+    
+    /// <summary>
+    /// Chamado quando a cena é resetada - limpa o buffer de eventos recentes
+    /// </summary>
+    private void HandleSceneReset()
+    {
+        Debug.Log("[HorrorEventManager] 🔄 Limpando buffer de eventos recentes");
+        
+        // Limpa o buffer de eventos recentes
+        recentEvents.Clear();
+        
+        // Reseta flag de flashback
+        isInFlashback = false;
+        
+        Debug.Log("[HorrorEventManager] ✅ Sistema de eventos de horror resetado");
     }
 
     /// <summary>

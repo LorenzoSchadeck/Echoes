@@ -41,7 +41,6 @@ public class DoorKeyManager : MonoBehaviour
         }
         
         instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     
     #endregion

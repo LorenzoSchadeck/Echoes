@@ -1,6 +1,7 @@
 using UnityEngine;
 using FMODUnity;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Exemplo de configuração para o sistema de eventos do vizinho.
@@ -95,43 +96,30 @@ public class NeighborEventSetup : MonoBehaviour
     }
 
     /// <summary>
-    /// Método para testar eventos manualmente (apenas em modo de desenvolvimento)
+    /// Teclas de teste para desenvolvimento (apenas no Editor). Exigem Ctrl para não
+    /// conflitar com os controles do jogo (S, por exemplo, também é andar para trás).
     /// </summary>
-    [System.Diagnostics.Conditional("UNITY_EDITOR")]
     private void Update()
     {
-        if (Application.isPlaying && NeighborEventManager.Instance != null)
-        {
-            // Teclas de teste para desenvolvedor
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                NeighborEventManager.Instance.ForceSpecificEvent(NeighborEventType.RotationWithBoxesAndAudio);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                NeighborEventManager.Instance.ForceSpecificEvent(NeighborEventType.SoundWithRotation);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                NeighborEventManager.Instance.ForceSpecificEvent(NeighborEventType.JumpScare);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                NeighborEventManager.Instance.ForceSpecificEvent(NeighborEventType.AudioOnly);
-            }
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                NeighborEventManager.Instance.ForceRandomEvent();
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                NeighborEventManager.Instance.StartNeighborEvents();
-            }
-            else if (Input.GetKeyDown(KeyCode.P))
-            {
-                NeighborEventManager.Instance.StopNeighborEvents();
-            }
-        }
+#if UNITY_EDITOR
+        var keyboard = Keyboard.current;
+        if (keyboard == null || !keyboard.ctrlKey.isPressed || NeighborEventManager.Instance == null) return;
+
+        if (keyboard.digit1Key.wasPressedThisFrame)
+            NeighborEventManager.Instance.ForceSpecificEvent(NeighborEventType.RotationWithBoxesAndAudio);
+        else if (keyboard.digit2Key.wasPressedThisFrame)
+            NeighborEventManager.Instance.ForceSpecificEvent(NeighborEventType.SoundWithRotation);
+        else if (keyboard.digit3Key.wasPressedThisFrame)
+            NeighborEventManager.Instance.ForceSpecificEvent(NeighborEventType.JumpScare);
+        else if (keyboard.digit4Key.wasPressedThisFrame)
+            NeighborEventManager.Instance.ForceSpecificEvent(NeighborEventType.AudioOnly);
+        else if (keyboard.rKey.wasPressedThisFrame)
+            NeighborEventManager.Instance.ForceRandomEvent();
+        else if (keyboard.sKey.wasPressedThisFrame)
+            NeighborEventManager.Instance.StartNeighborEvents();
+        else if (keyboard.pKey.wasPressedThisFrame)
+            NeighborEventManager.Instance.StopNeighborEvents();
+#endif
     }
 
     private void OnValidate()

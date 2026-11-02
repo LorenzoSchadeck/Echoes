@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Gerencia o período seguro do jogo, controlando a visibilidade dos GameObjects de lembranças
-/// até que a Track 2 do rádio termine. Durante o período seguro, mantém ativos os objetos
+/// até que o jogo chegue ao ato das lembranças (Track 2 do rádio encerrada). Durante o período seguro, mantém ativos os objetos
 /// não-interagíveis (lembranças "bloqueadas") e desativa os objetos interagíveis.
 /// Após Track 2 terminar, inverte os estados oferecendo ao jogador acesso às lembranças.
 /// </summary>
@@ -61,6 +61,11 @@ public class SafePeriodManager : MonoBehaviour
             // Aguarda um frame para garantir que todos os objetos foram inicializados
             StartCoroutine(StartSafePeriodDelayed());
         }
+        else
+        {
+            // Sem período seguro, as lembranças ficam liberadas desde o início
+            IsFlashbackAllowed = true;
+        }
     }
 
     /// <summary>
@@ -77,8 +82,7 @@ public class SafePeriodManager : MonoBehaviour
     {
         if (enableSafePeriod)
         {
-            // Mudança no fluxo: agora escuta Track 2 ao invés de Track 1
-            GameEvents.OnRadioTrack2Completed += EndSafePeriod;
+            GameFlow.OnActChanged += HandleActChanged;
         }
     }
 
@@ -86,7 +90,15 @@ public class SafePeriodManager : MonoBehaviour
     {
         if (enableSafePeriod)
         {
-            GameEvents.OnRadioTrack2Completed -= EndSafePeriod;
+            GameFlow.OnActChanged -= HandleActChanged;
+        }
+    }
+
+    private void HandleActChanged(GameAct act)
+    {
+        if (act >= GameAct.Memories)
+        {
+            EndSafePeriod();
         }
     }
 
@@ -203,6 +215,7 @@ public class SafePeriodManager : MonoBehaviour
     [ContextMenu("Forçar Fim do Período Seguro")]
     public void ForceEndSafePeriod()
     {
+        GameFlow.Advance(GameAct.Memories);
         EndSafePeriod();
     }
 

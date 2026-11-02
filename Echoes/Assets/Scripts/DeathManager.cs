@@ -56,12 +56,8 @@ public class DeathManager : MonoBehaviour
 
     private void Start()
     {
-        // Verifica se deve fazer fade out após reset da cena
-        if (PlayerPrefs.GetInt("DoFadeOutAfterReset", 0) == 1)
-        {
-            PlayerPrefs.DeleteKey("DoFadeOutAfterReset");
-            StartFadeOutAfterReset();
-        }
+        // Sistema de fade out será tratado automaticamente pelo canvas
+        // O canvas começa preto e faz fade out para gameplay normal
     }
 
     private void OnEnable()
@@ -144,11 +140,15 @@ public class DeathManager : MonoBehaviour
             yield return new WaitForSeconds(3f); // Fallback se não conseguir determinar duração
         }
         
+        // 5.5. AGORA para todos os áudios ANTES do reset
+        if (enableDebugLogs)
+            Debug.Log("[DeathManager] 🔇 Parando todos os áudios antes do reset");
+        StopAllGameAudio();
+        
         // 6. Aguarda 1 segundo após o áudio terminar
         yield return new WaitForSeconds(1f);
         
-        // 7. Marca que deve fazer fade out após reset e reseta a cena
-        PlayerPrefs.SetInt("DoFadeOutAfterReset", 1);
+        // 7. Reseta a cena diretamente
         ResetScene();
     }
 
@@ -161,7 +161,7 @@ public class DeathManager : MonoBehaviour
             Debug.Log("[DeathManager] 🚫 Desabilitando controles do jogador");
 
         // Desabilita movimento via flag estática
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         
         // Desabilita interações via PlayerInteractor
         if (playerInteractor != null)
@@ -246,7 +246,7 @@ public class DeathManager : MonoBehaviour
     #region Screen Fade
 
     /// <summary>
-    /// Configura o canvas de fade - transparente no início normal, preto se vem de reset
+    /// Configura o canvas de fade - sempre começa transparente
     /// </summary>
     private void SetupFadeCanvas()
     {
@@ -257,19 +257,15 @@ public class DeathManager : MonoBehaviour
             return;
         }
 
-        // SEMPRE garante que o canvas está ativo
+        // SEMPRE garante que o canvas está ativo e começa transparente
         fadeCanvas.gameObject.SetActive(true);
         
-        // Se vem de um reset, a imagem deve começar preta
-        // Se é início normal, a imagem deve começar transparente
-        bool comingFromReset = PlayerPrefs.GetInt("DoFadeOutAfterReset", 0) == 1;
-        
-        // Garante que a cor é preta com alpha apropriado
-        Color fadeColor = new Color(0f, 0f, 0f, comingFromReset ? 1f : 0f);
+        // Sempre começa transparente (gameplay normal)
+        Color fadeColor = new Color(0f, 0f, 0f, 0f);
         fadeImage.color = fadeColor;
         
         if (enableDebugLogs)
-            Debug.Log($"[DeathManager] Canvas de fade configurado (alpha: {fadeColor.a})");
+            Debug.Log("[DeathManager] Canvas de fade configurado (transparente)");
     }
 
     /// <summary>
@@ -308,8 +304,7 @@ public class DeathManager : MonoBehaviour
         // Garante que terminou completamente preto
         fadeImage.color = targetColor;
         
-        // Para todos os áudios do jogo quando o fade terminar
-        StopAllGameAudio();
+        // NÃO para áudios aqui - apenas DEPOIS do áudio de morte terminar
         
         if (enableDebugLogs)
             Debug.Log("[DeathManager] ✅ Fade para preto concluído");
@@ -469,28 +464,9 @@ public class DeathManager : MonoBehaviour
     #region Post-Reset Fade Out
 
     /// <summary>
-    /// Inicia o fade out após a cena ter sido resetada
+    /// Sistema de fade out removido - não é mais necessário
+    /// O canvas sempre começa transparente após reset da cena
     /// </summary>
-    private void StartFadeOutAfterReset()
-    {
-        if (enableDebugLogs)
-            Debug.Log("[DeathManager] 🔄 Cena resetada - iniciando fade out");
-
-        // Garante que o canvas está ativo e a tela está preta
-        if (fadeCanvas != null && fadeImage != null)
-        {
-            fadeCanvas.gameObject.SetActive(true);
-            fadeImage.color = new Color(0f, 0f, 0f, 1f); // Preto opaco
-            
-            // Inicia o fade out
-            StartCoroutine(FadeOutCoroutine());
-        }
-        else
-        {
-            if (enableDebugLogs)
-                Debug.LogWarning("[DeathManager] Não foi possível fazer fade out - componentes não encontrados");
-        }
-    }
 
     #endregion
 

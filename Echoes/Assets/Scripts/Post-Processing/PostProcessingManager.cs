@@ -35,6 +35,7 @@ public class PostProcessingManager : MonoBehaviour
     private PostProcessingProfile currentBaseProfile;
     private PostProcessingProfile currentInsanityProfile;
     private float currentSanity = 1.0f;
+    private float previousSanity = 1.0f;
 
     private Coroutine activeVisualEffectCoroutine;
     
@@ -104,6 +105,7 @@ public class PostProcessingManager : MonoBehaviour
         GameEvents.OnDeathSequenceStarted += OnDeathSequenceStarted;
         GameEvents.OnDeathSequenceCancelled += OnDeathSequenceCancelled;
         GameEvents.OnTriggerVisualFlash += OnVisualFlashTriggered;
+        GameEvents.OnSceneReset += HandleSceneReset;
     }
 
     private void OnDisable()
@@ -114,6 +116,7 @@ public class PostProcessingManager : MonoBehaviour
         GameEvents.OnDeathSequenceStarted -= OnDeathSequenceStarted;
         GameEvents.OnDeathSequenceCancelled -= OnDeathSequenceCancelled;
         GameEvents.OnTriggerVisualFlash -= OnVisualFlashTriggered;
+        GameEvents.OnSceneReset -= HandleSceneReset;
     }
 
     private void HandleInsanityChange(float newInsanityValue)
@@ -661,6 +664,35 @@ public class PostProcessingManager : MonoBehaviour
 
         // Remove qualquer override de lens distortion
         hasLensDistortionOverride = false;
+    }
+    
+    /// <summary>
+    /// Chamado quando a cena é resetada - reseta completamente o post-processing
+    /// </summary>
+    private void HandleSceneReset()
+    {
+        Debug.Log("[PostProcessingManager] 🔄 Resetando post-processing para estado inicial");
+        
+        // Para qualquer corrotina ativa
+        if (activeVisualEffectCoroutine != null)
+        {
+            StopCoroutine(activeVisualEffectCoroutine);
+            activeVisualEffectCoroutine = null;
+        }
+        
+        // Reseta todas as flags de estado
+        IsPostProcessingRemedyActive = false;
+        isFlashbackExitInProgress = false;
+        hasPendingRemedyTransition = false;
+        hasLensDistortionOverride = false;
+        isInFlashback = false;
+        currentSanity = 1.0f;
+        previousSanity = 1.0f;
+        
+        // Força reset para perfil são
+        ForceResetToSaneState();
+        
+        Debug.Log("[PostProcessingManager] ✅ Post-processing resetado completamente");
     }
 
     /// <summary>

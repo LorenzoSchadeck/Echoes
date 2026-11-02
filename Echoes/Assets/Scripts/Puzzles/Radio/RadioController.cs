@@ -404,7 +404,7 @@ public class RadioController : MonoBehaviour, IInteractable
         if (isInteracting) return false;
 
         isInteracting = true;
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         playerInteractor.SetInspectionMode(true);
 
         if (radioCamera != null) 
@@ -774,7 +774,7 @@ public class RadioController : MonoBehaviour, IInteractable
     private void ExitInteraction()
     {
         isInteracting = false;
-        PlayerMovement.canMove = true;
+        PlayerControlLock.Release(this);
         playerInteractor?.SetInspectionMode(false);
 
         if (radioCamera != null) 

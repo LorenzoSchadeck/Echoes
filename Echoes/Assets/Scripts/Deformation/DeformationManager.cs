@@ -58,7 +58,6 @@ namespace Echoes.Deformation
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
