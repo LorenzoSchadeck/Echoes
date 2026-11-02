@@ -284,26 +284,7 @@ public class DeathManager : MonoBehaviour
         if (enableDebugLogs)
             Debug.Log("[DeathManager] 🌑 Iniciando fade para preto");
 
-        Color startColor = fadeImage.color;
-        Color targetColor = new Color(startColor.r, startColor.g, startColor.b, 1f); // Alpha = 1 (opaco)
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / fadeDuration;
-            
-            // Usa uma curva suave para o fade
-            t = Mathf.SmoothStep(0f, 1f, t);
-            
-            fadeImage.color = Color.Lerp(startColor, targetColor, t);
-            
-            yield return null;
-        }
-
-        // Garante que terminou completamente preto
-        fadeImage.color = targetColor;
+        yield return Fade.Alpha(fadeImage, 1f, fadeDuration, smooth: true);
         
         // NÃO para áudios aqui - apenas DEPOIS do áudio de morte terminar
         
@@ -334,28 +315,9 @@ public class DeathManager : MonoBehaviour
         if (enableDebugLogs)
             Debug.Log("[DeathManager] 🌅 Iniciando fade out (preto → transparente)");
 
-        // Garante que a tela está preta
-        Color startColor = new Color(0f, 0f, 0f, 1f); // Preto opaco
-        Color targetColor = new Color(0f, 0f, 0f, 0f); // Preto transparente
-        fadeImage.color = startColor;
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / fadeDuration;
-            
-            // Usa uma curva suave para o fade
-            t = Mathf.SmoothStep(0f, 1f, t);
-            
-            fadeImage.color = Color.Lerp(startColor, targetColor, t);
-            
-            yield return null;
-        }
-
-        // Garante que terminou completamente transparente
-        fadeImage.color = targetColor;
+        // Garante que a tela começa preta e clareia
+        Fade.SetAlpha(fadeImage, 1f);
+        yield return Fade.Alpha(fadeImage, 0f, fadeDuration, smooth: true);
         
         // MANTÉM o canvas ativo mas invisível para futuras mortes
         // fadeCanvas.gameObject.SetActive(false); // REMOVIDO - causava problemas em mortes subsequentes
