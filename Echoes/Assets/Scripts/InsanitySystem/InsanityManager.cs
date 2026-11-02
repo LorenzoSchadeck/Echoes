@@ -54,6 +54,7 @@ public class InsanityManager : MonoBehaviour
         GameEvents.OnFlashbackEnded += EndFlashbackState;
         GameEvents.OnRemedyUsed += UseRemedy;
         GameEvents.OnSanityLost += LoseSanity;
+        GameEvents.OnSceneReset += ResetInsanitySystem;
         
         if (enableSafePeriod)
         {
@@ -67,6 +68,7 @@ public class InsanityManager : MonoBehaviour
         GameEvents.OnFlashbackEnded -= EndFlashbackState;
         GameEvents.OnRemedyUsed -= UseRemedy;
         GameEvents.OnSanityLost -= LoseSanity;
+        GameEvents.OnSceneReset -= ResetInsanitySystem;
         
         if (enableSafePeriod)
         {
@@ -223,5 +225,39 @@ public class InsanityManager : MonoBehaviour
         {
             safePeriodActive = false;
         }
+    }
+    
+    /// <summary>
+    /// Reseta completamente o sistema de insanidade quando a cena é resetada
+    /// </summary>
+    private void ResetInsanitySystem()
+    {
+        // Para qualquer corrotina ativa
+        if (remedyCoroutine != null)
+        {
+            StopCoroutine(remedyCoroutine);
+            remedyCoroutine = null;
+        }
+        
+        // Reseta todos os estados para valores iniciais
+        currentSanity = 1.0f;
+        previousSanity = 1.0f;
+        isInFlashback = false;
+        isSanityDrainPaused = false;
+        isDeathSequenceActive = false;
+        isPlayerDead = false;
+        zeroSanityTimer = 0f;
+        currentSanityDrainRate = normalSanityDrainRate;
+        
+        // Reativa período seguro se configurado
+        if (enableSafePeriod)
+        {
+            safePeriodActive = true;
+        }
+        
+        // Dispara evento de mudança de sanidade para atualizar todos os sistemas
+        OnSanityChanged?.Invoke(1.0f);
+        
+        Debug.Log("[InsanityManager] ✅ Sistema de insanidade resetado completamente");
     }
 }

@@ -260,6 +260,7 @@ namespace Echoes.InsanitySystem
             GameEvents.OnDeathSequenceCancelled += HandleRemedyUsed;
             GameEvents.OnFlashbackStarted += HandleFlashbackStarted;
             GameEvents.OnFlashbackEnded += HandleFlashbackEnded;
+            GameEvents.OnSceneReset += HandleSceneReset;
         }
         
         private void OnDisable()
@@ -269,6 +270,7 @@ namespace Echoes.InsanitySystem
             GameEvents.OnDeathSequenceCancelled -= HandleRemedyUsed;
             GameEvents.OnFlashbackStarted -= HandleFlashbackStarted;
             GameEvents.OnFlashbackEnded -= HandleFlashbackEnded;
+            GameEvents.OnSceneReset -= HandleSceneReset;
         }
         
         private void Update()
@@ -692,6 +694,56 @@ namespace Echoes.InsanitySystem
                 status = "Tension Active";
                 
             return $"Sanity: {currentSanity:F2} | Audio: {status} | Tension: {currentTensionValue:F2}";
+        }
+        
+        /// <summary>
+        /// Chamado quando a cena é resetada - limpa todos os áudios ambiente
+        /// </summary>
+        private void HandleSceneReset()
+        {
+            if (!isSystemInitialized) return;
+            
+            Debug.Log("[AmbientInsanityAudio] 🔄 Limpando sistema de áudio antes do reset");
+            
+            // Para qualquer corrotina ativa
+            if (remedyTransitionCoroutine != null)
+            {
+                StopCoroutine(remedyTransitionCoroutine);
+                remedyTransitionCoroutine = null;
+            }
+            
+            // Para e libera TODOS os EventInstances IMEDIATAMENTE
+            if (windEventInstance.isValid())
+            {
+                windEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                windEventInstance.release();
+            }
+            
+            if (thunderEventInstance.isValid())
+            {
+                thunderEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                thunderEventInstance.release();
+            }
+            
+            if (tensionEventInstance.isValid())
+            {
+                tensionEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                tensionEventInstance.release();
+            }
+            
+            if (heartbeatEventInstance.isValid())
+            {
+                heartbeatEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                heartbeatEventInstance.release();
+            }
+            
+            // Reseta flags de estado
+            isTensionAudioPlaying = false;
+            isHeartbeatAudioPlaying = false;
+            isRemedyTransitionActive = false;
+            isInFlashback = false;
+            
+            Debug.Log("[AmbientInsanityAudio] ✅ Sistema de áudio ambiente limpo completamente");
         }
         
         #region Public Properties for Spatial Ranges
