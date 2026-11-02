@@ -150,6 +150,17 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Aponta a câmera do jogador para a direção informada (usado ao acordar num checkpoint).
+    /// </summary>
+    public void SetLookRotation(float yaw, float pitch)
+    {
+        if (panTilt == null) return;
+
+        panTilt.PanAxis.Value = Mathf.DeltaAngle(0f, yaw);
+        panTilt.TiltAxis.Value = pitch;
+    }
+
     private void UpdateInteractionUI(bool show, string prompt = "")
     {
         if (interactionText != null)

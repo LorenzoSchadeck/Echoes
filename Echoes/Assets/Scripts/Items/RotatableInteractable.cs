@@ -8,7 +8,7 @@ using UnityEngine.Localization;
 /// Exibe texto localizado quando o jogador está olhando para ele
 /// Compatível com o sistema de interação do projeto Echoes
 /// </summary>
-public class RotatableInteractable : MonoBehaviour, IInteractable
+public class RotatableInteractable : MonoBehaviour, IInteractable, ISaveable
 {
     [Header("Interaction Settings")]
     [SerializeField] private float interactionDistance = 3f;
@@ -298,6 +298,25 @@ public class RotatableInteractable : MonoBehaviour, IInteractable
     /// </summary>
     public string KeyObjectName => keyObject != null ? keyObject.name : "Nenhum";
     
+    [System.Serializable]
+    private struct SaveState { public bool used; }
+
+    public string CaptureState() => JsonUtility.ToJson(new SaveState { used = hasBeenUsed });
+
+    public void RestoreState(string json)
+    {
+        if (!JsonUtility.FromJson<SaveState>(json).used) return;
+
+        // Já girado: vai direto para a rotação final, sem animação nem som
+        StopAllCoroutines();
+        hasBeenUsed = true;
+        isRotating = false;
+        if (useLocalRotation)
+            transform.localRotation = Quaternion.Euler(targetRotation);
+        else
+            transform.rotation = Quaternion.Euler(targetRotation);
+    }
+
     /// <summary>
     /// Reseta o estado do objeto (útil para testes)
     /// </summary>

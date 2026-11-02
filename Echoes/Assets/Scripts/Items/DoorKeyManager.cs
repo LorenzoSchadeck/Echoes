@@ -29,6 +29,8 @@ public class DoorKeyManager : MonoBehaviour
     // HashSet para armazenar IDs das chaves coletadas (busca O(1))
     private HashSet<string> collectedKeys = new HashSet<string>();
     
+    public IEnumerable<string> CollectedKeys => collectedKeys;
+    
     #region Unity Lifecycle
     
     private void Awake()

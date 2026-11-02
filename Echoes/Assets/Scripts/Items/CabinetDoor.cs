@@ -7,7 +7,7 @@ using FMODUnity;
 /// Script simples para portas de armário com interação similar às portas convencionais.
 /// A porta abre/fecha em torno de um pivot configurável com ângulo e direção personalizáveis.
 /// </summary>
-public class CabinetDoor : MonoBehaviour, IInteractable
+public class CabinetDoor : MonoBehaviour, IInteractable, ISaveable
 {
     [Header("Localization")]
     [Tooltip("Prompt exibido quando a porta está fechada")]
@@ -218,6 +218,18 @@ public class CabinetDoor : MonoBehaviour, IInteractable
     {
         if (!isMoving && isOpen)
             CloseDoor();
+    }
+
+    [System.Serializable]
+    private struct SaveState { public bool isOpen; }
+
+    public string CaptureState() => JsonUtility.ToJson(new SaveState { isOpen = isOpen });
+
+    public void RestoreState(string json)
+    {
+        StopAllCoroutines();
+        isMoving = false;
+        SetDoorState(JsonUtility.FromJson<SaveState>(json).isOpen, immediate: true);
     }
 
     /// <summary>

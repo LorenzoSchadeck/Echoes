@@ -570,6 +570,9 @@ public class GameEndTrigger : MonoBehaviour
         // Para todos os eventos FMOD ativos antes de resetar a cena
         StopAllFMODSounds();
         
+        // Capítulo concluído: o próximo jogo começa do zero
+        SaveSystem.Delete();
+        
         if (enableDebugLogs)
             Debug.Log($"[GameEndTrigger] Recarregando cena: {currentSceneName}");
         

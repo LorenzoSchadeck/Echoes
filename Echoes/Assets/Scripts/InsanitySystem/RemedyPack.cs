@@ -3,7 +3,7 @@ using UnityEngine.Localization;
 using FMODUnity;
 
 [RequireComponent(typeof(Collider))]
-public class RemedyPack : MonoBehaviour, IInteractable
+public class RemedyPack : MonoBehaviour, IInteractable, ISaveable
 {
     [Header("Localization")]
     [Tooltip("Referência à chave para o prompt de 'usar remédio', que deve incluir '{count}'.")]
@@ -45,6 +45,13 @@ public class RemedyPack : MonoBehaviour, IInteractable
     }
     
     public float InteractionDistance => interactionDistance;
+
+    [System.Serializable]
+    private struct SaveState { public int remedyCount; }
+
+    public string CaptureState() => JsonUtility.ToJson(new SaveState { remedyCount = remedyCount });
+
+    public void RestoreState(string json) => remedyCount = JsonUtility.FromJson<SaveState>(json).remedyCount;
 
     public bool Interact(Transform interactor)
     {

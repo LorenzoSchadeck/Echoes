@@ -149,9 +149,60 @@ public class RadioController : MonoBehaviour, IInteractable
         }
     }
     
+    /// <summary>
+    /// Reconstrói o estado do rádio ao carregar um checkpoint, a partir do ato salvo
+    /// (as faixas definem os atos, então o ato diz até onde o rádio já foi).
+    /// </summary>
+    private void HandleActRestored(GameAct act)
+    {
+        if (act >= GameAct.Investigation)
+        {
+            // Track 1 já encerrada: rádio desligado, pronto para o papel ligar a Track 2
+            track1HasBeenPlayed = true;
+            track1HasEnded = true;
+            currentState = RadioState.Off;
+            canInteract = false;
+
+            if (objectsToEnable != null)
+            {
+                foreach (GameObject obj in objectsToEnable)
+                {
+                    if (obj != null) obj.SetActive(true);
+                }
+            }
+
+            foreach (RadioFirstTrigger trigger in FindObjectsByType<RadioFirstTrigger>(FindObjectsInactive.Exclude))
+            {
+                trigger.gameObject.SetActive(false);
+            }
+        }
+
+        if (act >= GameAct.Memories && act < GameAct.Choir)
+        {
+            // Puzzle de sintonia em andamento: Track 2 volta a tocar em loop
+            track2HasBeenActivated = true;
+            currentState = RadioState.PuzzleMode;
+            isPuzzleMode = true;
+            canInteract = true;
+            MarkPaperTriggersAsUsed();
+            RestartTrack2Loop();
+        }
+
+        if (act >= GameAct.Choir)
+        {
+            // Puzzle resolvido e Track 3 já tocada: rádio desligado de vez
+            track2HasBeenActivated = true;
+            isSolved = true;
+            isPuzzleMode = false;
+            currentState = RadioState.Off;
+            canInteract = false;
+            MarkPaperTriggersAsUsed();
+        }
+    }
+
     private void OnFirstTrigger()
     {
-        if (currentState == RadioState.Off)
+        if (currentState == RadioState.Off && !track1HasBeenPlayed)
         {
             StartTrack1();
         }
@@ -332,6 +383,7 @@ public class RadioController : MonoBehaviour, IInteractable
         // Novos eventos do fluxo
         GameEvents.OnRadioFirstTrigger += OnFirstTrigger;
         GameEvents.OnRadioPaperTrigger += OnPaperTrigger;
+        GameFlow.OnActRestored += HandleActRestored;
     }
 
     private void OnDisable()
@@ -343,6 +395,7 @@ public class RadioController : MonoBehaviour, IInteractable
         // Remover eventos do fluxo
         GameEvents.OnRadioFirstTrigger -= OnFirstTrigger;
         GameEvents.OnRadioPaperTrigger -= OnPaperTrigger;
+        GameFlow.OnActRestored -= HandleActRestored;
     }
 
     public bool Interact(Transform interactor)
