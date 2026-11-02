@@ -67,6 +67,16 @@ public class MenuUIManager : MonoBehaviour
         SetupButtonEvents();
         SetupSettingsSliders();
         ShowMainMenu();
+
+        // Voltando de um colapso: pula o menu e devolve o controle direto no checkpoint
+        if (CheckpointManager.WillRestore)
+        {
+            InitializeGameSettings();
+            StartFromCheckpoint();
+            UpdateButtonStates();
+            return;
+        }
+
         InitializeMenuState();
         InitializeGameSettings();
         
@@ -241,6 +251,8 @@ public class MenuUIManager : MonoBehaviour
         else
         {
             Debug.Log("MenuUIManager: Start button clicked in initial menu - STARTING GAME");
+            // Novo jogo: descarta o checkpoint anterior
+            SaveSystem.Delete();
             // Start transition to game camera
             TransitionToGame();
         }
@@ -403,13 +415,38 @@ public class MenuUIManager : MonoBehaviour
     private void TransitionToGame()
     {
         isTransitioning = true;
-        isInMainMenu = false; // CORREÇÃO: Player saiu do menu principal
         
         // Resume the game when transitioning to gameplay
         Time.timeScale = 1f; // UNCOMMENTED - need to unpause for gameplay
         
         // Start game initialization rotation
         StartCoroutine(RotateObjectOnGameStart());
+        
+        EnterGameplay();
+    }
+    
+    /// <summary>
+    /// Entra direto no jogo ao carregar um checkpoint: sem animação do objeto do menu nem som
+    /// </summary>
+    private void StartFromCheckpoint()
+    {
+        if (objectToRotate != null)
+        {
+            if (useLocalRotation)
+                objectToRotate.localRotation = Quaternion.Euler(endRotation);
+            else
+                objectToRotate.rotation = Quaternion.Euler(endRotation);
+        }
+        
+        EnterGameplay();
+    }
+    
+    /// <summary>
+    /// Câmeras, controles e cursor no estado de jogo
+    /// </summary>
+    private void EnterGameplay()
+    {
+        isInMainMenu = false; // CORREÇÃO: Player saiu do menu principal
         
         // Start camera transition by changing priorities
         if (menuCamera != null) 

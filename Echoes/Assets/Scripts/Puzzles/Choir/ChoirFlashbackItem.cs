@@ -7,7 +7,7 @@ using UnityEngine.Localization;
 /// Diferente do FlashbackItem, este é um item de interação simples que apenas encerra o flashback.
 /// </summary>
 [RequireComponent(typeof(Collider))]
-public class ChoirFlashbackItem : MonoBehaviour, IInteractable
+public class ChoirFlashbackItem : MonoBehaviour, IInteractable, ISaveable
 {
     [Header("Interaction Settings")]
     [Tooltip("Distância máxima em que este item pode ser interagido")]
@@ -75,6 +75,19 @@ public class ChoirFlashbackItem : MonoBehaviour, IInteractable
         HandleItemDisabling();
 
         return true;
+    }
+
+    [System.Serializable]
+    private struct SaveState { public bool used; }
+
+    public string CaptureState() => JsonUtility.ToJson(new SaveState { used = hasBeenUsed });
+
+    public void RestoreState(string json)
+    {
+        if (!JsonUtility.FromJson<SaveState>(json).used) return;
+
+        hasBeenUsed = true;
+        HandleItemDisabling();
     }
 
     /// <summary>

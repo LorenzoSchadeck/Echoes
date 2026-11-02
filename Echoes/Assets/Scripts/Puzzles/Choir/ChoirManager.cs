@@ -17,7 +17,7 @@ using FMODUnity;
 /// 
 /// NOTA: O controle de objetos durante flashback é responsabilidade do ChoirFlashbackController
 /// </summary>
-public class ChoirManager : MonoBehaviour
+public class ChoirManager : MonoBehaviour, ISaveable
 {
     public static ChoirManager Instance { get; private set; }
 
@@ -59,11 +59,29 @@ public class ChoirManager : MonoBehaviour
     {
         // Escuta quando Track 3 do rádio termina
         GameEvents.OnRadioTrack3Completed += OnRadioTrack3Completed;
+        GameFlow.OnActRestored += HandleActRestored;
     }
 
     private void OnDisable()
     {
         GameEvents.OnRadioTrack3Completed -= OnRadioTrack3Completed;
+        GameFlow.OnActRestored -= HandleActRestored;
+    }
+
+    [System.Serializable]
+    private struct SaveState { public bool complete; }
+
+    public string CaptureState() => JsonUtility.ToJson(new SaveState { complete = isChoirComplete });
+
+    public void RestoreState(string json) => isChoirComplete = JsonUtility.FromJson<SaveState>(json).complete;
+
+    // Checkpoint no ato do coro: o coro recomeça se ainda não foi concluído
+    private void HandleActRestored(GameAct act)
+    {
+        if (act == GameAct.Choir && !isChoirComplete)
+        {
+            Invoke(nameof(StartChoir), startDelay);
+        }
     }
 
     private void Start()

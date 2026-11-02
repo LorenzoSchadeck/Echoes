@@ -26,6 +26,10 @@ public static class GameFlow
     // Envia o novo ato
     public static event Action<GameAct> OnActChanged;
 
+    // Disparado só ao carregar um checkpoint, depois do OnActChanged: sistemas que dependem
+    // do caminho até o ato (rádio, coro) reconstroem o próprio estado aqui, sem sons nem animações
+    public static event Action<GameAct> OnActRestored;
+
     /// <summary>
     /// Avança para o ato informado. Ignorado se o jogo já estiver nele ou além.
     /// </summary>
@@ -38,11 +42,23 @@ public static class GameFlow
         OnActChanged?.Invoke(Current);
     }
 
+    /// <summary>
+    /// Coloca o jogo direto no ato salvo num checkpoint.
+    /// </summary>
+    public static void Restore(GameAct act)
+    {
+        Current = act;
+        Debug.Log($"[GameFlow] Ato restaurado do checkpoint: {Current}");
+        OnActChanged?.Invoke(Current);
+        OnActRestored?.Invoke(Current);
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void Initialize()
     {
         Current = GameAct.Prologue;
         OnActChanged = null;
+        OnActRestored = null;
 
         GameEvents.OnRadioTrack1Completed -= HandleTrack1Completed;
         GameEvents.OnRadioTrack1Completed += HandleTrack1Completed;

@@ -6,7 +6,7 @@ using FMODUnity;
 /// Chave que pode ser coletada para desbloquear portas específicas.
 /// Implementa IInteractable para permitir coleta direta através do sistema de interação padrão.
 /// </summary>
-public class DoorKey : MonoBehaviour, IInteractable
+public class DoorKey : MonoBehaviour, IInteractable, ISaveable
 {
     [Header("🔑 Key Settings")]
     [Tooltip("ID único desta chave - deve corresponder ao ID da porta que ela desbloqueia")]
@@ -67,6 +67,25 @@ public class DoorKey : MonoBehaviour, IInteractable
         CollectKey();
         
         return true;
+    }
+    
+    #endregion
+    
+    #region ISaveable Implementation
+    
+    [System.Serializable]
+    private struct SaveState { public bool collected; }
+    
+    public string CaptureState() => JsonUtility.ToJson(new SaveState { collected = isCollected });
+    
+    public void RestoreState(string json)
+    {
+        if (!JsonUtility.FromJson<SaveState>(json).collected) return;
+        
+        // Já coletada: o DoorKeyManager é restaurado à parte pelo checkpoint
+        isCollected = true;
+        DisableVisuals();
+        if (destroyOnPickup) Destroy(gameObject);
     }
     
     #endregion

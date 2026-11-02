@@ -6,7 +6,7 @@ using FMODUnity;
 /// Chave que pode ser coletada para desbloquear gavetas específicas.
 /// Implementa IInteractable para permitir coleta através do sistema de interação padrão.
 /// </summary>
-public class DrawerKey : MonoBehaviour, IInteractable
+public class DrawerKey : MonoBehaviour, IInteractable, ISaveable
 {
     [Header("🔑 Key Settings")]
     [Tooltip("ID único desta chave - deve corresponder ao ID da gaveta que ela desbloqueia")]
@@ -69,6 +69,25 @@ public class DrawerKey : MonoBehaviour, IInteractable
         CollectKey();
         
         return true;
+    }
+    
+    #endregion
+    
+    #region ISaveable Implementation
+    
+    [System.Serializable]
+    private struct SaveState { public bool collected; }
+    
+    public string CaptureState() => JsonUtility.ToJson(new SaveState { collected = isCollected });
+    
+    public void RestoreState(string json)
+    {
+        if (!JsonUtility.FromJson<SaveState>(json).collected) return;
+        
+        // Já coletada: o DrawerKeyManager é restaurado à parte pelo checkpoint
+        isCollected = true;
+        if (disableRenderersOnPickup) DisableVisuals();
+        if (destroyOnPickup) Destroy(gameObject);
     }
     
     #endregion

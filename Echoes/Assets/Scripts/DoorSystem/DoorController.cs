@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Localization;
 using FMODUnity;
-public class DoorController : MonoBehaviour, IInteractable
+public class DoorController : MonoBehaviour, IInteractable, ISaveable
 {
     public enum DoorState { Unlocked, Locked, Jammed }
 
@@ -373,6 +373,24 @@ public class DoorController : MonoBehaviour, IInteractable
             knockInstance.start();
             knockInstance.release(); // Libera automaticamente quando terminar
         }
+    }
+
+    [System.Serializable]
+    private struct SaveState { public DoorState state; public bool isOpen; public Quaternion pivotLocalRotation; }
+
+    public string CaptureState()
+    {
+        return JsonUtility.ToJson(new SaveState { state = currentState, isOpen = isOpen, pivotLocalRotation = pivot.localRotation });
+    }
+
+    public void RestoreState(string json)
+    {
+        SaveState saved = JsonUtility.FromJson<SaveState>(json);
+        StopAllCoroutines();
+        isMoving = false;
+        currentState = saved.state;
+        isOpen = saved.isOpen;
+        pivot.localRotation = saved.pivotLocalRotation;
     }
 
     public void LockDoor() { currentState = DoorState.Locked; }

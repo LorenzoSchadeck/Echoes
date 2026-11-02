@@ -260,8 +260,9 @@ public class DeathManager : MonoBehaviour
         // SEMPRE garante que o canvas está ativo e começa transparente
         fadeCanvas.gameObject.SetActive(true);
         
-        // Sempre começa transparente (gameplay normal)
-        Color fadeColor = new Color(0f, 0f, 0f, 0f);
+        // Começa transparente; preta quando a cena foi recarregada para carregar um checkpoint
+        // (o CheckpointManager clareia a tela quando Ethan acorda)
+        Color fadeColor = new Color(0f, 0f, 0f, CheckpointManager.WillRestore ? 1f : 0f);
         fadeImage.color = fadeColor;
         
         if (enableDebugLogs)
@@ -308,6 +309,14 @@ public class DeathManager : MonoBehaviour
         
         if (enableDebugLogs)
             Debug.Log("[DeathManager] ✅ Fade para preto concluído");
+    }
+
+    /// <summary>
+    /// Clareia a tela a partir do preto, quando Ethan acorda num checkpoint.
+    /// </summary>
+    public void PlayWakeUpFade()
+    {
+        StartCoroutine(FadeOutCoroutine());
     }
 
     /// <summary>
@@ -446,7 +455,10 @@ public class DeathManager : MonoBehaviour
                 Debug.LogWarning("[DeathManager] FMOD não inicializado - pulando limpeza de áudio");
             }
 
-            // 3. Recarrega a cena atual
+            // 3. A cena nova carrega o último checkpoint (Ethan acorda na poltrona), se houver
+            CheckpointManager.PrepareRestore();
+
+            // 4. Recarrega a cena atual
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
             

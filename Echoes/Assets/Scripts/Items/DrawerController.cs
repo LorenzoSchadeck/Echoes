@@ -8,7 +8,7 @@ using FMODUnity;
 /// Suporta movimento em qualquer eixo com velocidade configurável.
 /// Integra com o sistema de áudio FMOD e localização do projeto Echoes.
 /// </summary>
-public class DrawerController : MonoBehaviour, IInteractable
+public class DrawerController : MonoBehaviour, IInteractable, ISaveable
 {
     [Header("🌐 Localization")]
     [Tooltip("Prompt exibido quando a gaveta está fechada")]
@@ -206,6 +206,13 @@ public class DrawerController : MonoBehaviour, IInteractable
 
         StartMovement(initialPosition, closeSoundEvent, false);
     }
+
+    [System.Serializable]
+    private struct SaveState { public bool isOpen; }
+
+    public string CaptureState() => JsonUtility.ToJson(new SaveState { isOpen = isOpen });
+
+    public void RestoreState(string json) => SetDrawerState(JsonUtility.FromJson<SaveState>(json).isOpen);
 
     /// <summary>
     /// Define o estado da gaveta imediatamente sem animação
