@@ -161,7 +161,7 @@ public class DeathManager : MonoBehaviour
             Debug.Log("[DeathManager] 🚫 Desabilitando controles do jogador");
 
         // Desabilita movimento via flag estática
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         
         // Desabilita interações via PlayerInteractor
         if (playerInteractor != null)

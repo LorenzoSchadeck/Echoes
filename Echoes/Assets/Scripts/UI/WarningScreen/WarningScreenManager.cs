@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
@@ -152,11 +153,22 @@ namespace Echoes.UI.WarningScreen
             // Detecta qualquer clique de mouse ou tecla de espaço/enter para pular
             if (canSkip && !skipRequested)
             {
-                if (Input.anyKeyDown || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
+                if (AnySkipInputPressed())
                 {
                     skipRequested = true;
                 }
             }
+        }
+        
+        private static bool AnySkipInputPressed()
+        {
+            var keyboard = Keyboard.current;
+            var mouse = Mouse.current;
+            var gamepad = Gamepad.current;
+
+            return (keyboard != null && keyboard.anyKey.wasPressedThisFrame)
+                || (mouse != null && (mouse.leftButton.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame || mouse.middleButton.wasPressedThisFrame))
+                || (gamepad != null && (gamepad.buttonSouth.wasPressedThisFrame || gamepad.startButton.wasPressedThisFrame));
         }
         
         private IEnumerator RunWarningSequence()

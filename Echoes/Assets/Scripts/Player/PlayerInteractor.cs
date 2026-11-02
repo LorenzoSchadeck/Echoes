@@ -82,7 +82,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         isInInspectionMode = state;
 
-        PlayerMovement.canMove = !state;
+        PlayerControlLock.Set(this, state);
 
         if (panTilt != null)
         {

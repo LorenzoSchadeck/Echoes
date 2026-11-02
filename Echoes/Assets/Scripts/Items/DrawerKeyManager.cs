@@ -41,7 +41,6 @@ public class DrawerKeyManager : MonoBehaviour
         }
         
         instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     
     #endregion

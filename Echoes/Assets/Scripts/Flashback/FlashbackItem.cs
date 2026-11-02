@@ -16,7 +16,26 @@ public class FlashbackItem : MonoBehaviour, IInteractable
     public string InteractionPrompt => CanInteract() ? interactionPrompt.GetLocalizedString() : string.Empty;
     public float InteractionDistance => interactionDistance;
     
+    // Trava enquanto o flashback disparado por este item está em andamento.
+    // Liberada quando o flashback termina, permitindo revisitar a lembrança depois.
     private bool isActivated = false;
+
+    private void OnEnable()
+    {
+        // Se o objeto foi desativado durante o flashback, o evento de fim não chegou até aqui
+        isActivated = false;
+        GameEvents.OnFlashbackEnded += HandleFlashbackEnded;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnFlashbackEnded -= HandleFlashbackEnded;
+    }
+
+    private void HandleFlashbackEnded()
+    {
+        isActivated = false;
+    }
 
     /// <summary>
     /// Verifica se a interação com flashback está permitida
@@ -45,10 +64,6 @@ public class FlashbackItem : MonoBehaviour, IInteractable
         
         // Aguarda um frame para permitir que os sistemas processem o evento de remédio
         StartCoroutine(StartFlashbackAfterRemedyFrame());
-        
-        isActivated = false;
-        
-        // this.enabled = false; 
 
         return true;
     }

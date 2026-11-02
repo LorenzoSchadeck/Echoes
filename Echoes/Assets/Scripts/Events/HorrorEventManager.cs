@@ -91,10 +91,10 @@ public class HorrorEventManager : MonoBehaviour
             return;
         }
 
-        // 2. BLOQUEIO: Track 1 do rádio ainda não foi encerrada
-        if (RadioController.Instance != null && !RadioController.Instance.HasTrack1Ended)
+        // 2. BLOQUEIO: ainda no prólogo (Track 1 do rádio não foi encerrada)
+        if (GameFlow.Current < GameAct.Investigation)
         {
-            Debug.Log("[HorrorEventManager] Tentativa de evento bloqueada - Track 1 do rádio ainda não foi encerrada");
+            Debug.Log("[HorrorEventManager] Tentativa de evento bloqueada - ainda no prólogo");
             return;
         }
 

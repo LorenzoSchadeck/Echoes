@@ -56,9 +56,6 @@ public class ChoirFlashbackController : MonoBehaviour
 
     private void Awake()
     {
-        // SEGURANÇA: Garante que o movimento do jogador esteja liberado ao carregar a cena
-        PlayerMovement.canMove = true;
-        
         // Validação de dependências
         if (postProcessVolume == null || postProcessVolume.profile == null || 
             playerTransform == null || playerRigidbody == null || 
@@ -250,7 +247,7 @@ public class ChoirFlashbackController : MonoBehaviour
         // Não salva novamente aqui para evitar capturar posições durante animações
 
         // Trava movimento do jogador durante teleporte
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         Debug.Log("[ChoirFlashbackController] 🔒 Movimento do jogador travado");
 
         float originalExposure = colorAdjustments.postExposure.value;
@@ -294,7 +291,7 @@ public class ChoirFlashbackController : MonoBehaviour
         lensDistortion.intensity.value = 0f;
         
         // Libera movimento do jogador
-        PlayerMovement.canMove = true;
+        PlayerControlLock.Release(this);
         Debug.Log("[ChoirFlashbackController] 🔓 Movimento do jogador liberado");
         
         activeAnimationCoroutine = null;
@@ -308,7 +305,7 @@ public class ChoirFlashbackController : MonoBehaviour
     private IEnumerator ChoirFlashbackExitRoutine()
     {
         // Trava movimento do jogador durante teleporte de volta
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         Debug.Log("[ChoirFlashbackController] 🔒 Movimento do jogador travado para saída");
 
         float targetExposure = postProcessingManager.GetSaneProfileExposure();
@@ -390,7 +387,7 @@ public class ChoirFlashbackController : MonoBehaviour
     }
 
     // Libera movimento do jogador
-    PlayerMovement.canMove = true;
+    PlayerControlLock.Release(this);
     Debug.Log("[ChoirFlashbackController] 🔓 Movimento do jogador liberado após saída");
 
     activeAnimationCoroutine = null;

@@ -112,6 +112,8 @@ public class GameEndTrigger : MonoBehaviour
         if (enableDebugLogs)
             Debug.Log($"[GameEndTrigger] 🎬 Trigger ativado por {other.name}! Iniciando sequência de fim de jogo...", this);
         
+        GameFlow.Advance(GameAct.Ending);
+
         // Inicia a sequência de fim de jogo
         StartCoroutine(GameEndSequence());
     }
@@ -459,7 +461,7 @@ public class GameEndTrigger : MonoBehaviour
     private void DisablePlayerControls()
     {
         // Trava movimento via flag estática
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         
         // Desabilita componentes de movimento e interação se encontrados
         PlayerMovement playerMovement = FindFirstObjectByType<PlayerMovement>();

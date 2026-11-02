@@ -156,7 +156,7 @@ public class MenuUIManager : MonoBehaviour
     private void InitializeMenuState()
     {
         // Disable player movement while in menu
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
 
         // Set camera priorities - menu active, player inactive
         if (menuCamera != null) 
@@ -271,11 +271,10 @@ public class MenuUIManager : MonoBehaviour
         isInMainMenu = true;
         isTransitioning = false;
         
-        // Reset static variables that don't automatically reset
-        PlayerMovement.canMove = true;
-        
-        // Force cleanup of persistent singletons that use DontDestroyOnLoad
-        CleanupPersistentSingletons();
+        // O FMOD sobrevive à troca de cena, então o áudio precisa ser parado aqui.
+        // Travas de movimento e demais estados estáticos são limpos ao recarregar a cena.
+        StopAllFMODAudio();
+        ForceCleanupFMODInstances();
         
         // Ensure time scale is normal before reloading
         Time.timeScale = 1f;
@@ -285,61 +284,6 @@ public class MenuUIManager : MonoBehaviour
         Debug.Log($"Restarting scene: {currentSceneName}");
         
         SceneManager.LoadScene(currentSceneName);
-    }
-    
-    /// <summary>
-    /// Limpa singletons persistentes que usam DontDestroyOnLoad para evitar referências quebradas
-    /// </summary>
-    private void CleanupPersistentSingletons()
-    {
-        Debug.Log("RestartScene: Starting cleanup of persistent singletons...");
-        
-        // STEP 1: Stop all FMOD audio immediately
-        StopAllFMODAudio();
-        
-        // STEP 1.5: Force cleanup of any lingering FMOD event instances
-        ForceCleanupFMODInstances();
-        
-        // STEP 2: Cleanup GameSettings if it exists
-        if (GameSettings.Instance != null)
-        {
-            Debug.Log("RestartScene: Destroying persistent GameSettings instance");
-            // Remove DontDestroyOnLoad status and destroy
-            GameSettings.Instance.transform.SetParent(null);
-            Destroy(GameSettings.Instance.gameObject);
-            
-            // Force clear static reference through reflection
-            ClearSingletonReference<GameSettings>("Instance");
-        }
-        
-        // STEP 3: Cleanup DeformationManager if it exists (also uses DontDestroyOnLoad)
-        var deformationManagerType = System.Type.GetType("Echoes.Deformation.DeformationManager");
-        if (deformationManagerType != null)
-        {
-            var instanceProperty = deformationManagerType.GetProperty("Instance", 
-                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-            if (instanceProperty != null)
-            {
-                var deformationInstance = instanceProperty.GetValue(null) as MonoBehaviour;
-                if (deformationInstance != null)
-                {
-                    Debug.Log("RestartScene: Destroying persistent DeformationManager instance");
-                    deformationInstance.transform.SetParent(null);
-                    Destroy(deformationInstance.gameObject);
-                    
-                    // Clear static reference
-                    if (instanceProperty.CanWrite)
-                    {
-                        instanceProperty.SetValue(null, null);
-                    }
-                }
-            }
-        }
-        
-        // STEP 4: Reset other static variables that might persist
-        ResetStaticVariables();
-        
-        Debug.Log("RestartScene: Persistent singletons cleanup completed");
     }
     
     /// <summary>
@@ -401,43 +345,6 @@ public class MenuUIManager : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogWarning($"RestartScene: Error in force FMOD cleanup: {e.Message}");
-        }
-    }
-    
-    /// <summary>
-    /// Reseta variáveis estáticas que podem persistir entre resets de cena
-    /// </summary>
-    private void ResetStaticVariables()
-    {
-        Debug.Log("RestartScene: Resetting static variables...");
-        
-        // Reset PlayerMovement static variable
-        PlayerMovement.canMove = true;
-        
-        // Add other static variable resets here if needed
-        // Example: SomeClass.staticVariable = defaultValue;
-        
-        Debug.Log("RestartScene: Static variables reset completed");
-    }
-    
-    /// <summary>
-    /// Método genérico para limpar referências de singleton via reflection
-    /// </summary>
-    private void ClearSingletonReference<T>(string propertyName) where T : class
-    {
-        try
-        {
-            var instanceProperty = typeof(T).GetProperty(propertyName, 
-                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-            if (instanceProperty != null && instanceProperty.CanWrite)
-            {
-                instanceProperty.SetValue(null, null);
-                Debug.Log($"RestartScene: Cleared {typeof(T).Name}.{propertyName} static reference");
-            }
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogWarning($"RestartScene: Failed to clear {typeof(T).Name}.{propertyName}: {e.Message}");
         }
     }
     
@@ -530,7 +437,7 @@ public class MenuUIManager : MonoBehaviour
         if (crosshairObject != null) crosshairObject.SetActive(true);
         
         // Enable player movement immediately (Cinemachine Brain faz o blend)
-        PlayerMovement.canMove = true;
+        PlayerControlLock.Release(this);
         gameStarted = true;
         // Setup game cursor state
         Cursor.lockState = CursorLockMode.Locked;
@@ -840,7 +747,7 @@ public class MenuUIManager : MonoBehaviour
         // gameStarted = false; // REMOVED - não resetar no pause, apenas no restart da cena
         
         // Disable player movement immediately
-        PlayerMovement.canMove = false;
+        PlayerControlLock.Acquire(this);
         
         // Switch camera priorities back to menu IMMEDIATELY (like TransitionToGame does)
         if (menuCamera != null) 
