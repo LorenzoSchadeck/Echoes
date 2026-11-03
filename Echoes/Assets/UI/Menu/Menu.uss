@@ -1,0 +1,205 @@
+/* Menu principal, pausa e opções do Echoes.
+   Textos que começam com "M_" são chaves da tabela de localização "menu". */
+
+.screen {
+    flex-grow: 1;
+    background-color: rgb(8, 8, 9);
+}
+
+.screen--overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+/* Escurece o canto do menu para o texto ler bem sobre qualquer vídeo */
+.shade {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 55%;
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.menu-panel {
+    position: absolute;
+    left: 6%;
+    bottom: 8%;
+}
+
+.logo {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 64px;
+    letter-spacing: 8px;
+    color: rgb(230, 224, 212);
+    margin: 0;
+    padding: 0;
+}
+
+.chapter {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 18px;
+    color: rgba(230, 224, 212, 0.6);
+    margin: 0 0 32px 4px;
+}
+
+.menu-item {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 24px;
+    -unity-text-align: middle-left;
+    color: rgba(230, 224, 212, 0.65);
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-left-width: 3px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+    padding: 4px 12px 4px 14px;
+    margin: 4px 0;
+    /* Botões não encolhem abaixo do texto: numa linha apertada, encolher faz o texto vazar por cima do vizinho */
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* Foco só aparece na navegação por teclado/gamepad (classe nav-keyboard, ver MenuFocusStyle) */
+.menu-item:hover,
+.nav-keyboard .menu-item:focus {
+    color: rgb(230, 224, 212);
+    border-left-color: rgb(142, 43, 43);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.menu-item:disabled {
+    color: rgba(230, 224, 212, 0.25);
+}
+
+.menu-item--small {
+    font-size: 18px;
+    margin-left: 56px;
+}
+
+.note {
+    color: rgba(230, 224, 212, 0.45);
+    font-size: 13px;
+    margin: 12px 0 0 4px;
+    max-width: 420px;
+    white-space: normal;
+}
+
+.version {
+    position: absolute;
+    right: 24px;
+    bottom: 16px;
+    color: rgba(230, 224, 212, 0.35);
+    font-size: 12px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ---------- Opções ---------- */
+
+.options-host {
+    position: absolute;
+    left: 6%;
+    top: 10%;
+    bottom: 8%;
+    width: 50%;
+    min-width: 560px;
+}
+
+.options-panel {
+    flex-grow: 1;
+    padding: 24px;
+    background-color: rgba(10, 10, 12, 0.9);
+    border-left-width: 3px;
+    border-left-color: rgb(142, 43, 43);
+}
+
+.tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.tab {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 16px;
+    color: rgba(230, 224, 212, 0.55);
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+    margin: 0 56px 12px 0;
+    padding: 4px 2px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.tab:hover,
+.nav-keyboard .tab:focus {
+    color: rgb(230, 224, 212);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.tab--selected {
+    color: rgb(230, 224, 212);
+    border-bottom-color: rgb(142, 43, 43);
+}
+
+.pane-host {
+    flex-grow: 1;
+}
+
+.pane {
+    display: none;
+}
+
+.pane--visible {
+    display: flex;
+}
+
+.option {
+    margin: 8px 0;
+}
+
+.option > .unity-base-field__label {
+    min-width: 240px;
+    font-size: 16px;
+    color: rgb(216, 210, 196);
+}
+
+.unity-base-slider__tracker {
+    background-color: rgba(230, 224, 212, 0.2);
+    border-width: 0;
+}
+
+.unity-base-slider__dragger {
+    background-color: rgb(230, 224, 212);
+    border-width: 0;
+}
+
+.nav-keyboard .unity-base-slider:focus .unity-base-slider__dragger {
+    background-color: rgb(142, 43, 43);
+}
+
+.unity-base-popup-field__input {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(230, 224, 212, 0.25);
+    color: rgb(230, 224, 212);
+}
+
+.options-footer {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 16px;
+}

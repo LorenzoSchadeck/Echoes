@@ -14,6 +14,10 @@ using TMPro;
 /// </summary>
 public class GameEndTrigger : MonoBehaviour
 {
+    [Header("Cenas")]
+    [Tooltip("Cena carregada depois do final.")]
+    [SerializeField] private string menuSceneName = "Menu";
+    
     [Header("🎵 Áudio de Heartbeat FMOD")]
     [Tooltip("Evento FMOD do batimento cardíaco tocado durante o fade")]
     [SerializeField] private EventReference heartbeatEvent;
@@ -502,10 +506,13 @@ public class GameEndTrigger : MonoBehaviour
         // Capítulo concluído: o próximo jogo começa do zero
         SaveSystem.Delete();
         
-        if (enableDebugLogs)
-            Debug.Log($"[GameEndTrigger] Recarregando cena: {currentSceneName}");
+        // Volta ao menu principal; sem a cena Menu no build, recomeça a cena atual
+        string nextScene = Application.CanStreamedLevelBeLoaded(menuSceneName) ? menuSceneName : currentSceneName;
         
-        SceneManager.LoadScene(currentSceneName);
+        if (enableDebugLogs)
+            Debug.Log($"[GameEndTrigger] Carregando cena: {nextScene}");
+        
+        SceneManager.LoadScene(nextScene);
     }
     
     /// <summary>

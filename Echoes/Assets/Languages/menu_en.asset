@@ -79,8 +79,103 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8267308647428096
-    m_Localized: That key... it opened the wrong place. What Ethan found cannot be
-      real. The only way out is to press on.
+    m_Localized: That key... it opened the wrong place. What Ethan found cannot be real. The only way out is to press on.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422280523776
+    m_Localized: Chapter 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352896
+    m_Localized: Paused
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352897
+    m_Localized: Main menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352898
+    m_Localized: Progress since the last checkpoint will be lost.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352899
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352900
+    m_Localized: Video
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352901
+    m_Localized: Controls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352902
+    m_Localized: Accessibility
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352903
+    m_Localized: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352904
+    m_Localized: Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352905
+    m_Localized: Voices
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352906
+    m_Localized: Resolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352907
+    m_Localized: Window mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352908
+    m_Localized: Fullscreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352909
+    m_Localized: Borderless window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352910
+    m_Localized: Windowed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352911
+    m_Localized: Quality
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352912
+    m_Localized: Field of view
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352913
+    m_Localized: Brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352914
+    m_Localized: Invert Y axis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352915
+    m_Localized: Subtitle size
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352916
+    m_Localized: Reduce flashes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352917
+    m_Localized: Camera shake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352918
+    m_Localized: Restore defaults
     m_Metadata:
       m_Items: []
   references:

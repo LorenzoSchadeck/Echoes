@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="Menu.uss" />
+    <ui:Template name="Options" src="Options.uxml" />
+    <ui:VisualElement name="root" class="screen screen--overlay">
+        <ui:VisualElement name="main-panel" class="menu-panel">
+            <ui:Label text="M_PAUSED" class="chapter" />
+            <ui:Button name="button-resume" text="M_CONTINUE" class="menu-item" />
+            <ui:Button name="button-options" text="M_OPT" class="menu-item" />
+            <ui:Button name="button-main-menu" text="M_MAIN_MENU" class="menu-item" />
+            <ui:Label text="M_LEAVE_WARNING" class="note" />
+        </ui:VisualElement>
+        <ui:Instance template="Options" name="options" class="options-host hidden" />
+    </ui:VisualElement>
+</ui:UXML>

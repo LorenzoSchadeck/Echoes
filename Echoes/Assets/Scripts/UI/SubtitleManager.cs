@@ -21,6 +21,7 @@ public class SubtitleManager : MonoBehaviour
     [Header("📺 Subtitle Display")]
     [Tooltip("TextMeshProUGUI onde as legendas serão exibidas")]
     [SerializeField] private TextMeshProUGUI subtitleText;
+    private float baseFontSize;
 
     [Header("📻 Radio Track Events")]
     [Tooltip("Legenda exibida quando a faixa 1 do rádio termina")]
@@ -95,6 +96,7 @@ public class SubtitleManager : MonoBehaviour
 
         // Valida configuração
         ValidateConfiguration();
+        baseFontSize = SubtitleScaling.BaseSize(subtitleText);
         
         // Garante que legendas começam ocultas
         HideSubtitleImmediate();
@@ -119,10 +121,18 @@ public class SubtitleManager : MonoBehaviour
 
         // Inscreve em evento de reset de cena
         GameEvents.OnSceneReset += OnSceneReset;
+
+        // Tamanho das legendas (opção de acessibilidade)
+        ApplySubtitleScale();
+        GameOptions.Changed += ApplySubtitleScale;
     }
+
+    private void ApplySubtitleScale() => SubtitleScaling.Apply(subtitleText, baseFontSize);
 
     private void OnDisable()
     {
+        GameOptions.Changed -= ApplySubtitleScale;
+
         // Desinscreve de todos os eventos
         GameEvents.OnRadioTrack1Completed -= OnRadioTrack1Completed;
         GameEvents.OnRadioTrack2Completed -= OnRadioTrack2Completed;

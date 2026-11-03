@@ -50,12 +50,22 @@ public class PlayerInteractor : MonoBehaviour
     {
         inputActions.Player.Interact.performed += OnInteract;
         inputActions.Player.Interact.Enable();
+
+        ApplyFieldOfView();
+        GameOptions.Changed += ApplyFieldOfView;
     }
 
     private void OnDisable()
     {
         inputActions.Player.Interact.performed -= OnInteract;
         inputActions.Player.Interact.Disable();
+
+        GameOptions.Changed -= ApplyFieldOfView;
+    }
+
+    private void ApplyFieldOfView()
+    {
+        if (playerCinemachineCamera != null) playerCinemachineCamera.Lens.FieldOfView = GameOptions.Current.fieldOfView;
     }
 
     private void Update()
@@ -70,8 +80,8 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        // Só permite a interação se houver um item na mira E não estivermos já inspecionando.
-        if (currentInteractable != null && !isInInspectionMode)
+        // Só permite a interação se houver um item na mira, sem inspeção em andamento e com o jogo despausado.
+        if (currentInteractable != null && !isInInspectionMode && !PauseMenuController.IsPaused)
         {
             currentInteractable.Interact(transform);
         }

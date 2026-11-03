@@ -118,7 +118,7 @@ namespace Echoes.InsanitySystem
             currentFrequency = Mathf.MoveTowards(currentFrequency, targetFrequency, normalTransitionSpeed * Time.deltaTime);
             
             // Aplica os valores ao componente Cinemachine
-            perlinNoise.AmplitudeGain = currentAmplitude;
+            perlinNoise.AmplitudeGain = currentAmplitude * ShakeScale;
             perlinNoise.FrequencyGain = currentFrequency;
         }
         
@@ -234,7 +234,7 @@ namespace Echoes.InsanitySystem
                 // Aplica ao componente Cinemachine
                 if (perlinNoise != null)
                 {
-                    perlinNoise.AmplitudeGain = currentAmplitude;
+                    perlinNoise.AmplitudeGain = currentAmplitude * ShakeScale;
                     perlinNoise.FrequencyGain = currentFrequency;
                 }
                 
@@ -273,6 +273,9 @@ namespace Echoes.InsanitySystem
             StartCoroutine(TemporaryShakeRoutine(amplitude, frequency, duration));
         }
         
+        // Opção de acessibilidade: intensidade do tremor (0 = sem tremor)
+        private static float ShakeScale => GameOptions.Current.cameraShake;
+
         private IEnumerator TemporaryShakeRoutine(float amplitude, float frequency, float duration)
         {
             if (perlinNoise == null) yield break;
@@ -282,7 +285,7 @@ namespace Echoes.InsanitySystem
             float savedFrequency = perlinNoise.FrequencyGain;
             
             // Aplica shake temporário
-            perlinNoise.AmplitudeGain = amplitude;
+            perlinNoise.AmplitudeGain = amplitude * ShakeScale;
             perlinNoise.FrequencyGain = frequency;
             
             // Espera a duração

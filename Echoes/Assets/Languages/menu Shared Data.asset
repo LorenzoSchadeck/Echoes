@@ -79,6 +79,102 @@ MonoBehaviour:
     m_Key: M_FINAL
     m_Metadata:
       m_Items: []
+  - m_Id: 142019422280523776
+    m_Key: M_CHAPTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352896
+    m_Key: M_PAUSED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352897
+    m_Key: M_MAIN_MENU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352898
+    m_Key: M_LEAVE_WARNING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352899
+    m_Key: M_TAB_AUDIO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352900
+    m_Key: M_TAB_VIDEO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352901
+    m_Key: M_TAB_CONTROLS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352902
+    m_Key: M_TAB_ACCESS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352903
+    m_Key: M_MUSIC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352904
+    m_Key: M_SFX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352905
+    m_Key: M_VOICE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352906
+    m_Key: M_RESOLUTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352907
+    m_Key: M_WINDOW
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352908
+    m_Key: M_FULLSCREEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352909
+    m_Key: M_BORDERLESS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352910
+    m_Key: M_WINDOWED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352911
+    m_Key: M_QUALITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352912
+    m_Key: M_FOV
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352913
+    m_Key: M_BRIGHTNESS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352914
+    m_Key: M_INVERT_Y
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352915
+    m_Key: M_SUB_SIZE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352916
+    m_Key: M_REDUCE_FLASH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352917
+    m_Key: M_SHAKE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352918
+    m_Key: M_DEFAULTS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
