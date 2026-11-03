@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="Menu.uss" />
+    <ui:Template name="Options" src="Options.uxml" />
+    <ui:VisualElement name="root" class="screen">
+        <ui:VisualElement name="background" class="background" />
+        <ui:VisualElement class="shade" />
+        <ui:VisualElement name="main-panel" class="menu-panel">
+            <ui:Label text="ECHOES" class="logo" />
+            <ui:Label text="M_CHAPTER" class="chapter" />
+            <ui:Button name="button-continue" text="M_CONTINUE" class="menu-item" />
+            <ui:Button name="button-new-game" text="M_NG" class="menu-item" />
+            <ui:Button name="button-options" text="M_OPT" class="menu-item" />
+            <ui:Button name="button-quit" text="M_EXIT" class="menu-item" />
+        </ui:VisualElement>
+        <ui:Instance template="Options" name="options" class="options-host hidden" />
+        <ui:Label name="version" class="version" />
+    </ui:VisualElement>
+</ui:UXML>

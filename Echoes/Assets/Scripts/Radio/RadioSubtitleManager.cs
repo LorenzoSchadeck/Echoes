@@ -15,6 +15,10 @@ public class RadioSubtitleManager : MonoBehaviour
     
     [Tooltip("TextMeshProUGUI onde o nome do falante será exibido (opcional - deixe em branco se não quiser usar)")]
     [SerializeField] private TextMeshProUGUI speakerNameText;
+
+    // Tamanhos originais, para aplicar a opção de tamanho das legendas
+    private float baseSubtitleSize;
+    private float baseSpeakerSize;
     
     [Header("Controle de Conflitos")]
     [Tooltip("Se verdadeiro, desabilita interação com SimpleItemDisplay enquanto legendas estão ativas")]
@@ -77,6 +81,22 @@ public class RadioSubtitleManager : MonoBehaviour
     {
         // Valida dados das legendas
         ValidateSubtitleData();
+
+        baseSubtitleSize = SubtitleScaling.BaseSize(subtitleText);
+        baseSpeakerSize = SubtitleScaling.BaseSize(speakerNameText);
+        ApplySubtitleScale();
+        GameOptions.Changed += ApplySubtitleScale;
+    }
+
+    private void OnDestroy()
+    {
+        GameOptions.Changed -= ApplySubtitleScale;
+    }
+
+    private void ApplySubtitleScale()
+    {
+        SubtitleScaling.Apply(subtitleText, baseSubtitleSize);
+        SubtitleScaling.Apply(speakerNameText, baseSpeakerSize);
     }
     
     /// <summary>

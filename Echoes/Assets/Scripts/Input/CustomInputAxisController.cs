@@ -74,16 +74,21 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
             }
         }
         
-        // Register with GameSettings for sensitivity updates
-        if (GameSettings.Instance != null)
-        {
-            MouseSensitivity = GameSettings.Instance.MouseSensitivity;
-        }
+        // Sensibilidade e inversão vêm das opções do jogador
+        ApplyOptions();
+        GameOptions.Changed += ApplyOptions;
+    }
+
+    private void ApplyOptions()
+    {
+        MouseSensitivity = GameOptions.Current.mouseSensitivity;
+        InvertY = GameOptions.Current.invertY;
     }
     
     protected override void OnDisable()
     {
         base.OnDisable();
+        GameOptions.Changed -= ApplyOptions;
         
         if (m_LookAction != null)
         {

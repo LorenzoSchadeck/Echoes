@@ -79,8 +79,103 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8267308647428096
-    m_Localized: "Aquela chave... abriu o lugar errado. O que Ethan encontrou n\xE3o
-      pode ser real. A \xFAnica sa\xEDda \xE9 seguir adiante."
+    m_Localized: "Aquela chave... abriu o lugar errado. O que Ethan encontrou n\xE3o pode ser real. A \xFAnica sa\xEDda \xE9 seguir adiante."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422280523776
+    m_Localized: "Cap\xEDtulo 1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352896
+    m_Localized: Pausado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352897
+    m_Localized: Voltar ao menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352898
+    m_Localized: "O progresso desde o \xFAltimo checkpoint ser\xE1 perdido."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352899
+    m_Localized: "\xC1udio"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352900
+    m_Localized: "V\xEDdeo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352901
+    m_Localized: Controles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352902
+    m_Localized: Acessibilidade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352903
+    m_Localized: "M\xFAsica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352904
+    m_Localized: Efeitos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352905
+    m_Localized: Vozes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352906
+    m_Localized: "Resolu\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352907
+    m_Localized: Modo de janela
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352908
+    m_Localized: Tela cheia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352909
+    m_Localized: Janela sem borda
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352910
+    m_Localized: Janela
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352911
+    m_Localized: Qualidade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352912
+    m_Localized: "Campo de vis\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352913
+    m_Localized: Brilho
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352914
+    m_Localized: Inverter eixo Y
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352915
+    m_Localized: Tamanho das legendas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352916
+    m_Localized: Reduzir flashes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352917
+    m_Localized: "Tremor de c\xE2mera"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142019422406352918
+    m_Localized: "Restaurar padr\xF5es"
     m_Metadata:
       m_Items: []
   references:

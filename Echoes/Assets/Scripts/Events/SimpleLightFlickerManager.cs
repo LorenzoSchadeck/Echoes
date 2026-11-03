@@ -57,6 +57,9 @@ public class SimpleLightFlickerManager : MonoBehaviour
         StartCoroutine(SimpleFlickerCoroutine(lights, flickerSound, soundTarget));
     }
 
+    // Com a opção "reduzir flashes", as luzes escurecem menos a cada piscada
+    private float MinFlickerIntensity => GameOptions.Current.reduceFlashes ? Mathf.Max(defaultMinIntensity, 0.6f) : defaultMinIntensity;
+
     private IEnumerator SimpleFlickerCoroutine(List<Light> lights, FMODUnity.EventReference flickerSound, GameObject soundTarget)
     {
         if (enableDebugLogs)
@@ -109,7 +112,7 @@ public class SimpleLightFlickerManager : MonoBehaviour
             {
                 if (light != null && originalIntensities.ContainsKey(light))
                 {
-                    light.intensity = originalIntensities[light] * defaultMinIntensity;
+                    light.intensity = originalIntensities[light] * MinFlickerIntensity;
                 }
             }
 

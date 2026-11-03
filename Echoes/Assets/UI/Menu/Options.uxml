@@ -1,0 +1,42 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="options-panel" class="options-panel">
+        <ui:VisualElement class="tabs">
+            <ui:Button name="tab-audio" text="M_TAB_AUDIO" class="tab" />
+            <ui:Button name="tab-video" text="M_TAB_VIDEO" class="tab" />
+            <ui:Button name="tab-controls" text="M_TAB_CONTROLS" class="tab" />
+            <ui:Button name="tab-access" text="M_TAB_ACCESS" class="tab" />
+            <ui:Button name="tab-language" text="M_LAN" class="tab" />
+        </ui:VisualElement>
+        <ui:ScrollView class="pane-host">
+            <ui:VisualElement name="pane-audio" class="pane">
+                <ui:Slider name="slider-master" label="M_GV" low-value="0" high-value="1" class="option" />
+                <ui:Slider name="slider-music" label="M_MUSIC" low-value="0" high-value="1" class="option" />
+                <ui:Slider name="slider-sfx" label="M_SFX" low-value="0" high-value="1" class="option" />
+                <ui:Slider name="slider-voice" label="M_VOICE" low-value="0" high-value="1" class="option" />
+            </ui:VisualElement>
+            <ui:VisualElement name="pane-video" class="pane">
+                <ui:DropdownField name="dropdown-resolution" label="M_RESOLUTION" class="option" />
+                <ui:DropdownField name="dropdown-window" label="M_WINDOW" class="option" />
+                <ui:DropdownField name="dropdown-quality" label="M_QUALITY" class="option" />
+                <ui:Slider name="slider-fov" label="M_FOV" low-value="60" high-value="80" class="option" />
+                <ui:Slider name="slider-brightness" label="M_BRIGHTNESS" low-value="-1" high-value="1" class="option" />
+            </ui:VisualElement>
+            <ui:VisualElement name="pane-controls" class="pane">
+                <ui:Slider name="slider-sensitivity" label="M_MS" low-value="0.01" high-value="3" class="option" />
+                <ui:Toggle name="toggle-invert-y" label="M_INVERT_Y" class="option" />
+            </ui:VisualElement>
+            <ui:VisualElement name="pane-access" class="pane">
+                <ui:Slider name="slider-subtitle-size" label="M_SUB_SIZE" low-value="0.75" high-value="1.5" class="option" />
+                <ui:Toggle name="toggle-reduce-flashes" label="M_REDUCE_FLASH" class="option" />
+                <ui:Slider name="slider-camera-shake" label="M_SHAKE" low-value="0" high-value="1" class="option" />
+            </ui:VisualElement>
+            <ui:VisualElement name="pane-language" class="pane">
+                <ui:DropdownField name="dropdown-language" label="M_LAN" class="option" />
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:VisualElement class="options-footer">
+            <ui:Button name="button-defaults" text="M_DEFAULTS" class="menu-item menu-item--small" />
+            <ui:Button name="button-back" text="M_BACK" class="menu-item menu-item--small" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

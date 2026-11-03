@@ -57,6 +57,9 @@ public class VisualFlashManager : MonoBehaviour
 
     private void OnVisualFlashTriggered(float peakInsanity, float duration)
     {
+        // Opção de acessibilidade: sem flashes de tela
+        if (GameOptions.Current.reduceFlashes) return;
+
         // Verifica se há InsanityManager disponível
         if (insanityManager == null)
         {
