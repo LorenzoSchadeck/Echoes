@@ -87,6 +87,22 @@ MonoBehaviour:
     m_Key: PROMPT_BOARD
     m_Metadata:
       m_Items: []
+  - m_Id: 153961596177915904
+    m_Key: PROMPT_LOCKED_FIND_KEY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773504
+    m_Key: PROMPT_OPEN_WARDROBE_FIRST
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773505
+    m_Key: PROMPT_CLOSE_DRAWERS_FIRST
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773506
+    m_Key: PROMPT_ROTATE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

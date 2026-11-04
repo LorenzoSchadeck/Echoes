@@ -15,13 +15,10 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [Tooltip("Referência à chave da descrição deste item (ex: ITEM_DESC_OLD_PHOTO).")]
     [SerializeField] private LocalizedString itemDescriptionString;
 
-    [Header("UI References")]
-    [Tooltip("O GameObject do painel que será ativado.")]
-    [SerializeField] private GameObject inspectionPanel;
-    [Tooltip("O campo de texto para o nome do item. DEVE ter o componente 'Localize String Event'.")]
-    [SerializeField] private TMPro.TextMeshProUGUI itemNameText;
-    [Tooltip("O campo de texto para a descrição do item. DEVE ter o componente 'Localize String Event'.")]
-    [SerializeField] private TMPro.TextMeshProUGUI itemDescriptionText;
+    // Painel de inspeção no HUD (UI Toolkit)
+    private static HudElement inspectionPanel => GameHud.Inspect;
+    private static HudElement itemNameText => GameHud.InspectTitle;
+    private static HudElement itemDescriptionText => GameHud.InspectBody;
 
     [Header("Interaction Settings")]
     [Tooltip("Distância máxima em que este item pode ser interagido")]
@@ -54,8 +51,8 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [SerializeField] private float keyDetectionDistance = 2f;
     [Tooltip("Layer das chaves para detecção via raycast")]
     [SerializeField] private LayerMask keyLayer;
-    [Tooltip("Texto UI que exibirá o prompt de interação da chave")]
-    [SerializeField] private TMPro.TextMeshProUGUI keyInteractionText;
+    [Tooltip("Mostra no prompt do HUD a dica para interagir com a chave durante a inspeção")]
+    [SerializeField] private bool showKeyPrompt;
     
     [Header("📺 Subtitle Settings")]
     [Tooltip("Se deve disparar legenda quando interagir com este item")]
@@ -64,8 +61,6 @@ public class ItemInteract : MonoBehaviour, IInteractable
     [SerializeField] private LocalizedString interactSubtitle;
     [Tooltip("Duração da legenda em segundos")]
     [SerializeField] private float subtitleDuration = 3f;
-    [Tooltip("Referência ao TextMeshProUGUI das legendas (mesmo usado pelo SubtitleManager)")]
-    [SerializeField] private TMPro.TextMeshProUGUI subtitleTextReference;
     
     public enum RadioTriggerType
     {
@@ -383,17 +378,11 @@ public class ItemInteract : MonoBehaviour, IInteractable
 
     private void ShowInspectionPanel()
     {
-        if (inspectionPanel == null || itemNameText == null || itemDescriptionText == null) return;
-        
-        // Desabilita texto de legenda APENAS se não houver legendas ativas
-        // Se SubtitleManager estiver ativo, mantém o texto habilitado
-        if (subtitleTextReference != null && !SubtitleManager.IsSubtitleActive)
-        {
-            subtitleTextReference.enabled = false;
-        }
-        
-        // Ativa o painel primeiro
-        inspectionPanel.SetActive(true);
+        // Esconde a legenda, a menos que o SubtitleManager esteja mostrando uma
+        if (!SubtitleManager.IsSubtitleActive)
+            GameHud.Subtitle.enabled = false;
+
+        inspectionPanel.enabled = true;
 
         // Busca as traduções e as define DIRETAMENTE no campo .text
         itemNameText.text = itemNameString.GetLocalizedString();
@@ -402,18 +391,10 @@ public class ItemInteract : MonoBehaviour, IInteractable
 
     private void HideInspectionPanel()
     {
-        if (inspectionPanel != null)
-        {
-            inspectionPanel.SetActive(false);
-        }
-        
-        // Reabilita texto de legenda apenas se não há legendas ativas
-        // Se há legendas ativas, o SubtitleManager já cuidou de ativar o componente
-        if (subtitleTextReference != null && !SubtitleManager.IsSubtitleActive)
-        {
-            // Desabilita o componente quando não há legendas e o painel foi fechado
-            subtitleTextReference.enabled = false;
-        }
+        inspectionPanel.enabled = false;
+
+        if (!SubtitleManager.IsSubtitleActive)
+            GameHud.Subtitle.enabled = false;
     }
 
     private IEnumerator MoveToTarget(Vector3 targetPos, Quaternion targetRot, bool isReturning = false)
@@ -514,11 +495,10 @@ public class ItemInteract : MonoBehaviour, IInteractable
     /// </summary>
     private void UpdateKeyInteractionUI(bool show, string prompt = "")
     {
-        if (keyInteractionText != null)
-        {
-            keyInteractionText.enabled = show;
-            keyInteractionText.text = prompt;
-        }
+        if (!showKeyPrompt) return;
+
+        GameHud.Prompt.enabled = show;
+        GameHud.Prompt.text = prompt;
     }
     
     /// <summary>

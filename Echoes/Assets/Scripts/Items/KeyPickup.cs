@@ -34,7 +34,7 @@ public abstract class KeyPickup : MonoBehaviour, IInteractable, ISaveable
     private bool isCollected = false;
     private FMODAudioTrigger audioTrigger;
 
-    public string InteractionPrompt => pickupPrompt?.GetLocalizedString() ?? "Pegar Chave";
+    public string InteractionPrompt => InteractionText.Get(pickupPrompt, "PROMPT_TAKE");
     public float InteractionDistance => interactionDistance;
 
     public string KeyID => keyID;

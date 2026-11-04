@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using FMODUnity;
 using System.Collections;
 using FMOD.Studio;
@@ -16,10 +15,6 @@ public class DeathManager : MonoBehaviour
     public EventReference deathAudioEvent;
     
     [Header("🎭 Fade da Tela")]
-    [Tooltip("Canvas com Image preta para fazer o fade")]
-    [SerializeField] private Canvas fadeCanvas;
-    [Tooltip("Image preta que será usada para escurecer a tela")]
-    [SerializeField] private Image fadeImage;
     [Tooltip("Duração do fade in/out para preto (em segundos)")]
     [SerializeField] private float fadeDuration = 2f;
     
@@ -250,20 +245,9 @@ public class DeathManager : MonoBehaviour
     /// </summary>
     private void SetupFadeCanvas()
     {
-        if (fadeCanvas == null || fadeImage == null)
-        {
-            if (enableDebugLogs)
-                Debug.LogWarning("[DeathManager] Canvas ou Image de fade não configurados. Fade será desabilitado.");
-            return;
-        }
-
-        // SEMPRE garante que o canvas está ativo e começa transparente
-        fadeCanvas.gameObject.SetActive(true);
-        
         // Começa transparente; preta quando a cena foi recarregada para carregar um checkpoint
         // (o CheckpointManager clareia a tela quando Ethan acorda)
-        Color fadeColor = new Color(0f, 0f, 0f, CheckpointManager.WillRestore ? 1f : 0f);
-        fadeImage.color = fadeColor;
+        GameHud.FadeScreen.alpha = CheckpointManager.WillRestore ? 1f : 0f;
         
         if (enableDebugLogs)
             Debug.Log("[DeathManager] Canvas de fade configurado (transparente)");
@@ -274,17 +258,10 @@ public class DeathManager : MonoBehaviour
     /// </summary>
     private IEnumerator FadeToBlackCoroutine()
     {
-        if (fadeCanvas == null || fadeImage == null)
-        {
-            if (enableDebugLogs)
-                Debug.LogWarning("[DeathManager] Não é possível fazer fade - componentes não configurados");
-            yield break;
-        }
-
         if (enableDebugLogs)
             Debug.Log("[DeathManager] 🌑 Iniciando fade para preto");
 
-        yield return Fade.Alpha(fadeImage, 1f, fadeDuration, smooth: true);
+        yield return Fade.Alpha(GameHud.FadeScreen, 1f, fadeDuration, smooth: true);
         
         // NÃO para áudios aqui - apenas DEPOIS do áudio de morte terminar
         
@@ -310,22 +287,12 @@ public class DeathManager : MonoBehaviour
     /// </summary>
     private IEnumerator FadeOutCoroutine()
     {
-        if (fadeCanvas == null || fadeImage == null)
-        {
-            if (enableDebugLogs)
-                Debug.LogWarning("[DeathManager] Não é possível fazer fade out - componentes não configurados");
-            yield break;
-        }
-
         if (enableDebugLogs)
             Debug.Log("[DeathManager] 🌅 Iniciando fade out (preto → transparente)");
 
         // Garante que a tela começa preta e clareia
-        Fade.SetAlpha(fadeImage, 1f);
-        yield return Fade.Alpha(fadeImage, 0f, fadeDuration, smooth: true);
-        
-        // MANTÉM o canvas ativo mas invisível para futuras mortes
-        // fadeCanvas.gameObject.SetActive(false); // REMOVIDO - causava problemas em mortes subsequentes
+        GameHud.FadeScreen.alpha = 1f;
+        yield return Fade.Alpha(GameHud.FadeScreen, 0f, fadeDuration, smooth: true);
         
         if (enableDebugLogs)
             Debug.Log("[DeathManager] ✅ Fade out concluído - sistema de morte resetado");

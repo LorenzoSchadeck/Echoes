@@ -11,7 +11,6 @@ public class GameplayStarter : MonoBehaviour
     [Tooltip("Câmeras que não devem disputar com a do jogador ao começar (ex.: a antiga câmera do menu).")]
     [SerializeField] private CinemachineCamera[] camerasToLower;
     [SerializeField] private CustomInputAxisController lookController;
-    [SerializeField] private GameObject crosshair;
 
     private void Start()
     {
@@ -24,7 +23,7 @@ public class GameplayStarter : MonoBehaviour
         }
 
         if (lookController != null) lookController.enabled = true;
-        if (crosshair != null) crosshair.SetActive(true);
+        GameHud.Crosshair.enabled = true;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

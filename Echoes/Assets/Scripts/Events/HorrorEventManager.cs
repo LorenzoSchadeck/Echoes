@@ -119,17 +119,7 @@ public class HorrorEventManager : MonoBehaviour
             return;
         }
 
-        // 3. BLOQUEIO: Estado do menu (exceto light flicker que tem chance especial)
-        MenuUIManager menuManager = FindFirstObjectByType<MenuUIManager>();
-        if (menuManager != null && menuManager.IsInMainMenu)
-        {
-            // Durante o menu, apenas light flicker pode tocar com chance reduzida
-            Debug.Log("[HorrorEventManager] Player está no menu - apenas light flicker permitido com chance especial");
-            TryTriggerMenuLightFlicker();
-            return;
-        }
-
-        // 4. ALÍVIO: tensão alta demais, o jogador ganha um respiro antes do próximo pico
+        // 3. ALÍVIO: tensão alta demais, o jogador ganha um respiro antes do próximo pico
         if (tension >= maxTension)
         {
             Debug.Log($"[HorrorEventManager] Período de alívio (tensão {tension:F1}/{maxTension})");
@@ -162,46 +152,6 @@ public class HorrorEventManager : MonoBehaviour
         return Mathf.Min(bySanity, byAct);
     }
     
-    /// <summary>
-    /// Tentativa especial de disparar light flicker durante o menu com chance normal
-    /// </summary>
-    private void TryTriggerMenuLightFlicker()
-    {
-        // Filtrar apenas eventos de light flicker disponíveis
-        List<HorrorEvent> lightFlickerEvents = eventLibrary
-            .Where(evt => evt.type == HorrorEventType.LightFlicker && !recentEvents.Contains(evt.type))
-            .ToList();
-            
-        if (lightFlickerEvents.Count == 0)
-        {
-            Debug.Log("[HorrorEventManager] Menu: Nenhum evento de light flicker disponível (pode estar no buffer)");
-            return;
-        }
-        
-        // Rolagem com 60% de chance de SIM (0-5) e 40% de NÃO (6-9)
-        int roll = Random.Range(0, 10);
-        bool flickerTriggered = roll <= 5; // 0,1,2,3,4,5 = SIM (60%)
-        Debug.Log($"[HorrorEventManager] Menu - Rolagem light flicker: {roll} {(flickerTriggered ? "(SIM)" : "(NÃO)")} [60% chance]");
-        
-        if (flickerTriggered)
-        {
-            // Seleciona um light flicker aleatório
-            HorrorEvent selectedFlicker = lightFlickerEvents[Random.Range(0, lightFlickerEvents.Count)];
-            
-            // Adiciona ao buffer
-            recentEvents.Enqueue(selectedFlicker.type);
-            if (recentEvents.Count > antiRepetitionBuffer)
-            {
-                recentEvents.Dequeue();
-            }
-            
-            Debug.Log($"[HorrorEventManager] Menu: Light flicker selecionado: {selectedFlicker.eventName}");
-            
-            // Executa apenas o light flicker
-            GameEvents.TriggerSimpleLightFlicker(selectedFlicker.flickerLights, selectedFlicker.flickerSoundEvent, selectedFlicker.flickerSoundTarget);
-        }
-    }
-
     private void TriggerRandomEvent()
     {
         // Verificação de segurança adicional
