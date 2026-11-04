@@ -319,6 +319,26 @@ public class SubtitleManager : MonoBehaviour
     /// <summary>
     /// Mostra uma legenda com a chave de localização especificada
     /// </summary>
+    /// <summary>
+    /// Mostra um pensamento de Ethan (voz interna), em itálico, pela mesma fila das legendas.
+    /// </summary>
+    public void ShowThought(string text, float duration)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+
+        var thought = new SubtitleData($"<i>{text}</i>", duration);
+        if (useQueue)
+        {
+            subtitleQueue.Enqueue(thought);
+            if (!isShowingSubtitle) ProcessNextSubtitle();
+        }
+        else
+        {
+            if (activeSubtitleCoroutine != null) StopCoroutine(activeSubtitleCoroutine);
+            activeSubtitleCoroutine = StartCoroutine(SubtitleCoroutine(thought.text, duration));
+        }
+    }
+
     private void ShowSubtitle(LocalizedString subtitleKey, float duration)
     {
         if (subtitleKey == null || subtitleKey.IsEmpty)

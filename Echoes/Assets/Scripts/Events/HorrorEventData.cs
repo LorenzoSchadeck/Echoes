@@ -18,6 +18,20 @@ public enum HorrorEventType
     GuiltChorusBurst       // Coro da Culpa - Raro
 }
 
+/// <summary>
+/// Nível de intensidade de cada tipo de evento: 1 = Ansiedade, 2 = Angústia, 3 = Colapso.
+/// O diretor de eventos só libera níveis altos com a sanidade baixa e em atos avançados.
+/// </summary>
+public static class HorrorEventTiers
+{
+    public static int TierOf(HorrorEventType type) => type switch
+    {
+        HorrorEventType.VisualFlash or HorrorEventType.FalseAlarmClock => 2,
+        HorrorEventType.SpawnCoveredBody or HorrorEventType.GuiltChorusBurst => 3,
+        _ => 1,
+    };
+}
+
 [System.Serializable]
 public struct HorrorEvent
 {

@@ -20,9 +20,12 @@ public class SaveData
 
     public Vector3 playerPosition;
     public Quaternion playerRotation;
+    public float clockMinutes = GameClock.StartMinutes;
 
     public List<string> doorKeys = new List<string>();
     public List<string> drawerKeys = new List<string>();
+    public List<string> evidence = new List<string>();
+    public List<string> deductions = new List<string>();
     public List<string> destroyedIds = new List<string>();
     public List<SaveEntry> entries = new List<SaveEntry>();
 }

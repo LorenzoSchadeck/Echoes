@@ -12,6 +12,9 @@ public class CheckpointManager : MonoBehaviour
     [Tooltip("Onde Ethan acorda. Se vazio, usa o primeiro CheckpointSpawn da cena; sem nenhum, a posição salva.")]
     [SerializeField] private CheckpointSpawn wakeUpPoint;
 
+    [Tooltip("Minutos que Ethan perde a cada colapso (o relógio avança ao acordar).")]
+    [SerializeField] private float collapseMinutesLost = 120f;
+
     // Pedido feito antes de recarregar a cena; lido pela cena nova
     public static bool PendingRestore { get; private set; }
 
@@ -95,6 +98,9 @@ public class CheckpointManager : MonoBehaviour
 
         if (DoorKeyManager.Instance != null) data.doorKeys = DoorKeyManager.Instance.CollectedKeys.ToList();
         if (DrawerKeyManager.Instance != null) data.drawerKeys = DrawerKeyManager.Instance.CollectedKeys.ToList();
+        data.clockMinutes = GameClock.Minutes;
+        data.evidence = CaseFile.EvidenceIds.ToList();
+        data.deductions = CaseFile.DeductionIds.ToList();
 
         SaveSystem.CaptureObjects(data);
         SaveSystem.Write(data);
@@ -121,36 +127,29 @@ public class CheckpointManager : MonoBehaviour
 
         foreach (string key in data.doorKeys) DoorKeyManager.Instance.RegisterCollectedKey(key);
         foreach (string key in data.drawerKeys) DrawerKeyManager.Instance.RegisterCollectedKey(key);
+        CaseFile.Restore(data.evidence, data.deductions);
 
         GameFlow.Restore(data.act);
         PlaceWakingPlayer(data);
+
+        // Ethan acorda horas depois: o colapso também é tempo perdido
+        GameClock.Restore(data.clockMinutes);
+        GameClock.Skip(collapseMinutesLost);
 
         IsRestoring = false;
         Debug.Log($"[CheckpointManager] Checkpoint carregado: {data.act}");
 
         FindAnyObjectByType<DeathManager>()?.PlayWakeUpFade();
+        GameEvents.TriggerWokeFromCollapse();
     }
 
     private void PlaceWakingPlayer(SaveData data)
     {
-        PlayerMovement player = FindAnyObjectByType<PlayerMovement>();
-        if (player == null) return;
-
         CheckpointSpawn spawn = wakeUpPoint != null ? wakeUpPoint : FindAnyObjectByType<CheckpointSpawn>();
-        Vector3 position = spawn != null ? spawn.transform.position : data.playerPosition;
-        Quaternion rotation = spawn != null ? Quaternion.Euler(0f, spawn.transform.eulerAngles.y, 0f) : data.playerRotation;
-
-        if (player.TryGetComponent(out Rigidbody body))
-        {
-            body.position = position;
-            body.rotation = rotation;
-            body.linearVelocity = Vector3.zero;
-            body.angularVelocity = Vector3.zero;
-        }
-        player.transform.SetPositionAndRotation(position, rotation);
-
-        // A câmera do jogador é controlada pelo Pan/Tilt do Cinemachine, não pela rotação do corpo
-        FindAnyObjectByType<PlayerInteractor>()?.SetLookRotation(rotation.eulerAngles.y, 0f);
+        if (spawn != null)
+            PlayerTeleport.To(spawn.transform);
+        else
+            PlayerTeleport.To(data.playerPosition, data.playerRotation);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

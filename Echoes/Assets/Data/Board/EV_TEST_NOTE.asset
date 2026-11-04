@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94a0d8d9cbc342499ac0b0164654b2b, type: 3}
+  m_Name: EV_TEST_NOTE
+  m_EditorClassIdentifier: Assembly-CSharp::Evidence
+  title:
+    m_TableReference:
+      m_TableCollectionName: evidence
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: EV_TEST_NOTE
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  details:
+    m_TableReference:
+      m_TableCollectionName: evidence
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: EV_TEST_NOTE_TEXT
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  date: 14.03.1995
+  place:
+    m_TableReference:
+      m_TableCollectionName: evidence
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: EV_TEST_NOTE_PLACE
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  photo: {fileID: 0}
+  boardPosition: {x: 0.68, y: 0.36}
+  references:
+    version: 2
+    RefIds: []

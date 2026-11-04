@@ -293,6 +293,11 @@ public class DeathManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Escurece a tela até o preto (apagões, tempo perdido). Use com yield return.
+    /// </summary>
+    public IEnumerator FadeToBlack() => FadeToBlackCoroutine();
+
+    /// <summary>
     /// Clareia a tela a partir do preto, quando Ethan acorda num checkpoint.
     /// </summary>
     public void PlayWakeUpFade()

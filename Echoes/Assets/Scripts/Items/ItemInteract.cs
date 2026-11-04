@@ -82,6 +82,11 @@ public class ItemInteract : MonoBehaviour, IInteractable
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Transform originalParent;
+
+    // Tremor das mãos aplicado no frame anterior (desfeito antes de aplicar o próximo)
+    private Vector3 appliedTremorPosition;
+    private Quaternion appliedTremorRotation = Quaternion.identity;
+    private float tremorSeed;
     
     // Sistema de áudio FMOD seguindo padrão do projeto
     private FMODAudioTrigger audioTrigger;
@@ -300,6 +305,10 @@ public class ItemInteract : MonoBehaviour, IInteractable
     private void StartInspection()
     {
         isInspecting = true;
+        appliedTremorPosition = Vector3.zero;
+        appliedTremorRotation = Quaternion.identity;
+        tremorSeed = Random.Range(0f, 100f);
+        GameEvents.TriggerItemExamined(this);
         playerInteractor.SetInspectionMode(true);
 
         originalPosition = transform.position;
@@ -344,10 +353,32 @@ public class ItemInteract : MonoBehaviour, IInteractable
         // Toca o som de soltura (com delay de 0.5s)
         PlayDropSound();
 
+        RemoveHandTremor();
+
         if (activeTransition != null) StopCoroutine(activeTransition);
         activeTransition = StartCoroutine(MoveToTarget(originalPosition, originalRotation, true));
         
         HideInspectionPanel();
+    }
+
+    // Com a sanidade baixa, o item treme na mão de Ethan
+    private void LateUpdate()
+    {
+        if (!isInspecting || activeTransition != null) return;
+
+        HandTremor.Sample(tremorSeed, out Vector3 position, out Quaternion rotation);
+        transform.position += position - appliedTremorPosition;
+        transform.rotation = rotation * Quaternion.Inverse(appliedTremorRotation) * transform.rotation;
+        appliedTremorPosition = position;
+        appliedTremorRotation = rotation;
+    }
+
+    private void RemoveHandTremor()
+    {
+        transform.position -= appliedTremorPosition;
+        transform.rotation = Quaternion.Inverse(appliedTremorRotation) * transform.rotation;
+        appliedTremorPosition = Vector3.zero;
+        appliedTremorRotation = Quaternion.identity;
     }
 
     private void ShowInspectionPanel()

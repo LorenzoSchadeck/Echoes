@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13d28ed448eac954598402751b7503b1
+    m_Address: Assets/Languages/evidence Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5373a4b41a2689f448d773f15860e4e2
     m_Address: Assets/Idiomas/items Shared Data.asset
     m_ReadOnly: 1
@@ -62,6 +67,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b094697b7ba97884f852066b7a7ff5fc
     m_Address: Assets/Languages/subtitles Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da29c9c5130db064a82c8feeb2b842a3
+    m_Address: Assets/Languages/inner_voice Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

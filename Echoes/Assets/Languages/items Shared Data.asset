@@ -133,6 +133,14 @@ MonoBehaviour:
     m_Key: ITEM_DESC_BOX
     m_Metadata:
       m_Items: []
+  - m_Id: 153929297239515136
+    m_Key: ITEM_NEIGHBOR_NOTE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153929297386315776
+    m_Key: ITEM_NEIGHBOR_NOTE_DESC
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

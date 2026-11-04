@@ -191,6 +191,18 @@ public static class GameEvents
     public static event Action OnRadioPaperTrigger;
     public static void TriggerRadioPaperTrigger() => OnRadioPaperTrigger?.Invoke();
     
+    // O jogador começou a examinar um item (inspeção)
+    public static event Action<ItemInteract> OnItemExamined;
+    public static void TriggerItemExamined(ItemInteract item) => OnItemExamined?.Invoke(item);
+
+    // Ethan acordou num checkpoint depois de um colapso
+    public static event Action OnWokeFromCollapse;
+    public static void TriggerWokeFromCollapse() => OnWokeFromCollapse?.Invoke();
+
+    // Ethan perdeu tempo (dissociação): envia os minutos perdidos
+    public static event Action<float> OnLostTime;
+    public static void TriggerLostTime(float minutes) => OnLostTime?.Invoke(minutes);
+
     // Evento para reset completo de todos os sistemas quando a cena é resetada
     public static event Action OnSceneReset;
     public static void TriggerSceneReset() => OnSceneReset?.Invoke();

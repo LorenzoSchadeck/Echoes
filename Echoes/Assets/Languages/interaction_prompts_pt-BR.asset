@@ -89,6 +89,10 @@ MonoBehaviour:
     m_Localized: (E) Pegar
     m_Metadata:
       m_Items: []
+  - m_Id: 153647513440395264
+    m_Localized: (E) Ver o mural
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
