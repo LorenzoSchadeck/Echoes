@@ -180,8 +180,17 @@ public static class GameOptions
         else
             Screen.fullScreenMode = current.fullScreenMode;
 
-        if (current.qualityLevel >= 0 && current.qualityLevel < QualitySettings.names.Length && current.qualityLevel != QualitySettings.GetQualityLevel())
-            QualitySettings.SetQualityLevel(current.qualityLevel, true);
+        int quality = current.qualityLevel >= 0 ? current.qualityLevel : QualityForHardware();
+        if (quality < QualitySettings.names.Length && quality != QualitySettings.GetQualityLevel())
+            QualitySettings.SetQualityLevel(quality, true);
+    }
+
+    // Enquanto o jogador não escolhe, a qualidade segue a memória da placa de vídeo: Baixa, Média ou Alta
+    private static int QualityForHardware()
+    {
+        int vram = SystemInfo.graphicsMemorySize;
+        int level = vram < 2500 ? 0 : vram < 5000 ? 1 : 2;
+        return Mathf.Min(level, QualitySettings.names.Length - 1);
     }
 
     // Brilho = gamma de um Volume global próprio, com prioridade acima dos volumes da cena

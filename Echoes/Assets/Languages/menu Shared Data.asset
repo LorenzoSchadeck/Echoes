@@ -211,6 +211,18 @@ MonoBehaviour:
     m_Key: M_BOARD_CLOSE
     m_Metadata:
       m_Items: []
+  - m_Id: 142421101056401408
+    m_Key: M_QUALITY_0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142421101119315968
+    m_Key: M_QUALITY_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142421101119315969
+    m_Key: M_QUALITY_2
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
