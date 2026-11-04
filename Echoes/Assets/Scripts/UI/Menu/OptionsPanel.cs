@@ -189,7 +189,8 @@ public class OptionsPanel
 
     private void RefreshQuality(GameOptionsData options)
     {
-        qualityDropdown.choices = QualitySettings.names.ToList();
+        // Os níveis se chamam Low/Medium/High no projeto; o jogador vê o nome traduzido
+        qualityDropdown.choices = QualitySettings.names.Select((_, i) => MenuText.Get("M_QUALITY_" + i)).ToList();
         int current = options.qualityLevel >= 0 ? options.qualityLevel : QualitySettings.GetQualityLevel();
         qualityDropdown.SetValueWithoutNotify(qualityDropdown.choices[Mathf.Clamp(current, 0, qualityDropdown.choices.Count - 1)]);
     }
