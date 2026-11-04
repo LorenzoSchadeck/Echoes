@@ -9,16 +9,9 @@ using UnityEngine.Localization;
 /// </summary>
 public class RadioSubtitleManager : MonoBehaviour
 {
-    [Header("UI References")]
-    [Tooltip("TextMeshProUGUI onde as legendas serão exibidas (pode ser o mesmo do SimpleItemDisplay)")]
-    [SerializeField] private TextMeshProUGUI subtitleText;
-    
-    [Tooltip("TextMeshProUGUI onde o nome do falante será exibido (opcional - deixe em branco se não quiser usar)")]
-    [SerializeField] private TextMeshProUGUI speakerNameText;
-
-    // Tamanhos originais, para aplicar a opção de tamanho das legendas
-    private float baseSubtitleSize;
-    private float baseSpeakerSize;
+    // Legenda e nome de quem fala no HUD (UI Toolkit), as mesmas do SimpleItemDisplay
+    private static HudElement subtitleText => GameHud.Subtitle;
+    private static HudElement speakerNameText => GameHud.Speaker;
     
     [Header("Controle de Conflitos")]
     [Tooltip("Se verdadeiro, desabilita interação com SimpleItemDisplay enquanto legendas estão ativas")]
@@ -54,14 +47,6 @@ public class RadioSubtitleManager : MonoBehaviour
     
     private void Awake()
     {
-        // Valida componentes essenciais
-        if (subtitleText == null)
-        {
-            Debug.LogError("RadioSubtitleManager: subtitleText não está configurado!", this);
-            enabled = false;
-            return;
-        }
-        
         // IMPORTANTE: Texto inicia DESABILITADO - só ativa quando necessário
         subtitleText.enabled = false;
         subtitleText.text = "";
@@ -81,22 +66,6 @@ public class RadioSubtitleManager : MonoBehaviour
     {
         // Valida dados das legendas
         ValidateSubtitleData();
-
-        baseSubtitleSize = SubtitleScaling.BaseSize(subtitleText);
-        baseSpeakerSize = SubtitleScaling.BaseSize(speakerNameText);
-        ApplySubtitleScale();
-        GameOptions.Changed += ApplySubtitleScale;
-    }
-
-    private void OnDestroy()
-    {
-        GameOptions.Changed -= ApplySubtitleScale;
-    }
-
-    private void ApplySubtitleScale()
-    {
-        SubtitleScaling.Apply(subtitleText, baseSubtitleSize);
-        SubtitleScaling.Apply(speakerNameText, baseSpeakerSize);
     }
     
     /// <summary>

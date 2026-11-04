@@ -93,6 +93,22 @@ MonoBehaviour:
     m_Localized: (E) Look at the board
     m_Metadata:
       m_Items: []
+  - m_Id: 153961596177915904
+    m_Localized: (Locked) Find the key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773504
+    m_Localized: Open the wardrobe doors first
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773505
+    m_Localized: Close the drawers first
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773506
+    m_Localized: (E) Turn
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

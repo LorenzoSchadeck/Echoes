@@ -66,12 +66,12 @@ public class CabinetDoor : MonoBehaviour, IInteractable, ISaveable
             
             // Verifica se gavetas estão fechadas
             if (!AreRequiredDrawersClosed())
-                return drawersOpenPrompt?.GetLocalizedString() ?? "Feche as gavetas primeiro";
+                return InteractionText.Get(drawersOpenPrompt, "PROMPT_CLOSE_DRAWERS_FIRST");
             
             if (isOpen)
-                return closePrompt?.GetLocalizedString() ?? "Fechar";
+                return InteractionText.Get(closePrompt, "PROMPT_CLOSE");
             else
-                return openPrompt?.GetLocalizedString() ?? "Abrir";
+                return InteractionText.Get(openPrompt, "PROMPT_OPEN");
         }
     }
     

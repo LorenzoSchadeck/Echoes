@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unity.Cinemachine;
 using UnityEditor;
 using UnityEditor.Localization;
 using UnityEditor.SceneManagement;
@@ -24,7 +22,6 @@ public static class MenuSetupTools
     private const string PanelSettingsPath = UiFolder + "/EchoesPanelSettings.asset";
     private const string ThemePath = UiFolder + "/EchoesTheme.tss";
     private const string MainMenuUxmlPath = UiFolder + "/MainMenu.uxml";
-    private const string PauseMenuUxmlPath = UiFolder + "/PauseMenu.uxml";
     private const string PreLoadScenePath = "Assets/Scenes/PreLoad.unity";
     private const string MenuScenePath = "Assets/Scenes/Menu.unity";
     private const string GameScenePath = "Assets/Scenes/Game.unity";
@@ -132,79 +129,6 @@ public static class MenuSetupTools
         PointPreLoadToMenu();
     }
 
-    [MenuItem(MenuRoot + "3. Trocar menu diegético por pausa (cena aberta)")]
-    private static void ConvertGameScene()
-    {
-        Scene scene = SceneManager.GetActiveScene();
-        if (scene.path != GameScenePath)
-        {
-            Debug.LogError($"[MenuSetupTools] Abra {GameScenePath} como cena ativa antes de rodar esta etapa.");
-            return;
-        }
-
-        int undoGroup = Undo.GetCurrentGroup();
-        Undo.SetCurrentGroupName("Trocar menu diegético por pausa");
-
-        MenuUIManager oldMenu = Object.FindAnyObjectByType<MenuUIManager>(FindObjectsInactive.Include);
-        var oldMenuData = oldMenu != null ? new SerializedObject(oldMenu) : null;
-        var playerCamera = oldMenuData?.FindProperty("playerCamera").objectReferenceValue as CinemachineCamera;
-        var menuCamera = oldMenuData?.FindProperty("menuCamera").objectReferenceValue as CinemachineCamera;
-        var lookController = oldMenuData?.FindProperty("customInputAxisController").objectReferenceValue as CustomInputAxisController;
-        var crosshair = oldMenuData?.FindProperty("crosshairObject").objectReferenceValue as GameObject;
-
-        // Inicia o jogo direto, sem passar pelo menu da cena
-        if (Object.FindAnyObjectByType<GameplayStarter>(FindObjectsInactive.Include) == null)
-        {
-            GameObject starter = CreateChild(scene, "GameplayStarter", "_Systems");
-            var starterData = new SerializedObject(Undo.AddComponent<GameplayStarter>(starter));
-            starterData.FindProperty("playerCamera").objectReferenceValue = playerCamera;
-            starterData.FindProperty("lookController").objectReferenceValue = lookController;
-            starterData.FindProperty("crosshair").objectReferenceValue = crosshair;
-            SerializedProperty lowered = starterData.FindProperty("camerasToLower");
-            lowered.arraySize = menuCamera != null ? 1 : 0;
-            if (menuCamera != null) lowered.GetArrayElementAtIndex(0).objectReferenceValue = menuCamera;
-            starterData.ApplyModifiedPropertiesWithoutUndo();
-        }
-
-        // Menu de pausa em UI Toolkit
-        if (Object.FindAnyObjectByType<PauseMenuController>(FindObjectsInactive.Include) == null)
-        {
-            GameObject pause = CreateChild(scene, "PauseMenu", "UI");
-            var document = Undo.AddComponent<UIDocument>(pause);
-            document.panelSettings = EnsurePanelSettings();
-            document.visualTreeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(PauseMenuUxmlPath);
-            document.sortingOrder = 100;
-
-            var pauseData = new SerializedObject(Undo.AddComponent<PauseMenuController>(pause));
-            pauseData.FindProperty("lookController").objectReferenceValue = lookController;
-            pauseData.ApplyModifiedPropertiesWithoutUndo();
-        }
-
-        // O menu diegético sai de cena: desativado (não apagado) para poder voltar com Ctrl+Z ou à mão
-        var disabled = new List<string>();
-        if (oldMenu != null && oldMenu.gameObject.activeSelf)
-        {
-            Undo.RecordObject(oldMenu.gameObject, "Desativar menu diegético");
-            oldMenu.gameObject.SetActive(false);
-            disabled.Add(oldMenu.name);
-        }
-        if (menuCamera != null && menuCamera.gameObject.activeSelf)
-        {
-            Undo.RecordObject(menuCamera.gameObject, "Desativar câmera do menu");
-            menuCamera.gameObject.SetActive(false);
-            disabled.Add(menuCamera.name);
-        }
-        foreach (MenuInteractable interactable in Object.FindObjectsByType<MenuInteractable>(FindObjectsInactive.Include))
-        {
-            disabled.Add($"{interactable.name} (componente MenuInteractable removido)");
-            Undo.DestroyObjectImmediate(interactable);
-        }
-
-        EditorSceneManager.MarkSceneDirty(scene);
-        Undo.CollapseUndoOperations(undoGroup);
-        Debug.Log($"[MenuSetupTools] Cena Game: GameplayStarter e PauseMenu prontos. Desativados: {string.Join(", ", disabled)}. Salve a cena.");
-    }
-
     private static PanelSettings EnsurePanelSettings()
     {
         var panelSettings = AssetDatabase.LoadAssetAtPath<PanelSettings>(PanelSettingsPath);
@@ -250,16 +174,5 @@ public static class MenuSetupTools
         }
 
         if (!wasOpen && SceneManager.sceneCount > 1) EditorSceneManager.CloseScene(preLoad, true);
-    }
-
-    private static GameObject CreateChild(Scene scene, string name, string groupName)
-    {
-        var go = new GameObject(name);
-        Undo.RegisterCreatedObjectUndo(go, name);
-        SceneManager.MoveGameObjectToScene(go, scene);
-
-        GameObject group = scene.GetRootGameObjects().FirstOrDefault(root => root.name == groupName);
-        if (group != null) Undo.SetTransformParent(go.transform, group.transform, false, name);
-        return go;
     }
 }

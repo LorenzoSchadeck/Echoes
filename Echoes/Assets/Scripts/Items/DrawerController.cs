@@ -99,16 +99,16 @@ public class DrawerController : MonoBehaviour, IInteractable, ISaveable
             
             // Verifica se a gaveta está trancada
             if (!isOpen && IsLocked())
-                return lockedPrompt?.GetLocalizedString() ?? "Trancado - Encontre a chave";
+                return InteractionText.Get(lockedPrompt, "PROMPT_LOCKED_FIND_KEY");
             
             // Verifica se as portas necessárias estão abertas
             if (!AreRequiredDoorsOpen())
-                return doorsClosedPrompt?.GetLocalizedString() ?? "Abra as portas do guarda-roupa primeiro";
+                return InteractionText.Get(doorsClosedPrompt, "PROMPT_OPEN_WARDROBE_FIRST");
             
             if (isOpen)
-                return closePrompt?.GetLocalizedString() ?? "Fechar Gaveta";
+                return InteractionText.Get(closePrompt, "PROMPT_CLOSE");
             else
-                return openPrompt?.GetLocalizedString() ?? "Abrir Gaveta";
+                return InteractionText.Get(openPrompt, "PROMPT_OPEN");
         }
     }
     

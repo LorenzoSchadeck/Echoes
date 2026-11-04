@@ -20,9 +20,10 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
     [Tooltip("Distância máxima em que este item pode ser interagido")]
     [SerializeField] private float interactionDistance = 2f;
     
+    // O texto aparece na linha de legendas do HUD (UI Toolkit)
+    private static HudElement displayText => GameHud.Subtitle;
+
     [Header("Display Settings")]
-    [Tooltip("O TextMeshProUGUI que será ativado para exibir o texto.")]
-    [SerializeField] private TextMeshProUGUI displayText;
     [Tooltip("Se verdadeiro, permite múltiplas interações. Se falso, só pode ser usado uma vez.")]
     [SerializeField] private bool canInteractMultipleTimes = true;
 
@@ -60,7 +61,7 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
 
             // Se chegou aqui, o jogador está olhando e pode interagir
             wasBeingLookedAt = true;
-            return promptString?.GetLocalizedString() ?? "Interagir";
+            return InteractionText.Get(promptString, "PROMPT_CHOIR_SOL");
         }
     }
     
@@ -81,12 +82,6 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         // Verifica se já está exibindo texto
         if (isDisplayActive)
             return false;
-
-        // Verifica se tem o componente de texto
-        if (displayText == null)
-        {
-            return false;
-        }
 
         // Executa a interação
         ShowDisplayText();
@@ -127,7 +122,7 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
     private void ShowDisplayText()
     {
         // Obtém o texto localizado
-        string textToDisplay = displayTextString?.GetLocalizedString() ?? "Texto não configurado";
+        string textToDisplay = InteractionText.Get(displayTextString, null);
         
         // ATIVA o componente e configura o texto
         displayText.enabled = true;
@@ -143,12 +138,8 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
     {
         if (!isDisplayActive) return;
 
-        // DESATIVA o componente completamente
-        if (displayText != null)
-        {
-            displayText.enabled = false;
-            displayText.text = "";
-        }
+        displayText.enabled = false;
+        displayText.text = "";
         
         isDisplayActive = false;
 
@@ -164,12 +155,6 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         // Configurações padrão quando o componente é adicionado
         canInteractMultipleTimes = true;
         interactionDistance = 2f;
-        
-        // Tenta encontrar automaticamente um TextMeshProUGUI no mesmo GameObject
-        if (displayText == null)
-        {
-            displayText = GetComponent<TextMeshProUGUI>();
-        }
     }
 
     #if UNITY_EDITOR

@@ -1,0 +1,67 @@
+/* Tela de avisos e contexto antes do menu (cena PreLoad). Referência 1920x1080. */
+
+.warning-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0, 0, 0);
+}
+
+.warning-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+}
+
+.warning-text {
+    position: absolute;
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    color: rgb(233, 233, 233);
+    white-space: normal;
+    -unity-text-align: upper-center;
+    padding: 0;
+    margin: 0;
+}
+
+.warning-title {
+    left: 19.3%;
+    right: 19.3%;
+    top: 20.3%;
+    font-size: 36px;
+}
+
+.warning-body {
+    left: 19.7%;
+    right: 19.7%;
+    top: 29.5%;
+    font-size: 28px;
+}
+
+/* Painéis de contexto, sem título: o texto sobe para o lugar do título */
+.warning-body--no-title {
+    top: 21.2%;
+}
+
+.warning-spinner {
+    position: absolute;
+    right: 90px;
+    bottom: 80px;
+    width: 100px;
+    height: 100px;
+    -unity-background-image-tint-color: rgb(135, 135, 135);
+    opacity: 0;
+}
+
+.warning-skip {
+    left: 32.9%;
+    right: 32.9%;
+    top: 90.7%;
+    font-size: 36px;
+    color: rgb(255, 255, 255);
+    display: none;
+}

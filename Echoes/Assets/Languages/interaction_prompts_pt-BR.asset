@@ -93,6 +93,22 @@ MonoBehaviour:
     m_Localized: (E) Ver o mural
     m_Metadata:
       m_Items: []
+  - m_Id: 153961596177915904
+    m_Localized: (Trancada) Encontre a chave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773504
+    m_Localized: Abra as portas do guarda-roupa primeiro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773505
+    m_Localized: Feche as gavetas primeiro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153961596282773506
+    m_Localized: (E) Girar
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

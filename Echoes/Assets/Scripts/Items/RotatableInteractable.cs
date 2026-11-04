@@ -57,14 +57,7 @@ public class RotatableInteractable : MonoBehaviour, IInteractable, ISaveable
                 return string.Empty;
             }
                 
-            try
-            {
-                return interactionPrompt.GetLocalizedString();
-            }
-            catch
-            {
-                return "Rotacionar"; // Fallback text
-            }
+            return InteractionText.Get(interactionPrompt, "PROMPT_ROTATE");
         } 
     }
     

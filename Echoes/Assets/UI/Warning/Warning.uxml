@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="Warning.uss" />
+    <ui:VisualElement name="root" class="warning-screen" picking-mode="Ignore">
+        <ui:VisualElement name="panel" class="warning-panel" picking-mode="Ignore">
+            <ui:Label name="title" class="warning-text warning-title" picking-mode="Ignore" />
+            <ui:Label name="body" class="warning-text warning-body" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <ui:VisualElement name="spinner" class="warning-spinner" picking-mode="Ignore" />
+        <ui:Label name="skip" class="warning-text warning-skip" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

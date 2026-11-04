@@ -11,8 +11,8 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private LayerMask interactLayer;
     [SerializeField] private Transform cameraTransform;
 
-    [Header("UI")]
-    [SerializeField] private TextMeshProUGUI interactionText;
+    // Prompt de interação no HUD (UI Toolkit)
+    private static HudElement interactionText => GameHud.Prompt;
 
     [Header("Cinemachine")]
     [Tooltip("O GameObject da Cinemachine Camera do jogador.")]
