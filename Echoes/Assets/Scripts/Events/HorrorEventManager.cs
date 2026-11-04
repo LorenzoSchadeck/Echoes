@@ -13,8 +13,22 @@ public class HorrorEventManager : MonoBehaviour
     [SerializeField] private List<HorrorEvent> eventLibrary;
 
     [Header("Trigger Logic")]
-    [Tooltip("Intervalo em segundos entre cada rolagem (0 ou 1) para eventos.")]
+    [Tooltip("Intervalo em segundos entre cada rolagem de evento.")]
     [SerializeField] private float checkInterval = 20.0f;
+
+    [Header("Diretor de eventos")]
+    [Tooltip("Chance de evento por rolagem com a sanidade cheia.")]
+    [SerializeField, Range(0f, 1f)] private float chanceAtFullSanity = 0.3f;
+    [Tooltip("Chance de evento por rolagem com a sanidade em zero.")]
+    [SerializeField, Range(0f, 1f)] private float chanceAtZeroSanity = 0.8f;
+    [Tooltip("Abaixo desta sanidade, eventos de Angústia (nível 2) são liberados.")]
+    [SerializeField, Range(0f, 1f)] private float tier2Sanity = 0.7f;
+    [Tooltip("Abaixo desta sanidade, eventos de Colapso (nível 3) são liberados.")]
+    [SerializeField, Range(0f, 1f)] private float tier3Sanity = 0.4f;
+    [Tooltip("Tensão acumulada (soma dos níveis dos eventos recentes) que inicia um período de alívio sem eventos.")]
+    [SerializeField] private float maxTension = 4f;
+    [Tooltip("Quanto a tensão cai por segundo.")]
+    [SerializeField] private float tensionDecayPerSecond = 0.03f;
     
     [Header("Anti-Repetition System")]
     [Tooltip("Quantos eventos diferentes devem tocar antes de poder repetir o mesmo.")]
@@ -22,6 +36,8 @@ public class HorrorEventManager : MonoBehaviour
     
     private bool isInFlashback = false;
     private Queue<HorrorEventType> recentEvents = new Queue<HorrorEventType>();
+    private float sanity = 1f;
+    private float tension;
 
     private void Awake()
     {
@@ -34,13 +50,17 @@ public class HorrorEventManager : MonoBehaviour
         GameEvents.OnFlashbackStarted += OnFlashbackStart;
         GameEvents.OnFlashbackEnded += OnFlashbackEnd;
         GameEvents.OnSceneReset += HandleSceneReset;
+        InsanityManager.OnSanityChanged += HandleSanityChanged;
     }
+
+    private void HandleSanityChanged(float value) => sanity = value;
 
     private void OnDisable()
     {
         GameEvents.OnFlashbackStarted -= OnFlashbackStart;
         GameEvents.OnFlashbackEnded -= OnFlashbackEnd;
         GameEvents.OnSceneReset -= HandleSceneReset;
+        InsanityManager.OnSanityChanged -= HandleSanityChanged;
     }
 
     private void Start()
@@ -78,6 +98,7 @@ public class HorrorEventManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(checkInterval);
+            tension = Mathf.Max(0f, tension - tensionDecayPerSecond * checkInterval);
             TryTriggerEvent();
         }
     }
@@ -108,16 +129,37 @@ public class HorrorEventManager : MonoBehaviour
             return;
         }
 
-        // Rolagem com 60% de chance de SIM (0-5) e 40% de NÃO (6-9)
-        int roll = Random.Range(0, 10);
-        bool eventTriggered = roll <= 5; // 0,1,2,3,4,5 = SIM (60%)
-        
-        Debug.Log($"[HorrorEventManager] Rolagem de evento: {roll} {(eventTriggered ? "(SIM - Evento será tocado)" : "(NÃO - Nenhum evento)")} [60% chance]");
-        
+        // 4. ALÍVIO: tensão alta demais, o jogador ganha um respiro antes do próximo pico
+        if (tension >= maxTension)
+        {
+            Debug.Log($"[HorrorEventManager] Período de alívio (tensão {tension:F1}/{maxTension})");
+            return;
+        }
+
+        // Quanto menor a sanidade, maior a chance de evento
+        float chance = Mathf.Lerp(chanceAtZeroSanity, chanceAtFullSanity, sanity);
+        bool eventTriggered = Random.value < chance;
+        Debug.Log($"[HorrorEventManager] Rolagem: {(eventTriggered ? "SIM" : "NÃO")} (chance {chance:P0}, sanidade {sanity:F2}, tensão {tension:F1}, nível máx. {MaxAllowedTier()})");
+
         if (eventTriggered)
         {
             TriggerRandomEvent();
         }
+    }
+
+    /// <summary>
+    /// Nível de evento mais intenso permitido agora: limitado pela sanidade e pelo ato.
+    /// </summary>
+    private int MaxAllowedTier()
+    {
+        int bySanity = sanity < tier3Sanity ? 3 : sanity < tier2Sanity ? 2 : 1;
+        int byAct = GameFlow.Current switch
+        {
+            GameAct.Investigation => 2, // Ato 1: no máximo Angústia
+            GameAct.Ending => 0,
+            _ => 3,
+        };
+        return Mathf.Min(bySanity, byAct);
     }
     
     /// <summary>
@@ -169,22 +211,26 @@ public class HorrorEventManager : MonoBehaviour
             return;
         }
 
-        // 1. Filtra eventos que NÃO estão no buffer de repetição recente
-        List<HorrorEvent> availableEvents = eventLibrary
+        // 1. Só eventos do nível permitido agora, fora do buffer de repetição recente
+        int maxTier = MaxAllowedTier();
+        List<HorrorEvent> allowedEvents = eventLibrary
+            .Where(evt => HorrorEventTiers.TierOf(evt.type) <= maxTier)
+            .ToList();
+        List<HorrorEvent> availableEvents = allowedEvents
             .Where(evt => !recentEvents.Contains(evt.type))
             .ToList();
 
-        // 2. Se não há eventos disponíveis (todos foram usados recentemente), usa todos
+        // 2. Se todos os permitidos foram usados recentemente, libera a repetição
         if (availableEvents.Count == 0)
         {
-            Debug.Log("[HorrorEventManager] Todos os eventos foram usados recentemente, resetando buffer");
+            Debug.Log("[HorrorEventManager] Todos os eventos permitidos foram usados recentemente, resetando buffer");
             recentEvents.Clear();
-            availableEvents = new List<HorrorEvent>(eventLibrary);
+            availableEvents = allowedEvents;
         }
 
         if (availableEvents.Count == 0) 
         {
-            Debug.LogWarning("[HorrorEventManager] Nenhum evento configurado na biblioteca!");
+            Debug.LogWarning($"[HorrorEventManager] Nenhum evento de nível até {maxTier} na biblioteca!");
             return;
         }
 
@@ -201,7 +247,8 @@ public class HorrorEventManager : MonoBehaviour
         Debug.Log($"[HorrorEventManager] Evento selecionado: {selectedEvent.eventName} (Tipo: {selectedEvent.type})");
         Debug.Log($"[HorrorEventManager] Buffer atual: [{string.Join(", ", recentEvents)}]");
 
-        // 5. Executa o evento selecionado
+        // 5. Executa o evento selecionado e soma a tensão do seu nível
+        tension += HorrorEventTiers.TierOf(selectedEvent.type);
         ExecuteEvent(selectedEvent);
     }
 
@@ -278,8 +325,9 @@ public class HorrorEventManager : MonoBehaviour
     {
         Debug.Log("[HorrorEventManager] 🔄 Limpando buffer de eventos recentes");
         
-        // Limpa o buffer de eventos recentes
+        // Limpa o buffer de eventos recentes e a tensão acumulada
         recentEvents.Clear();
+        tension = 0f;
         
         // Reseta flag de flashback
         isInFlashback = false;

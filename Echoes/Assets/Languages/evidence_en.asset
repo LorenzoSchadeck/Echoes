@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: evidence_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 13d28ed448eac954598402751b7503b1, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 1262264320
+    m_Localized: 'Clipping: third victim'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539008
+    m_Localized: Woman found dead on Halley Street. Police have no suspects.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539009
+    m_Localized: Halley Street
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539010
+    m_Localized: Neighbor's note
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539011
+    m_Localized: It slid under the door. A shopping list; an address on the back.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539012
+    m_Localized: 41 Halley Street
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539013
+    m_Localized: Prescription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539014
+    m_Localized: 'Diazepam, 10 mg. Patient: E. Myers. The doctor''s signature is smudged.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539015
+    m_Localized: St. Luke's Clinic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539016
+    m_Localized: The neighbor was on Halley Street the day of the third murder.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539017
+    m_Localized: I knew it. I knew it was him.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1354539018
+    m_Localized: This goes on the board.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

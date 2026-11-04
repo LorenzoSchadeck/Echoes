@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Portuguese (Brazil) (pt-BR)
   m_GUID: e2d38bb6b47350649847d68387f886b9
   m_SerializeEntries:
+  - m_GUID: 04d2ad3d9206a5045b2a25323378b0a2
+    m_Address: evidence_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1808bec121fd04c408896b66db9b1713
     m_Address: track_2_pt-BR
     m_ReadOnly: 1
@@ -71,6 +77,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e1903e15726e53d4db2a13483b89da21
     m_Address: speaker_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e48e6c5e12ebf7744b52b08987ea541a
+    m_Address: inner_voice_pt-BR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt-BR

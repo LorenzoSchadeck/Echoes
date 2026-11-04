@@ -393,6 +393,19 @@ public class DoorController : MonoBehaviour, IInteractable, ISaveable
         pivot.localRotation = saved.pivotLocalRotation;
     }
 
+    /// <summary>
+    /// Deixa a porta aberta na hora, sem animação nem som (ex.: depois de um apagão).
+    /// </summary>
+    public void OpenImmediately()
+    {
+        StopAllCoroutines();
+        isMoving = false;
+        if (currentState == DoorState.Locked) currentState = DoorState.Unlocked;
+        float direction = openToPositiveSide ? 1f : -1f;
+        pivot.rotation = initialRotation * Quaternion.Euler(0, 0, fullOpenAngle * direction);
+        isOpen = true;
+    }
+
     public void LockDoor() { currentState = DoorState.Locked; }
     public void UnlockDoor() { currentState = DoorState.Unlocked; }
     public void JamDoor() { currentState = DoorState.Jammed; }

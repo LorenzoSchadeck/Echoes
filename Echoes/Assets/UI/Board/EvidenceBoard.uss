@@ -1,0 +1,144 @@
+/* Mural de investigação. Usa as cores e a fonte do Menu.uss. */
+
+.board-screen {
+    flex-direction: row;
+    padding: 4% 4% 4% 4%;
+    background-color: rgba(0, 0, 0, 0.88);
+}
+
+/* Cortiça com moldura (já na imagem). Esticada, não cortada, para a moldura nunca sumir */
+.board {
+    flex-grow: 1;
+    background-color: rgb(84, 64, 44);
+    background-image: url("project://database/Assets/UI/Board/mural_cortica.png");
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+.cards,
+.strings {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.board-empty {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 18px;
+    color: rgba(230, 224, 212, 0.55);
+    -unity-text-align: middle-center;
+    flex-grow: 1;
+    white-space: normal;
+}
+
+/* Cartão: posição vem do código (left/top em %), centralizado no ponto */
+.card {
+    position: absolute;
+    width: 180px;
+    translate: -50% -50%;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px 12px 12px 12px;
+    margin: 0;
+    background-color: rgb(222, 214, 196);
+    border-width: 0;
+    border-radius: 0;
+}
+
+.card:hover,
+.nav-keyboard .card:focus {
+    background-color: rgb(238, 232, 218);
+}
+
+.card--selected,
+.card--selected:hover {
+    background-color: rgb(238, 232, 218);
+    border-width: 3px;
+    border-color: rgb(142, 43, 43);
+}
+
+.card__photo {
+    height: 110px;
+    margin-bottom: 8px;
+    background-color: rgb(30, 28, 26);
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.card__title {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 15px;
+    color: rgb(32, 28, 24);
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.card__meta {
+    font-size: 12px;
+    color: rgb(96, 84, 72);
+    white-space: normal;
+    margin: 6px 0 0 0;
+    padding: 0;
+}
+
+/* ---------- Lateral ---------- */
+
+.board-side {
+    width: 30%;
+    min-width: 320px;
+    margin-left: 32px;
+}
+
+.board-heading {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 22px;
+    color: rgb(230, 224, 212);
+    white-space: normal;
+    margin: 0;
+}
+
+.board-meta {
+    font-size: 13px;
+    color: rgba(230, 224, 212, 0.5);
+    margin: 4px 0 0 0;
+}
+
+.board-text {
+    font-size: 15px;
+    color: rgb(216, 210, 196);
+    white-space: normal;
+    margin: 12px 0 0 0;
+    min-height: 80px;
+}
+
+.board-section {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 16px;
+    color: rgba(230, 224, 212, 0.6);
+    margin: 28px 0 8px 0;
+}
+
+.board-conclusions {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.board-conclusion {
+    font-size: 14px;
+    color: rgb(216, 210, 196);
+    white-space: normal;
+    margin: 0 0 10px 0;
+    padding-left: 10px;
+    border-left-width: 2px;
+    border-left-color: rgb(142, 43, 43);
+}
+
+.board-status {
+    font-size: 14px;
+    -unity-font-style: italic;
+    color: rgb(230, 224, 212);
+    white-space: normal;
+    min-height: 40px;
+    margin: 12px 0;
+}

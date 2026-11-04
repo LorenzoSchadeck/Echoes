@@ -78,8 +78,8 @@ public class PauseMenuController : MonoBehaviour
         }
     }
 
-    // Não pausa enquanto um checkpoint está sendo carregado
-    private static bool CanPause() => !CheckpointManager.IsRestoring;
+    // Não pausa enquanto um checkpoint carrega, durante um apagão nem com o mural aberto (Esc fecha o mural)
+    private static bool CanPause() => !CheckpointManager.IsRestoring && !LostTimeEvent.IsActive && !EvidenceBoardUI.BlocksPause;
 
     private void Pause()
     {

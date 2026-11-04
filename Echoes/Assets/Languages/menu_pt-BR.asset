@@ -178,6 +178,42 @@ MonoBehaviour:
     m_Localized: "Restaurar padr\xF5es"
     m_Metadata:
       m_Items: []
+  - m_Id: 142113162315735040
+    m_Localized: Mural
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142113162470924288
+    m_Localized: Nada no mural ainda. Examine o apartamento.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142113162470924289
+    m_Localized: "Escolha duas pistas para lig\xE1-las. S\xF3 vale se data e lugar baterem."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142113162470924290
+    m_Localized: Ligar com qual?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142113162470924291
+    m_Localized: "N\xE3o bate. A data ou o lugar n\xE3o fecham."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142113162470924292
+    m_Localized: "Essas duas j\xE1 est\xE3o ligadas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142113162470924293
+    m_Localized: "Conclus\xF5es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142113162470924294
+    m_Localized: Nenhuma ainda.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142113162475118592
+    m_Localized: Fechar
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

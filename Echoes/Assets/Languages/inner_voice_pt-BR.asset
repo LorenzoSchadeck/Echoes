@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: inner_voice_pt-BR
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: pt-BR
+  m_SharedData: {fileID: 11400000, guid: da29c9c5130db064a82c8feeb2b842a3, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 1480368128
+    m_Localized: Quanto tempo eu fiquei apagado?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1602002944
+    m_Localized: "De novo. O sof\xE1 de novo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1606197248
+    m_Localized: "Eu n\xE3o lembro de ter sentado aqui."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1606197249
+    m_Localized: "Que horas s\xE3o? N\xE3o... n\xE3o pode ser."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1606197250
+    m_Localized: Onde eu estava?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1606197251
+    m_Localized: "S\xF3 mais um. Pra n\xE3o pensar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1606197252
+    m_Localized: "T\xE1 ficando quieto. Bom."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1606197253
+    m_Localized: Respira, Ethan. Respira.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1610391552
+    m_Localized: "As paredes... est\xE3o mais perto?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 288652835725312
+    m_Localized: "\xC0s tr\xEAs da manh\xE3? Eu n\xE3o liguei o r\xE1dio essa noite."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
