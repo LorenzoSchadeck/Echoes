@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public static class GameClock
 {
     // O capítulo começa às 23:40
-    public const float StartMinutes = 23 * 60 + 40;
+    public const float StartMinutes = 22 * 60 + 47; // 22h47, quando Ethan acorda no Prólogo
     private const float MinutesPerDay = 24 * 60;
 
     // Minutos somados à hora inicial além do tempo jogado (apagões e checkpoints)

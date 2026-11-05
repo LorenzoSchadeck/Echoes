@@ -119,6 +119,9 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         }
     }
 
+    /// <summary>Avisado sempre que um destes objetos mostra seu texto.</summary>
+    public static event System.Action<SimpleItemDisplay> OnDisplayed;
+
     private void ShowDisplayText()
     {
         // Obtém o texto localizado
@@ -128,6 +131,7 @@ public class SimpleItemDisplay : MonoBehaviour, IInteractable
         displayText.enabled = true;
         displayText.text = textToDisplay;
         isDisplayActive = true;
+        OnDisplayed?.Invoke(this);
     }
 
     /// <summary>

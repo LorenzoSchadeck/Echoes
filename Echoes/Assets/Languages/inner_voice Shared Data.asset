@@ -59,6 +59,10 @@ MonoBehaviour:
     m_Key: IV_TAKE_NOTE
     m_Metadata:
       m_Items: []
+  - m_Id: 976341318803456
+    m_Key: IV_WHO_THERE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

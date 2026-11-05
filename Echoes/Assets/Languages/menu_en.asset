@@ -226,6 +226,10 @@ MonoBehaviour:
     m_Localized: High
     m_Metadata:
       m_Items: []
+  - m_Id: 143087558379479040
+    m_Localized: "Echoes \u2014 Chapter 1\n\nThank you for playing the demo.\nAdd it to your Steam wishlist."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

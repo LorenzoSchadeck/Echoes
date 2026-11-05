@@ -34,6 +34,10 @@ public class LostTimeEvent : MonoBehaviour, ISaveable
     [Header("Apagão")]
     [Tooltip("Quanto tempo Ethan perde, em minutos (aparece nos relógios da cena).")]
     [SerializeField] private float minutesLost = 60f;
+    [Tooltip("Se marcado, Ethan acorda nesta hora exata, não importa quando apagou (ignora os minutos acima).")]
+    [SerializeField] private bool wakeAtFixedTime;
+    [SerializeField, Range(0, 23)] private int wakeHour = 1;
+    [SerializeField, Range(0, 59)] private int wakeMinute = 13;
     [Tooltip("Quanto tempo a tela fica preta, em segundos.")]
     [SerializeField] private float blackoutSeconds = 3f;
     [Tooltip("Som 2D durante o apagão (zumbido, respiração).")]
@@ -85,11 +89,12 @@ public class LostTimeEvent : MonoBehaviour, ISaveable
         yield return new WaitForSeconds(blackoutSeconds);
 
         ApplyChanges();
-        GameClock.Skip(minutesLost);
+        float lost = wakeAtFixedTime ? Mathf.Repeat(wakeHour * 60 + wakeMinute - GameClock.Minutes, 24 * 60) : minutesLost;
+        GameClock.Skip(lost);
         if (wakeUpPoint != null) PlayerTeleport.To(wakeUpPoint);
 
         hasTriggered = true;
-        GameEvents.TriggerLostTime(minutesLost);
+        GameEvents.TriggerLostTime(lost);
 
         if (screen != null) screen.PlayWakeUpFade();
         PlayerControlLock.Release(this);

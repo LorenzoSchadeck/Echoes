@@ -62,6 +62,10 @@ MonoBehaviour:
     m_Localized: I need to write this down before I forget.
     m_Metadata:
       m_Items: []
+  - m_Id: 976341318803456
+    m_Localized: Who's there?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

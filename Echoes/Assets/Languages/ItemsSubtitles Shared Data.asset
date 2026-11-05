@@ -63,6 +63,10 @@ MonoBehaviour:
     m_Key: IS_INSPECT
     m_Metadata:
       m_Items: []
+  - m_Id: 144617380213727232
+    m_Key: IS_WET_COAT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

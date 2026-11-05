@@ -223,6 +223,10 @@ MonoBehaviour:
     m_Key: M_QUALITY_2
     m_Metadata:
       m_Items: []
+  - m_Id: 143087558379479040
+    m_Key: M_DEMO_END
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

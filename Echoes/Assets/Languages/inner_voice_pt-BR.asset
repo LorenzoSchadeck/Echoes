@@ -62,6 +62,10 @@ MonoBehaviour:
     m_Localized: "Preciso anotar isso antes que eu esque\xE7a."
     m_Metadata:
       m_Items: []
+  - m_Id: 976341318803456
+    m_Localized: "Quem est\xE1 a\xED?"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

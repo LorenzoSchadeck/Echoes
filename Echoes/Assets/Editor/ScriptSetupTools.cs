@@ -83,6 +83,18 @@ public static class ScriptSetupTools
     private static readonly (string key, string pt, string en)[] InnerVoiceLines =
     {
         ("IV_TAKE_NOTE", "Preciso anotar isso antes que eu esqueça.", "I need to write this down before I forget."),
+        ("IV_WHO_THERE", "Quem está aí?", "Who's there?"),
+    };
+
+    private static readonly (string key, string pt, string en)[] ItemSubtitleLines =
+    {
+        ("IS_WET_COAT", "Eu não saí. Eu não saí de casa.", "I didn't go out. I didn't leave the house."),
+    };
+
+    private static readonly (string key, string pt, string en)[] MenuLines =
+    {
+        ("M_DEMO_END", "Echoes — Capítulo 1\n\nObrigado por jogar a demo.\nAdicione à sua lista de desejos na Steam.",
+                       "Echoes — Chapter 1\n\nThank you for playing the demo.\nAdd it to your Steam wishlist."),
     };
 
     private static readonly (string key, string pt, string en)[] ItemLines =
@@ -98,8 +110,8 @@ public static class ScriptSetupTools
             "A heavy chef's knife, freshly sharpened. You don't remember sharpening it."),
         ("ITEM_NAME_HELLO", "Bilhete de boas-vindas", "Welcome note"),
         ("ITEM_DESC_HELLO",
-            "Vizinho,\n\nDesculpe o barulho da mudança. Cheguei há pouco no 3B, aqui ao lado, e ainda estou arrumando as coisas. Se precisar de algo, é só bater.\n\n— W. Kessler",
-            "Neighbor,\n\nSorry about the noise from the move. I just got into 3B, next door, and I'm still unpacking. If you need anything, just knock.\n\n— W. Kessler"),
+            "Vizinho,\n\nDesculpe o barulho da mudança. Cheguei há pouco no 3B, do outro lado do corredor, e ainda estou arrumando as coisas. Se precisar de algo, é só bater.\n\n— W. Kessler",
+            "Neighbor,\n\nSorry about the noise from the move. I just got into 3B, across the hall, and I'm still unpacking. If you need anything, just knock.\n\n— W. Kessler"),
         ("ITEM_DESC_MEDICAL_REPORT",
             "CLÍNICA NEW LEAF DE SAÚDE MENTAL\nDra. Helen Moore — Registro NY 0412337\n\nLAUDO PSIQUIÁTRICO\nPaciente: Ethan Myers\nData: 18/09/2003\n\nDiagnóstico: Transtorno de Estresse Pós-Traumático (TEPT) com sintomas dissociativos graves.\nSintomas: crises agudas com visão em túnel e alucinações, seguidas de perda de memória (\"apagões\").\n\nORIENTAÇÕES:\nAo primeiro sinal de crise, tomar uma dose de Serenil imediatamente. O timer no quarto serve de lembrete.\n\nOBSERVAÇÃO:\nO paciente mostra um padrão de hipervigilância: observa os vizinhos pelo olho mágico de forma compulsiva. Esse hábito agrava a paranoia e pode desencadear um episódio dissociativo. O paciente deve resistir a esse impulso.\n\nRISCO: deixar de tomar a medicação durante uma crise pode levar a choque sistêmico e parada cardíaca.\n\n__________________________\nDra. Helen Moore, psiquiatra",
             "NEW LEAF MENTAL HEALTH CLINIC\nDr. Helen Moore — NY License 0412337\n\nPSYCHIATRIC REPORT\nPatient: Ethan Myers\nDate: 09/18/2003\n\nDiagnosis: Post-Traumatic Stress Disorder (PTSD) with severe dissociative symptoms.\nSymptoms: acute episodes of tunnel vision and hallucinations, followed by memory loss (\"blackouts\").\n\nINSTRUCTIONS:\nAt the first sign of an episode, take one dose of Serenil immediately. The timer in the bedroom serves as a reminder.\n\nNOTE:\nThe patient shows a pattern of hypervigilance: he compulsively watches his neighbors through the peephole. This habit worsens his paranoia and may trigger a dissociative episode. The patient must resist this impulse.\n\nRISK: failing to take the medication during an episode may lead to systemic shock and cardiac arrest.\n\n__________________________\nDr. Helen Moore, psychiatrist"),
@@ -171,6 +183,8 @@ public static class ScriptSetupTools
         LocalizationSetup.SetStrings(InnerVoice.Table, InnerVoiceLines);
         LocalizationSetup.SetStrings("items", ItemLines);
         LocalizationSetup.SetStrings(EvidenceTable, EvidenceLines);
+        LocalizationSetup.SetStrings("ItemsSubtitles", ItemSubtitleLines);
+        LocalizationSetup.SetStrings("menu", MenuLines);
 
         ApplyTrack("Assets/Resources/Track/Track 1.asset", Track1, Track1Whisper);
         ApplyTrack("Assets/Resources/Track/Track 2.asset", Track2, Track2Whisper);
