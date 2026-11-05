@@ -56,14 +56,14 @@ public static class ActOneSetupTools
 
         // Casaco seco (antes) e encharcado (depois da hora perdida), no canto ao lado da porta,
         // no lugar e na orientação em que ele já estava na cena
-        Vector3 coatPosition = new Vector3(16.29f, 3.29f, -40.13f);
-        GameObject dryCoat = Place("Models/leather coat/leather coat.fbx", "Casaco", group.transform, coatPosition, Quaternion.identity);
-        // O modelo vem com escala 100 na raiz (conversão de unidades do FBX): poça e gotas ficam
-        // ao lado dele, num objeto de escala 1, e não como filhas do modelo
+        Vector3 coatPosition = new Vector3(16.29f, 3.29f, -40.49f);
+        GameObject dryCoat = Place("Models/leather coat/leather coat.prefab", "Casaco", group.transform, coatPosition, Quaternion.identity);
+        // O prefab do casaco tem escala 508 na raiz: poça e gotas ficam ao lado dele, num objeto
+        // de escala 1, e não como filhas do modelo
         var wetCoat = new GameObject("Casaco_Molhado");
         wetCoat.transform.SetParent(group.transform, false);
         wetCoat.transform.position = coatPosition;
-        GameObject wetModel = Place("Models/leather coat/leather coat.fbx", "Casaco", wetCoat.transform, coatPosition, Quaternion.identity);
+        GameObject wetModel = Place("Models/leather coat/leather coat.prefab", "Casaco", wetCoat.transform, coatPosition, Quaternion.identity);
         MakeWet(wetModel);
         AddDrips(wetCoat);
         Flat("Poca_Casaco", wetCoat.transform, new Vector3(coatPosition.x, FloorY + 0.012f, coatPosition.z + 0.6f), 0f, new Vector2(3.2f, 2.4f), puddle);
@@ -77,12 +77,12 @@ public static class ActOneSetupTools
         foreach (Transform child in door.Cast<Transform>().Where(c => c.name.StartsWith("Corrente_")).ToArray())
             Object.DestroyImmediate(child.gameObject);
         Vector3 chainPosition = new Vector3(EntranceDoorInnerX - 0.03f, 6.84f, -31.45f);
-        GameObject chainLatched = Place("Models/brass door chain/tranca fechada.fbx", "Corrente_Presa", door, chainPosition, Quaternion.Euler(0f, 90f, 0f), mirrorX: true);
-        GameObject chainLoose = Place("Models/brass door chain/tranca aberta.fbx", "Corrente_Solta", door, chainPosition, Quaternion.Euler(0f, 90f, 0f), mirrorX: true);
+        GameObject chainLatched = Place("Models/brass door chain/tranca fechada.prefab", "Corrente_Presa", door, chainPosition, Quaternion.Euler(0f, 90f, 0f), mirrorX: true);
+        GameObject chainLoose = Place("Models/brass door chain/tranca aberta.prefab", "Corrente_Solta", door, chainPosition, Quaternion.Euler(0f, 90f, 0f), mirrorX: true);
         chainLoose.SetActive(false);
 
         // Cepo de facas na bancada, onde ele já estava na cena, apoiado no tampo
-        GameObject block = Place("Models/wooden kitchen knife/cepo de facas.fbx", "Cepo_Facas", group.transform, new Vector3(19.18f, 5.25f, -20.31f), Quaternion.Euler(0f, 58.68f, 0f));
+        GameObject block = Place("Models/wooden kitchen knife/cepo de facas.prefab", "Cepo_Facas", group.transform, new Vector3(19.18f, 5.25f, -20.31f), Quaternion.identity);
         RestOnSurface(block);
         GameObject knife = Object.FindObjectsByType<ItemInteract>(FindObjectsInactive.Include)
             .First(i => i.name == "FACA" && i.transform.parent.name == "R_INTERATIVOS").gameObject;
@@ -166,6 +166,8 @@ public static class ActOneSetupTools
 
     // ---------- Objetos ----------
 
+    // Usa os prefabs salvos em Assets/Models (com materiais e escala já ajustados), mantendo a
+    // rotação e a escala deles; "rotation" é um giro extra no mundo
     private static GameObject Place(string modelPath, string name, Transform parent, Vector3 position, Quaternion rotation, bool mirrorX = false)
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/" + modelPath);
