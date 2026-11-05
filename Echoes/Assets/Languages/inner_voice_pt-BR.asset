@@ -58,6 +58,10 @@ MonoBehaviour:
     m_Localized: "\xC0s tr\xEAs da manh\xE3? Eu n\xE3o liguei o r\xE1dio essa noite."
     m_Metadata:
       m_Items: []
+  - m_Id: 331302355902464
+    m_Localized: "Preciso anotar isso antes que eu esque\xE7a."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -19,49 +19,43 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 151929073664
-    m_Localized: This is WZNY News. We resume our urgent news coverage that has shaken
-      the tranquility of Harrow Creek...
+    m_Localized: WZNY News, night desk. Friday, November twenty-first. Heavy rain across the county, and police are asking everyone to stay home.
     m_Metadata:
       m_Items: []
   - m_Id: 216307445760
-    m_Localized: Three victims have been confirmed dead in the last week, brutally
-      attacked.
+    m_Localized: A body was found early this morning in the old Halley boarding house on Halley Street, closed since 1996.
     m_Metadata:
       m_Items: []
   - m_Id: 239778770944
-    m_Localized: Authorities confirm that the pattern of violence and the modus operandi
-      are identical...
+    m_Localized: The victim, a woman not yet identified, was on the second floor. Police won't confirm the cause of death.
     m_Metadata:
       m_Items: []
   - m_Id: 7023348264960
-    m_Localized: to the crimes of the infamous "Butcher of Shadow Creek", the serial
-      killer who terrorized the city in the 90s.
+    m_Localized: But department sources say the place and the method recall the crimes of the Harrow Creek Butcher...
     m_Metadata:
       m_Items: []
   - m_Id: 7046005895168
-    m_Localized: Police had listed the primary suspect as disappeared or, presumably,
-      deceased, but...
+    m_Localized: ...the killer who claimed six victims between 1994 and 1996, and whom police declared dead.
     m_Metadata:
       m_Items: []
   - m_Id: 7069187813376
-    m_Localized: ...It appears the ghost has returned to claim new lives.
+    m_Localized: ...room six...
     m_Metadata:
       m_Items: []
   - m_Id: 7088208982016
-    m_Localized: You remember the paper, don't you? The one with the stains.
+    m_Localized: Police Chief Raymond Cole is asking for calm and says there is no reason to panic.
     m_Metadata:
       m_Items: []
   - m_Id: 7106173186048
-    m_Localized: 'The recommendation is clear:'
+    m_Localized: 'Two people are still missing since last week: a twenty-two-year-old delivery driver and a nurse from St. Jude''s Hospital.'
     m_Metadata:
       m_Items: []
   - m_Id: 7125529899008
-    m_Localized: Citizens must avoid walking alone after dark. Avoid isolated areas.
+    m_Localized: 'The advice is clear: lock your doors, don''t walk alone after dark, and call 911 if you see anything strange in your neighborhood.'
     m_Metadata:
       m_Items: []
   - m_Id: 7900624695296
-    m_Localized: '*You have to look for it.* Report any suspicious activity, call
-      911.'
+    m_Localized: WZNY. We'll be right back.
     m_Metadata:
       m_Items: []
   references:

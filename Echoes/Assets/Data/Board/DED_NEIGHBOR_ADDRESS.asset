@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78f789ade83b7e44a990fc37d641d2b1, type: 3}
-  m_Name: DED_TEST_HALLEY
+  m_Name: DED_NEIGHBOR_ADDRESS
   m_EditorClassIdentifier: Assembly-CSharp::Deduction
-  first: {fileID: 11400000, guid: 80ea5149512177748a0ef650513ceed8, type: 2}
-  second: {fileID: 11400000, guid: 705a05163ad618d4bac30d610184ee97, type: 2}
+  first: {fileID: 11400000, guid: 705a05163ad618d4bac30d610184ee97, type: 2}
+  second: {fileID: 11400000, guid: f1596026f21c3864186c27a0d912692e, type: 2}
   conclusion:
     m_TableReference:
       m_TableCollectionName: evidence
     m_TableEntryReference:
       m_KeyId: 0
-      m_Key: DED_TEST_HALLEY
+      m_Key: DED_NEIGHBOR_ADDRESS
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
@@ -29,7 +29,7 @@ MonoBehaviour:
         m_TableCollectionName: evidence
       m_TableEntryReference:
         m_KeyId: 0
-        m_Key: DED_TEST_HALLEY_THOUGHT
+        m_Key: DED_NEIGHBOR_ADDRESS_THOUGHT
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []

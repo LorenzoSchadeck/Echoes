@@ -58,6 +58,10 @@ MonoBehaviour:
     m_Localized: Three in the morning? I didn't turn the radio on last night.
     m_Metadata:
       m_Items: []
+  - m_Id: 331302355902464
+    m_Localized: I need to write this down before I forget.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

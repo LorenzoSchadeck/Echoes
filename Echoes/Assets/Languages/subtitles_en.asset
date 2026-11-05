@@ -19,16 +19,15 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 10220318720
-    m_Localized: Stained pages? What does that mean?
+    m_Localized: Room six... The anchor never said the room. Did he?
     m_Metadata:
       m_Items: []
   - m_Id: 66029727744
-    m_Localized: What was that noise? It sounds like it came from the office...
+    m_Localized: Between one and two. And at three, someone turned on a radio here.
     m_Metadata:
       m_Items: []
   - m_Id: 91694673920
-    m_Localized: Was it... him? H-How? Why is he talking to me? What did he mean
-      by all of that?
+    m_Localized: Was it... him? H-How? Why is he talking to me? What did he mean by all of that?
     m_Metadata:
       m_Items: []
   - m_Id: 121100939264
@@ -44,26 +43,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3809764814848
-    m_Localized: The family's country house... it's been decades since anyone went
-      there.
+    m_Localized: The family's country house... it's been decades since anyone went there.
     m_Metadata:
       m_Items: []
   - m_Id: 3866614411264
-    m_Localized: I remember that day well. He was the first one to visit the country
-      house in a long time. I think he liked it...
+    m_Localized: I remember that day well. He was the first one to visit the country house in a long time. I think he liked it...
     m_Metadata:
       m_Items: []
   - m_Id: 3871400112128
-    m_Localized: My first field assignment... it was terrifying to witness that kind
-      of slaughter up close.
+    m_Localized: Halley Street, '95. Clara said this one would make the front page. It didn't.
     m_Metadata:
       m_Items: []
   - m_Id: 3908007997440
-    m_Localized: That was a beautiful day... I think it was the first job after everything.
+    m_Localized: My first front page. March '94. The first victim.
     m_Metadata:
       m_Items: []
   - m_Id: 5353537122304
-    m_Localized: I don't remember her. Should I?
+    m_Localized: Eight years. I'm still waiting for the phone to ring.
     m_Metadata:
       m_Items: []
   references:

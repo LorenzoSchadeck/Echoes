@@ -19,42 +19,35 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 5715636224
-    m_Localized: "A tens\xE3o em Harrow Creek \xE9 palp\xE1vel. O toque de recolher
-      mant\xE9m a maioria em casa, mas o medo \xE9 nosso novo convidado."
+    m_Localized: "WZNY, plant\xE3o da noite. A tempestade derrubou a energia em parte da zona norte."
     m_Metadata:
       m_Items: []
   - m_Id: 8202858496
-    m_Localized: "O p\xE2nico social levou a um aumento de den\xFAncias falsas. Psic\xF3logos
-      alertam: Desconfiar \xE9 natural, mas a paranoia \xE9 contagiosa."
+    m_Localized: "Com o medo, as den\xFAncias falsas triplicaram desde ontem. Psic\xF3logos lembram que desconfiar \xE9 natural, mas que a paranoia se espalha r\xE1pido."
     m_Metadata:
       m_Items: []
   - m_Id: 10224513024
-    m_Localized: "Olhe. Pelo. M\xE1gico. Apenas para ter certeza. Ele est\xE1 se
-      movendo agora."
+    m_Localized: "...olhe pelo olho m\xE1gico..."
     m_Metadata:
       m_Items: []
   - m_Id: 12044840960
-    m_Localized: "Lembrem-se: o A\xE7ougueiro dos anos 90 era discreto. Seu vizinho,
-      seu amigo, seu colega... podem ser o perigo."
+    m_Localized: "Nos anos 90, o A\xE7ougueiro nunca foi visto entrando ou saindo. Para os vizinhos, era algu\xE9m comum."
     m_Metadata:
       m_Items: []
   - m_Id: 14301376512
-    m_Localized: "Voc\xEA viu o bilhete. Ele quer conversar. O que voc\xEA vai dizer
-      a ele?"
+    m_Localized: "A pol\xEDcia confirma que a v\xEDtima da Pens\xE3o Halley morreu entre uma e duas da manh\xE3."
     m_Metadata:
       m_Items: []
   - m_Id: 15333175296
-    m_Localized: "A pol\xEDcia continua sem pistas concretas. A esperan\xE7a de um
-      final r\xE1pido se esvai a cada noite em Harrow Creek."
+    m_Localized: "Ainda n\xE3o h\xE1 suspeitos. O delegado Cole pede que quem passou pela Rua Halley ontem \xE0 noite procure a pol\xEDcia."
     m_Metadata:
       m_Items: []
   - m_Id: 15991681024
-    m_Localized: "N\xE3o abram a porta para estranhos, nem mesmo para rostos familiares.
-      A cidade n\xE3o \xE9 segura."
+    m_Localized: "N\xE3o abram a porta para estranhos. Nem para rostos conhecidos."
     m_Metadata:
       m_Items: []
   - m_Id: 16654381056
-    m_Localized: 'Repetindo: procurem por QUALQUER detalhe fora do lugar...'
+    m_Localized: WZNY. Fiquem em casa.
     m_Metadata:
       m_Items: []
   references:
