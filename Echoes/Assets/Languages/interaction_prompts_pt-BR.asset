@@ -109,6 +109,14 @@ MonoBehaviour:
     m_Localized: (E) Girar
     m_Metadata:
       m_Items: []
+  - m_Id: 154679905164763136
+    m_Localized: (E) Examinar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154679905210900480
+    m_Localized: "(E) Sair pela escada de inc\xEAndio"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -1,3 +1,4 @@
+using System.Collections;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -8,15 +9,18 @@ using UnityEngine.Video;
 
 /// <summary>
 /// Menu principal (cena Menu, MainMenu.uxml): continuar do último checkpoint, novo jogo,
-/// opções e sair, sobre um vídeo em loop do apartamento.
+/// opções e sair, sobre o cenário 3D da cena MenuCenario (ou, sem ele, um vídeo ou uma imagem).
 /// </summary>
 [RequireComponent(typeof(UIDocument))]
 public class MainMenuController : MonoBehaviour
 {
     [Header("Cenas")]
-    [SerializeField] private string gameSceneName = "Game";
+    [Tooltip("Cena do \"Novo jogo\": a abertura de 1995, que leva ao apartamento.")]
+    [SerializeField] private string gameSceneName = "Abertura1995";
 
     [Header("Fundo")]
+    [Tooltip("Cena 3D carregada atrás do menu (MenuBackdrop). Vazio ou fora do build: usa o vídeo ou a imagem.")]
+    [SerializeField] private string backdropSceneName = "MenuCenario";
     [Tooltip("Vídeo em loop do apartamento (MP4 H.264 ou WebM). Tem prioridade sobre a imagem.")]
     [SerializeField] private VideoClip backgroundVideo;
     [Tooltip("Usada quando não há vídeo.")]
@@ -30,6 +34,7 @@ public class MainMenuController : MonoBehaviour
     private Button continueButton;
     private OptionsPanel options;
     private RenderTexture videoTexture;
+    private bool starting;
 
     private void OnEnable()
     {
@@ -52,7 +57,7 @@ public class MainMenuController : MonoBehaviour
 
         root.Q<Label>("version").text = $"v{Application.version}";
 
-        SetupBackground();
+        if (!LoadBackdrop()) SetupBackground();
         LocalizeTexts();
         MenuFocusStyle.Track(root);
         LocalizationSettings.SelectedLocaleChanged += HandleLocaleChanged;
@@ -75,6 +80,7 @@ public class MainMenuController : MonoBehaviour
     {
         options.Hide();
         mainPanel.RemoveFromClassList("hidden");
+        if (MenuBackdrop.Current != null) MenuBackdrop.Current.OptionsOpen = false;
 
         continueButton.SetEnabled(SaveSystem.HasSave);
         Button first = SaveSystem.HasSave ? continueButton : root.Q<Button>("button-new-game");
@@ -85,13 +91,35 @@ public class MainMenuController : MonoBehaviour
     {
         mainPanel.AddToClassList("hidden");
         options.Show();
+        if (MenuBackdrop.Current != null) MenuBackdrop.Current.OptionsOpen = true;
     }
 
     private void ContinueGame() => CheckpointManager.LoadLastCheckpoint();
 
     private void NewGame()
     {
+        if (starting) return;
+        starting = true;
         SaveSystem.Delete();
+        if (MenuBackdrop.Current != null) StartCoroutine(EnterScene());
+        else SceneManager.LoadScene(gameSceneName);
+    }
+
+    // A câmera do cenário avança enquanto o menu some e a tela escurece
+    private IEnumerator EnterScene()
+    {
+        const float time = 1.6f;
+        mainPanel.SetEnabled(false);
+        StartCoroutine(MenuBackdrop.Current.PushIn(time));
+        float start = Time.unscaledTime;
+        while (Time.unscaledTime - start < time)
+        {
+            float k = (Time.unscaledTime - start) / time;
+            mainPanel.style.opacity = 1f - Mathf.Clamp01(k * 2.5f);
+            root.style.backgroundColor = new Color(0f, 0f, 0f, k * k);
+            yield return null;
+        }
+        root.style.backgroundColor = Color.black;
         SceneManager.LoadScene(gameSceneName);
     }
 
@@ -108,6 +136,54 @@ public class MainMenuController : MonoBehaviour
     {
         if (!clickSound.IsNull) RuntimeManager.PlayOneShot(clickSound);
         action();
+    }
+
+    // Carrega o cenário 3D por cima da cena Menu: a câmera dele passa a desenhar o fundo e a
+    // luz e a neblina vêm dele (cena ativa). Devolve falso quando não há cenário no build.
+    private bool LoadBackdrop()
+    {
+        if (string.IsNullOrEmpty(backdropSceneName) || !Application.CanStreamedLevelBeLoaded(backdropSceneName)) return false;
+
+        root.Q(className: "screen")?.AddToClassList("screen--scene");
+        Scene loaded = SceneManager.GetSceneByName(backdropSceneName);
+        if (loaded.isLoaded)
+        {
+            UseBackdrop(loaded);
+            return true;
+        }
+
+        root.style.backgroundColor = Color.black;
+        AsyncOperation operation = SceneManager.LoadSceneAsync(backdropSceneName, LoadSceneMode.Additive);
+        operation.completed += _ =>
+        {
+            if (this == null) return;
+            UseBackdrop(SceneManager.GetSceneByName(backdropSceneName));
+            StartCoroutine(RevealBackdrop());
+        };
+        return true;
+    }
+
+    private void UseBackdrop(Scene backdrop)
+    {
+        if (!backdrop.IsValid()) return;
+        SceneManager.SetActiveScene(backdrop);
+        // A câmera própria da cena Menu só servia para o fundo preto
+        foreach (GameObject rootObject in gameObject.scene.GetRootGameObjects())
+            foreach (Camera sceneCamera in rootObject.GetComponentsInChildren<Camera>())
+                sceneCamera.enabled = false;
+    }
+
+    private IEnumerator RevealBackdrop()
+    {
+        const float time = 1.5f;
+        float start = Time.unscaledTime;
+        while (Time.unscaledTime - start < time && !starting)
+        {
+            float k = (Time.unscaledTime - start) / time;
+            root.style.backgroundColor = new Color(0f, 0f, 0f, 1f - k);
+            yield return null;
+        }
+        if (!starting) root.style.backgroundColor = StyleKeyword.Null;
     }
 
     private void SetupBackground()

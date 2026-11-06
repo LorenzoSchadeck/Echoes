@@ -167,6 +167,23 @@ MonoBehaviour:
       Story: Ethan Myers. Photos: Clara Reyes.'
     m_Metadata:
       m_Items: []
+  - m_Id: 154674988593225728
+    m_Localized: Wallet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154674988643557376
+    m_Localized: 'A laminated card, worn at the edges. The photo of a tired woman, her hair tied back.
+
+
+      Ruth Ann Pierce
+
+      41 Halley Street, Room 6, Harrow Creek
+
+      Born 03/14/1960
+
+      Issued 1993, expires 1997'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

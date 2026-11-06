@@ -6,6 +6,11 @@
     background-color: rgb(8, 8, 9);
 }
 
+/* Com o cenário 3D atrás, a tela é transparente */
+.screen--scene {
+    background-color: rgba(0, 0, 0, 0);
+}
+
 .screen--overlay {
     background-color: rgba(0, 0, 0, 0.6);
 }

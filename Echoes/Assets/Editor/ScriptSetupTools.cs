@@ -121,6 +121,62 @@ public static class ScriptSetupTools
             "Harrow Creek Ledger, February 10, 1995.\n\n\"WAITRESS IS THE BUTCHER'S THIRD VICTIM\"\n\nRuth Pierce, 34, was found dead in room 6 of the Halley boarding house, 41 Halley Street. Police have no suspects.\n\nStory: Ethan Myers. Photos: Clara Reyes."),
     };
 
+    // ---------- Abertura de 1995 (cena Abertura1995) ----------
+
+    private static readonly (string key, string pt, string en)[] OpeningLines =
+    {
+        ("OP_DISPATCH", "Unidade doze, Rua Halley, 41, segundo andar. Denúncia de gritos. Aguarde reforço.",
+                        "Unit twelve, 41 Halley Street, second floor. Report of screaming. Wait for backup."),
+        ("OP_CLARA_MINUTES", "A gente tem uns quatro minutos antes da patrulha. Quarto seis.", "We've got about four minutes before the patrol. Room six."),
+        ("OP_CLARA_HURRY", "Ethan. Seis. No fim do corredor.", "Ethan. Six. End of the hall."),
+        ("OP_CLARA_WAIT", "Espera. E se ele ainda estiver aí dentro?", "Wait. What if he's still in there?"),
+        ("OP_ETHAN_NOT", "Não está.", "He isn't."),
+        ("OP_CLARA_SWITCH", "Como você achou o interruptor no escuro?", "How did you find the switch in the dark?"),
+        ("OP_ETHAN_SWITCH", "Todo quarto de pensão é igual.", "Every boarding house room is the same."),
+        ("OP_CLARA_GOD", "Meu Deus. É a garçonete do Rudy's.", "Oh my God. It's the waitress from Rudy's."),
+        ("OP_ETHAN_NAME", "Ruth Pierce. Trinta e quatro anos.", "Ruth Pierce. Thirty-four."),
+        ("OP_CLARA_KNEW", "Você sabia o nome dela?", "You knew her name?"),
+        ("OP_ETHAN_WALLET", "Tá na carteira. Em cima da cômoda.", "It's in her wallet. On the dresser."),
+        ("OP_ETHAN_KNIFE", "Falta a faca maior. É dela. Ele sempre usa a faca da casa.", "The biggest knife is missing. It's hers. He always uses a knife from the house."),
+        ("OP_ETHAN_CLOCK", "Desligou da tomada. Ele quer que a gente saiba a hora.", "He unplugged it. He wants us to know the time."),
+        ("OP_CLARA_CLOCK", "Ou não queria ouvir o alarme.", "Or he didn't want to hear the alarm."),
+        ("OP_CLARA_LOCKED", "Trancada por dentro. E a chave?", "Locked from the inside. So where's the key?"),
+        ("OP_ETHAN_KEY", "Ele levou. Chaveiro vermelho, de madeira.", "He took it. Red wooden key fob."),
+        ("OP_CLARA_RED", "Como você sabe que era vermelho?", "How do you know it was red?"),
+        ("OP_ETHAN_ROOM5", "O do quarto cinco tá na porta. A dona usa igual em todos.", "Room five's is still in the door. The landlady uses the same on every room."),
+        ("OP_CLARA_POLICE", "Polícia. A gente não pode estar aqui.", "Police. We can't be here."),
+        ("OP_CLARA_PHOTO", "Fica parado. Essa vai pra capa.", "Hold still. This one's going on the front page."),
+    };
+
+    private static readonly (string key, string pt, string en)[] OpeningCards =
+    {
+        ("M_CARD_1995", "Harrow Creek\n9 de fevereiro de 1995, 2h04", "Harrow Creek\nFebruary 9, 1995, 2:04 a.m."),
+        ("M_CARD_LATER", "Oito anos depois", "Eight years later"),
+    };
+
+    private static readonly (string key, string pt, string en)[] OpeningPrompts =
+    {
+        ("PROMPT_EXAMINE", "(E) Examinar", "(E) Examine"),
+        ("PROMPT_FIRE_ESCAPE", "(E) Sair pela escada de incêndio", "(E) Climb out to the fire escape"),
+    };
+
+    private static readonly (string key, string pt, string en)[] OpeningItems =
+    {
+        ("ITEM_NAME_WALLET", "Carteira", "Wallet"),
+        ("ITEM_DESC_WALLET",
+            "Um cartão plastificado, gasto nas bordas. A foto de uma mulher cansada, de cabelo preso.\n\nRuth Ann Pierce\nRua Halley, 41, quarto 6, Harrow Creek\nNascida em 14/03/1960\nEmitido em 1993, válido até 1997",
+            "A laminated card, worn at the edges. The photo of a tired woman, her hair tied back.\n\nRuth Ann Pierce\n41 Halley Street, Room 6, Harrow Creek\nBorn 03/14/1960\nIssued 1993, expires 1997"),
+    };
+
+    /// <summary>Grava os textos da abertura. Chamado também pelo OpeningSetupTools ao montar a cena.</summary>
+    public static void ApplyOpeningTexts()
+    {
+        LocalizationSetup.SetStrings("subtitles", OpeningLines);
+        LocalizationSetup.SetStrings("menu", OpeningCards);
+        LocalizationSetup.SetStrings(InteractionText.Table, OpeningPrompts);
+        LocalizationSetup.SetStrings("items", OpeningItems);
+    }
+
     // ---------- Mural ----------
 
     private static readonly (string key, string pt, string en)[] EvidenceLines =
@@ -185,6 +241,7 @@ public static class ScriptSetupTools
         LocalizationSetup.SetStrings(EvidenceTable, EvidenceLines);
         LocalizationSetup.SetStrings("ItemsSubtitles", ItemSubtitleLines);
         LocalizationSetup.SetStrings("menu", MenuLines);
+        ApplyOpeningTexts();
 
         ApplyTrack("Assets/Resources/Track/Track 1.asset", Track1, Track1Whisper);
         ApplyTrack("Assets/Resources/Track/Track 2.asset", Track2, Track2Whisper);

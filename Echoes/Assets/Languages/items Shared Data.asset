@@ -143,6 +143,14 @@ MonoBehaviour:
     m_Key: ITEM_DESC_CLIPPING
     m_Metadata:
       m_Items: []
+  - m_Id: 154674988593225728
+    m_Key: ITEM_NAME_WALLET
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154674988643557376
+    m_Key: ITEM_DESC_WALLET
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

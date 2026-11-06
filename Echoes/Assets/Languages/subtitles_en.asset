@@ -62,6 +62,86 @@ MonoBehaviour:
     m_Localized: Eight years. I'm still waiting for the phone to ring.
     m_Metadata:
       m_Items: []
+  - m_Id: 134936589238050816
+    m_Localized: Unit twelve, 41 Halley Street, second floor. Report of screaming. Wait for backup.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908416
+    m_Localized: We've got about four minutes before the patrol. Room six.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908417
+    m_Localized: Ethan. Six. End of the hall.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908418
+    m_Localized: Wait. What if he's still in there?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908419
+    m_Localized: He isn't.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908420
+    m_Localized: How did you find the switch in the dark?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297024
+    m_Localized: Every boarding house room is the same.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297025
+    m_Localized: Oh my God. It's the waitress from Rudy's.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297026
+    m_Localized: Ruth Pierce. Thirty-four.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297027
+    m_Localized: You knew her name?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297028
+    m_Localized: It's in her wallet. On the dresser.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297029
+    m_Localized: The biggest knife is missing. It's hers. He always uses a knife from the house.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297030
+    m_Localized: He unplugged it. He wants us to know the time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297031
+    m_Localized: Or he didn't want to hear the alarm.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297032
+    m_Localized: Locked from the inside. So where's the key?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297033
+    m_Localized: He took it. Red wooden key fob.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297034
+    m_Localized: How do you know it was red?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297035
+    m_Localized: Room five's is still in the door. The landlady uses the same on every room.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297036
+    m_Localized: Police. We can't be here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297037
+    m_Localized: Hold still. This one's going on the front page.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

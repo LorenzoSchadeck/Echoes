@@ -146,6 +146,14 @@ MonoBehaviour:
     m_Localized: "Harrow Creek Ledger, 10 de fevereiro de 1995.\n\n\"GAR\xC7ONETE \xC9 A TERCEIRA V\xCDTIMA DO A\xC7OUGUEIRO\"\n\nRuth Pierce, 34 anos, foi encontrada morta no quarto 6 da Pens\xE3o Halley, na Rua Halley, 41. A pol\xEDcia n\xE3o tem suspeitos.\n\nTexto: Ethan Myers. Fotos: Clara Reyes."
     m_Metadata:
       m_Items: []
+  - m_Id: 154674988593225728
+    m_Localized: Carteira
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154674988643557376
+    m_Localized: "Um cart\xE3o plastificado, gasto nas bordas. A foto de uma mulher cansada, de cabelo preso.\n\nRuth Ann Pierce\nRua Halley, 41, quarto 6, Harrow Creek\nNascida em 14/03/1960\nEmitido em 1993, v\xE1lido at\xE9 1997"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

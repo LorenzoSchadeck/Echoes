@@ -62,6 +62,86 @@ MonoBehaviour:
     m_Localized: Oito anos. Eu ainda espero o telefone tocar.
     m_Metadata:
       m_Items: []
+  - m_Id: 134936589238050816
+    m_Localized: "Unidade doze, Rua Halley, 41, segundo andar. Den\xFAncia de gritos. Aguarde refor\xE7o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908416
+    m_Localized: A gente tem uns quatro minutos antes da patrulha. Quarto seis.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908417
+    m_Localized: Ethan. Seis. No fim do corredor.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908418
+    m_Localized: "Espera. E se ele ainda estiver a\xED dentro?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908419
+    m_Localized: "N\xE3o est\xE1."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908420
+    m_Localized: "Como voc\xEA achou o interruptor no escuro?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297024
+    m_Localized: "Todo quarto de pens\xE3o \xE9 igual."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297025
+    m_Localized: "Meu Deus. \xC9 a gar\xE7onete do Rudy's."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297026
+    m_Localized: Ruth Pierce. Trinta e quatro anos.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297027
+    m_Localized: "Voc\xEA sabia o nome dela?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297028
+    m_Localized: "T\xE1 na carteira. Em cima da c\xF4moda."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297029
+    m_Localized: "Falta a faca maior. \xC9 dela. Ele sempre usa a faca da casa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297030
+    m_Localized: Desligou da tomada. Ele quer que a gente saiba a hora.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297031
+    m_Localized: "Ou n\xE3o queria ouvir o alarme."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297032
+    m_Localized: Trancada por dentro. E a chave?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297033
+    m_Localized: Ele levou. Chaveiro vermelho, de madeira.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297034
+    m_Localized: "Como voc\xEA sabe que era vermelho?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297035
+    m_Localized: "O do quarto cinco t\xE1 na porta. A dona usa igual em todos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297036
+    m_Localized: "Pol\xEDcia. A gente n\xE3o pode estar aqui."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297037
+    m_Localized: Fica parado. Essa vai pra capa.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
