@@ -24,9 +24,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18550532976640
-    m_Key: 'ITEM_NAME_WINTER_SILENCE
-
-'
+    m_Key: ITEM_NAME_WINTER_SILENCE
     m_Metadata:
       m_Items: []
   - m_Id: 18857769938944
@@ -94,9 +92,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10046777976532992
-    m_Key: 'ITEM_DESC_FREQUENCY_45
-
-'
+    m_Key: ITEM_DESC_FREQUENCY_45
     m_Metadata:
       m_Items: []
   - m_Id: 10047457013379072
@@ -104,9 +100,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10047483999531008
-    m_Key: 'ITEM_DESC_FREQUENCY_95
-
-'
+    m_Key: ITEM_DESC_FREQUENCY_95
     m_Metadata:
       m_Items: []
   - m_Id: 10118733295890432
@@ -139,6 +133,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 153929297386315776
     m_Key: ITEM_NEIGHBOR_NOTE_DESC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153971949200777216
+    m_Key: ITEM_NAME_CLIPPING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153971949238525952
+    m_Key: ITEM_DESC_CLIPPING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154674988593225728
+    m_Key: ITEM_NAME_WALLET
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154674988643557376
+    m_Key: ITEM_DESC_WALLET
     m_Metadata:
       m_Items: []
   m_Metadata:

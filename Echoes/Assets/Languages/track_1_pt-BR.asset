@@ -19,50 +19,43 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 151929073664
-    m_Localized: "Aqui \xE9 WZNY Not\xEDcias. Retomando o plant\xE3o de not\xEDcias
-      urgentes que t\xEAm abalado a calmaria de Harrow Creek..."
+    m_Localized: "WZNY Not\xEDcias, plant\xE3o da noite. Sexta-feira, 21 de novembro. Chove forte em todo o condado, e a pol\xEDcia pede que ningu\xE9m saia de casa."
     m_Metadata:
       m_Items: []
   - m_Id: 216307445760
-    m_Localized: "Tr\xEAs v\xEDtimas foram confirmadas como mortas na \xFAltima semana,
-      brutalmente atacadas."
+    m_Localized: "Um corpo foi encontrado nesta madrugada no pr\xE9dio da antiga Pens\xE3o Halley, na Rua Halley, fechado desde 1996."
     m_Metadata:
       m_Items: []
   - m_Id: 239778770944
-    m_Localized: "Autoridades confirmam que o padr\xE3o de viol\xEAncia e o modus
-      operandi s\xE3o id\xEAnticos..."
+    m_Localized: "A v\xEDtima, uma mulher ainda n\xE3o identificada, estava no segundo andar. A pol\xEDcia n\xE3o confirma a causa da morte."
     m_Metadata:
       m_Items: []
   - m_Id: 7023348264960
-    m_Localized: "... aos crimes do famoso \"A\xE7ougueiro de Harrow Creek\", o serial
-      killer que aterrorizou a cidade na d\xE9cada de 90."
+    m_Localized: "Mas fontes do departamento dizem que o local e o m\xE9todo lembram os crimes do A\xE7ougueiro de Harrow Creek..."
     m_Metadata:
       m_Items: []
   - m_Id: 7046005895168
-    m_Localized: "A pol\xEDcia havia dado o principal suspeito como desaparecido
-      ou, presumivelmente, morto, mas..."
+    m_Localized: "...o assassino que fez seis v\xEDtimas entre 1994 e 1996 e que a pol\xEDcia deu como morto."
     m_Metadata:
       m_Items: []
   - m_Id: 7069187813376
-    m_Localized: ...Parece que o fantasma retornou para clamar novas vidas.
+    m_Localized: ...quarto seis...
     m_Metadata:
       m_Items: []
   - m_Id: 7088208982016
-    m_Localized: "Voc\xEA lembra do papel, n\xE3o \xE9? Aquele com as manchas."
+    m_Localized: "O delegado Raymond Cole pede calma e diz que n\xE3o h\xE1 motivo para p\xE2nico."
     m_Metadata:
       m_Items: []
   - m_Id: 7106173186048
-    m_Localized: "A recomenda\xE7\xE3o \xE9 clara:"
+    m_Localized: 'Duas pessoas continuam desaparecidas desde a semana passada: um entregador de 22 anos e uma enfermeira do Hospital St. Jude.'
     m_Metadata:
       m_Items: []
   - m_Id: 7125529899008
-    m_Localized: "Cidad\xE3os devem evitar andar sozinhos ap\xF3s o anoitecer. Evitem
-      \xE1reas isoladas."
+    m_Localized: "A recomenda\xE7\xE3o \xE9 clara: tranquem as portas, n\xE3o andem sozinhos depois de escurecer e liguem para o 911 diante de qualquer movimento estranho na vizinhan\xE7a."
     m_Metadata:
       m_Items: []
   - m_Id: 7900624695296
-    m_Localized: "*Voc\xEA tem que procurar.* qualquer atividade suspeita, liguem
-      para o 911."
+    m_Localized: WZNY. Voltamos daqui a pouco.
     m_Metadata:
       m_Items: []
   references:

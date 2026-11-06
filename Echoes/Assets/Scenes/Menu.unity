@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6ff481eafa16b41b180511cff55e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
-  gameSceneName: Game
+  gameSceneName: Abertura1995
   backgroundVideo: {fileID: 0}
   backgroundImage: {fileID: 0}
   clickSound:

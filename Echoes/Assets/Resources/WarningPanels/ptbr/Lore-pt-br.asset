@@ -14,13 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   language: 1
   title: 
-  text: "Em 1996, o ar de Harrow Creek era cortado pelo terror. O \"A\xE7ougueiro
-    de Harrow Creek\" n\xE3o era um monstro de lendas, mas um assassino real, manchando
-    a cidade com sangue. Seu cart\xE3o de visitas macabro: uma faca de cozinha enterrada
-    no peito de suas v\xEDtimas.\n\nEthan Myers, um jovem rep\xF3rter faminto por
-    verdade, mergulhou de cabe\xE7a na escurid\xE3o do caso.\n\nEnt\xE3o, em um sil\xEAncio
-    perturbador, o A\xE7ougueiro sumiu. N\xE3o houve corpo, n\xE3o houve confiss\xE3o.
-    A cidade nunca soube se ele morreu... ou apenas se escondeu. A sombra de sua
-    faca ainda paira sobre a cidade.\n\n"
+  text: "Entre 1994 e 1996, Harrow Creek viveu com medo. O \"A\xE7ougueiro de Harrow Creek\" fez seis v\xEDtimas e deixou a mesma assinatura em todas: uma faca de cozinha da pr\xF3pria casa.\n\nEthan Myers, rep\xF3rter policial do Harrow Creek Ledger, cobriu o caso do primeiro corpo ao \xFAltimo, ao lado da fot\xF3grafa Clara Reyes.\n\nEm 1996, as mortes pararam. Clara desapareceu na mesma semana. A pol\xEDcia arquivou o caso e deu o principal suspeito como morto. Ningu\xE9m foi preso."
   displayDuration: 30
   isSkippable: 1

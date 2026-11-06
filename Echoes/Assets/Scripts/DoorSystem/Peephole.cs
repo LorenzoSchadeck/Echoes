@@ -18,6 +18,16 @@ public class Peephole: MonoBehaviour, IInteractable
     public string InteractionPrompt => interactionPrompt.GetLocalizedString();
     public float InteractionDistance => interactionDistance;
 
+    public bool IsPeeking => isPeeking;
+
+    /// <summary>
+    /// Tira o jogador do olho mágico (por exemplo, quando a luz cai no meio da espiada).
+    /// </summary>
+    public void StopPeekingIfActive()
+    {
+        if (isPeeking) StopPeeking();
+    }
+
     [Header("Mechanics")]
     [Tooltip("A quantidade de sanidade (0 a 1) perdida ao começar a espiar.")]
     [SerializeField, Range(0f, 1f)] private float sanityLossAmount = 0.1f;

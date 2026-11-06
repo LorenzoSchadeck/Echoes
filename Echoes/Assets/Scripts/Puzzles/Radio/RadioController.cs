@@ -177,7 +177,15 @@ public class RadioController : MonoBehaviour, IInteractable
             }
         }
 
-        if (act >= GameAct.Memories && act < GameAct.Choir)
+        if (act >= GameAct.Memories && act < GameAct.Choir && DemoSettings.IsDemo)
+        {
+            // Demo: a Track 2 já tocou uma vez e o puzzle fica para o capítulo completo
+            track2HasBeenActivated = true;
+            currentState = RadioState.Off;
+            canInteract = false;
+            MarkPaperTriggersAsUsed();
+        }
+        else if (act >= GameAct.Memories && act < GameAct.Choir)
         {
             // Puzzle de sintonia em andamento: Track 2 volta a tocar em loop
             track2HasBeenActivated = true;
@@ -625,6 +633,9 @@ public class RadioController : MonoBehaviour, IInteractable
     /// </summary>
     private IEnumerator ActivatePuzzleModeAfterDelay()
     {
+        // Na demo não há puzzle de sintonia: a Track 2 toca uma vez e o rádio desliga
+        if (DemoSettings.IsDemo) yield break;
+
         // Aguarda 33 segundos
         yield return new WaitForSeconds(minPlayTimeBeforeShutdown);
         
@@ -644,6 +655,14 @@ public class RadioController : MonoBehaviour, IInteractable
     /// </summary>
     private void OnTrack2Complete()
     {
+        if (DemoSettings.IsDemo)
+        {
+            currentState = RadioState.Off;
+            canInteract = false;
+            StartCoroutine(TriggerRadioTrack2CompletedAfterDelay());
+            return;
+        }
+
         // Se ainda não está em modo puzzle, ativa agora
         if (currentState != RadioState.PuzzleMode)
         {

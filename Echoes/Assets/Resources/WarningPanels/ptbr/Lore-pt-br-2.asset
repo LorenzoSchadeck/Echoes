@@ -14,12 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   language: 1
   title: 
-  text: "O custo daquela investiga\xE7\xE3o dilacerou a mente de Ethan Myers. Anos
-    se passaram, mas o Transtorno de Estresse P\xF3s-Traum\xE1tico (TEPT) o mant\xE9m
-    prisioneiro.\n\nA qualquer momento, o mundo real se desfaz. A vis\xE3o se fecha,
-    o ar se torna hostil, e o terror de 1996 volta a rastejar.\n\nA \xFAnica barreira
-    entre Ethan e a loucura total \xE9 a medica\xE7\xE3o. Ele precisa se manter dopado,
-    lutando diariamente para n\xE3o deixar que o monstro que ele cobriu o consuma
-    por dentro."
+  text: "Hoje, em 2003, Ethan n\xE3o escreve mais. O que ele viu naqueles anos ficou com ele: um Transtorno de Estresse P\xF3s-Traum\xE1tico que transforma qualquer barulho em amea\xE7a e apaga horas inteiras da sua mem\xF3ria.\n\nNas crises, a vis\xE3o se fecha, o ar pesa e 1996 volta a acontecer.\n\nO rem\xE9dio acalma as crises. Mas tamb\xE9m deixa as lembran\xE7as longe demais."
   displayDuration: 30
   isSkippable: 1

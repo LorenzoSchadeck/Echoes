@@ -38,6 +38,14 @@ MonoBehaviour:
     m_Localized: VOZ DESCONHECIDA
     m_Metadata:
       m_Items: []
+  - m_Id: 142747414497632256
+    m_Localized: 'CLARA:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 142747414560546816
+    m_Localized: 'CENTRAL:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

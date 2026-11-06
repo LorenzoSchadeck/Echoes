@@ -20,6 +20,8 @@ public class GameHud : MonoBehaviour
     public static readonly HudElement InspectBody = new HudElement(true);
     /// <summary>Tela preta por cima do jogo (morte, apagões, final). alpha 0 = transparente.</summary>
     public static readonly HudElement FadeScreen = new HudElement(true) { alpha = 0f };
+    /// <summary>Clarão branco por cima de tudo (flash da câmera, relâmpago). alpha 0 = transparente.</summary>
+    public static readonly HudElement FlashScreen = new HudElement(true) { alpha = 0f };
     public static readonly HudElement EndText = new HudElement(true) { alpha = 0f };
 
     private void OnEnable()
@@ -37,6 +39,7 @@ public class GameHud : MonoBehaviour
         InspectTitle.Bind(root.Q<Label>("inspect-title"));
         InspectBody.Bind(root.Q<Label>("inspect-body"));
         FadeScreen.Bind(root.Q("fade"));
+        FlashScreen.Bind(root.Q("flash"));
         EndText.Bind(root.Q<Label>("end-text"));
 
         ApplySubtitleScale();
@@ -49,7 +52,7 @@ public class GameHud : MonoBehaviour
         foreach (HudElement element in All) element.Bind(null);
     }
 
-    private static HudElement[] All => new[] { Crosshair, Prompt, Speaker, Subtitle, Inspect, InspectTitle, InspectBody, FadeScreen, EndText };
+    private static HudElement[] All => new[] { Crosshair, Prompt, Speaker, Subtitle, Inspect, InspectTitle, InspectBody, FadeScreen, FlashScreen, EndText };
 
     private static void ApplySubtitleScale()
     {
@@ -73,6 +76,7 @@ public class GameHud : MonoBehaviour
         Speaker.enabled = false;
         Subtitle.enabled = false;
         Inspect.enabled = false;
+        FlashScreen.alpha = 0f;
         EndText.alpha = 0f;
     }
 }

@@ -14,19 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   language: 0
   title: 
-  text: 'In 1996, the air of Harrow Creek was sliced by terror. The "Butcher of Harrow
-    Creek" was not a monster of legends, but a real killer, staining the town with
-    blood. His macabre calling card: a kitchen knife plunged into the chest of his
-    victims.
+  text: 'Between 1994 and 1996, Harrow Creek lived in fear. The "Harrow Creek Butcher" claimed six victims and left the same signature on every one: a kitchen knife from the victim''s own home.
 
 
-    Ethan Myers, a young reporter hungry for the truth, plunged headfirst
-    into the darkness of the case.
+    Ethan Myers, a crime reporter for the Harrow Creek Ledger, covered the case from the first body to the last, alongside photographer Clara Reyes.
 
 
-    Then, in a disturbing silence, the Butcher
-    vanished. There was no body, there was no confession. The town never knew if
-    he died... or merely went into hiding. The shadow of his knife still hangs over
-    the city.'
+    In 1996, the killings stopped. Clara vanished that same week. Police closed the case and declared their main suspect dead. No one was ever arrested.'
   displayDuration: 30
   isSkippable: 1

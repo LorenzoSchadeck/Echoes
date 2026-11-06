@@ -3,13 +3,14 @@
     <ui:VisualElement name="hud" class="hud" picking-mode="Ignore">
         <ui:VisualElement name="crosshair" class="crosshair" picking-mode="Ignore" />
         <ui:Label name="prompt" class="hud-text prompt" picking-mode="Ignore" />
-        <ui:Label name="speaker" class="hud-text speaker" picking-mode="Ignore" />
-        <ui:Label name="subtitle" class="hud-text subtitle" picking-mode="Ignore" />
         <ui:VisualElement name="inspect" class="inspect" picking-mode="Ignore">
             <ui:Label name="inspect-title" class="hud-text inspect-title" picking-mode="Ignore" />
             <ui:Label name="inspect-body" class="hud-text inspect-body" picking-mode="Ignore" />
         </ui:VisualElement>
         <ui:VisualElement name="fade" class="fade" picking-mode="Ignore" />
+        <ui:VisualElement name="flash" class="flash" picking-mode="Ignore" />
+        <ui:Label name="speaker" class="hud-text speaker" picking-mode="Ignore" />
+        <ui:Label name="subtitle" class="hud-text subtitle" picking-mode="Ignore" />
         <ui:Label name="end-text" class="hud-text end-text" picking-mode="Ignore" />
     </ui:VisualElement>
 </ui:UXML>

@@ -19,26 +19,23 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 10220318720
-    m_Localized: "P\xE1ginas manchadas? O que isso significa?"
+    m_Localized: "Quarto seis... O locutor n\xE3o disse o quarto. Disse?"
     m_Metadata:
       m_Items: []
   - m_Id: 66029727744
-    m_Localized: "Que barulho foi esse? Parece ter vindo do escrit\xF3rio..."
+    m_Localized: "Entre uma e duas. E \xE0s tr\xEAs algu\xE9m ligou um r\xE1dio aqui."
     m_Metadata:
       m_Items: []
   - m_Id: 91694673920
-    m_Localized: "Era... ele? C-Como? Por que ele est\xE1 falando comigo? O que ele
-      quis dizer com tudo isso?"
+    m_Localized: "Era... ele? C-Como? Por que ele est\xE1 falando comigo? O que ele quis dizer com tudo isso?"
     m_Metadata:
       m_Items: []
   - m_Id: 121100939264
-    m_Localized: "Esta chave... S\xE3o poucas as coisas que ficam trancadas nesta
-      casa."
+    m_Localized: "Esta chave... S\xE3o poucas as coisas que ficam trancadas nesta casa."
     m_Metadata:
       m_Items: []
   - m_Id: 160456093696
-    m_Localized: "Com este formato... s\xF3 pode haver um lugar que esta chave pode
-      abrir."
+    m_Localized: "Com este formato... s\xF3 pode haver um lugar que esta chave pode abrir."
     m_Metadata:
       m_Items: []
   - m_Id: 215208538112
@@ -46,27 +43,103 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3809764814848
-    m_Localized: "A casa de campo da fam\xEDlia... J\xE1 faz d\xE9cadas que ningu\xE9m
-      vai l\xE1."
+    m_Localized: "A casa de campo da fam\xEDlia... J\xE1 faz d\xE9cadas que ningu\xE9m vai l\xE1."
     m_Metadata:
       m_Items: []
   - m_Id: 3866614411264
-    m_Localized: Eu me lembro bem daquele dia. Foi o primeiro a visitar a casa de
-      campo em muito tempo. Acho que ele gostou...
+    m_Localized: Eu me lembro bem daquele dia. Foi o primeiro a visitar a casa de campo em muito tempo. Acho que ele gostou...
     m_Metadata:
       m_Items: []
   - m_Id: 3871400112128
-    m_Localized: "Minha primeira cobertura de campo... Foi terr\xEDvel presenciar
-      o \"trabalho do a\xE7ougueiro\" de t\xE3o perto."
+    m_Localized: "Rua Halley, 95. A Clara disse que essa ia pra capa. N\xE3o foi."
     m_Metadata:
       m_Items: []
   - m_Id: 3908007997440
-    m_Localized: Este foi um belo dia... Acho que foi o primeiro trabalho depois
-      de tudo aquilo.
+    m_Localized: "Minha primeira capa. Mar\xE7o de 94. A primeira v\xEDtima."
     m_Metadata:
       m_Items: []
   - m_Id: 5353537122304
-    m_Localized: "Eu n\xE3o me lembro dela... Ser\xE1 que eu devia?"
+    m_Localized: Oito anos. Eu ainda espero o telefone tocar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589238050816
+    m_Localized: "Unidade doze, Rua Halley, 41, segundo andar. Den\xFAncia de gritos. Aguarde refor\xE7o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908416
+    m_Localized: A gente tem uns quatro minutos antes da patrulha. Quarto seis.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908417
+    m_Localized: Ethan. Seis. No fim do corredor.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908418
+    m_Localized: "Espera. E se ele ainda estiver a\xED dentro?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908419
+    m_Localized: "N\xE3o est\xE1."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589342908420
+    m_Localized: "Como voc\xEA achou o interruptor no escuro?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297024
+    m_Localized: "Todo quarto de pens\xE3o \xE9 igual."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297025
+    m_Localized: "Meu Deus. \xC9 a gar\xE7onete do Rudy's."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297026
+    m_Localized: Ruth Pierce. Trinta e quatro anos.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297027
+    m_Localized: "Voc\xEA sabia o nome dela?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297028
+    m_Localized: "T\xE1 na carteira. Em cima da c\xF4moda."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297029
+    m_Localized: "Falta a faca maior. \xC9 dela. Ele sempre usa a faca da casa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297030
+    m_Localized: Desligou da tomada. Ele quer que a gente saiba a hora.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297031
+    m_Localized: "Ou n\xE3o queria ouvir o alarme."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297032
+    m_Localized: Trancada por dentro. E a chave?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297033
+    m_Localized: Ele levou. Chaveiro vermelho, de madeira.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297034
+    m_Localized: "Como voc\xEA sabe que era vermelho?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297035
+    m_Localized: "O do quarto cinco t\xE1 na porta. A dona usa igual em todos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297036
+    m_Localized: "Pol\xEDcia. A gente n\xE3o pode estar aqui."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 134936589351297037
+    m_Localized: Fica parado. Essa vai pra capa.
     m_Metadata:
       m_Items: []
   references:

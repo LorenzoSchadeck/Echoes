@@ -103,6 +103,14 @@ MonoBehaviour:
     m_Key: PROMPT_ROTATE
     m_Metadata:
       m_Items: []
+  - m_Id: 154679905164763136
+    m_Key: PROMPT_EXAMINE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154679905210900480
+    m_Key: PROMPT_FIRE_ESCAPE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

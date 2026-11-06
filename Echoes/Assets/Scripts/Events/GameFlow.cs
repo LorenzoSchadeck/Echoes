@@ -8,7 +8,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public enum GameAct
 {
-    Prologue,       // Início até a Track 1 do rádio terminar: período seguro, sem dreno de sanidade nem eventos
+    Opening = -1,   // Abertura de 1995 na Pensão Halley, antes do apartamento (cena Abertura1995)
+    Prologue = 0,       // Início até a Track 1 do rádio terminar: período seguro, sem dreno de sanidade nem eventos
     Investigation,  // Track 1 encerrada: sanidade e eventos de horror ativos, lembranças ainda bloqueadas
     Memories,       // Track 2 encerrada: lembranças (flashbacks) liberadas
     Choir,          // Track 3 encerrada: mecânica do coro
@@ -39,6 +40,17 @@ public static class GameFlow
 
         Current = act;
         Debug.Log($"[GameFlow] Ato atual: {Current}");
+        OnActChanged?.Invoke(Current);
+    }
+
+    /// <summary>
+    /// Marca a abertura de 1995. Chamado pela cena da abertura no Start, depois de a cena
+    /// carregar (o carregamento devolve o jogo ao Prólogo).
+    /// </summary>
+    public static void BeginOpening()
+    {
+        Current = GameAct.Opening;
+        Debug.Log("[GameFlow] Ato atual: Opening");
         OnActChanged?.Invoke(Current);
     }
 

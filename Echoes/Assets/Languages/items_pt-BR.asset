@@ -47,7 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9986011684515840
-    m_Localized: "\rCL\xCDNICA DE SA\xDADE MENTAL NEW LEAF\r\nDra. Helena Costa\r\nLicen\xE7a M\xE9dica N\xBA: NY-123456\r\n\nLAUDO PSIQUI\xC1TRICO\r\nPaciente: Ethan Myers\r\nData: 18/09/2005\r\n\nDiagn\xF3stico: Transtorno de Estresse P\xF3s-Traum\xE1tico (TEPT) com sintomas dissociativos graves.\r\nGatilhos dos Sintomas: Paciente sofre crises agudas marcadas por um r\xE1pido in\xEDcio de vis\xE3o em t\xFAnel e alucina\xE7\xF5es, resultando em perda de mem\xF3ria (\"apag\xF5es\").\r\n\nDIRETRIZES CR\xCDTICAS:\r\nAo primeiro sinal dos sintomas, tomar uma dose de Serenil IMEDIATAMENTE.\r\nUm timer de alerta m\xE9dico no seu quarto servir\xE1 como aviso.\r\n\nRECOMENDA\xC7\xD5ES ADICIONAIS:\r\nO paciente demonstra um padr\xE3o de hipervigil\xE2ncia, manifestado pela observa\xE7\xE3o compulsiva de seus vizinhos atrav\xE9s do olho m\xE1gico. Esta a\xE7\xE3o exacerba significativamente seus sintomas de paranoia e pode induzir um epis\xF3dio dissociativo. \xC9 imperativo que o paciente resista a esse impulso para manter sua estabilidade.\r\n\nAVISO DE RISCO: A falha em tomar a medica\xE7\xE3o durante uma crise pode levar a choque sist\xEAmico e parada card\xEDaca. Esta condi\xE7\xE3o pode ser fatal.\r\n__________________________________________________\nDra. Helena Costa\r\nPsiquiatra Cl\xEDnica\r"
+    m_Localized: "CL\xCDNICA NEW LEAF DE SA\xDADE MENTAL\nDra. Helen Moore \u2014 Registro NY 0412337\n\nLAUDO PSIQUI\xC1TRICO\nPaciente: Ethan Myers\nData: 18/09/2003\n\nDiagn\xF3stico: Transtorno de Estresse P\xF3s-Traum\xE1tico (TEPT) com sintomas dissociativos graves.\nSintomas: crises agudas com vis\xE3o em t\xFAnel e alucina\xE7\xF5es, seguidas de perda de mem\xF3ria (\"apag\xF5es\").\n\nORIENTA\xC7\xD5ES:\nAo primeiro sinal de crise, tomar uma dose de Serenil imediatamente. O timer no quarto serve de lembrete.\n\nOBSERVA\xC7\xC3O:\nO paciente mostra um padr\xE3o de hipervigil\xE2ncia: observa os vizinhos pelo olho m\xE1gico de forma compulsiva. Esse h\xE1bito agrava a paranoia e pode desencadear um epis\xF3dio dissociativo. O paciente deve resistir a esse impulso.\n\nRISCO: deixar de tomar a medica\xE7\xE3o durante uma crise pode levar a choque sist\xEAmico e parada card\xEDaca.\n\n__________________________\nDra. Helen Moore, psiquiatra"
     m_Metadata:
       m_Items: []
   - m_Id: 9986369865494528
@@ -63,7 +63,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9994019151917056
-    m_Localized: "Um retrato seu em meio a uma cena de crime antiga. A fita de isolamento corta a imagem ao meio, e h\xE1 algo na sua postura \u2014 n\xE3o \xE9 apenas um rep\xF3rter cumprindo o dever\u2026 parece algu\xE9m que se lembra mais do que deveria."
+    m_Localized: "Voc\xEA, na janela da Pens\xE3o Halley, com a luz de uma viatura atr\xE1s. A luz deixa seu rosto meio no escuro. D\xE1 para jurar que voc\xEA est\xE1 sorrindo."
     m_Metadata:
       m_Items: []
   - m_Id: 9994982784872448
@@ -71,7 +71,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9994985020436480
-    m_Localized: "Uma fotografia desbotada mostra voc\xEA ao lado de uma mulher sorridente. A cena parece inocente, mas h\xE1 um desconforto sutil em seus olhares\u2026 como se um segredo estivesse escondido entre eles, preso no instante em que a foto foi tirada."
+    m_Localized: "Voc\xEA e Clara Reyes na reda\xE7\xE3o do Ledger, em 1994. Ela ri de alguma coisa que voc\xEA disse. Voc\xEA n\xE3o lembra o qu\xEA."
     m_Metadata:
       m_Items: []
   - m_Id: 10038187895140352
@@ -79,7 +79,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10038230131781632
-    m_Localized: "O peso... o equil\xEDbrio. Parece... certo na minha m\xE3o. Mais do que deveria para quem s\xF3 corta cebolas."
+    m_Localized: "Uma faca de chef, pesada e bem afiada. Voc\xEA n\xE3o lembra de ter afiado."
     m_Metadata:
       m_Items: []
   - m_Id: 10046071412469760
@@ -115,11 +115,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10143149086060544
-    m_Localized: "Vizinho,\n\r\nPe\xE7o desculpas pela agita\xE7\xE3o. Acabei de me instalar no apartamento da frente. Leva um tempo para colocar tudo no lugar.\r\nTenho a impress\xE3o de que nos veremos muito por a\xED.\r\n\n- J."
+    m_Localized: "Vizinho,\n\nDesculpe o barulho da mudan\xE7a. Cheguei h\xE1 pouco no 3B, do outro lado do corredor, e ainda estou arrumando as coisas. Se precisar de algo, \xE9 s\xF3 bater.\n\n\u2014 W. Kessler"
     m_Metadata:
       m_Items: []
   - m_Id: 10143144258416640
-    m_Localized: Carta
+    m_Localized: Bilhete de boas-vindas
     m_Metadata:
       m_Items: []
   - m_Id: 17315704439943168
@@ -136,6 +136,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 153929297386315776
     m_Localized: "\"Seu r\xE1dio de novo, \xE0s tr\xEAs da manh\xE3. Tem gente aqui que trabalha cedo. Da pr\xF3xima vez eu chamo o s\xEDndico. \u2014 W. Kessler, 3B\"\nNo verso, uma lista de compras e um endere\xE7o: Rua Halley, 41."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153971949200777216
+    m_Localized: Recorte de jornal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 153971949238525952
+    m_Localized: "Harrow Creek Ledger, 10 de fevereiro de 1995.\n\n\"GAR\xC7ONETE \xC9 A TERCEIRA V\xCDTIMA DO A\xC7OUGUEIRO\"\n\nRuth Pierce, 34 anos, foi encontrada morta no quarto 6 da Pens\xE3o Halley, na Rua Halley, 41. A pol\xEDcia n\xE3o tem suspeitos.\n\nTexto: Ethan Myers. Fotos: Clara Reyes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154674988593225728
+    m_Localized: Carteira
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154674988643557376
+    m_Localized: "Um cart\xE3o plastificado, gasto nas bordas. A foto de uma mulher cansada, de cabelo preso.\n\nRuth Ann Pierce\nRua Halley, 41, quarto 6, Harrow Creek\nNascida em 14/03/1960\nEmitido em 1993, v\xE1lido at\xE9 1997"
     m_Metadata:
       m_Items: []
   references:

@@ -226,6 +226,20 @@ MonoBehaviour:
     m_Localized: High
     m_Metadata:
       m_Items: []
+  - m_Id: 143087558379479040
+    m_Localized: "Echoes \u2014 Chapter 1\n\nThank you for playing the demo.\nAdd it to your Steam wishlist."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143145554287566848
+    m_Localized: 'Harrow Creek
+
+      February 9, 1995, 2:04 a.m.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143145554337898496
+    m_Localized: Eight years later
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

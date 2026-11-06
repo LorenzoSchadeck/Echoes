@@ -18,52 +18,72 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 1262264320
-    m_Localized: "Recorte: terceira v\xEDtima"
+  - m_Id: 1354539018
+    m_Localized: Isso vai pro mural.
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539008
-    m_Localized: "Mulher encontrada morta na Rua Halley. A pol\xEDcia n\xE3o tem suspeitos."
+  - m_Id: 329353262833664
+    m_Localized: Recorte do Ledger
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539009
-    m_Localized: Rua Halley
+  - m_Id: 329353300582400
+    m_Localized: "\"Gar\xE7onete \xE9 a terceira v\xEDtima do A\xE7ougueiro.\" Texto de Ethan Myers, fotos de Clara Reyes."
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539010
-    m_Localized: Bilhete do vizinho
+  - m_Id: 329353300582401
+    m_Localized: "Pens\xE3o Halley, Rua Halley, 41"
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539011
-    m_Localized: "Caiu por baixo da porta. Uma lista de compras; no verso, um endere\xE7o."
+  - m_Id: 329353300582402
+    m_Localized: "Anota\xE7\xE3o do boletim"
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539012
+  - m_Id: 329353300582403
+    m_Localized: "WZNY, 22h50: corpo de mulher na antiga Pens\xE3o Halley, segundo andar. A pol\xEDcia n\xE3o confirma a causa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329353300582404
     m_Localized: Rua Halley, 41
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539013
-    m_Localized: "Receita m\xE9dica"
+  - m_Id: 329353304776704
+    m_Localized: Bilhete do vizinho
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539014
-    m_Localized: "Diazepam, 10 mg. Paciente: E. Myers. A assinatura do m\xE9dico est\xE1 borrada."
+  - m_Id: 329353304776705
+    m_Localized: "Passado por baixo da porta. Reclama do meu r\xE1dio \xE0s tr\xEAs da manh\xE3. No verso, uma lista de compras e um endere\xE7o."
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539015
-    m_Localized: "Cl\xEDnica S\xE3o Lucas"
+  - m_Id: 329353304776706
+    m_Localized: Rua Halley, 41
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539016
-    m_Localized: O vizinho esteve na Rua Halley no dia da terceira morte.
+  - m_Id: 329353304776707
+    m_Localized: Laudo da New Leaf
     m_Metadata:
       m_Items: []
-  - m_Id: 1354539017
+  - m_Id: 329353304776708
+    m_Localized: "TEPT com sintomas dissociativos. Serenil ao primeiro sinal de crise. Evitar o olho m\xE1gico."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329353304776709
+    m_Localized: "Cl\xEDnica New Leaf"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329353304776710
+    m_Localized: "Oito anos depois, ele voltou para a Pens\xE3o Halley."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329353304776711
+    m_Localized: "O mesmo lugar. Ele quer que algu\xE9m lembre."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329353304776712
+    m_Localized: "O vizinho tem o endere\xE7o da pens\xE3o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329353304776713
     m_Localized: Eu sabia. Eu sabia que era ele.
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1354539018
-    m_Localized: Isso vai pro mural.
     m_Metadata:
       m_Items: []
   references:

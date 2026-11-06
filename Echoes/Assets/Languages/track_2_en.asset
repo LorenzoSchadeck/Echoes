@@ -19,40 +19,35 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 5715636224
-    m_Localized: The tension in Harrow Creek is palpable. The curfew keeps most people
-      indoors, but fear is our new guest.
+    m_Localized: WZNY, night desk. The storm has knocked out power in parts of the north side.
     m_Metadata:
       m_Items: []
   - m_Id: 8202858496
-    m_Localized: 'Social panic has led to a rise in false reports. Psychologists
-      warn: Distrust is natural, but paranoia is contagious.'
+    m_Localized: Fear has tripled the number of false reports since yesterday. Psychologists remind us that suspicion is natural, but paranoia spreads fast.
     m_Metadata:
       m_Items: []
   - m_Id: 10224513024
-    m_Localized: Look. Through. The. Peephole. Just to be sure. He is moving now.
+    m_Localized: ...look through the peephole...
     m_Metadata:
       m_Items: []
   - m_Id: 12044840960
-    m_Localized: 'Remember: the Butcher of the 90s was discreet. Your neighbor, your
-      friend, your colleague... they could be the danger.'
+    m_Localized: In the nineties, the Butcher was never seen coming or going. To his neighbors, he was nobody special.
     m_Metadata:
       m_Items: []
   - m_Id: 14301376512
-    m_Localized: You saw the note. He wants to talk. What will you say to him?
+    m_Localized: Police confirm the Halley boarding house victim died between one and two in the morning.
     m_Metadata:
       m_Items: []
   - m_Id: 15333175296
-    m_Localized: Police still have no concrete leads. The hope for a quick end fades
-      with every night in Harrow Creek.
+    m_Localized: There are still no suspects. Chief Cole asks anyone who was on Halley Street last night to come forward.
     m_Metadata:
       m_Items: []
   - m_Id: 15991681024
-    m_Localized: Do not open the door to strangers, or even familiar faces. The city
-      is not safe.
+    m_Localized: Don't open your door to strangers. Not even to familiar faces.
     m_Metadata:
       m_Items: []
   - m_Id: 16654381056
-    m_Localized: 'Repeating: look for ANY detail out of place...'
+    m_Localized: WZNY. Stay home.
     m_Metadata:
       m_Items: []
   references:
