@@ -12,5 +12,6 @@
         <ui:Label name="speaker" class="hud-text speaker" picking-mode="Ignore" />
         <ui:Label name="subtitle" class="hud-text subtitle" picking-mode="Ignore" />
         <ui:Label name="end-text" class="hud-text end-text" picking-mode="Ignore" />
+        <ui:Label name="skip-hint" class="hud-text skip-hint" picking-mode="Ignore" />
     </ui:VisualElement>
 </ui:UXML>

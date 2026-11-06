@@ -152,6 +152,7 @@ public static class ScriptSetupTools
     {
         ("M_CARD_1995", "Harrow Creek\n9 de fevereiro de 1995, 2h04", "Harrow Creek\nFebruary 9, 1995, 2:04 a.m."),
         ("M_CARD_LATER", "Oito anos depois", "Eight years later"),
+        ("M_SKIP_HOLD", "Segure Espaço para pular", "Hold Space to skip"),
     };
 
     private static readonly (string key, string pt, string en)[] OpeningPrompts =

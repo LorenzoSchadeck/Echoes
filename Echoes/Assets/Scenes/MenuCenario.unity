@@ -14534,11 +14534,11 @@ MonoBehaviour:
   optionsBlendTime: 1.1
   ambience:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1781648967
+      Data2: 1131786533
+      Data3: -1783922530
+      Data4: 1356178680
+    Path: event:/Opening/horror rain
 --- !u!4 &869288068
 Transform:
   m_ObjectHideFlags: 0

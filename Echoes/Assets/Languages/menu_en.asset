@@ -240,6 +240,10 @@ MonoBehaviour:
     m_Localized: Eight years later
     m_Metadata:
       m_Items: []
+  - m_Id: 143396950194823168
+    m_Localized: Hold Space to skip
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

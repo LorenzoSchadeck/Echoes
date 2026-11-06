@@ -127,9 +127,10 @@ public static class MenuBackdropSetupTools
         };
 
         var backdrop = menuRoot.AddComponent<MenuBackdrop>();
-        EventReference ambience = EventManager.EventFromPath("event:/Opening/Rain") != null
-            ? EventReference.Find("event:/Opening/Rain")
-            : default;
+        EditorEventRef rain = new[] { "event:/Opening/Rain", "event:/Opening/horror rain", "event:/Effects/horror rain" }
+            .Select(p => EventManager.Events.FirstOrDefault(e => string.Equals(e.Path, p, System.StringComparison.OrdinalIgnoreCase)))
+            .FirstOrDefault(e => e != null);
+        EventReference ambience = rain != null ? new EventReference { Path = rain.Path, Guid = rain.Guid } : default;
         backdrop.EditorSetup(menuCamera, police, roomLight, corridorLight, door6, startShot, room, corridor, ambience);
 
         // Prévia no editor já no começo do movimento

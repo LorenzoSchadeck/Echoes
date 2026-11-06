@@ -1192,7 +1192,7 @@ public static class OpeningSetupTools
         flash.enabled = false;
 
         var presence = clara.AddComponent<ClaraPresence>();
-        presence.EditorSetup(player.root.transform, player.camera, flash, player.footstep, Sound("event:/Opening/Camera_Flash"));
+        presence.EditorSetup(player.root.transform, player.camera, flash, player.footstep, Sound(FirstSound("event:/Opening/Camera_Flash", "event:/Opening/camera flash", "event:/Effects/camera flash")));
         return presence;
     }
 
@@ -1224,7 +1224,7 @@ public static class OpeningSetupTools
         var data = new SerializedObject(director);
         void Set(string field, Object value) => data.FindProperty(field).objectReferenceValue = value;
         void SetSound(string field, string path) => data.FindProperty(field).boxedValue = Sound(path);
-        SetSound("scannerStatic", FirstSound("event:/Opening/Scanner", "event:/Events/static_burst"));
+        SetSound("scannerStatic", FirstSound("event:/Opening/Scanner", "event:/Effects/police scanner", "event:/Events/static_burst"));
         Set("stairs", stairs);
         Set("corridorEnd", end);
         Set("door5Zone", door5Zone);
@@ -1236,18 +1236,18 @@ public static class OpeningSetupTools
         Set("roomEntry", entry);
         Set("switchOff", room.switchOff);
         Set("switchOn", room.switchOn);
-        SetSound("switchSound", FirstSound("event:/Opening/Light_Switch", "event:/Effects/Key"));
+        SetSound("switchSound", FirstSound("event:/Opening/Light_Switch", "event:/Effects/light switch", "event:/Effects/Key"));
         Set("roomLight", room.ceilingLight);
         Set("drawerClue", room.drawerClue);
         Set("clockClue", room.clockClue);
         Set("lockClue", room.lockClue);
         Set("dustMarkClue", room.dustClue);
         Set("police", room.police);
-        SetSound("sirenSound", "event:/Opening/Siren");
+        SetSound("sirenSound", FirstSound("event:/Opening/Siren", "event:/Ambience/police siren"));
         Set("window", room.window);
         Set("windowSpot", room.windowSpot);
         SetSound("thunderSound", "event:/Ambience/Thunder");
-        SetSound("rainAmbience", "event:/Opening/Rain");
+        SetSound("rainAmbience", FirstSound("event:/Opening/Rain", "event:/Opening/horror rain", "event:/Effects/horror rain"));
         data.ApplyModifiedPropertiesWithoutUndo();
 
         AssignVoices(director);
@@ -1281,10 +1281,10 @@ public static class OpeningSetupTools
             return;
         }
         var data = new SerializedObject(director);
-        data.FindProperty("scannerStatic").boxedValue = Sound(FirstSound("event:/Opening/Scanner", "event:/Events/static_burst"));
-        data.FindProperty("switchSound").boxedValue = Sound(FirstSound("event:/Opening/Light_Switch", "event:/Effects/Key"));
-        data.FindProperty("sirenSound").boxedValue = Sound("event:/Opening/Siren");
-        data.FindProperty("rainAmbience").boxedValue = Sound("event:/Opening/Rain");
+        data.FindProperty("scannerStatic").boxedValue = Sound(FirstSound("event:/Opening/Scanner", "event:/Effects/police scanner", "event:/Events/static_burst"));
+        data.FindProperty("switchSound").boxedValue = Sound(FirstSound("event:/Opening/Light_Switch", "event:/Effects/light switch", "event:/Effects/Key"));
+        data.FindProperty("sirenSound").boxedValue = Sound(FirstSound("event:/Opening/Siren", "event:/Ambience/police siren"));
+        data.FindProperty("rainAmbience").boxedValue = Sound(FirstSound("event:/Opening/Rain", "event:/Opening/horror rain", "event:/Effects/horror rain"));
         data.ApplyModifiedPropertiesWithoutUndo();
         AssignVoices(director);
 
@@ -1292,7 +1292,7 @@ public static class OpeningSetupTools
         if (clara != null)
         {
             var claraData = new SerializedObject(clara);
-            claraData.FindProperty("flashSound").boxedValue = Sound("event:/Opening/Camera_Flash");
+            claraData.FindProperty("flashSound").boxedValue = Sound(FirstSound("event:/Opening/Camera_Flash", "event:/Opening/camera flash", "event:/Effects/camera flash"));
             claraData.ApplyModifiedPropertiesWithoutUndo();
         }
         EditorSceneManager.MarkSceneDirty(director.gameObject.scene);
@@ -1402,11 +1402,17 @@ public static class OpeningSetupTools
         projector.pivot = new Vector3(0f, 0f, size.z * 0.5f);
     }
 
-    private static string FirstSound(params string[] paths) => paths.FirstOrDefault(p => EventManager.EventFromPath(p) != null) ?? paths[0];
+    private static string FirstSound(params string[] paths) => paths.FirstOrDefault(p => FindEvent(p) != null) ?? paths[0];
 
     private static EventReference Sound(string path)
     {
-        EditorEventRef found = EventManager.EventFromPath(path);
+        EditorEventRef found = FindEvent(path);
         return found == null ? default : new EventReference { Path = found.Path, Guid = found.Guid };
     }
+
+    // EventFromPath às vezes não acha eventos novos (com espaço no nome) logo depois de atualizar os
+    // bancos; a lista de eventos do cache sempre tem
+    private static EditorEventRef FindEvent(string path) =>
+        EventManager.EventFromPath(path)
+        ?? EventManager.Events.FirstOrDefault(e => string.Equals(e.Path, path, System.StringComparison.OrdinalIgnoreCase));
 }

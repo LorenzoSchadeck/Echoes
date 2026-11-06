@@ -3,6 +3,7 @@ using System.Collections;
 using FMODUnity;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
 
@@ -123,6 +124,13 @@ public class OpeningDirector : MonoBehaviour
     [SerializeField] private LocalizedString laterCard = new LocalizedString("menu", "M_CARD_LATER");
     [SerializeField] private string nextScene = "Game";
 
+    [Header("Pular a abertura")]
+    [Tooltip("Segundos segurando Espaço (ou Y no controle) para pular direto para 2003.")]
+    [SerializeField] private float skipHoldTime = 1.5f;
+    [Tooltip("Segundos em que o aviso de pular aparece no começo.")]
+    [SerializeField] private float skipHintAtStart = 8f;
+    [SerializeField] private LocalizedString skipHint = new LocalizedString("menu", "M_SKIP_HOLD");
+
     private float corridorStartedAt = -1f;
     private bool hurrySaid;
     private float lastHurryAt = -100f;
@@ -133,6 +141,10 @@ public class OpeningDirector : MonoBehaviour
     private FMOD.Studio.EventInstance siren;
     private FMOD.Studio.EventInstance rain;
     private Clue[] clues = Array.Empty<Clue>();
+    private float skipHeld;
+    private float skipHintUntil;
+    private bool skipping;
+    private bool exiting;
 
     private void Awake()
     {
@@ -183,6 +195,7 @@ public class OpeningDirector : MonoBehaviour
     private IEnumerator Start()
     {
         GameFlow.BeginOpening();
+        skipHintUntil = Time.time + skipHintAtStart;
         foreach (StoryInteractable target in AllClueTargets()) target.Available = false;
         if (window != null) window.Available = false;
         if (roomLight != null) roomLight.SetOn(false);
@@ -220,6 +233,8 @@ public class OpeningDirector : MonoBehaviour
 
     private void Update()
     {
+        UpdateSkip();
+        if (skipping) return;
         if (hurrySaid || doorOpened || corridorStartedAt < 0f) return;
         if (Time.time - corridorStartedAt >= hurryAfter && !Dialogue.IsPlaying) Hurry();
     }
@@ -349,7 +364,61 @@ public class OpeningDirector : MonoBehaviour
         if (window != null) window.Available = true;
     }
 
-    private void HandleWindow(StoryInteractable target) => StartCoroutine(ExitRoutine());
+    private void HandleWindow(StoryInteractable target)
+    {
+        exiting = true;
+        StartCoroutine(ExitRoutine());
+    }
+
+    // ---------- Pular ----------
+
+    // Segurar Espaço (ou Y) pula a abertura; o aviso aparece no começo e enquanto a tecla está apertada
+    private void UpdateSkip()
+    {
+        if (skipping || exiting) return;
+
+        bool held = Time.timeScale > 0f
+            && ((Keyboard.current != null && Keyboard.current.spaceKey.isPressed)
+                || (Gamepad.current != null && Gamepad.current.buttonNorth.isPressed));
+        if (held && skipHeld <= 0f) skipHintUntil = Mathf.Max(skipHintUntil, Time.time + 3f);
+        skipHeld = held ? skipHeld + Time.unscaledDeltaTime : Mathf.Max(0f, skipHeld - Time.unscaledDeltaTime * 2f);
+
+        float progress = Mathf.Clamp01(skipHeld / Mathf.Max(0.1f, skipHoldTime));
+        bool show = progress > 0f || Time.time < skipHintUntil;
+        GameHud.SkipHint.enabled = show;
+        if (show)
+        {
+            GameHud.SkipHint.text = skipHint.GetLocalizedString();
+            GameHud.SkipHint.alpha = 0.35f + 0.65f * progress;
+        }
+
+        if (progress >= 1f)
+        {
+            skipping = true;
+            StopAllCoroutines();
+            StartCoroutine(SkipRoutine());
+        }
+    }
+
+    private IEnumerator SkipRoutine()
+    {
+        GameHud.SkipHint.enabled = false;
+        Dialogue.Stop();
+        PlayerControlLock.Acquire(this);
+        SetLook(false);
+        GameHud.Prompt.enabled = false;
+        GameHud.Crosshair.enabled = false;
+        if (clara != null) clara.Following = false;
+
+        GameHud.EndText.alpha = 0f;
+        yield return Fade.Alpha(GameHud.FadeScreen, 1f, 0.8f, smooth: true);
+        GameHud.FlashScreen.alpha = 0f;
+        StopLoops();
+        yield return ShowCard(laterCard, 1.5f);
+
+        PlayerControlLock.Release(this);
+        SceneManager.LoadScene(nextScene);
+    }
 
     // Ethan para no parapeito, de costas para a viatura, e Clara tira a foto da capa
     private IEnumerator ExitRoutine()

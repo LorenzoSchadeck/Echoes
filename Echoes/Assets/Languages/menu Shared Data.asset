@@ -235,6 +235,10 @@ MonoBehaviour:
     m_Key: M_CARD_LATER
     m_Metadata:
       m_Items: []
+  - m_Id: 143396950194823168
+    m_Key: M_SKIP_HOLD
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

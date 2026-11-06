@@ -23,6 +23,8 @@ public class GameHud : MonoBehaviour
     /// <summary>Clarão branco por cima de tudo (flash da câmera, relâmpago). alpha 0 = transparente.</summary>
     public static readonly HudElement FlashScreen = new HudElement(true) { alpha = 0f };
     public static readonly HudElement EndText = new HudElement(true) { alpha = 0f };
+    /// <summary>Aviso de "segure para pular" no canto (abertura).</summary>
+    public static readonly HudElement SkipHint = new HudElement(false);
 
     private void OnEnable()
     {
@@ -41,6 +43,7 @@ public class GameHud : MonoBehaviour
         FadeScreen.Bind(root.Q("fade"));
         FlashScreen.Bind(root.Q("flash"));
         EndText.Bind(root.Q<Label>("end-text"));
+        SkipHint.Bind(root.Q<Label>("skip-hint"));
 
         ApplySubtitleScale();
         GameOptions.Changed += ApplySubtitleScale;
@@ -52,7 +55,7 @@ public class GameHud : MonoBehaviour
         foreach (HudElement element in All) element.Bind(null);
     }
 
-    private static HudElement[] All => new[] { Crosshair, Prompt, Speaker, Subtitle, Inspect, InspectTitle, InspectBody, FadeScreen, FlashScreen, EndText };
+    private static HudElement[] All => new[] { Crosshair, Prompt, Speaker, Subtitle, Inspect, InspectTitle, InspectBody, FadeScreen, FlashScreen, EndText, SkipHint };
 
     private static void ApplySubtitleScale()
     {
@@ -78,5 +81,6 @@ public class GameHud : MonoBehaviour
         Inspect.enabled = false;
         FlashScreen.alpha = 0f;
         EndText.alpha = 0f;
+        SkipHint.enabled = false;
     }
 }

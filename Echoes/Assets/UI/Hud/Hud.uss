@@ -111,3 +111,12 @@
     font-size: 29px;
     opacity: 0;
 }
+
+/* "Segure Espaço para pular", no canto inferior direito, por cima da tela preta */
+.skip-hint {
+    right: 3%;
+    bottom: 4%;
+    font-size: 20px;
+    -unity-text-align: lower-right;
+    color: rgb(230, 224, 212);
+}

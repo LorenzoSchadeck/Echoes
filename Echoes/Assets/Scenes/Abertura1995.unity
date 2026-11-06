@@ -5174,18 +5174,18 @@ MonoBehaviour:
   lookInput: {fileID: 1658080608}
   rainAmbience:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1781648967
+      Data2: 1131786533
+      Data3: -1783922530
+      Data4: 1356178680
+    Path: event:/Opening/horror rain
   scannerStatic:
     Guid:
-      Data1: -156958414
-      Data2: 1258711124
-      Data3: 1158126224
-      Data4: -170893065
-    Path: event:/Events/static_burst
+      Data1: 1287506960
+      Data2: 1164356771
+      Data3: -316693375
+      Data4: -298513947
+    Path: event:/Opening/scanner
   dispatch:
     speaker:
       m_TableReference:
@@ -5349,11 +5349,11 @@ MonoBehaviour:
   switchOn: {fileID: 2020515825}
   switchSound:
     Guid:
-      Data1: 92840115
-      Data2: 1080936980
-      Data3: -1955894858
-      Data4: 1163209143
-    Path: event:/Effects/Key
+      Data1: -36546372
+      Data2: 1190346626
+      Data3: -345279839
+      Data4: -2053549896
+    Path: event:/Effects/light switch
   roomLight: {fileID: 2112359652}
   switchTalk:
   - speaker:
@@ -5705,11 +5705,11 @@ MonoBehaviour:
   police: {fileID: 135855469}
   sirenSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1990748037
+      Data2: 1338689994
+      Data3: -994161227
+      Data4: -1835839681
+    Path: event:/Opening/siren
   claraPolice:
     speaker:
       m_TableReference:
@@ -5783,6 +5783,17 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   nextScene: Game
+  skipHoldTime: 1.5
+  skipHintAtStart: 8
+  skipHint:
+    m_TableReference:
+      m_TableCollectionName: menu
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: M_SKIP_HOLD
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   references:
     version: 2
     RefIds: []
@@ -30684,11 +30695,11 @@ MonoBehaviour:
   flashLight: {fileID: 280447814}
   flashSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -2064692444
+      Data2: 1186923480
+      Data3: 24596103
+      Data4: -1131816937
+    Path: event:/Opening/camera flash
   flashIntensity: 160
   flashDuration: 0.08
   screenFlash: 0.55

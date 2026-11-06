@@ -240,6 +240,10 @@ MonoBehaviour:
     m_Localized: Oito anos depois
     m_Metadata:
       m_Items: []
+  - m_Id: 143396950194823168
+    m_Localized: "Segure Espa\xE7o para pular"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
