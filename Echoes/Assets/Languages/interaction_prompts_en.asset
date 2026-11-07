@@ -117,6 +117,10 @@ MonoBehaviour:
     m_Localized: (E) Climb out to the fire escape
     m_Metadata:
       m_Items: []
+  - m_Id: 155068176046792704
+    m_Localized: (E) Turn on the light
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

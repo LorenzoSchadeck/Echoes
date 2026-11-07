@@ -36,14 +36,16 @@ public class CheckpointManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Carrega o último checkpoint a partir do menu ("Continuar").
+    /// Carrega o último checkpoint a partir do menu ("Continuar"), com a tela de carregamento:
+    /// a tela escurece, a cena carrega em segundo plano e clareia depois do checkpoint aplicado.
     /// </summary>
     public static void LoadLastCheckpoint()
     {
+        if (SceneTransition.IsBusy) return;
         if (!SaveSystem.TryRead(out SaveData data)) return;
 
         PendingRestore = true;
-        SceneManager.LoadScene(data.sceneName);
+        SceneTransition.Load(data.sceneName);
     }
 
     private void OnEnable()

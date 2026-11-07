@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 /// <summary>
@@ -47,10 +46,11 @@ public class PauseMenuController : MonoBehaviour
         options = new OptionsPanel(root.Q("options"), ShowMainPanel);
         root.RegisterCallback<NavigationCancelEvent>(_ =>
         {
-            if (options.IsVisible) ShowMainPanel();
+            if (options.IsVisible) options.Back();
             else Resume();
         });
 
+        MenuDecor.Apply(root);
         MenuText.Localize(root);
         MenuFocusStyle.Track(root);
         LocalizationSettings.SelectedLocaleChanged += HandleLocaleChanged;
@@ -64,12 +64,17 @@ public class PauseMenuController : MonoBehaviour
         if (IsPaused) Resume();
     }
 
+    private void Update()
+    {
+        if (IsPaused) options.Tick();
+    }
+
     private void TogglePause()
     {
         if (IsPaused)
         {
             // Esc dentro das opções volta para a pausa; fora delas, retoma o jogo
-            if (options.IsVisible) ShowMainPanel();
+            if (options.IsVisible) options.Back();
             else Resume();
         }
         else if (CanPause())
@@ -128,6 +133,7 @@ public class PauseMenuController : MonoBehaviour
 
     private void ReturnToMainMenu()
     {
+        if (SceneTransition.IsBusy) return;
         IsPaused = false;
         Time.timeScale = 1f;
 
@@ -138,7 +144,7 @@ public class PauseMenuController : MonoBehaviour
             master.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
         }
 
-        SceneManager.LoadScene(menuSceneName);
+        SceneTransition.Load(menuSceneName);
     }
 
     private static void SetGameAudioPaused(bool paused)

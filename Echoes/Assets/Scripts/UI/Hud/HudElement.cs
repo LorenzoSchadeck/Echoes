@@ -13,6 +13,7 @@ public sealed class HudElement
     private bool visible;
     private float opacity = 1f;
     private float fontScale = 1f;
+    private bool suppressed;
     private readonly float baseFontSize;
 
     public HudElement(bool visibleByDefault, float baseFontSize = 0f)
@@ -48,6 +49,13 @@ public sealed class HudElement
         set { fontScale = value; Apply(); }
     }
 
+    /// <summary>Esconde a peça mesmo quando um script a liga (opção de desligar as legendas).</summary>
+    public bool Suppressed
+    {
+        get => suppressed;
+        set { suppressed = value; Apply(); }
+    }
+
     internal void Bind(VisualElement newElement)
     {
         element = newElement;
@@ -58,7 +66,7 @@ public sealed class HudElement
     {
         if (element == null) return;
 
-        element.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+        element.style.display = visible && !suppressed ? DisplayStyle.Flex : DisplayStyle.None;
         element.style.opacity = opacity;
         if (element is Label label)
         {

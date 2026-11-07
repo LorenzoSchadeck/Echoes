@@ -158,6 +158,7 @@ public static class ScriptSetupTools
     private static readonly (string key, string pt, string en)[] OpeningPrompts =
     {
         ("PROMPT_EXAMINE", "(E) Examinar", "(E) Examine"),
+        ("PROMPT_LIGHT_SWITCH", "(E) Acender a luz", "(E) Turn on the light"),
         ("PROMPT_FIRE_ESCAPE", "(E) Sair pela escada de incêndio", "(E) Climb out to the fire escape"),
     };
 

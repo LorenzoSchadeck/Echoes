@@ -24,12 +24,14 @@ public class GameOptionsData
     public int qualityLevel = -1;          // -1 = nível padrão do projeto
     public float fieldOfView = 70f;
     public float brightness;               // -1 a 1
+    public bool brightnessCalibrated;      // a tela do carimbo já foi mostrada uma vez
 
     [Header("Controles")]
     public float mouseSensitivity = 1f;
     public bool invertY;
 
     [Header("Acessibilidade")]
+    public bool subtitles = true;
     public float subtitleScale = 1f;
     public bool reduceFlashes;
     public float cameraShake = 1f;         // 0 = sem tremor, 1 = intensidade normal
@@ -83,7 +85,12 @@ public static class GameOptions
         Changed?.Invoke();
     }
 
-    public static void ResetToDefaults() => Change(s => JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(new GameOptionsData()), s));
+    public static void ResetToDefaults() => Change(s =>
+    {
+        bool calibrated = s.brightnessCalibrated;
+        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(new GameOptionsData()), s);
+        s.brightnessCalibrated = calibrated;
+    });
 
     public static bool AudioBusExists(string path)
     {

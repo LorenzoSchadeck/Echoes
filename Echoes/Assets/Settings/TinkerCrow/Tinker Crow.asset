@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51821beb189e063479eeb7645f83092a, type: 3}
+  m_Name: Tinker Crow
+  m_EditorClassIdentifier: Assembly-CSharp::CrowMascot
+  arrive:
+    name: Chegando
+    frames:
+    - sprite: {fileID: 21300000, guid: d5815ee9450583c47bbcc43aaab2ec77, type: 3}
+      beak: {x: 0.81, y: 0.4}
+      wire: 0.821
+    - sprite: {fileID: 21300000, guid: 0bd2dd517059c6547b2d36a87d76fcbc, type: 3}
+      beak: {x: 0.846, y: 0.336}
+      wire: 0.84
+    fps: 9
+    loop: 1
+  land:
+    name: Pousando
+    frames:
+    - sprite: {fileID: 21300000, guid: a46024fca2c55c849906b48e8a8c9eb9, type: 3}
+      beak: {x: 0.881, y: 0.387}
+      wire: 0.787
+    - sprite: {fileID: 21300000, guid: 598d3e36f81f5ae4bb49d1f59b61f58a, type: 3}
+      beak: {x: 0.928, y: 0.484}
+      wire: 0.755
+    fps: 7
+    loop: 0
+  idle:
+    name: Parado
+    frames:
+    - sprite: {fileID: 21300000, guid: 6b61e45fee6aabe4698ad249f86a3c4f, type: 3}
+      beak: {x: 0.861, y: 0.113}
+      wire: 0.752
+    fps: 6
+    loop: 1

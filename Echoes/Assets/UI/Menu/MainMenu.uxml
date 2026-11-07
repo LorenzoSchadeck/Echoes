@@ -7,12 +7,19 @@
         <ui:VisualElement name="main-panel" class="menu-panel">
             <ui:Label text="ECHOES" class="logo" />
             <ui:Label text="M_CHAPTER" class="chapter" />
-            <ui:Button name="button-continue" text="M_CONTINUE" class="menu-item" />
-            <ui:Button name="button-new-game" text="M_NG" class="menu-item" />
-            <ui:Button name="button-options" text="M_OPT" class="menu-item" />
-            <ui:Button name="button-quit" text="M_EXIT" class="menu-item" />
+            <ui:Label name="press-any" text="M_PRESS_ANY" class="press-any hidden" />
+            <ui:VisualElement name="menu-buttons" class="menu-buttons">
+                <ui:Button name="button-continue" text="M_CONTINUE" class="menu-item" />
+                <ui:Button name="button-new-game" text="M_NG" class="menu-item" />
+                <ui:Button name="button-options" text="M_OPT" class="menu-item" />
+                <ui:Button name="button-quit" text="M_EXIT" class="menu-item" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label name="version" class="version" />
+        <ui:VisualElement class="studio-mark">
+            <ui:VisualElement class="studio-mark__crow" />
+            <ui:Label text="TINKER CROW" class="studio-mark__name" />
         </ui:VisualElement>
         <ui:Instance template="Options" name="options" class="options-host hidden" />
-        <ui:Label name="version" class="version" />
     </ui:VisualElement>
 </ui:UXML>

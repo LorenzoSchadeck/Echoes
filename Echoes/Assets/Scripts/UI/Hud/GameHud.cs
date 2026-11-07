@@ -62,6 +62,8 @@ public class GameHud : MonoBehaviour
         float scale = GameOptions.Current.subtitleScale;
         Subtitle.FontScale = scale;
         Speaker.FontScale = scale;
+        Subtitle.Suppressed = !GameOptions.Current.subtitles;
+        Speaker.Suppressed = !GameOptions.Current.subtitles;
     }
 
     // Com o domain reload desligado, os estáticos sobrevivem entre sessões de play mode

@@ -91,7 +91,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 142019422406352897
-    m_Localized: Voltar ao menu
+    m_Localized: VOLTAR AO MENU
     m_Metadata:
       m_Items: []
   - m_Id: 142019422406352898
@@ -242,6 +242,142 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 143396950194823168
     m_Localized: "Segure Espa\xE7o para pular"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087758905344
+    m_Localized: Pressione qualquer tecla
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042688
+    m_Localized: Jogo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042689
+    m_Localized: Legendas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042690
+    m_Localized: Legendas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236992
+    m_Localized: Tela
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236993
+    m_Localized: Imagem
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236994
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236995
+    m_Localized: Mouse e controle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236996
+    m_Localized: Conforto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236997
+    m_Localized: Ligado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236998
+    m_Localized: Desligado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236999
+    m_Localized: Calibrar brilho
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237000
+    m_Localized: "Ajuste at\xE9 o carimbo ficar quase invis\xEDvel."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237001
+    m_Localized: Ajustar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237002
+    m_Localized: Confirmar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237003
+    m_Localized: Alterar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237004
+    m_Localized: Idioma dos textos, das legendas e da interface.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237005
+    m_Localized: Mostra as falas e os pensamentos na tela.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237006
+    m_Localized: Tamanho do texto das legendas.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237007
+    m_Localized: "Resolu\xE7\xE3o da tela do jogo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237008
+    m_Localized: Tela cheia, janela sem borda ou janela.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237009
+    m_Localized: "Qualidade das sombras, da ilumina\xE7\xE3o e dos efeitos. Baixe se o jogo travar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237010
+    m_Localized: Quanto da cena cabe na tela. Valores maiores ajudam quem sente enjoo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237011
+    m_Localized: Brilho da imagem. O jogo foi feito para ser escuro.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237012
+    m_Localized: "Ajusta o brilho com uma imagem de refer\xEAncia."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237013
+    m_Localized: Volume de todo o som do jogo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237014
+    m_Localized: "Volume da m\xFAsica."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237015
+    m_Localized: Volume dos efeitos e do ambiente.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237016
+    m_Localized: Volume das vozes.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237017
+    m_Localized: "Velocidade da c\xE2mera ao mover o mouse ou o anal\xF3gico."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237018
+    m_Localized: "Inverte o movimento vertical da c\xE2mera."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237019
+    m_Localized: "Suaviza luzes piscando, sirenes e clar\xF5es. Recomendado para quem tem fotossensibilidade."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237020
+    m_Localized: "Intensidade do tremor da c\xE2mera em sustos e eventos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143545597079363584
+    m_Localized: CARREGANDO
     m_Metadata:
       m_Items: []
   references:

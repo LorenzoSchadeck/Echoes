@@ -117,6 +117,10 @@ MonoBehaviour:
     m_Localized: "(E) Sair pela escada de inc\xEAndio"
     m_Metadata:
       m_Items: []
+  - m_Id: 155068176046792704
+    m_Localized: (E) Acender a luz
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

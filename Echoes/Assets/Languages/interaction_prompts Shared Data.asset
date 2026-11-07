@@ -111,6 +111,10 @@ MonoBehaviour:
     m_Key: PROMPT_FIRE_ESCAPE
     m_Metadata:
       m_Items: []
+  - m_Id: 155068176046792704
+    m_Key: PROMPT_LIGHT_SWITCH
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

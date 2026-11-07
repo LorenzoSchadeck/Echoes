@@ -281,7 +281,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712293416}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a48952408631d44a83fe6f7b8e40c25, type: 3}
   m_Name: 
@@ -289,10 +289,6 @@ MonoBehaviour:
   warningPanels:
   - {fileID: 11400000, guid: 1c24e575a2208a845b08719104922d7f, type: 2}
   - {fileID: 11400000, guid: 7c2eeed7117b42142b73b7acf3f17343, type: 2}
-  - {fileID: 11400000, guid: 3ef0d780e5ad996488ba0efaba27bd5c, type: 2}
-  - {fileID: 11400000, guid: 6291e5ba5cec6274a97c2e8fd9bb8deb, type: 2}
-  - {fileID: 11400000, guid: 8ee2574a6370377439e0130cd37ce11f, type: 2}
-  - {fileID: 11400000, guid: 2999be06959fadf4094c09a7b8b141a9, type: 2}
   defaultPanelDuration: 3
   fadeDuration: 2
   minimumTimeBeforeSkip: 5
@@ -343,9 +339,99 @@ MonoBehaviour:
   m_PivotReferenceSize: 0
   m_Pivot: 0
   m_WorldSpaceCollider: {fileID: 0}
+--- !u!1 &1885126312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1885126315}
+  - component: {fileID: 1885126314}
+  - component: {fileID: 1885126313}
+  m_Layer: 0
+  m_Name: Abertura_TinkerCrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1885126313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885126312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a67aa9408d5bc3468a6f7761b45cf1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StudioIntro
+  mascot: {fileID: 11400000, guid: efaa57cc8379be34ba07776de56aecf4, type: 2}
+  accessory: {fileID: 11400000, guid: ccafc062afdcb754dab22e0d1b25c921, type: 2}
+  studioName: TINKER CROW
+  font: {fileID: 12800000, guid: 445323738c02e34448c54e31aec07ae2, type: 3}
+  ink: {r: 0.1, g: 0.095, b: 0.09, a: 1}
+  paper: {r: 0.925, g: 0.902, b: 0.855, a: 1}
+  fadeIn: 0.6
+  flight: 1.1
+  letterInterval: 0.08
+  hold: 1.6
+  fadeOut: 0.9
+  typeSound:
+    Guid:
+      Data1: 1974119030
+      Data2: 1259646180
+      Data3: -949552240
+      Data4: -580761162
+    Path: event:/Menu/Typewritter
+  grain: 0.08
+  grainFps: 12
+  startAfter: {fileID: 1712293417}
+--- !u!114 &1885126314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885126312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: 20d966ae4e96ffa44972fe121336dad9, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 0}
+  m_SortingOrder: 100
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!4 &1885126315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885126312}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1885126315}
   - {fileID: 519420032}
   - {fileID: 1712293418}

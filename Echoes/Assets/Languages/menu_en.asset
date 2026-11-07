@@ -91,7 +91,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 142019422406352897
-    m_Localized: Main menu
+    m_Localized: MAIN MENU
     m_Metadata:
       m_Items: []
   - m_Id: 142019422406352898
@@ -242,6 +242,142 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 143396950194823168
     m_Localized: Hold Space to skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087758905344
+    m_Localized: Press any button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042688
+    m_Localized: Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042689
+    m_Localized: Subtitles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042690
+    m_Localized: Subtitles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236992
+    m_Localized: Display
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236993
+    m_Localized: Image
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236994
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236995
+    m_Localized: Mouse and controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236996
+    m_Localized: Comfort
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236997
+    m_Localized: On
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236998
+    m_Localized: Off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236999
+    m_Localized: Calibrate brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237000
+    m_Localized: Adjust until the stamp is barely visible.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237001
+    m_Localized: Adjust
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237002
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237003
+    m_Localized: Change
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237004
+    m_Localized: Language for text, subtitles and the interface.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237005
+    m_Localized: Shows dialogue and thoughts on screen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237006
+    m_Localized: Size of the subtitle text.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237007
+    m_Localized: Game screen resolution.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237008
+    m_Localized: Fullscreen, borderless window or windowed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237009
+    m_Localized: Quality of shadows, lighting and effects. Lower it if the game stutters.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237010
+    m_Localized: How much of the scene fits on screen. Higher values help with motion sickness.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237011
+    m_Localized: Image brightness. The game is meant to be dark.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237012
+    m_Localized: Sets the brightness using a reference image.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237013
+    m_Localized: Volume of all game sound.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237014
+    m_Localized: Music volume.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237015
+    m_Localized: Volume of effects and ambience.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237016
+    m_Localized: Voice volume.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237017
+    m_Localized: Camera speed when moving the mouse or stick.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237018
+    m_Localized: Inverts the camera's vertical movement.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237019
+    m_Localized: Softens flickering lights, sirens and flashes. Recommended for photosensitive players.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237020
+    m_Localized: Strength of camera shake during scares and events.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143545597079363584
+    m_Localized: LOADING
     m_Metadata:
       m_Items: []
   references:

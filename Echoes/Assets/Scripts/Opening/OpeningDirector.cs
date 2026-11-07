@@ -65,7 +65,11 @@ public class OpeningDirector : MonoBehaviour
         new DialogueLine(Ethan, "OP_ETHAN_NOT", 2f),
     };
     [SerializeField] private PlayerZone roomEntry;
+    [Tooltip("O interruptor: Ethan precisa usá-lo para acender a luz (ação do jogador). Vazio: acende sozinho ao entrar.")]
+    [SerializeField] private StoryInteractable lightSwitch;
+    [Tooltip("Modelo do interruptor desligado (some quando a luz acende).")]
     [SerializeField] private GameObject switchOff;
+    [Tooltip("Modelo do interruptor ligado (aparece quando a luz acende).")]
     [SerializeField] private GameObject switchOn;
     [SerializeField] private EventReference switchSound;
     [SerializeField] private FlickeringLight roomLight;
@@ -137,6 +141,7 @@ public class OpeningDirector : MonoBehaviour
     private bool door5Seen;
     private bool doorOpened;
     private bool lightOn;
+    private bool roomEntered;
     private int cluesFound;
     private FMOD.Studio.EventInstance siren;
     private FMOD.Studio.EventInstance rain;
@@ -174,6 +179,7 @@ public class OpeningDirector : MonoBehaviour
         if (door5Zone != null) door5Zone.Entered += HandleDoor5;
         if (door6 != null) door6.Used += HandleDoor6;
         if (roomEntry != null) roomEntry.Entered += HandleRoomEntry;
+        if (lightSwitch != null) lightSwitch.Used += HandleLightSwitch;
         if (window != null) window.Used += HandleWindow;
         foreach (StoryInteractable target in AllClueTargets()) target.Used += HandleClue;
     }
@@ -185,6 +191,7 @@ public class OpeningDirector : MonoBehaviour
         if (door5Zone != null) door5Zone.Entered -= HandleDoor5;
         if (door6 != null) door6.Used -= HandleDoor6;
         if (roomEntry != null) roomEntry.Entered -= HandleRoomEntry;
+        if (lightSwitch != null) lightSwitch.Used -= HandleLightSwitch;
         if (window != null) window.Used -= HandleWindow;
         foreach (StoryInteractable target in AllClueTargets()) target.Used -= HandleClue;
         StopLoops();
@@ -198,7 +205,9 @@ public class OpeningDirector : MonoBehaviour
         skipHintUntil = Time.time + skipHintAtStart;
         foreach (StoryInteractable target in AllClueTargets()) target.Available = false;
         if (window != null) window.Available = false;
+        if (lightSwitch != null) lightSwitch.Available = false;
         if (roomLight != null) roomLight.SetOn(false);
+        SetSwitchModel(false);
 
         if (!rainAmbience.IsNull)
         {
@@ -291,19 +300,39 @@ public class OpeningDirector : MonoBehaviour
         door6Pivot.localRotation = to;
     }
 
-    // Ethan estica a mão para a direita e acende a luz, sem procurar
+    // Ao entrar no quarto escuro, Clara para na porta e o interruptor fica disponível: acender a luz é
+    // uma ação do jogador. Sem interruptor ligado no roteiro, a luz acende sozinha, como antes.
     private void HandleRoomEntry(PlayerZone zone)
     {
-        if (!doorOpened || lightOn) return;
+        if (!doorOpened || lightOn || roomEntered) return;
+        roomEntered = true;
+        if (clara != null) clara.StayAtDoor();
+
+        if (lightSwitch != null) lightSwitch.Available = true;
+        else StartLight();
+    }
+
+    private void HandleLightSwitch(StoryInteractable target) => StartLight();
+
+    private void StartLight()
+    {
+        if (lightOn) return;
         lightOn = true;
+        if (lightSwitch != null) lightSwitch.Available = false;
         StartCoroutine(LightRoutine());
+    }
+
+    // O interruptor ligado aparece e o desligado some (ou o contrário)
+    private void SetSwitchModel(bool on)
+    {
+        if (switchOff != null) switchOff.SetActive(!on);
+        if (switchOn != null) switchOn.SetActive(on);
     }
 
     private IEnumerator LightRoutine()
     {
         PlayAt(switchSound, switchOn != null ? switchOn.transform.position : playerCamera.position);
-        if (switchOff != null) switchOff.SetActive(false);
-        if (switchOn != null) switchOn.SetActive(true);
+        SetSwitchModel(true);
         if (roomLight != null) roomLight.SetOn(true);
 
         yield return new WaitForSeconds(0.7f);
@@ -337,8 +366,10 @@ public class OpeningDirector : MonoBehaviour
     // Cada pista examinada: o flash de Clara, a foto vai para o bloco dela e os dois comentam
     private IEnumerator ClueRoutine(Clue clue)
     {
-        if (clara != null) clara.TakePhoto();
-        yield return new WaitForSeconds(0.6f);
+        // Da porta, Clara mira na pista e fotografa; a conversa começa depois do flash
+        StoryInteractable first = Array.Find(clue.targets, t => t != null);
+        if (clara != null) yield return clara.PhotoRoutine(first != null ? first.transform.position : (Vector3?)null);
+        yield return new WaitForSeconds(0.3f);
         yield return Dialogue.Play(clue.lines);
 
         cluesFound++;
@@ -428,12 +459,8 @@ public class OpeningDirector : MonoBehaviour
         GameHud.Crosshair.enabled = false;
         GameHud.Prompt.enabled = false;
 
-        if (clara != null && windowSpot != null)
-        {
-            clara.Following = false;
-            clara.transform.position = windowSpot.position + windowSpot.forward * 7f;
-            clara.transform.rotation = Quaternion.LookRotation(-windowSpot.forward);
-        }
+        // Clara continua na porta do quarto (ela nunca entra) e fotografa Ethan de lá
+        if (clara != null && !clara.AtDoor) clara.SnapToDoor();
 
         if (playerBody != null && windowSpot != null)
         {
@@ -456,7 +483,7 @@ public class OpeningDirector : MonoBehaviour
 
         // ---------- 7. Corte ----------
         // O branco do flash vira o branco de um relâmpago
-        if (clara != null) yield return clara.TakeFinalPhoto(0.3f);
+        if (clara != null) yield return clara.TakeFinalPhoto(0.3f, playerCamera.position);
         else GameHud.FlashScreen.alpha = 1f;
         StopLoops();
         PlayAt(thunderSound, playerCamera.position);

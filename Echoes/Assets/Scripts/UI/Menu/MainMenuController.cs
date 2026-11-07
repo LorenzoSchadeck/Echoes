@@ -1,6 +1,7 @@
 using System.Collections;
 using FMODUnity;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,8 @@ using UnityEngine.Video;
 /// <summary>
 /// Menu principal (cena Menu, MainMenu.uxml): continuar do último checkpoint, novo jogo,
 /// opções e sair, sobre o cenário 3D da cena MenuCenario (ou, sem ele, um vídeo ou uma imagem).
+/// Na primeira vez da sessão começa em "Pressione qualquer tecla"; na primeira vez do jogo,
+/// passa pela calibração de brilho com o carimbo antes dos botões.
 /// </summary>
 [RequireComponent(typeof(UIDocument))]
 public class MainMenuController : MonoBehaviour
@@ -31,6 +34,10 @@ public class MainMenuController : MonoBehaviour
 
     private VisualElement root;
     private VisualElement mainPanel;
+    private VisualElement menuButtons;
+    private Label pressAny;
+    private bool waitingForPress;
+    private static bool titleShown;
     private Button continueButton;
     private OptionsPanel options;
     private RenderTexture videoTexture;
@@ -45,6 +52,8 @@ public class MainMenuController : MonoBehaviour
 
         root = GetComponent<UIDocument>().rootVisualElement;
         mainPanel = root.Q("main-panel");
+        menuButtons = root.Q("menu-buttons");
+        pressAny = root.Q<Label>("press-any");
         continueButton = root.Q<Button>("button-continue");
 
         continueButton.clicked += () => Click(ContinueGame);
@@ -53,16 +62,60 @@ public class MainMenuController : MonoBehaviour
         root.Q<Button>("button-quit").clicked += () => Click(Quit);
 
         options = new OptionsPanel(root.Q("options"), ShowMainPanel);
-        root.RegisterCallback<NavigationCancelEvent>(_ => { if (options.IsVisible) ShowMainPanel(); });
+        root.RegisterCallback<NavigationCancelEvent>(_ => { if (options.IsVisible) options.Back(); });
 
         root.Q<Label>("version").text = $"v{Application.version}";
+        MenuDecor.Apply(root);
 
         if (!LoadBackdrop()) SetupBackground();
         LocalizeTexts();
         MenuFocusStyle.Track(root);
         LocalizationSettings.SelectedLocaleChanged += HandleLocaleChanged;
 
-        ShowMainPanel();
+        if (titleShown) ShowMainPanel();
+        else ShowTitle();
+    }
+
+    private void Update()
+    {
+        options.Tick();
+        if (waitingForPress && AnyPress()) LeaveTitle();
+    }
+
+    // ---------- Tela inicial ----------
+
+    private void ShowTitle()
+    {
+        waitingForPress = true;
+        options.Hide();
+        menuButtons.AddToClassList("hidden");
+        pressAny.RemoveFromClassList("hidden");
+        // Pisca devagar, como uma luz que demora a acender
+        pressAny.schedule.Execute(() => pressAny.ToggleInClassList("press-any--dim")).Every(1100);
+    }
+
+    private void LeaveTitle()
+    {
+        waitingForPress = false;
+        titleShown = true;
+        pressAny.AddToClassList("hidden");
+        if (!clickSound.IsNull) RuntimeManager.PlayOneShot(clickSound);
+
+        if (!GameOptions.Current.brightnessCalibrated)
+        {
+            mainPanel.AddToClassList("hidden");
+            options.ShowCalibration(ShowMainPanel);
+        }
+        else ShowMainPanel();
+    }
+
+    private static bool AnyPress()
+    {
+        if (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame) return true;
+        if (Mouse.current != null && (Mouse.current.leftButton.wasPressedThisFrame || Mouse.current.rightButton.wasPressedThisFrame)) return true;
+        Gamepad pad = Gamepad.current;
+        return pad != null && (pad.buttonSouth.wasPressedThisFrame || pad.buttonEast.wasPressedThisFrame || pad.buttonNorth.wasPressedThisFrame
+            || pad.buttonWest.wasPressedThisFrame || pad.startButton.wasPressedThisFrame);
     }
 
     private void OnDisable()
@@ -79,8 +132,14 @@ public class MainMenuController : MonoBehaviour
     private void ShowMainPanel()
     {
         options.Hide();
+        root.RemoveFromClassList("options-open");
         mainPanel.RemoveFromClassList("hidden");
         if (MenuBackdrop.Current != null) MenuBackdrop.Current.OptionsOpen = false;
+
+        // Os botões aparecem com um fade curto
+        menuButtons.AddToClassList("menu-buttons--intro");
+        menuButtons.RemoveFromClassList("hidden");
+        menuButtons.schedule.Execute(() => menuButtons.RemoveFromClassList("menu-buttons--intro"));
 
         continueButton.SetEnabled(SaveSystem.HasSave);
         Button first = SaveSystem.HasSave ? continueButton : root.Q<Button>("button-new-game");
@@ -90,6 +149,7 @@ public class MainMenuController : MonoBehaviour
     private void ShowOptions()
     {
         mainPanel.AddToClassList("hidden");
+        root.AddToClassList("options-open");
         options.Show();
         if (MenuBackdrop.Current != null) MenuBackdrop.Current.OptionsOpen = true;
     }
@@ -102,7 +162,7 @@ public class MainMenuController : MonoBehaviour
         starting = true;
         SaveSystem.Delete();
         if (MenuBackdrop.Current != null) StartCoroutine(EnterScene());
-        else SceneManager.LoadScene(gameSceneName);
+        else SceneTransition.Load(gameSceneName);
     }
 
     // A câmera do cenário avança enquanto o menu some e a tela escurece
@@ -120,7 +180,7 @@ public class MainMenuController : MonoBehaviour
             yield return null;
         }
         root.style.backgroundColor = Color.black;
-        SceneManager.LoadScene(gameSceneName);
+        SceneTransition.Load(gameSceneName);
     }
 
     private void Quit()
@@ -134,6 +194,7 @@ public class MainMenuController : MonoBehaviour
 
     private void Click(System.Action action)
     {
+        if (SceneTransition.IsBusy) return; // já carregando: ignora teclas e cliques
         if (!clickSound.IsNull) RuntimeManager.PlayOneShot(clickSound);
         action();
     }
@@ -212,6 +273,9 @@ public class MainMenuController : MonoBehaviour
     }
 
     private void HandleLocaleChanged(Locale _) => LocalizeTexts();
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics() => titleShown = false;
 
     private void LocalizeTexts()
     {

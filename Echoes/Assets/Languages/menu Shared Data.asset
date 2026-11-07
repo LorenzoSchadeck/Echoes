@@ -239,6 +239,142 @@ MonoBehaviour:
     m_Key: M_SKIP_HOLD
     m_Metadata:
       m_Items: []
+  - m_Id: 143456087758905344
+    m_Key: M_PRESS_ANY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042688
+    m_Key: M_TAB_GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042689
+    m_Key: M_SEC_SUBTITLES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087805042690
+    m_Key: M_SUBTITLES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236992
+    m_Key: M_SEC_DISPLAY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236993
+    m_Key: M_SEC_IMAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236994
+    m_Key: M_SEC_VOLUME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236995
+    m_Key: M_SEC_MOUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236996
+    m_Key: M_SEC_COMFORT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236997
+    m_Key: M_ON
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236998
+    m_Key: M_OFF
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809236999
+    m_Key: M_CALIBRATE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237000
+    m_Key: M_CAL_HINT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237001
+    m_Key: M_ADJUST
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237002
+    m_Key: M_CONFIRM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237003
+    m_Key: M_CHANGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237004
+    m_Key: M_D_LANGUAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237005
+    m_Key: M_D_SUBTITLES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237006
+    m_Key: M_D_SUB_SIZE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237007
+    m_Key: M_D_RESOLUTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237008
+    m_Key: M_D_WINDOW
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237009
+    m_Key: M_D_QUALITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237010
+    m_Key: M_D_FOV
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237011
+    m_Key: M_D_BRIGHTNESS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237012
+    m_Key: M_D_CALIBRATE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237013
+    m_Key: M_D_MASTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237014
+    m_Key: M_D_MUSIC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237015
+    m_Key: M_D_SFX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237016
+    m_Key: M_D_VOICE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237017
+    m_Key: M_D_SENSITIVITY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237018
+    m_Key: M_D_INVERT_Y
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237019
+    m_Key: M_D_FLASHES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143456087809237020
+    m_Key: M_D_SHAKE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 143545597079363584
+    m_Key: M_LOADING
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

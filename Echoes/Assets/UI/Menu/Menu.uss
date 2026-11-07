@@ -1,5 +1,9 @@
 /* Menu principal, pausa e opções do Echoes.
-   Textos que começam com "M_" são chaves da tabela de localização "menu". */
+   Textos que começam com "M_" são chaves da tabela de localização "menu".
+   Destaque: o "eco". O item destacado clareia e deixa duas cópias fantasmas em vermelho apagado
+   que escorregam para o lado e somem aos poucos (MenuDecor cria as cópias). */
+
+/* papel rgb(232, 226, 214) · tinta apagada rgba(232, 226, 214, 0.5) · eco rgb(160, 44, 38) */
 
 .screen {
     flex-grow: 1;
@@ -24,141 +28,296 @@
     -unity-background-scale-mode: scale-and-crop;
 }
 
-/* Escurece o canto do menu para o texto ler bem sobre qualquer vídeo */
+/* Escurece o lado do menu e some aos poucos para a direita, onde fica a cena */
 .shade {
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
-    width: 55%;
-    background-color: rgba(0, 0, 0, 0.45);
-}
-
-.menu-panel {
-    position: absolute;
-    left: 6%;
-    bottom: 8%;
-}
-
-.logo {
-    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
-    font-size: 64px;
-    letter-spacing: 8px;
-    color: rgb(230, 224, 212);
-    margin: 0;
-    padding: 0;
-}
-
-.chapter {
-    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
-    font-size: 18px;
-    color: rgba(230, 224, 212, 0.6);
-    margin: 0 0 32px 4px;
-}
-
-.menu-item {
-    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
-    font-size: 24px;
-    -unity-text-align: middle-left;
-    color: rgba(230, 224, 212, 0.65);
-    background-color: rgba(0, 0, 0, 0);
-    border-width: 0;
-    border-left-width: 3px;
-    border-left-color: rgba(0, 0, 0, 0);
-    border-radius: 0;
-    padding: 4px 12px 4px 14px;
-    margin: 4px 0;
-    /* Botões não encolhem abaixo do texto: numa linha apertada, encolher faz o texto vazar por cima do vizinho */
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-
-/* Foco só aparece na navegação por teclado/gamepad (classe nav-keyboard, ver MenuFocusStyle) */
-.menu-item:hover,
-.nav-keyboard .menu-item:focus {
-    color: rgb(230, 224, 212);
-    border-left-color: rgb(142, 43, 43);
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.menu-item:disabled {
-    color: rgba(230, 224, 212, 0.25);
-}
-
-.menu-item--small {
-    font-size: 18px;
-    margin-left: 56px;
-}
-
-.note {
-    color: rgba(230, 224, 212, 0.45);
-    font-size: 13px;
-    margin: 12px 0 0 4px;
-    max-width: 420px;
-    white-space: normal;
-}
-
-.version {
-    position: absolute;
-    right: 24px;
-    bottom: 16px;
-    color: rgba(230, 224, 212, 0.35);
-    font-size: 12px;
+    width: 70%;
+    background-image: url("project://database/Assets/Textures/UI/menu_shade.png");
+    -unity-background-scale-mode: stretch-to-fill;
 }
 
 .hidden {
     display: none;
 }
 
+/* ---------- Menu principal e pausa ---------- */
+
+.menu-panel {
+    position: absolute;
+    left: 16%;
+    top: 34%;
+}
+
+.logo {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 64px;
+    letter-spacing: 10px;
+    color: rgb(232, 226, 214);
+    margin: 0 0 4px 0;
+    padding: 0;
+}
+
+.chapter {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 18px;
+    color: rgba(232, 226, 214, 0.55);
+    margin: 0 0 40px 4px;
+}
+
+/* Tela inicial: "Pressione qualquer tecla" no lugar dos botões */
+.press-any {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 24px;
+    color: rgb(232, 226, 214);
+    margin: 18px 0 0 4px;
+    transition-property: opacity;
+    transition-duration: 0.9s;
+    transition-timing-function: ease-in-out;
+}
+
+.press-any--dim {
+    opacity: 0.25;
+}
+
+.menu-buttons {
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+.menu-buttons--intro {
+    opacity: 0;
+}
+
+.menu-item {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 26px;
+    -unity-text-align: middle-left;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-radius: 0;
+    padding: 6px 12px 6px 4px;
+    margin: 6px 0;
+    overflow: visible;
+    /* Botões não encolhem abaixo do texto: numa linha apertada, encolher faz o texto vazar por cima do vizinho */
+    flex-shrink: 0;
+    align-self: flex-start;
+    white-space: nowrap;
+}
+
+.menu-item:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.menu-item--small {
+    font-size: 18px;
+}
+
+/* Texto dos itens e abas fica num Label dentro do botão (MenuDecor) */
+.menu-item__text {
+    margin: 0;
+    padding: 0;
+    color: rgba(232, 226, 214, 0.5);
+    transition-property: color, translate;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+/* Os ecos: mesmo texto, por trás, no mesmo lugar */
+.echo {
+    position: absolute;
+    left: 4px;
+    top: 6px;
+    margin: 0;
+    padding: 0;
+    color: rgb(160, 44, 38);
+    opacity: 0;
+    translate: 0 0;
+    transition-property: opacity, translate;
+    transition-timing-function: ease-out;
+}
+
+.echo--near {
+    transition-duration: 0.25s;
+}
+
+.echo--far {
+    color: rgb(120, 34, 30);
+    transition-duration: 0.55s;
+}
+
+/* Foco só aparece na navegação por teclado/gamepad (classe nav-keyboard, ver MenuFocusStyle) */
+.menu-item:hover > .menu-item__text,
+.nav-keyboard .menu-item:focus > .menu-item__text {
+    color: rgb(232, 226, 214);
+    translate: 4px 0;
+}
+
+.menu-item:hover > .echo--near,
+.nav-keyboard .menu-item:focus > .echo--near {
+    opacity: 0.6;
+    translate: 14px 0;
+}
+
+.menu-item:hover > .echo--far,
+.nav-keyboard .menu-item:focus > .echo--far {
+    opacity: 0.28;
+    translate: 28px 0;
+}
+
+.menu-item:disabled > .menu-item__text {
+    color: rgba(232, 226, 214, 0.2);
+}
+
+.menu-item:disabled > .echo {
+    display: none;
+}
+
+.note {
+    color: rgba(232, 226, 214, 0.45);
+    font-size: 14px;
+    margin: 16px 0 0 4px;
+    max-width: 420px;
+    white-space: normal;
+}
+
+/* Rodapé do menu */
+.version {
+    position: absolute;
+    left: 16%;
+    bottom: 6%;
+    color: rgba(232, 226, 214, 0.4);
+    font-size: 15px;
+}
+
+.studio-mark {
+    position: absolute;
+    right: 4%;
+    bottom: 5%;
+    flex-direction: row;
+    align-items: center;
+    opacity: 0.55;
+}
+
+.studio-mark__crow {
+    width: 56px;
+    height: 56px;
+    background-image: url("project://database/Assets/Textures/UI/crow_mark.png");
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.studio-mark__name {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: rgb(232, 226, 214);
+    margin-left: 8px;
+}
+
 /* ---------- Opções ---------- */
+/* Painel escuro à esquerda; o quarto continua visível à direita, no enquadramento de opções */
 
 .options-host {
     position: absolute;
-    left: 6%;
-    top: 10%;
-    bottom: 8%;
-    width: 50%;
-    min-width: 560px;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .options-panel {
-    flex-grow: 1;
-    padding: 24px;
-    background-color: rgba(10, 10, 12, 0.9);
-    border-left-width: 3px;
-    border-left-color: rgb(142, 43, 43);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 54%;
+    min-width: 880px;
+    background-image: url("project://database/Assets/Textures/UI/options_panel.png");
+    -unity-background-scale-mode: stretch-to-fill;
 }
 
 .tabs {
     flex-direction: row;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
+    align-items: center;
+    height: 104px;
+    margin: 0 9% 0 64px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(232, 226, 214, 0.12);
 }
 
 .tab {
     -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
-    font-size: 16px;
-    color: rgba(230, 224, 212, 0.55);
+    font-size: 20px;
     background-color: rgba(0, 0, 0, 0);
     border-width: 0;
-    border-bottom-width: 2px;
-    border-bottom-color: rgba(0, 0, 0, 0);
     border-radius: 0;
-    margin: 0 56px 12px 0;
-    padding: 4px 2px;
+    margin: 0 12px;
+    padding: 8px 6px;
+    overflow: visible;
     flex-shrink: 0;
     white-space: nowrap;
 }
 
-.tab:hover,
-.nav-keyboard .tab:focus {
-    color: rgb(230, 224, 212);
+.tab:hover {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.tab--selected {
-    color: rgb(230, 224, 212);
-    border-bottom-color: rgb(142, 43, 43);
+.tab > .echo {
+    left: 6px;
+    top: 8px;
+}
+
+.tab:hover > .menu-item__text {
+    color: rgba(232, 226, 214, 0.85);
+}
+
+.tab--selected > .menu-item__text,
+.tab--selected:hover > .menu-item__text {
+    color: rgb(232, 226, 214);
+}
+
+.tab--selected > .echo--near {
+    opacity: 0.5;
+    translate: 7px 0;
+}
+
+.tab--selected > .echo--far {
+    opacity: 0.2;
+    translate: 13px 0;
+}
+
+/* Teclas e botões do controle (Q/E, LB/RB, Enter, Esc...) */
+.glyph {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    color: rgba(232, 226, 214, 0.8);
+    min-width: 32px;
+    height: 30px;
+    padding: 0 8px;
+    border-width: 1.5px;
+    border-color: rgba(232, 226, 214, 0.5);
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: 0;
+}
+
+.glyph:hover {
+    border-color: rgb(232, 226, 214);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.tab-glyph {
+    margin: 0 10px;
+}
+
+.options-body {
+    flex-grow: 1;
+    flex-direction: column;
+    padding: 28px 9% 0 64px;
 }
 
 .pane-host {
@@ -167,44 +326,290 @@
 
 .pane {
     display: none;
+    padding: 0 0 16px 0;
 }
 
 .pane--visible {
     display: flex;
 }
 
-.option {
-    margin: 8px 0;
+.section {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: rgba(232, 226, 214, 0.5);
+    margin: 26px 0 0 0;
+    padding: 0 0 8px 0;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(232, 226, 214, 0.14);
 }
 
-.option > .unity-base-field__label {
-    min-width: 240px;
-    font-size: 16px;
-    color: rgb(216, 210, 196);
+.section--first {
+    margin-top: 0;
+}
+
+/* Uma linha por opção: nome à esquerda, controle à direita */
+.option {
+    flex-direction: row;
+    align-items: center;
+    height: 62px;
+    margin: 0;
+    padding: 0 12px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(232, 226, 214, 0.07);
+    transition-property: background-color;
+    transition-duration: 0.15s;
+}
+
+.option:hover,
+.nav-keyboard .option:focus,
+.option-button:hover,
+.nav-keyboard .option-button:focus {
+    background-color: rgba(232, 226, 214, 0.035);
+}
+
+/* Com as opções abertas, o rodapé do menu sai da frente */
+.options-open .version,
+.options-open .studio-mark {
+    display: none;
+}
+
+.option > .unity-base-field__label,
+.option-button {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    flex-grow: 1;
+    min-width: 160px;
+    font-size: 20px;
+    color: rgba(232, 226, 214, 0.78);
+    padding: 0;
+    margin: 0;
+    transition-property: color, translate;
+    transition-duration: 0.15s;
+}
+
+/* Na linha destacada, o nome clareia e deixa um eco curto */
+.option:hover > .unity-base-field__label,
+.nav-keyboard .option:focus > .unity-base-field__label,
+.option-button:hover,
+.nav-keyboard .option-button:focus {
+    color: rgb(240, 234, 222);
+    translate: 4px 0;
+    text-shadow: 8px 0 0 rgba(160, 44, 38, 0.45);
+}
+
+.option > .unity-base-field__input {
+    width: 360px;
+    flex-basis: 360px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+/* Botão em formato de linha (Calibrar brilho) */
+.option-button {
+    -unity-text-align: middle-left;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(232, 226, 214, 0.07);
+    border-radius: 0;
+    height: 62px;
+    padding: 0 12px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+/* Liga/desliga em duas metades (OnOffField) */
+.on-off__input {
+    flex-direction: row;
+    height: 42px;
+    background-color: rgba(232, 226, 214, 0.05);
+}
+
+.on-off__side {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    flex-grow: 1;
+    flex-basis: 0;
+    -unity-text-align: middle-center;
+    font-size: 18px;
+    color: rgba(232, 226, 214, 0.45);
+    overflow: visible;
+}
+
+.on-off__side--selected {
+    color: rgb(240, 234, 222);
+}
+
+.on-off__side > .pencil-line {
+    position: absolute;
+    left: 22%;
+    bottom: 4px;
+    width: 0;
+    height: 7px;
+    background-image: url("project://database/Assets/Textures/UI/pencil_line.png");
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-background-image-tint-color: rgb(160, 44, 38);
+    transition-property: width;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.on-off__side--selected > .pencil-line {
+    width: 56%;
+}
+
+/* Sliders: trilho fino, ponto no lugar do arrasto, valor ao lado */
+.option .unity-base-slider__drag-container {
+    margin: 0 8px;
 }
 
 .unity-base-slider__tracker {
-    background-color: rgba(230, 224, 212, 0.2);
+    height: 2px;
+    margin-top: -1px;
+    background-color: rgba(232, 226, 214, 0.28);
     border-width: 0;
 }
 
 .unity-base-slider__dragger {
-    background-color: rgb(230, 224, 212);
+    width: 18px;
+    height: 18px;
+    margin-top: -9px;
+    border-radius: 9px;
+    background-color: rgb(196, 190, 178);
+    border-width: 3px;
+    border-color: rgb(30, 28, 27);
+}
+
+.option:hover .unity-base-slider__dragger,
+.nav-keyboard .option:focus .unity-base-slider__dragger,
+.nav-keyboard .calibration__slider:focus .unity-base-slider__dragger {
+    background-color: rgb(240, 234, 222);
+    border-color: rgb(160, 44, 38);
+}
+
+.slider-value {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    font-size: 18px;
+    color: rgb(232, 226, 214);
+    width: 56px;
+    -unity-text-align: middle-right;
+    flex-shrink: 0;
+}
+
+/* Listas (resolução, idioma...) */
+.option .unity-base-popup-field__input {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    height: 42px;
+    font-size: 18px;
+    padding: 0 16px;
+    background-color: rgba(232, 226, 214, 0.05);
     border-width: 0;
+    border-radius: 0;
+    color: rgb(232, 226, 214);
 }
 
-.nav-keyboard .unity-base-slider:focus .unity-base-slider__dragger {
-    background-color: rgb(142, 43, 43);
+.option .unity-base-popup-field__text {
+    -unity-text-align: middle-center;
 }
 
-.unity-base-popup-field__input {
-    background-color: rgba(255, 255, 255, 0.06);
-    border-color: rgba(230, 224, 212, 0.25);
-    color: rgb(230, 224, 212);
+.option .unity-base-popup-field__arrow {
+    -unity-background-image-tint-color: rgba(232, 226, 214, 0.7);
 }
 
+/* Descrição da opção destacada, embaixo da lista */
+.description {
+    margin: 14px 0 0 0;
+    height: 72px;
+    padding: 6px 0 6px 18px;
+    border-left-width: 1px;
+    border-left-color: rgba(160, 44, 38, 0.8);
+}
+
+.description__text {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    font-size: 18px;
+    color: rgba(232, 226, 214, 0.75);
+    white-space: normal;
+}
+
+/* Rodapé: as teclas disponíveis */
 .options-footer {
     flex-direction: row;
     justify-content: flex-end;
-    margin-top: 16px;
+    align-items: center;
+    height: 88px;
+    padding: 0 9% 0 64px;
+}
+
+.prompt {
+    flex-direction: row;
+    align-items: center;
+    margin-left: 30px;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    padding: 0;
+}
+
+.prompt:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.prompt__text {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    font-size: 17px;
+    color: rgba(232, 226, 214, 0.85);
+    margin-left: 10px;
+    padding: 0;
+}
+
+.prompt:hover .prompt__text {
+    color: rgb(240, 234, 222);
+}
+
+/* ---------- Calibração de brilho ---------- */
+
+.calibration {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0, 0, 0);
+    align-items: center;
+    justify-content: center;
+}
+
+.calibration__title {
+    -unity-font: url("project://database/Assets/Fonts/B/atwriter.ttf");
+    font-size: 30px;
+    letter-spacing: 4px;
+    color: rgb(232, 226, 214);
+    margin-bottom: 28px;
+}
+
+/* O carimbo é tingido pelo código conforme o brilho (ver OptionsPanel.UpdateCalibration) */
+.calibration__stamp {
+    width: 420px;
+    height: 420px;
+    background-image: url("project://database/Assets/Textures/carimbo.png");
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.calibration__hint {
+    -unity-font: url("project://database/Assets/Fonts/Alt%20has%20grotesk/AlteHaasGroteskRegular.ttf");
+    font-size: 20px;
+    color: rgba(232, 226, 214, 0.75);
+    margin-top: 32px;
+}
+
+.calibration__slider {
+    width: 520px;
+    margin-top: 24px;
+}
+
+.calibration .options-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 5%;
 }

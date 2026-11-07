@@ -680,6 +680,7 @@ public static class OpeningSetupTools
     {
         public GameObject door6;
         public GameObject switchOff, switchOn;
+        public StoryInteractable lightSwitchUse;
         public FlickeringLight ceilingLight;
         public StoryInteractable drawerClue, clockClue, lockClue, dustClue, window;
         public Transform windowSpot, door5Key;
@@ -725,6 +726,7 @@ public static class OpeningSetupTools
         parts.switchOff = lightSwitch.transform.Find("desligado")?.gameObject;
         parts.switchOn = lightSwitch.transform.Find("ligado")?.gameObject;
         if (parts.switchOn != null) parts.switchOn.SetActive(false);
+        parts.lightSwitchUse = AddSwitchInteraction(lightSwitch);
 
         // Cama de ferro com a cabeceira na parede esquerda; o corpo sob o lençol
         GameObject bed = PlaceModel("Models/motel bed/motel bed.prefab", "Cama", props, new Vector3(RoomMinX + 4.75f, 0f, 75.5f), 90f, 9.4f, ModelSize.Longest);
@@ -1234,6 +1236,7 @@ public static class OpeningSetupTools
         data.FindProperty("door6OpenAngle").floatValue = -80f;
         SetSound("doorOpenSound", "event:/Door/Door_Open");
         Set("roomEntry", entry);
+        Set("lightSwitch", room.lightSwitchUse);
         Set("switchOff", room.switchOff);
         Set("switchOn", room.switchOn);
         SetSound("switchSound", FirstSound("event:/Opening/Light_Switch", "event:/Effects/light switch", "event:/Effects/Key"));
@@ -1374,6 +1377,28 @@ public static class OpeningSetupTools
         primitive.transform.SetParent(parent, false);
         if (material != null) primitive.GetComponent<MeshRenderer>().sharedMaterial = material;
         return primitive;
+    }
+
+    /// <summary>
+    /// Torna o interruptor uma ação do jogador: caixa de colisão um pouco maior que o modelo (fácil de
+    /// mirar no escuro) e o StoryInteractable que o roteiro libera ao entrar no quarto.
+    /// </summary>
+    public static StoryInteractable AddSwitchInteraction(GameObject lightSwitch)
+    {
+        // O collider vem primeiro: o StoryInteractable exige um e o AddComponent falha sem ele.
+        // (Sem "??": o operador ignora o "nulo" especial dos objetos da Unity.)
+        var box = lightSwitch.GetComponent<BoxCollider>();
+        if (box == null) box = lightSwitch.AddComponent<BoxCollider>();
+        box.isTrigger = false;
+        Bounds bounds = BoundsOf(lightSwitch);
+        Vector3 size = lightSwitch.transform.InverseTransformVector(bounds.size);
+        box.center = lightSwitch.transform.InverseTransformPoint(bounds.center);
+        box.size = new Vector3(Mathf.Max(Mathf.Abs(size.x), 1.1f), Mathf.Max(Mathf.Abs(size.y), 1.6f), Mathf.Max(Mathf.Abs(size.z), 0.5f));
+
+        var interactable = lightSwitch.GetComponent<StoryInteractable>();
+        if (interactable == null) interactable = lightSwitch.AddComponent<StoryInteractable>();
+        interactable.EditorSetup("PROMPT_LIGHT_SWITCH", 7f, false);
+        return interactable;
     }
 
     private static StoryInteractable ClueVolume(string name, Transform parent, Vector3 center, Vector3 size, bool local)
