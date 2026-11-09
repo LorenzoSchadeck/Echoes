@@ -24,8 +24,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Historia_2003.unity
     guid: 7b3d3cce90874334285a06950cd59d7e
   - enabled: 1
-    path: Assets/Scenes/Game.unity
-    guid: 349e790d780e3b54181c70866a4dbb36
+    path: Assets/Scenes/ApartamentoDemo.unity
+    guid: ec29a09b8cff47058de97a45b30f0aa1
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 43b573209682ebb458fe9e192ef8c64e, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}

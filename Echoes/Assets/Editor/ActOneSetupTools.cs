@@ -8,7 +8,7 @@ using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Monta o fim do Ato 1 da demo na cena Game (roteiro, Ato 1, seções 8 e 9): casaco, corrente da
+/// Monta o fim do Ato 1 da demo na cena ApartamentoDemo (roteiro, Ato 1, seções 8 e 9): casaco, corrente da
 /// porta e cepo de facas; o clímax no corredor; a hora perdida com o que muda no apartamento; e o
 /// cartão final. Rodar de novo apaga o grupo "Ato1_Demo" e monta tudo outra vez.
 /// </summary>
@@ -30,9 +30,9 @@ public static class ActOneSetupTools
     private static void Setup()
     {
         Scene scene = SceneManager.GetActiveScene();
-        if (scene.path != "Assets/Scenes/Game.unity")
+        if (scene.path != "Assets/Scenes/ApartamentoDemo.unity")
         {
-            Debug.LogError("[ActOneSetupTools] Abra a cena Game.");
+            Debug.LogError("[ActOneSetupTools] Abra a cena ApartamentoDemo.");
             return;
         }
 

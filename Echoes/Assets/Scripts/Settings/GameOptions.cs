@@ -47,7 +47,7 @@ public class GameOptionsData
 /// </summary>
 public static class GameOptions
 {
-    public const float MinSensitivity = 0.01f, MaxSensitivity = 3f;
+    public const float MinSensitivity = 0.01f, MaxSensitivity = 10f;
     public const float MinFieldOfView = 60f, MaxFieldOfView = 80f;
     public const float MinSubtitleScale = 0.75f, MaxSubtitleScale = 1.5f;
 

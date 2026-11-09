@@ -331,6 +331,7 @@ public class RadioController : MonoBehaviour, IInteractable
     
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI frequencyDisplayText;
+    [SerializeField] private RadioAnalogDial analogDial;
 
     private PlayerInputActions inputActions;
     private PlayerInteractor playerInteractor;
@@ -1057,6 +1058,12 @@ public class RadioController : MonoBehaviour, IInteractable
 
     private void UpdateFrequencyDisplay()
     {
+        if (analogDial != null)
+        {
+            analogDial.SetFrequency(currentFrequency, minFrequency, maxFrequency);
+            if (frequencyDisplayText != null) frequencyDisplayText.enabled = false;
+            return;
+        }
         if (frequencyDisplayText != null)
         {
             frequencyDisplayText.text = $"{currentFrequency:F2} MHz";

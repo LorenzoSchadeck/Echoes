@@ -63,6 +63,22 @@ MonoBehaviour:
     m_Key: IV_WHO_THERE
     m_Metadata:
       m_Items: []
+  - m_Id: 2180425996607488
+    m_Key: IV_BOARD_CLIPPING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882176
+    m_Key: IV_BOARD_BULLETIN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882177
+    m_Key: IV_BOARD_NEIGHBOR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882178
+    m_Key: IV_BOARD_CLINIC
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

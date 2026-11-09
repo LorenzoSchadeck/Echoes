@@ -74,5 +74,5 @@ MonoBehaviour:
   minimumShowTime: 1.6
   fadeOutTime: 0.8
   spinDegreesPerSecond: 100
-  stampSize: 260
+  stampSize: 80
   restoreTimeout: 10

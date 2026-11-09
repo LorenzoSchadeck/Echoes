@@ -380,6 +380,86 @@ MonoBehaviour:
     m_Localized: CARREGANDO
     m_Metadata:
       m_Items: []
+  - m_Id: 144262231775551488
+    m_Localized: PISTAS ENCONTRADAS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849600
+    m_Localized: "Arraste uma pista da lateral para a corti\xE7a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849601
+    m_Localized: "Arraste as pistas para organizar. Clique em dois alfinetes para ligar. Devolva uma pista \xE0 lateral para retir\xE1-la."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849602
+    m_Localized: Ligar esta pista a outra
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849603
+    m_Localized: Fixar no quadro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849604
+    m_Localized: Retirar do quadro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849605
+    m_Localized: "Hip\xF3tese registrada. Continue montando o caso."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849606
+    m_Localized: "Liga\xE7\xE3o selecionada. Use Remover liga\xE7\xE3o, Delete ou o bot\xE3o direito."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849607
+    m_Localized: "Remover liga\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849608
+    m_Localized: "Liga\xE7\xE3o removida. As conclus\xF5es descobertas continuam no caso."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144276993104191488
+    m_Localized: '(E) Adicionar ao caso: {clue}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144276993183883264
+    m_Localized: "Pista j\xE1 adicionada ao caso"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283670939475968
+    m_Localized: "Clique em uma pista para coloc\xE1-la ou devolv\xEA-la. Segure e arraste para organizar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499392
+    m_Localized: "Escolha uma pista na lateral para come\xE7ar a montar o caso."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499393
+    m_Localized: "Todas as pistas encontradas est\xE3o no mural."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499394
+    m_Localized: "Alfinete: ligar pistas \xB7 Bot\xE3o direito no fio: remover \xB7 Esc: sair"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499395
+    m_Localized: "Liga\xE7\xE3o selecionada. Delete ou bot\xE3o direito para remover."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048121090048
+    m_Localized: "Anota\xE7\xF5es / novembro de 2003"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048192393216
+    m_Localized: "Pistas \xE0 m\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048192393217
+    m_Localized: "Clique: colocar ou recolher\nAlfinetes: ligar   \xB7   Bot\xE3o direito: cortar fio\nEsc: voltar ao apartamento"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

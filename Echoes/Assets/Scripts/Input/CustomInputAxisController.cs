@@ -1,82 +1,57 @@
-using UnityEngine;
-using Unity.Cinemachine;
-using UnityEngine.InputSystem;
 using System;
+using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
 
-/// <summary>
-/// Custom Input Axis Controller for Cinemachine with direct sensitivity control
-/// Based on Unity Cinemachine documentation for custom controllers
-/// Integrates seamlessly with GameSettings for dynamic sensitivity adjustment
-/// </summary>
+/// <summary>Olhar: deslocamento do mouse e velocidade do analógico têm unidades distintas.</summary>
 public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxisController.MouseLookReader>
 {
-    #region Serialized Fields
-    
+    public const float MouseDegreesPerPixel = 0.08f;
+    public const float StickDegreesPerSecond = 120f;
+
     [Header("Mouse Look Settings")]
-    [SerializeField] [Range(0.01f, 3f)] private float mouseSensitivity = 1.0f;
-    [SerializeField] private bool invertY = false;
-    
+    [SerializeField, Range(GameOptions.MinSensitivity, GameOptions.MaxSensitivity)]
+    private float mouseSensitivity = 1f;
+    [SerializeField] private bool invertY;
     [Header("Input Actions")]
     [SerializeField] private InputActionReference lookAction;
-    
-    /// <summary>
-    /// Public access to look action for validation
-    /// </summary>
+
     public InputActionReference LookAction => lookAction;
-    
-    #endregion
-    
-    #region Private Fields
-    
+    public float MouseSensitivity
+    {
+        get => mouseSensitivity;
+        set => mouseSensitivity = Mathf.Clamp(value, GameOptions.MinSensitivity, GameOptions.MaxSensitivity);
+    }
+    public bool InvertY { get => invertY; set => invertY = value; }
+
     private InputAction m_LookAction;
     private Vector2 m_CurrentInput;
-    
-    #endregion
-    
-    #region Public Properties
-    
-    /// <summary>
-    /// Mouse sensitivity multiplier (0.01 - 3.0)
-    /// </summary>
-    public float MouseSensitivity 
-    { 
-        get => mouseSensitivity; 
-        set 
-        {
-            mouseSensitivity = Mathf.Clamp(value, 0.01f, 3.0f);
-        }
-    }
-    
-    /// <summary>
-    /// Invert Y axis
-    /// </summary>
-    public bool InvertY 
-    { 
-        get => invertY; 
-        set => invertY = value; 
-    }
-    
-    #endregion
-    
-    #region Unity Lifecycle
-    
+    private CinemachinePanTilt m_PanTilt;
+    private bool m_WasAcceptingInput;
+
     protected override void OnEnable()
     {
         base.OnEnable();
-        
-        if (lookAction != null)
+        m_PanTilt = GetComponent<CinemachinePanTilt>();
+        // Cada câmera possui sua ação. Desligar uma não pode desabilitar a ação das demais.
+        if (lookAction != null && lookAction.action != null)
         {
-            m_LookAction = lookAction.action;
-            if (m_LookAction != null)
-            {
-                m_LookAction.Enable();
-            }
+            m_LookAction = lookAction.action.Clone();
+            m_LookAction.Enable();
         }
-        
-        // Sensibilidade e inversão vêm das opções do jogador
+        ResetInput();
         ApplyOptions();
         GameOptions.Changed += ApplyOptions;
+    }
+
+    protected override void OnDisable()
+    {
+        GameOptions.Changed -= ApplyOptions;
+        m_LookAction?.Dispose();
+        m_LookAction = null;
+        ResetInput();
+        base.OnDisable();
     }
 
     private void ApplyOptions()
@@ -84,113 +59,74 @@ public class CustomInputAxisController : InputAxisControllerBase<CustomInputAxis
         MouseSensitivity = GameOptions.Current.mouseSensitivity;
         InvertY = GameOptions.Current.invertY;
     }
-    
-    protected override void OnDisable()
+
+    private void OnApplicationFocus(bool focused) => ResetInput();
+
+    private void ResetInput()
     {
-        base.OnDisable();
-        GameOptions.Changed -= ApplyOptions;
-        
-        if (m_LookAction != null)
+        m_CurrentInput = Vector2.zero;
+        m_WasAcceptingInput = false;
+        // Remove velocidade residual sem recentralizar ou alterar os ângulos do jogador.
+        foreach (var controller in Controllers)
         {
-            m_LookAction.Disable();
+            if (controller == null) continue;
+            controller.Driver = new DefaultInputAxisDriver { AccelTime = 0f, DecelTime = 0f };
         }
     }
-    
-    void Update()
+
+    private void Update()
     {
-        if (Application.isPlaying)
+        if (!Application.isPlaying) return;
+        bool accepting = m_LookAction != null && Application.isFocused && Time.timeScale > 0f
+            && Cursor.lockState == CursorLockMode.Locked && !PlayerControlLock.IsLocked
+            && (m_PanTilt == null || m_PanTilt.isActiveAndEnabled);
+        if (!accepting)
         {
-            UpdateControllers();
+            ResetInput();
+            return;
         }
+        // Descarta o quadro em que o cursor foi preso, recuperou foco ou saiu da inspeção.
+        if (!m_WasAcceptingInput)
+        {
+            m_WasAcceptingInput = true;
+            m_CurrentInput = Vector2.zero;
+            return;
+        }
+
+        float deltaTime = IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
+        m_CurrentInput = ConvertLookInput(m_LookAction.ReadValue<Vector2>(),
+            m_LookAction.activeControl?.device is Pointer, mouseSensitivity, invertY, deltaTime);
+        UpdateControllers(deltaTime);
     }
-    
-    #endregion
-    
-    #region GameSettings Integration
-    
-    /// <summary>
-    /// Called by GameSettings to update sensitivity
-    /// </summary>
-    /// <param name="newSensitivity">New sensitivity value</param>
-    public void UpdateSensitivity(float newSensitivity)
+
+    /// <summary>Graus/segundo para o driver Cinemachine; mouse entra em pixels/quadro.</summary>
+    public static Vector2 ConvertLookInput(Vector2 input, bool pointer, float sensitivity, bool inverted, float deltaTime)
     {
-        MouseSensitivity = newSensitivity;
+        if (deltaTime <= 0f || !float.IsFinite(deltaTime)
+            || !float.IsFinite(input.x) || !float.IsFinite(input.y)) return Vector2.zero;
+        float gain = Mathf.Clamp(sensitivity, GameOptions.MinSensitivity, GameOptions.MaxSensitivity);
+        input *= gain * (pointer ? MouseDegreesPerPixel / deltaTime : StickDegreesPerSecond);
+        // Tilt positivo gira para baixo. Sem inversão, mover para cima deve olhar para cima.
+        input.y *= inverted ? 1f : -1f;
+        return input;
     }
-    
-    #endregion
-    
-    #region Mouse Look Reader (Inner Class)
-    
-    /// <summary>
-    /// Mouse look input reader - handles both X and Y axis based on context
-    /// </summary>
+
+    public void UpdateSensitivity(float newSensitivity) => MouseSensitivity = newSensitivity;
+
     [Serializable]
     public class MouseLookReader : IInputAxisReader
     {
-        /// <summary>
-        /// Gets the input value for this axis
-        /// The axis is determined by the context (controller index)
-        /// </summary>
         public float GetValue(Object context, IInputAxisOwner.AxisDescriptor.Hints hint)
         {
-            // Get the controller instance
             var controller = context as CustomInputAxisController;
-            if (controller == null)
-            {
-                // Try to find it in the component hierarchy
-                if (context is Component comp)
-                    controller = comp.GetComponent<CustomInputAxisController>();
-                
-                if (controller == null)
-                    return 0f;
-            }
-            
-            if (controller.m_LookAction == null)
-                return 0f;
-            
-            // Read input from Input System
-            Vector2 mouseInput = controller.m_LookAction.ReadValue<Vector2>();
-            
-            // Apply sensitivity
-            mouseInput *= controller.mouseSensitivity;
-            
-            // Determine which axis this reader represents
-            // We need to find our index in the Controllers list
-            int axisIndex = -1;
-            if (controller.Controllers != null)
-            {
-                for (int i = 0; i < controller.Controllers.Count; i++)
-                {
-                    if (controller.Controllers[i] != null && controller.Controllers[i].Input == this)
-                    {
-                        axisIndex = i;
-                        break;
-                    }
-                }
-            }
-            
-            // If we can't determine the axis, default to 0 (X)
-            if (axisIndex == -1) axisIndex = 0;
-            
-            // Apply Y inversion if needed
-            if (controller.invertY && axisIndex == 1)
-                mouseInput.y = -mouseInput.y;
-            
-            // Return the appropriate axis value
-            float value = axisIndex == 0 ? mouseInput.x : mouseInput.y;
-            
-            return value;
+            if (controller == null && context is Component component)
+                controller = component.GetComponent<CustomInputAxisController>();
+            if (controller == null) return 0f;
+            // Usa o eixo real, sem depender da ordem ou quantidade de câmeras na lista.
+            return hint == IInputAxisOwner.AxisDescriptor.Hints.Y
+                ? controller.m_CurrentInput.y : controller.m_CurrentInput.x;
         }
-        
-        /// <summary>
-        /// Initialize method for backward compatibility (called by setup script)
-        /// </summary>
-        public void Initialize(CustomInputAxisController ctrl, int axis)
-        {
-            // This method is now optional since we auto-detect the axis index
-            // Kept for compatibility with the setup script
-        }
+
+        public void Initialize(CustomInputAxisController controller, int axis) { }
     }
-    
-    #endregion
 }

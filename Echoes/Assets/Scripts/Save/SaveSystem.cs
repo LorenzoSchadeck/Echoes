@@ -26,6 +26,8 @@ public class SaveData
     public List<string> drawerKeys = new List<string>();
     public List<string> evidence = new List<string>();
     public List<string> deductions = new List<string>();
+    public List<BoardPlacement> boardPlacements = new List<BoardPlacement>();
+    public List<BoardLink> boardLinks = new List<BoardLink>();
     public List<string> destroyedIds = new List<string>();
     public List<SaveEntry> entries = new List<SaveEntry>();
 }

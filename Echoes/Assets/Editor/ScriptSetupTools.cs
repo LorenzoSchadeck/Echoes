@@ -250,14 +250,14 @@ public static class ScriptSetupTools
         ApplyWarningPanels();
 
         Scene scene = SceneManager.GetActiveScene();
-        if (scene.path == "Assets/Scenes/Game.unity")
+        if (scene.path == "Assets/Scenes/ApartamentoDemo.unity")
         {
             ApplyBoard();
             EditorSceneManager.MarkSceneDirty(scene);
         }
         else
         {
-            Debug.LogWarning("[ScriptSetupTools] Abra a cena Game para aplicar o mural e o recorte; os textos já foram gravados.");
+            Debug.LogWarning("[ScriptSetupTools] Abra a cena ApartamentoDemo para aplicar o mural e o recorte; os textos já foram gravados.");
         }
 
         LocalizationSetup.RemoveKeys(EvidenceTable, OldEvidenceKeys);

@@ -30,6 +30,15 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  thought:
+    m_TableReference:
+      m_TableCollectionName: inner_voice
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: IV_BOARD_BULLETIN
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   date: 21.11.2003
   place:
     m_TableReference:
@@ -41,6 +50,8 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   photo: {fileID: 0}
+  boardPrefab: {fileID: 5766093903755532315, guid: 74bdd5174aa5e1242bfbbec467efdc07, type: 3}
+  boardSize: {x: 1.25, y: 1.5}
   boardPosition: {x: 0.5, y: 0.46}
   references:
     version: 2

@@ -37,7 +37,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="pane-controls" class="pane">
                     <ui:Label text="M_SEC_MOUSE" class="section section--first" />
-                    <ui:Slider name="slider-sensitivity" label="M_MS" low-value="0.01" high-value="3" class="option" />
+                    <ui:Slider name="slider-sensitivity" label="M_MS" low-value="0.01" high-value="10" class="option" />
                     <OnOffField name="toggle-invert-y" label="M_INVERT_Y" class="option" />
                 </ui:VisualElement>
                 <ui:VisualElement name="pane-access" class="pane">

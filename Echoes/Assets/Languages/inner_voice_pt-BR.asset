@@ -66,6 +66,22 @@ MonoBehaviour:
     m_Localized: "Quem est\xE1 a\xED?"
     m_Metadata:
       m_Items: []
+  - m_Id: 2180425996607488
+    m_Localized: "Eu escrevi isso. Estive naquele quarto com Clara. O que ficou fora da mat\xE9ria?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882176
+    m_Localized: "Outra mulher na Halley. O locutor n\xE3o disse o quarto, mas eu ouvi seis. De onde veio isso?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882177
+    m_Localized: "\xC0s tr\xEAs da manh\xE3? Eu estava dormindo. Pelo menos \xE9 disso que eu lembro."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882178
+    m_Localized: "Ela chama de apag\xE3o. Para mim \xE9 s\xF3 um peda\xE7o da noite que n\xE3o est\xE1 l\xE1."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

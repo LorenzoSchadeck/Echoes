@@ -20,6 +20,7 @@ MonoBehaviour:
     Data4: 1129589750
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -47,6 +48,7 @@ MonoBehaviour:
     Data4: 1894838044
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -73,6 +75,7 @@ MonoBehaviour:
     Data3: 725360768
     Data4: 539282547
   Banks:
+  - {fileID: 6766078913889826430}
   - {fileID: 433348863984818286}
   IsStream: 1
   Is3D: 1
@@ -101,6 +104,7 @@ MonoBehaviour:
     Data4: -1532589896
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -128,6 +132,7 @@ MonoBehaviour:
     Data4: -1818013209
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -155,6 +160,7 @@ MonoBehaviour:
     Data4: 1188636399
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -177,10 +183,10 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638968637048376971
+  lastModified: 639295737082630052
   FileSizes:
   - Name: Desktop
-    Value: 2508
+    Value: 2952
   Exists: 1
 --- !u!114 &-6642903976585539694
 MonoBehaviour:
@@ -202,6 +208,7 @@ MonoBehaviour:
     Data4: 1236682142
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -255,6 +262,7 @@ MonoBehaviour:
     Data4: -792028615
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -282,6 +290,7 @@ MonoBehaviour:
     Data4: -28610257
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -309,6 +318,7 @@ MonoBehaviour:
     Data4: -1586829017
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -336,6 +346,7 @@ MonoBehaviour:
     Data4: -1313039469
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -343,6 +354,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1149
+--- !u!114 &-3950240371072533556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/light switch
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Effects/light switch
+  Guid:
+    Data1: -36546372
+    Data2: 1190346626
+    Data3: -345279839
+    Data4: -2053549896
+  Banks:
+  - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 966
 --- !u!114 &-3484452339246754740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,6 +402,7 @@ MonoBehaviour:
     Data4: 879447178
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -389,6 +429,7 @@ MonoBehaviour:
     Data3: -949552240
     Data4: -580761162
   Banks:
+  - {fileID: 6766078913889826430}
   - {fileID: 433348863984818286}
   IsStream: 0
   Is3D: 0
@@ -417,6 +458,7 @@ MonoBehaviour:
     Data4: -696832339
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -444,6 +486,7 @@ MonoBehaviour:
     Data4: 1271436890
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -461,9 +504,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Effects/Whoosh2
+  m_Name: event:/Effects/whoosh2
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Effects/Whoosh2
+  Path: event:/Effects/whoosh2
   Guid:
     Data1: -403749252
     Data2: 1131150605
@@ -471,6 +514,7 @@ MonoBehaviour:
     Data4: 1592828153
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -498,6 +542,7 @@ MonoBehaviour:
     Data4: -508439360
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -515,9 +560,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Effects/Whoosh
+  m_Name: event:/Effects/whoosh
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Effects/Whoosh
+  Path: event:/Effects/whoosh
   Guid:
     Data1: -676188831
     Data2: 1175209844
@@ -525,6 +570,7 @@ MonoBehaviour:
     Data4: 1268363152
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -552,6 +598,7 @@ MonoBehaviour:
     Data4: -704063583
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
@@ -579,6 +626,7 @@ MonoBehaviour:
     Data4: 1163209143
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -606,6 +654,7 @@ MonoBehaviour:
     Data4: -1192771849
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -634,6 +683,7 @@ MonoBehaviour:
     Data4: -1400051993
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -661,6 +711,7 @@ MonoBehaviour:
     Data4: 2027396354
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -688,6 +739,7 @@ MonoBehaviour:
     Data4: -1583545214
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -710,6 +762,8 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: -7278368598167651447}
   - {fileID: 433348863984818286}
+  - {fileID: 6766078913889826430}
+  - {fileID: 1508433847900950422}
   EditorEvents:
   - {fileID: -1440497364564092387}
   - {fileID: 4304580638856382249}
@@ -750,13 +804,20 @@ MonoBehaviour:
   - {fileID: -8010097916295842165}
   - {fileID: 8977793046535639196}
   - {fileID: -6642903976585539694}
+  - {fileID: 9155189421298296105}
+  - {fileID: 440239225002758543}
+  - {fileID: 1526617928056664995}
+  - {fileID: 7155553662686796594}
+  - {fileID: 7847226185106211548}
+  - {fileID: 2212466170809297187}
+  - {fileID: -3950240371072533556}
   EditorParameters: []
   MasterBanks:
   - {fileID: 433348863984818286}
   StringsBanks:
   - {fileID: -7278368598167651447}
   cacheVersion: 131861
-  cacheTime: 638968637048376971
+  cacheTime: 639295737083838378
   SerializableEventsDict:
   - key: event:/Footsteps/Footsteps
     index: 0
@@ -780,13 +841,13 @@ MonoBehaviour:
     index: 9
   - key: event:/Choir/choir_F_1
     index: 10
-  - key: event:/Effects/Whoosh
+  - key: event:/Effects/whoosh
     index: 11
   - key: event:/Door/Door_Close
     index: 12
   - key: event:/Menu/Typewritter
     index: 13
-  - key: event:/Effects/Whoosh2
+  - key: event:/Effects/whoosh2
     index: 14
   - key: event:/Door/Door_Locked
     index: 15
@@ -836,6 +897,20 @@ MonoBehaviour:
     index: 37
   - key: event:/Effects/broken_light
     index: 38
+  - key: event:/Effects/water flowing
+    index: 39
+  - key: event:/Opening/scanner
+    index: 40
+  - key: event:/Opening/camera flash
+    index: 41
+  - key: event:/Opening/heavy rain
+    index: 42
+  - key: event:/Opening/siren
+    index: 43
+  - key: event:/Opening/horror rain
+    index: 44
+  - key: event:/Effects/light switch
+    index: 45
 --- !u!114 &31544495829315365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,6 +931,7 @@ MonoBehaviour:
     Data4: 646054049
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -883,6 +959,7 @@ MonoBehaviour:
     Data4: -170893065
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -905,11 +982,39 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638968637048346599
+  lastModified: 639295737082584901
   FileSizes:
   - Name: Desktop
-    Value: 4540000
+    Value: 8914944
   Exists: 1
+--- !u!114 &440239225002758543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Opening/scanner
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Opening/scanner
+  Guid:
+    Data1: 1287506960
+    Data2: 1164356771
+    Data3: -316693375
+    Data4: -298513947
+  Banks:
+  - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &1321550531552294971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,6 +1035,7 @@ MonoBehaviour:
     Data4: 1370884860
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -937,6 +1043,82 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 35500
+--- !u!114 &1508433847900950422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 639295737083838378
+  FileSizes:
+  - Name: Desktop
+    Value: 8008224
+  Exists: 1
+--- !u!114 &1526617928056664995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Opening/camera flash
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Opening/camera flash
+  Guid:
+    Data1: -2064692444
+    Data2: 1186923480
+    Data3: 24596103
+    Data4: -1131816937
+  Banks:
+  - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1750
+--- !u!114 &2212466170809297187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Opening/horror rain
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Opening/horror rain
+  Guid:
+    Data1: -1781648967
+    Data2: 1131786533
+    Data3: -1783922530
+    Data4: 1356178680
+  Banks:
+  - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 16416
 --- !u!114 &2837020270732564058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,6 +1138,7 @@ MonoBehaviour:
     Data3: -1687239806
     Data4: -1338571040
   Banks:
+  - {fileID: 6766078913889826430}
   - {fileID: 433348863984818286}
   IsStream: 1
   Is3D: 0
@@ -984,6 +1167,7 @@ MonoBehaviour:
     Data4: 539178901
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1011,6 +1195,7 @@ MonoBehaviour:
     Data4: 2105026000
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0
@@ -1038,6 +1223,7 @@ MonoBehaviour:
     Data4: 723022747
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1065,6 +1251,7 @@ MonoBehaviour:
     Data4: 1925725146
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -1092,6 +1279,7 @@ MonoBehaviour:
     Data4: -1471691241
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1119,6 +1307,7 @@ MonoBehaviour:
     Data4: 2071956805
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1146,6 +1335,7 @@ MonoBehaviour:
     Data4: -2093220970
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1172,6 +1362,7 @@ MonoBehaviour:
     Data3: 932128675
     Data4: 1082947989
   Banks:
+  - {fileID: 6766078913889826430}
   - {fileID: 433348863984818286}
   IsStream: 0
   Is3D: 0
@@ -1200,6 +1391,7 @@ MonoBehaviour:
     Data4: 131157385
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1207,6 +1399,54 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1515
+--- !u!114 &6766078913889826430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: ../../../FMOD Studio/Echoes v2/Build/Desktop/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 639295718926832831
+  FileSizes:
+  - Name: Desktop
+    Value: 906976
+  Exists: 1
+--- !u!114 &7155553662686796594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Opening/heavy rain
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Opening/heavy rain
+  Guid:
+    Data1: 2120824416
+    Data2: 1324026595
+    Data3: 1439359421
+    Data4: 193401853
+  Banks:
+  - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 20000
 --- !u!114 &7296867724711103278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1227,6 +1467,7 @@ MonoBehaviour:
     Data4: -529659138
   Banks:
   - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1234,6 +1475,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &7847226185106211548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Opening/siren
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Opening/siren
+  Guid:
+    Data1: -1990748037
+    Data2: 1338689994
+    Data3: -994161227
+    Data4: -1835839681
+  Banks:
+  - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 783
 --- !u!114 &8977793046535639196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1253,6 +1522,7 @@ MonoBehaviour:
     Data3: 128265913
     Data4: -1449836956
   Banks:
+  - {fileID: 6766078913889826430}
   - {fileID: 433348863984818286}
   IsStream: 1
   Is3D: 1
@@ -1261,3 +1531,31 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 21000
+--- !u!114 &9155189421298296105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Effects/water flowing
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Effects/water flowing
+  Guid:
+    Data1: 948815126
+    Data2: 1288457824
+    Data3: 561742265
+    Data4: 203300094
+  Banks:
+  - {fileID: 433348863984818286}
+  - {fileID: 1508433847900950422}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8040

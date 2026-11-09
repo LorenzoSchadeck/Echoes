@@ -103,6 +103,8 @@ public class CheckpointManager : MonoBehaviour
         data.clockMinutes = GameClock.Minutes;
         data.evidence = CaseFile.EvidenceIds.ToList();
         data.deductions = CaseFile.DeductionIds.ToList();
+        data.boardPlacements = CaseFile.Placements.Select(p => new BoardPlacement { evidenceId = p.evidenceId, position = p.position }).ToList();
+        data.boardLinks = CaseFile.Links.Select(l => new BoardLink { first = l.first, second = l.second }).ToList();
 
         SaveSystem.CaptureObjects(data);
         SaveSystem.Write(data);
@@ -129,7 +131,7 @@ public class CheckpointManager : MonoBehaviour
 
         foreach (string key in data.doorKeys) DoorKeyManager.Instance.RegisterCollectedKey(key);
         foreach (string key in data.drawerKeys) DrawerKeyManager.Instance.RegisterCollectedKey(key);
-        CaseFile.Restore(data.evidence, data.deductions);
+        CaseFile.Restore(data.evidence, data.deductions, data.boardPlacements, data.boardLinks);
 
         GameFlow.Restore(data.act);
         PlaceWakingPlayer(data);

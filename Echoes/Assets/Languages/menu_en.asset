@@ -380,6 +380,86 @@ MonoBehaviour:
     m_Localized: LOADING
     m_Metadata:
       m_Items: []
+  - m_Id: 144262231775551488
+    m_Localized: COLLECTED EVIDENCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849600
+    m_Localized: Drag evidence from the tray onto the corkboard.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849601
+    m_Localized: Drag evidence to arrange it. Click two pins to connect them. Return a card to the tray to unpin it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849602
+    m_Localized: Connect this evidence to another
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849603
+    m_Localized: Pin to board
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849604
+    m_Localized: Return to tray
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849605
+    m_Localized: Hypothesis noted. Keep building the case.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849606
+    m_Localized: Connection selected. Use Remove connection, Delete, or right-click.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849607
+    m_Localized: Remove connection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849608
+    m_Localized: Connection removed. Discovered conclusions remain in the case.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144276993104191488
+    m_Localized: '(E) Add to case: {clue}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144276993183883264
+    m_Localized: Evidence already added to case
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283670939475968
+    m_Localized: Click evidence to place it or return it. Hold and drag to arrange it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499392
+    m_Localized: Choose evidence from the tray to start building the case.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499393
+    m_Localized: All collected evidence is on the board.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499394
+    m_Localized: "Pin: connect evidence \xB7 Right-click a string: remove \xB7 Esc: leave"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499395
+    m_Localized: Connection selected. Delete or right-click to remove.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048121090048
+    m_Localized: Notes / November 2003
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048192393216
+    m_Localized: Evidence at hand
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048192393217
+    m_Localized: "Click: place or return\nPins: connect   \xB7   Right-click: cut string\nEsc: back to the apartment"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

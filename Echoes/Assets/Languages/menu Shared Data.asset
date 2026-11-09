@@ -375,6 +375,86 @@ MonoBehaviour:
     m_Key: M_LOADING
     m_Metadata:
       m_Items: []
+  - m_Id: 144262231775551488
+    m_Key: M_BOARD_FOUND
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849600
+    m_Key: M_BOARD_DRAG_HINT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849601
+    m_Key: M_BOARD_WORK_HINT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849602
+    m_Key: M_BOARD_PIN_HINT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849603
+    m_Key: M_BOARD_PLACE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849604
+    m_Key: M_BOARD_RETURN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849605
+    m_Key: M_BOARD_HYPOTHESIS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849606
+    m_Key: M_BOARD_REMOVE_HINT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849607
+    m_Key: M_BOARD_REMOVE_LINK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144262231997849608
+    m_Key: M_BOARD_LINK_REMOVED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144276993104191488
+    m_Key: M_BOARD_TEST_COLLECT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144276993183883264
+    m_Key: M_BOARD_TEST_COLLECTED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283670939475968
+    m_Key: M_BOARD_OBJECT_HINT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499392
+    m_Key: M_BOARD_OBJECT_EMPTY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499393
+    m_Key: M_BOARD_TRAY_EMPTY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499394
+    m_Key: M_BOARD_OBJECT_CONTROLS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144283671069499395
+    m_Key: M_BOARD_OBJECT_REMOVE_HINT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048121090048
+    m_Key: M_BOARD_ARCHIVE_DATE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048192393216
+    m_Key: M_BOARD_AT_HAND
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144289048192393217
+    m_Key: M_BOARD_ARCHIVE_CONTROLS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

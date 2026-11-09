@@ -1,0 +1,1076 @@
+[
+  {
+    "file": "DirectML.dll",
+    "sha256": "5ab77cc5db8e1544d386fd28586598317da8dcbef098fb86d8d8a60e739e0e5d",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\External\\DirectML\\x64\\DirectML.dll"
+  },
+  {
+    "file": "dstorage.dll",
+    "sha256": "cae65787f61514bec6f012f44546e68b19e39d8854a9ab52af813370d44b272a",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\win64_player_development_il2cpp\\dstorage.dll"
+  },
+  {
+    "file": "dstoragecore.dll",
+    "sha256": "cf85b19a92a8276f8baca0db9bbcd60735bad50768deb303d310e84d5f4fdd11",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\win64_player_development_il2cpp\\dstoragecore.dll"
+  },
+  {
+    "file": "Echoes.exe",
+    "sha256": "9ebfba61ee7cb09e297a75c85342cf66ce063ad17155199a424acbe03440bfa7",
+    "match_category": null,
+    "reference": null
+  },
+  {
+    "file": "UnityCrashHandler64.exe",
+    "sha256": "3435137bf921a545b044ddcaae33a0f2cb613ef9b946737404686cda14efe832",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\win64_player_nondevelopment_mono\\UnityCrashHandler64.exe"
+  },
+  {
+    "file": "UnityPlayer.dll",
+    "sha256": "38db99e19730fad74e8cc21758c87ffe7387b7774ebd9a14405c62ae481f2550",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\win64_player_nondevelopment_mono\\UnityPlayer.dll"
+  },
+  {
+    "file": "D3D12/D3D12Core.dll",
+    "sha256": "625bd40005b1c3708695d5256ecf230d278e6b8edba5a88af70f3d91324f3052",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\External\\AgilitySDK\\x64\\D3D12Core.dll"
+  },
+  {
+    "file": "MonoBleedingEdge/EmbedRuntime/mono-2.0-bdwgc.dll",
+    "sha256": "c9b5fcbd3d5694161f494586b8447e8a0bcb6d34d11ab16927d3a3a699d5fbbb",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\win64_player_nondevelopment_mono\\MonoBleedingEdge\\EmbedRuntime\\mono-2.0-bdwgc.dll"
+  },
+  {
+    "file": "MonoBleedingEdge/EmbedRuntime/MonoPosixHelper.dll",
+    "sha256": "6d4aae4d60b74f59f6e15cfe4cc9dc3729f43a291d1c46728fad5466da036013",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\win64_player_nondevelopment_mono\\MonoBleedingEdge\\EmbedRuntime\\MonoPosixHelper.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Assembly-CSharp.dll",
+    "sha256": "b880deac98cd1a89efef3c66281b98e8e6dc3a4d1edd8cc46b1657c738d36600",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Assembly-CSharp.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/FMODUnity.dll",
+    "sha256": "5c2b604b30d49b0c6fb70896398c5e02c0b2d7a8fef4634a29b515221eb559af",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\FMODUnity.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/FMODUnityHaptics.dll",
+    "sha256": "e99f10ac191c8425b8e23c3b226ae06c9b19056cc6a7e43aa4f02d84a60096d1",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\FMODUnityHaptics.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/FMODUnityResonance.dll",
+    "sha256": "0023bee16d2dbcb2cc7a8d55944cf8f60d00616d90d0494ab53ea461f4b39645",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\FMODUnityResonance.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Mono.Security.dll",
+    "sha256": "e912bcd94b398ba750f74a12b7c61b530720f66e4ff992e62628dd42edf50ae1",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\Mono.Security.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/mscorlib.dll",
+    "sha256": "ed3bd3b757069e96c26bfdec8179abd00feef8839ae3ad97f51637c12d83efd8",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\mscorlib.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/netstandard.dll",
+    "sha256": "6ae62e082dc494a2433984177f60ca4db5fae69b1f360a8b33754172b310b8c5",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\Facades\\netstandard.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Newtonsoft.Json.dll",
+    "sha256": "a56146202232958f46bd6a28b5a7da166aea123ee0d646735a46e5c341dfbf1f",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Newtonsoft.Json.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Buffers.dll",
+    "sha256": "762f8fdbe975e05b76be5fe996c53ce7c75e4a2830f2f50b02a5948ef6ba0aeb",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\Facades\\System.Buffers.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Collections.Immutable.dll",
+    "sha256": "5b1b1c83ba3d135c2fdfe425842fbe9c7432878b7e468623acb554c69b4c130f",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\System.Collections.Immutable.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.ComponentModel.Composition.dll",
+    "sha256": "614793b018e061527e53941045f3d44abb2856591a7982ee3479f08df3237322",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.ComponentModel.Composition.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Configuration.dll",
+    "sha256": "548ac87e81788971c06463779c82ce735da2be71cdd8d59fe75a226f63981d82",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Configuration.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Core.dll",
+    "sha256": "f8a67453fe15cdbe58fd459be18af2600b84d465fe9dc7ef0bceebbb92137a05",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Core.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Data.DataSetExtensions.dll",
+    "sha256": "3ef867092db854496c3a119e2a0c9c929eadd64e4f82cc590a2defbc0ffd8885",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Data.DataSetExtensions.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Data.dll",
+    "sha256": "0327833c231a3c2c989ba95651d02bd35417e9579e421adb5ea63182f1741b30",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Data.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.dll",
+    "sha256": "f7a66d1ecb77d1d74840b7100eef17ebdb5aefa2957acc7d3a6cad6d2ac12304",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Drawing.dll",
+    "sha256": "70dd9d25249ec173db45a94cce4e3d66a49dbc47bcedaf56be0a1a3193f013c3",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Drawing.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.EnterpriseServices.dll",
+    "sha256": "4abd633b3749f92df1dc7c8ed0083515d8c4815220d619ff7491ed617a90b70e",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.EnterpriseServices.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.IO.Compression.dll",
+    "sha256": "ce68e338cd2111d37296ab573e07296f46d0ab1d62140157012662f5c1631bbf",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.IO.Compression.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.IO.Compression.FileSystem.dll",
+    "sha256": "d221d8ede654d31bc9d172050aebcf6583389df49ea9ca3c64b892b4d431aa93",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.IO.Compression.FileSystem.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Memory.dll",
+    "sha256": "c4f030a2cba7da7cdcf493257c24560e203d355904aee490d645a935842f834a",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\Facades\\System.Memory.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Net.Http.dll",
+    "sha256": "fc1d9895a57c89690cdbb390ff0e2a33139e6d55b3585ce27a975919b782f384",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Net.Http.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Numerics.dll",
+    "sha256": "10ad242e00ccc5842a18f23a5db7cb98994bb9adc9cb8e928bfa983017f7b84d",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Numerics.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Reflection.Metadata.dll",
+    "sha256": "afcfd6c166fe0d59f45cc6363082806f6a7ea8ceed9dc6c75eec9fd79ccb5717",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\System.Reflection.Metadata.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Runtime.CompilerServices.Unsafe.dll",
+    "sha256": "fd67abc4c4af10affbcd42fd68a2a7bc361b26714afe6965d4d0d139459d8297",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\System.Runtime.CompilerServices.Unsafe.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Runtime.Serialization.dll",
+    "sha256": "b5e613632bb6740233ef64eda07a9012b4b760bdbdb382cc9e8401bec181c3cd",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Runtime.Serialization.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Security.dll",
+    "sha256": "a2b5d9892a204c55cac80a97f115f2ed69c33616b5bc913a329d3a69e3306e33",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Security.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.ServiceModel.Internals.dll",
+    "sha256": "aaa9fa4c9037fb65c82d87b6ff1b5666e41e8a2706cb4fa1669856ed546272f9",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.ServiceModel.Internals.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Transactions.dll",
+    "sha256": "e10e97aa9723c7c6c48c96d066029ad274094ebca433768b852840455c9bf241",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Transactions.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Xml.dll",
+    "sha256": "fdead0bddf7d8817a616c09cc603868b4a44645bbc9834775c9309b059576345",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Xml.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/System.Xml.Linq.dll",
+    "sha256": "d1f14ecf3ce7b6584f409203a474fd32bea20b8c57a64160e419c30cc0eb3ede",
+    "match_category": "Mono instalado",
+    "reference": "<Unity 6000.6.7f1>\\MonoBleedingEdge\\lib\\mono\\unityjit-win32\\System.Xml.Linq.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Addressables.dll",
+    "sha256": "8f9b2015d9b49b6222bf7fbb16e45da82943abb6b772fd419acec355004e8429",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.Addressables.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.AI.MCP.Runtime.dll",
+    "sha256": "b0ffbd03086c00b1a7a58eb7afe88c7d88725aa552eafd28720bad976835b9ac",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.AI.MCP.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.AI.Navigation.dll",
+    "sha256": "24e8c5c3503224c8f450b2acdc14f26f1f1fc70c483748453f0b07633250b0a7",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.AI.Navigation.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.AI.Tracing.dll",
+    "sha256": "f785a76bb05de7fd0972a15a92111370276241adccd6f36d56f2d70f69b8f03e",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.AI.Tracing.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.AppUI.TextMateLib.dll",
+    "sha256": "f9c465bae965fb77a2a5bdac12c94471539e165fc4c3079f3d82fc15dfa72eb5",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.AppUI.TextMateLib.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Burst.dll",
+    "sha256": "d9109ced4014db58eac3ae3c7b1f717ce06948c0ab54bac172dd17ebf517d37a",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.Burst.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Cinemachine.dll",
+    "sha256": "a7771aac64703c2f3fba7837bd5650fbeb02265499d3092b3531af820689846a",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.Cinemachine.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Collections.dll",
+    "sha256": "d87259dcaca2b269ff5889578e347e112406dbf584b0cf05efb483f248b300f8",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.Collections.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Collections.LowLevel.ILSupport.dll",
+    "sha256": "ff50383f807f9692e4913b97e47d86fefcb8faa33d6d48cd3e3fd6fc7ffb448d",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.Collections.LowLevel.ILSupport.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll",
+    "sha256": "ce408b772791125da231b618327efb9f6c6f4d9e5fdccbe5e46183901486d877",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll",
+    "sha256": "b47a7fd22857a10e7d4900400be1b16865172f39d6125b04ecfa51bcd82a6400",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Collections.Tests.CoreCLR.ProtectedJobNested.dll",
+    "sha256": "bb878b3f671dbf6fcbaea5171d61d990b6f146ab1045a40745e7f76f080a9667",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.Collections.Tests.CoreCLR.ProtectedJobNested.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.dll",
+    "sha256": "9d2da91bdae5adaf89905188b90b51ba8a69c36b6a5daa06e392b57e0202e789",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.InferenceEngine.dll",
+    "sha256": "8c67f28cb8b6894f4394c4f79a866e4052a33646c142bb2033a84ab1b98b26f6",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.InferenceEngine.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.InferenceEngine.Tokenization.dll",
+    "sha256": "8b3fc5dadd453158d22730e97d0e3e572b517eb19048b491d8c4ef1aa10d2aaf",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.InferenceEngine.Tokenization.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.InputSystem.dll",
+    "sha256": "e5ebbe92e289c733fee0743bccd64c0507fd761513f26213239c18e1c0410d98",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.InputSystem.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.InputSystem.ForUI.dll",
+    "sha256": "3a1d395063cbe85d4441158e1f7f11dc50c792f7f3c9ccaa43892e6808954a87",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.InputSystem.ForUI.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.InternalAPIEngineBridge.004.dll",
+    "sha256": "3d4b126e2cff2d844c76500223b5af25172868460ce23f206a4deb6b97c0a324",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.InternalAPIEngineBridge.004.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.InternalAPIEngineBridge.013.dll",
+    "sha256": "2d7bd1d343da26415de05250808ac28a4048b830049fa272a4133af12849a5bf",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.InternalAPIEngineBridge.013.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.InternalAPIEngineBridge.ObjectDispatcher.Runtime.dll",
+    "sha256": "5715228f6dffb4a916aedf1635dbbf0f7008fc472ac1f5046eb6d5de4f3363d5",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.InternalAPIEngineBridge.ObjectDispatcher.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.InternalAPIEngineBridge.RenderPipelines.Core.Runtime.Shared.dll",
+    "sha256": "5250b25e636ff9f06c9ee4cb99bc7bf1866dd09fd0b11577f31b94bfdea8e0fa",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.InternalAPIEngineBridge.RenderPipelines.Core.Runtime.Shared.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Localization.dll",
+    "sha256": "a86431614585fcdd3d571714aae1814715b941704364c85d4dce82c44434c7d3",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.Localization.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Mathematics.dll",
+    "sha256": "3181e0a73f75e5f302662ab47fd7c0bb3dcdd50f3723f35986f1fd43526f37fd",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.Mathematics.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.PathTracing.Runtime.dll",
+    "sha256": "50efe7f224f07a14fbd076f8a590d5741e45d522701bfb2287c3bbe46d0d3b92",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.PathTracing.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Profiling.Core.dll",
+    "sha256": "be02eb261c1b2153b1e3acc69754201bda49b57949e812b83dbe12b9b3a3dee6",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.Profiling.Core.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipeline.Universal.ShaderLibrary.dll",
+    "sha256": "1fc109617f2899206ea10ef2531e1322779f87c5b9099ab4702f1512dd78fc15",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.RenderPipeline.Universal.ShaderLibrary.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.Core.Runtime.dll",
+    "sha256": "6cbcc404e57c2a141f5e4c3a804c103ec62cd57ba2d0b7f3352746e15b54ad07",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.RenderPipelines.Core.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.Core.Runtime.Shared.dll",
+    "sha256": "a69326137d71dac25fdf513a2159baf836c1a9d3a5c65a2d902649ceda34c36d",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.RenderPipelines.Core.Runtime.Shared.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.Core.ShaderLibrary.dll",
+    "sha256": "d2887c2ad545ef37d6b3bbffb65429ac02f6fec7060f7842a18ca2e266cf348e",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.RenderPipelines.Core.ShaderLibrary.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.GPUDriven.Runtime.dll",
+    "sha256": "46817c40bb514df109f45ae7fed77c25be66c003f64328601ef536f3ddbd62a1",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.RenderPipelines.GPUDriven.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll",
+    "sha256": "348d38992ee6019297c367fd4463e48c534a45a8ef75b7623392bf6772ecbc12",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.Universal.2D.Runtime.dll",
+    "sha256": "1b1e4f1745968f667561c95c3ab9b0d9bd10ddbbc8ab3cbb747d355f116088d4",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.RenderPipelines.Universal.2D.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.Universal.Config.Runtime.dll",
+    "sha256": "72c4bc19c020b52d912f8d4d0d492e1c207d26c8c74a231425e0427d84f40c65",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.RenderPipelines.Universal.Config.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.Universal.Runtime.dll",
+    "sha256": "59a292102d0d5f73760c55791982d911d0c4b50abfae5b0a85760ced6dc87453",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.RenderPipelines.Universal.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.RenderPipelines.Universal.Shaders.dll",
+    "sha256": "c834dbc170ecf795e0bfca3b7267e61d8720cb5f6f9fcd381e52c78db19ed475",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.RenderPipelines.Universal.Shaders.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.ResourceManager.dll",
+    "sha256": "1c5a230e485649b41948ca0084fa3c88262a21d6d12f7a6f316a4c64273682cb",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.ResourceManager.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.ScriptableBuildPipeline.dll",
+    "sha256": "76eec13818f29585be99b90bccaa9532a028617dd69223e02f43bb9a0ce9996a",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.ScriptableBuildPipeline.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Scripting.dll",
+    "sha256": "53ab214b5cc329702c20e64f71f31bb991fd94fa93f9befa498610b8236c82e0",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\Unity.Scripting.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Splines.dll",
+    "sha256": "6f092b4956ab3f1162a7c5d8a319315b6a9ca9c66d436622cb53cf8f39f450cc",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.Splines.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.SurfaceCache.Runtime.dll",
+    "sha256": "28d5ac10e793891e00ddb5957f914383805450b68235ad705f4af23b3ff014a5",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.SurfaceCache.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.TextMeshPro.dll",
+    "sha256": "266222d2dede2755d7a359dfa6c5cc877548eca311cb219361ffd743ebd127de",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.TextMeshPro.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.Timeline.dll",
+    "sha256": "0fc4cb149a8b6936bac80ced318f5e0161e0c3d74cd3b0da0d89447c37a8fcec",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\Unity.Timeline.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/Unity.UnifiedRayTracing.Runtime.dll",
+    "sha256": "a77350bdd18359867ad4f8db21beb491e10d3ea053404bae38f001926dbd9a3a",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\ManagedStripped\\Unity.UnifiedRayTracing.Runtime.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.AccessibilityModule.dll",
+    "sha256": "c00102f94241fec153db08939d9412acc800500b50b800684682b8267e9d98e6",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.AccessibilityModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.AdaptivePerformanceModule.dll",
+    "sha256": "f1a7ef51f7ef4348a8032fe8fd2c7805b1b98a5e08bc8914e2cc4ada9c22d0f6",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.AdaptivePerformanceModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.AIModule.dll",
+    "sha256": "1bcf1b74532457ee06422c44144c55a9bc470dc8f4bbc50b476858c2e4848ca3",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.AIModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.AMDModule.dll",
+    "sha256": "c1833db6062471ca3a1a5259979f07f9d4d5b5bbd08535a21f1ebd18d4cc4ddf",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.AMDModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.AndroidJNIModule.dll",
+    "sha256": "840113117ebef4831c885c2fbeae1ff8dc270318ff4a4a49420f41fc7e450f6a",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.AndroidJNIModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.AnimationModule.dll",
+    "sha256": "fba418a32ecbcf46d175961e27618677c26e7e2efbd8c227b042ee6da9d85b20",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.AnimationModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ARModule.dll",
+    "sha256": "d8f08fa3d63621acdfba3d641acf819ba262f48995eea36e1d3a4e5450fba6ad",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ARModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.AssetBundleModule.dll",
+    "sha256": "76aba452ddef51b758dc7162dfb4291b4213a8ab2cae824abde725a55b9737ef",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.AssetBundleModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.AudioModule.dll",
+    "sha256": "5cea0fa111f6a594f1ba70ab059d2d1317972213e62ef99879693134b5400226",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.AudioModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.BurstModule.dll",
+    "sha256": "6db1906c74890ba3d6c8fd5cd1fa46b870e48433e2476be1a17db02f8499709b",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.BurstModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ClothModule.dll",
+    "sha256": "c3359d2506f61d7c99c0f83cd41cea85c264f1b5fa6b95efa64331161cc72520",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ClothModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ClusterInputModule.dll",
+    "sha256": "3021503f52a1ce9b6de1ae4402b1935f3f9e5c2b3f3963073811b56aa0f3472e",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ClusterInputModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ClusterRendererModule.dll",
+    "sha256": "4548e8cbba37a6efe6bb799acebd14dfc780ac6bb7cd61a79fbb78cd6105f626",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ClusterRendererModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ContentLoadModule.dll",
+    "sha256": "c87fa9927dd947d515437aaff0a02519df0b3cf5b075daf5a980dbb88c79e67f",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ContentLoadModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.CoreModule.dll",
+    "sha256": "957c23d330e2178effe4bda021cb8749f8d8d406bc2012ab8c98a6db0eba175f",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.CoreModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.CrashReportingModule.dll",
+    "sha256": "3ba8d5bea102a35c0f0e4c3ca2fb97d8ecca4eaa76060433ce25cc33a6603384",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.CrashReportingModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.DirectorModule.dll",
+    "sha256": "5c0a7a625977c9307a778e1c5013917a439e606ae299b0706a3434d5b15f86ad",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.DirectorModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.dll",
+    "sha256": "0b5700b6f374e0f13740b11d1777051d5aa67b899184940bb9fadb5522df4915",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.DSPGraphModule.dll",
+    "sha256": "0de3bbc63ccf3682f68fb576467584de44cad9273ebd9a8f39ec04eaf2d3ad99",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.DSPGraphModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.GameCenterModule.dll",
+    "sha256": "85d274d5839f328c77de2a9a411b6ff5c3273c5abecf207581cdf2cc6a0b6554",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.GameCenterModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.GIModule.dll",
+    "sha256": "8ba968f1c0ce3813ea829f692d8f391a7baa0f44413803e1c555510942702456",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.GIModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.GraphicsStateCollectionSerializerModule.dll",
+    "sha256": "8b36edd5cb4745844fe84732f68b59a6efaa0e64003ba8403693499aabe6a631",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.GraphicsStateCollectionSerializerModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.GridModule.dll",
+    "sha256": "83e2ca067f5db330ac534b9144f6bbad0bd44dc23a6b5663639f86da0534d37f",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.GridModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.HierarchyCoreModule.dll",
+    "sha256": "9103aeda2704b9dd97052496398bc54a640785c790af6a7249d98a2734e17f04",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.HierarchyCoreModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.HierarchyModule.dll",
+    "sha256": "99ae2a5cce3b492c6c26818c53691b5c57f5b4cf6e6002b314c9d0459859e288",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.HierarchyModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.HotReloadModule.dll",
+    "sha256": "74e637bf13b34e586dcfa6584395eb5d6e210e77878cc495d4950d53f1e4df24",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.HotReloadModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.IdentifiersModule.dll",
+    "sha256": "245fe9769bb2d51a737e9f71899cde96399069b62568d680df619d6554d8213c",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.IdentifiersModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ImageConversionModule.dll",
+    "sha256": "6a4ff449ce3fd1ccc9ad46aad7686ff01b0092842718797c753209cb39093d4e",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ImageConversionModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.IMGUIModule.dll",
+    "sha256": "ace052a9426fdf9c41e64b9619818c802541b888fcb34035876915ef40267c37",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.IMGUIModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.InputForUIModule.dll",
+    "sha256": "7f051c08279f409b25fdbad976fa01f6ee873c91e0fa9f31c583481f065f1449",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.InputForUIModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.InputLegacyModule.dll",
+    "sha256": "b36fc67eddadde63d9c0bf53af314eea74883386ae8406d27567ef26b89b8b28",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.InputLegacyModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.InputModule.dll",
+    "sha256": "510fe0623c4f8bf39221861605c29be74b6cd4a02c9d751f24e879951cf05226",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.InputModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.InsightsModule.dll",
+    "sha256": "3793290b8ec42954eb780d5501479e6e242eb516ba304e6521f7678e01cc965a",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.InsightsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.JSONSerializeModule.dll",
+    "sha256": "55c7afef07c8872f8e110b2b61836c050a4e3b87b24228b282141f621472b00f",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.JSONSerializeModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.LocalizationModule.dll",
+    "sha256": "789d956c0c403406a9229c5a026897cd7c883b02f5d807b381bc65ec76d7c67b",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.LocalizationModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ManagedKernelModule.dll",
+    "sha256": "6eae37905bc1a8132d2d9fc1043b0ac05ab8ab4a4c528c9bdbe5b6efae0b0f52",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ManagedKernelModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.MarshallingModule.dll",
+    "sha256": "17992d81bb146144c3f3ac39a2c02474f2e3615d33368694a3973451ea824c40",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.MarshallingModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.MathematicsModule.dll",
+    "sha256": "91d9baed094baeb44534eb143c6bd0512caf2697f6942ccc76007b1b6fc24a28",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.MathematicsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.MultiplayerModule.dll",
+    "sha256": "c94981260578bca956026161304ad88fae7de4c6c4bc484d3fc5f1082f75d0bd",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.MultiplayerModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.NVIDIAModule.dll",
+    "sha256": "803fd6bae6a7f5ce511c2ad876f37d01f3f1894da445504b20cac40b086f59e3",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.NVIDIAModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ParticleSystemModule.dll",
+    "sha256": "378f770a4633d2628105a5c9f2fbe0ca1712a6402114ac2cb34950b4ca4f076b",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ParticleSystemModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.PerformanceReportingModule.dll",
+    "sha256": "32db47ceb72b497f2e0036cc93e70ba80f2d9a4147a2eea763e0b60087501377",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.PerformanceReportingModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.Physics2DModule.dll",
+    "sha256": "75842b91c28c4c9202df446ce0bf6efb00f4e80ac2250bd734cdbe4967127a00",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.Physics2DModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.PhysicsBackendPhysXModule.dll",
+    "sha256": "8ae8cdad4c8c0c1d28febb463cd1e41d76c95482040dc2bee992902586a248f7",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.PhysicsBackendPhysXModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.PhysicsCore2DModule.dll",
+    "sha256": "9c329c52a02962cee6aa2d8c7fdc40f40fcae9d139f52e20be8381d150f3cd1b",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.PhysicsCore2DModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.PhysicsModule.dll",
+    "sha256": "2a0adcddf1a0c0a0687445e9a06e187249289e4e788ea315a1d8784f393946ee",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.PhysicsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.PropertiesModule.dll",
+    "sha256": "ab289a26978bc28ad743d87f6cd6445fccb1b4f588fbaed0801cb563a447504a",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.PropertiesModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.RenderAs2DModule.dll",
+    "sha256": "eeec4b59e3c673d061e4f75ef376cffd8e52c494e68f119323177b5c0283b155",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.RenderAs2DModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll",
+    "sha256": "a728c2f3a28edf711494783cf5c86821715a10dd6874371660139104e240d642",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ScreenCaptureModule.dll",
+    "sha256": "f76237cdc7b2f5d2dc3fc3e04feddf87cc4dbab96185e98774edcc86397abe3d",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ScreenCaptureModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ScriptingModule.dll",
+    "sha256": "198355e3872f0a5f1fb6e0c41a221f7d8b254e33eace8a1e7a067184b21118fe",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ScriptingModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.ShaderVariantAnalyticsModule.dll",
+    "sha256": "9df089927e6d80cec2aa89c3f488d2283be0b256dd8bd04306c207799aa15dbe",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.ShaderVariantAnalyticsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.SpriteMaskModule.dll",
+    "sha256": "83e5fd0c9b92fcf07b188419dcc4f21db8f645050cda1cb95e10d88e5a94c4cc",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.SpriteMaskModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.SpriteShapeModule.dll",
+    "sha256": "83b86c99d01ef30f550bd7e3605c19141e7ee050dbcad42519520f74adc9a7db",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.SpriteShapeModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.StreamingModule.dll",
+    "sha256": "4ffadc5cfac944f26c1dd2d892b5920f3d775eddec6f563cd52170b05195e58d",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.StreamingModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.SubstanceModule.dll",
+    "sha256": "cc1570a65360eda153ee34c566fadb16055e537cbfe48ae01a60abc3cefc3aae",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.SubstanceModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.SubsystemsModule.dll",
+    "sha256": "4a2a55dfcd7397df166af405c4a42c2d9913ddd63d33dac5e480b2d367aeda93",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.SubsystemsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TerrainModule.dll",
+    "sha256": "05a55f2e7daf41201c4b2ae8c8c271829d358dcb23cf21e06d9d27ae6022399d",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TerrainModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TerrainPhysicsModule.dll",
+    "sha256": "fc99213b48e93f6116d9199285f7ce92788ce9e07554aefbed8e643860b3cfe8",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TerrainPhysicsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TetgenModule.dll",
+    "sha256": "da099d65a6a2351ea1eda129f3c5e258bcc929883a30d797f39e9f3c09fb568c",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TetgenModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll",
+    "sha256": "f090fe8e906210ce38740c027e867b2ec3f52bba2337541af86b28708f817e2f",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TextCoreFontEngineModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll",
+    "sha256": "f4bd7432613b2779e399a38db06498a24e53b72cf7fcf2faab6a256812ef9502",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TextCoreTextEngineModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TextRenderingModule.dll",
+    "sha256": "b5fedb246c07e2f79b00681362e22ed8e902396621671c421750edf8138e21ed",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TextRenderingModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TilemapModule.dll",
+    "sha256": "99c21b2145a8ea5b75a33e5d1cf6c5da742ced302040807f0e12b5649cbd0bce",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TilemapModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TimelineFoundationModule.dll",
+    "sha256": "764b3e2b2887c041330f0007ee86c8e92d5eec94c8bcba8534d645db21728b0a",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TimelineFoundationModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.TLSModule.dll",
+    "sha256": "67821ae08f3e702d156ce93ee3025150ba01a45d57be8280d2162e451ef52887",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.TLSModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.U2DRuntimeModule.dll",
+    "sha256": "ab889bdc7a6922f0ecbc269b955064faba48d2fbffb5897846249a9c716f4286",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.U2DRuntimeModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UI.dll",
+    "sha256": "4a8afa4f7d404edc7e1bce709603b77616fbfd59004dfbb6163f2ac73df1f89c",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\1900b0aP.dag\\UnityEngine.UI.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UIElementsModule.dll",
+    "sha256": "94f1103ee1538fb226a3159d6cdbbd7bb72a8f18c46c8c09f02de9907849f245",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UIElementsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UIModule.dll",
+    "sha256": "3ab5610e834dac2dded955357a912f40dc9571cb8e58ac17679f28a85faef308",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UIModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UmbraModule.dll",
+    "sha256": "3e7743dcd17ae9ab30071e4c7be81e39ff66c57f0439122e7c21803ba86f6d61",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UmbraModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll",
+    "sha256": "8ebbcb289293c6443ee4a6a39397da27acddda82f5e3fb1f3b34586b0f9fbd7c",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityAnalyticsCommonModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityAnalyticsModule.dll",
+    "sha256": "993e7b95c963eafa0ea03d728e05a1470bd18bf4ddfe8d9dc11b8376c3d6f37b",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityAnalyticsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityConnectModule.dll",
+    "sha256": "59bd862d6ff02ecd0536e40a4696e6b6eb3b5fe9e0c7d41eeeae62e163731a42",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityConnectModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityConsentModule.dll",
+    "sha256": "c5f8784a2e52b9f20330b507295ba4cbefe6a70a5a91f39a87610c0a6042dab8",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityConsentModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityCurlModule.dll",
+    "sha256": "fbebe3cd6f3bb6693b137268be0b73ba4e2eed81e8f18397ae99078918fd7323",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityCurlModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll",
+    "sha256": "f1cc2c9beaccf363d8bcd61bfa18a685e40ea1af55ec6576e25134d3f7bbd79b",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityWebRequestAssetBundleModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll",
+    "sha256": "4d845c1af998bbd78e7653e12b71b3e7d6bb259f2f9829d337a6725fe6d43a54",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityWebRequestAudioModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityWebRequestModule.dll",
+    "sha256": "f9e5893bab929d45b605cbaced026a64ac2943420a0ef463d0e52b03c9da2420",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityWebRequestModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll",
+    "sha256": "0eb45a489e67197d9126ea2505810392cb396618fc0d2eaa712f53ba1a9fbf7b",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityWebRequestTextureModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll",
+    "sha256": "0b792669540438f24f1aba8a24a0df57c49b218825332f3376e919bcf1aab285",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.UnityWebRequestWWWModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.VectorGraphicsModule.dll",
+    "sha256": "52fc06d609c516b305867deb3d9879fcb2a4c76fcc0993da981595e7e43faeb0",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.VectorGraphicsModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.VehiclesModule.dll",
+    "sha256": "3afa6b698444c44e0c8eefb37c8816601f063a00dfd37c4bf51efbcc1e899c98",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.VehiclesModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.VFXModule.dll",
+    "sha256": "38a4ff3fc6e0256e0eb39da52f70f76e167bbaf0f9f43f853a691b6f3da2c7fb",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.VFXModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.VideoModule.dll",
+    "sha256": "d00897681f27b05807c8ae36d952916e3b85e22782bc3d7f744ace914d9d827e",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.VideoModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.VirtualTexturingModule.dll",
+    "sha256": "4ab483ae111a485cf7cf2ad22647a1d535b2dfb5838986a122829bdfc3f51179",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.VirtualTexturingModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.WindModule.dll",
+    "sha256": "173c414b4049ec2f3a7e530c48176bbd022e4d79f7de8276349bd98e6d60649b",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.WindModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Managed/UnityEngine.XRModule.dll",
+    "sha256": "48d3fa89c3ea1a696936efa85d45b0b675a90714fb9b5b58b88d313e92d23448",
+    "match_category": "Unity instalado",
+    "reference": "<Unity 6000.6.7f1>\\PlaybackEngines\\windowsstandalonesupport\\Variations\\mono\\Managed\\UnityEngine.XRModule.dll"
+  },
+  {
+    "file": "Echoes_Data/Plugins/ARM64/AppUINativePlugin.dll",
+    "sha256": "13662ece3fa6f09b30899018e5dca3e3fe0b55f535a19220a2f27f303880a2d2",
+    "match_category": "Pacote no projeto",
+    "reference": "<projeto Unity>\\Library\\PackageCache\\com.unity.dt.app-ui@8606a9847e5b\\Runtime\\Core\\Platform\\Windows\\Plugins\\arm64\\AppUINativePlugin.dll"
+  },
+  {
+    "file": "Echoes_Data/Plugins/ARM64/AppUITextMateLib.dll",
+    "sha256": "0aa6d485375bfbb75ce01913db74b1e79e37c6f921670bd894fd71260dbffe21",
+    "match_category": "Pacote no projeto",
+    "reference": "<projeto Unity>\\Library\\PackageCache\\com.unity.dt.app-ui@8606a9847e5b\\Runtime\\Core\\Platform\\Windows\\Plugins\\arm64\\AppUITextMateLib.dll"
+  },
+  {
+    "file": "Echoes_Data/Plugins/ARM64/fmodstudio.dll",
+    "sha256": "fee606f6917f528d704198e85c35c76913e2bbde86c28bd6ceb3b3db2f761acf",
+    "match_category": "Plugin no projeto",
+    "reference": "<projeto Unity>\\Assets\\Plugins\\FMOD\\platforms\\win\\lib\\arm64\\fmodstudio.dll"
+  },
+  {
+    "file": "Echoes_Data/Plugins/x86_64/AppUINativePlugin.dll",
+    "sha256": "d6004c81904607504ac11f04feccc087ba3c452e7498427d223a0cb796151901",
+    "match_category": "Pacote no projeto",
+    "reference": "<projeto Unity>\\Library\\PackageCache\\com.unity.dt.app-ui@8606a9847e5b\\Runtime\\Core\\Platform\\Windows\\Plugins\\x64\\AppUINativePlugin.dll"
+  },
+  {
+    "file": "Echoes_Data/Plugins/x86_64/AppUITextMateLib.dll",
+    "sha256": "814a193dfdbb0810b6df829f51e2559f45e92ceb224e8b2f96afb2f97c4ee08a",
+    "match_category": "Pacote no projeto",
+    "reference": "<projeto Unity>\\Library\\PackageCache\\com.unity.dt.app-ui@8606a9847e5b\\Runtime\\Core\\Platform\\Windows\\Plugins\\x64\\AppUITextMateLib.dll"
+  },
+  {
+    "file": "Echoes_Data/Plugins/x86_64/fmodstudio.dll",
+    "sha256": "a3ef8653da204696d1114f6c7cb58f10d53ec4132aef4505315aebf1b2f94382",
+    "match_category": "Plugin no projeto",
+    "reference": "<projeto Unity>\\Assets\\Plugins\\FMOD\\platforms\\win\\lib\\x86_64\\fmodstudio.dll"
+  },
+  {
+    "file": "Echoes_Data/Plugins/x86_64/lib_burst_generated.dll",
+    "sha256": "cf18d8e41d979968fe038fc8fde362c95ab31c5204b7f0bd454caebb8fba1213",
+    "match_category": "Artefato compilado local",
+    "reference": "<projeto Unity>\\Library\\Bee\\artifacts\\WinPlayerBuildProgram\\AsyncPluginsFromLinker\\x86_64\\lib_burst_generated.dll"
+  },
+  {
+    "file": "Echoes_Data/Plugins/x86_64/resonanceaudio.dll",
+    "sha256": "e1667e5336ae067ab1d9aa04e7bcca9789ff5573ed4c7f6fa9305404d0485f99",
+    "match_category": "Plugin no projeto",
+    "reference": "<projeto Unity>\\Assets\\Plugins\\FMOD\\platforms\\win\\lib\\x86_64\\resonanceaudio.dll"
+  }
+]

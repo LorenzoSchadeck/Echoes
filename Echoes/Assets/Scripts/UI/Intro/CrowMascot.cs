@@ -11,6 +11,8 @@ public class MascotFrame
     public Sprite sprite;
     [Tooltip("Onde o acessório do bico encaixa (entre as duas partes do bico aberto).")]
     public Vector2 beak = new Vector2(0.85f, 0.4f);
+    [Tooltip("Trecho do sprite repetido na frente do acessório, relativo ao ponto do bico (origem superior esquerda).")]
+    public Rect beakForeground = new Rect(-.09f, -.06f, .20f, .13f);
     [Tooltip("Altura do fio desenhado na imagem (0 = topo, 1 = base). Alinha os quadros no mesmo fio.")]
     [Range(0f, 1f)] public float wire = 0.8f;
 }

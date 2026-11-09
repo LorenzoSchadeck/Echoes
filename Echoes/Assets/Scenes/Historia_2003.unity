@@ -292,7 +292,7 @@ MonoBehaviour:
   defaultPanelDuration: 3
   fadeDuration: 2
   minimumTimeBeforeSkip: 5
-  targetSceneName: Game
+  targetSceneName: ApartamentoDemo
   spinnerSprite: {fileID: 2031553777, guid: 6dbf6fedb6dd50c46903c581d612766e, type: 3}
   spinnerRotationSpeed: 180
   spinnerFadeDuration: 0.5

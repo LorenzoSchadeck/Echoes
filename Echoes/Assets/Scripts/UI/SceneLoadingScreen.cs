@@ -20,7 +20,7 @@ public class SceneLoadingScreen : MonoBehaviour
     [SerializeField] private float fadeOutTime = 0.8f;
     [SerializeField] private float spinDegreesPerSecond = 100f;
     [Tooltip("Tamanho do carimbo, em pixels da tela de referência (1920x1080).")]
-    [SerializeField] private float stampSize = 260f;
+    [SerializeField] private float stampSize = 80f;
     [Tooltip("Segundos máximos esperando o checkpoint ser aplicado na cena nova.")]
     [SerializeField] private float restoreTimeout = 10f;
 
@@ -48,12 +48,10 @@ public class SceneLoadingScreen : MonoBehaviour
 
         stampElement = new VisualElement { pickingMode = PickingMode.Ignore };
         stampElement.style.position = Position.Absolute;
-        stampElement.style.left = Length.Percent(50);
-        stampElement.style.top = Length.Percent(50);
+        stampElement.style.right = 48f;
+        stampElement.style.bottom = 72f;
         stampElement.style.width = stampSize;
         stampElement.style.height = stampSize;
-        stampElement.style.marginLeft = -stampSize * 0.5f;
-        stampElement.style.marginTop = -stampSize * 0.5f - 20f;
         if (stamp != null) stampElement.style.backgroundImage = new StyleBackground(stamp);
         stampElement.style.opacity = 0f;
         veil.Add(stampElement);
@@ -61,12 +59,11 @@ public class SceneLoadingScreen : MonoBehaviour
         label = new Label(Localized());
         label.pickingMode = PickingMode.Ignore;
         label.style.position = Position.Absolute;
-        label.style.left = 0; label.style.right = 0;
-        label.style.top = Length.Percent(50);
-        label.style.marginTop = stampSize * 0.5f + 40f;
-        label.style.unityTextAlign = TextAnchor.UpperCenter;
-        label.style.fontSize = 26;
-        label.style.letterSpacing = 4;
+        label.style.right = 32f;
+        label.style.bottom = 32f;
+        label.style.unityTextAlign = TextAnchor.LowerRight;
+        label.style.fontSize = 16;
+        label.style.letterSpacing = 2;
         label.style.color = new Color(0.91f, 0.886f, 0.839f, 0.75f);
         if (labelFont != null) label.style.unityFontDefinition = FontDefinition.FromFont(labelFont);
         label.style.opacity = 0f;

@@ -30,7 +30,7 @@ paranoia, alucinação e flashbacks controlados por um sistema de sanidade.
 - Ícone do jogo (luzes de polícia) e título "Echoes: Chapter One".
 
 ### Build
-- Windows, **somente DX12**; cookies de luz desligados nos assets URP.
+- A build medida abaixo foi gerada somente com DX12. O comando de build foi atualizado para gerar **DX11 por padrão, com DX12 também incluído**; é necessário gerar uma nova build para aplicar essa mudança. Cookies de luz desligados nos assets URP.
 - Build medida (cache frio): **23 min 52 s**, 751 MB, 0 erros. O gargalo é a compilação de variantes de shader (URP Lit ~2,5 mil) e o empacotamento da cena `MenuCenario`.
 - Menu `Echoes > Build > Windows (Release, em Downloads)` gera em `Downloads\Echoes_Build` e grava `build_relatorio.txt`.
 

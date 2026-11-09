@@ -1,20 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <Style src="../Menu/Menu.uss" />
-    <Style src="EvidenceBoard.uss" />
-    <ui:VisualElement name="root" class="screen board-screen">
+    <ui:Style src="../Menu/Menu.uss" />
+    <ui:Style src="EvidenceBoard.uss" />
+    <ui:VisualElement name="root" class="board-screen">
         <ui:VisualElement name="board" class="board">
-            <ui:VisualElement name="cards" class="cards" />
-            <ui:Label name="empty" text="M_BOARD_EMPTY" class="board-empty" />
+            <ui:VisualElement name="empty" picking-mode="Ignore" />
+            <ui:VisualElement name="cards" class="cards" picking-mode="Ignore" />
         </ui:VisualElement>
-        <ui:VisualElement class="board-side">
-            <ui:Label text="M_BOARD" class="chapter" />
-            <ui:Label name="detail-title" class="board-heading" />
-            <ui:Label name="detail-meta" class="board-meta" />
-            <ui:Label name="detail-text" class="board-text" />
-            <ui:Label text="M_BOARD_CONCLUSIONS" class="board-section" />
-            <ui:ScrollView name="conclusions" class="board-conclusions" />
-            <ui:Label name="status" class="board-status" />
-            <ui:Button name="button-close" text="M_BOARD_CLOSE" class="menu-item" />
+        <ui:VisualElement name="side" class="board-side">
+            <ui:ScrollView name="tray" class="board-tray" />
+            <ui:Label name="detail-text" class="board-thought board-hidden" picking-mode="Ignore" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -32,7 +32,7 @@ public static class StoryScreensTools
 
         // Telas de história: cópias da PreLoad sem a abertura do estúdio
         MakeStoryScene(Story1996Path, lore1996, "Abertura1995");
-        MakeStoryScene(Story2003Path, lore2003, "Game");
+        MakeStoryScene(Story2003Path, lore2003, "ApartamentoDemo");
 
         // PreLoad: só o aviso, depois o menu
         EditScene(PreLoadPath, scene =>
@@ -59,12 +59,12 @@ public static class StoryScreensTools
             data.ApplyModifiedPropertiesWithoutUndo();
         });
 
-        // Ordem do build: PreLoad, Menu, (cenário do menu), Historia_1996, Abertura1995, Historia_2003, Game
+        // Ordem do build: PreLoad, Menu, (cenário do menu), Historia_1996, Abertura1995, Historia_2003, ApartamentoDemo
         var scenes = EditorBuildSettings.scenes.ToList();
         scenes.RemoveAll(s => s.path == Story1996Path || s.path == Story2003Path);
         int opening = scenes.FindIndex(s => s.path == OpeningPath);
         scenes.Insert(opening, new EditorBuildSettingsScene(Story1996Path, true));
-        int game = scenes.FindIndex(s => s.path == "Assets/Scenes/Game.unity");
+        int game = scenes.FindIndex(s => s.path == "Assets/Scenes/ApartamentoDemo.unity");
         scenes.Insert(game, new EditorBuildSettingsScene(Story2003Path, true));
         EditorBuildSettings.scenes = scenes.ToArray();
 

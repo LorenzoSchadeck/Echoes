@@ -244,7 +244,9 @@ public class OptionsPanel
 
         fovSlider = BindSlider("slider-fov", 1f, v => Mathf.RoundToInt(v) + "°", (s, v) => s.fieldOfView = Mathf.Round(v));
         brightnessSlider = BindSlider("slider-brightness", 0.05f, Signed, (s, v) => s.brightness = v);
-        sensitivitySlider = BindSlider("slider-sensitivity", 0.05f, v => v.ToString("0.00", CultureInfo.InvariantCulture), (s, v) => s.mouseSensitivity = v);
+        sensitivitySlider = BindSlider("slider-sensitivity", 0.01f, v => v.ToString("0.00", CultureInfo.InvariantCulture), (s, v) => s.mouseSensitivity = v);
+        sensitivitySlider.lowValue = GameOptions.MinSensitivity;
+        sensitivitySlider.highValue = GameOptions.MaxSensitivity;
         subtitleSizeSlider = BindSlider("slider-subtitle-size", 0.05f, Percent, (s, v) => s.subtitleScale = v);
         cameraShakeSlider = BindSlider("slider-camera-shake", 0.1f, Percent, (s, v) => s.cameraShake = v);
 

@@ -13,7 +13,7 @@ using UnityEngine.Video;
 
 /// <summary>
 /// Monta o menu em UI Toolkit (menu Echoes > Menu): textos na tabela de localização, PanelSettings,
-/// cena Menu, ordem das cenas no build e a troca do menu diegético pela pausa na cena Game.
+/// cena Menu, ordem das cenas no build e a troca do menu diegético pela pausa na cena ApartamentoDemo.
 /// </summary>
 public static class MenuSetupTools
 {
@@ -24,7 +24,7 @@ public static class MenuSetupTools
     private const string MainMenuUxmlPath = UiFolder + "/MainMenu.uxml";
     private const string PreLoadScenePath = "Assets/Scenes/PreLoad.unity";
     private const string MenuScenePath = "Assets/Scenes/Menu.unity";
-    private const string GameScenePath = "Assets/Scenes/Game.unity";
+    private const string GameScenePath = "Assets/Scenes/ApartamentoDemo.unity";
 
     // Chave, português, inglês. Entradas que já existem na tabela não são sobrescritas.
     private static readonly (string key, string pt, string en)[] MenuStrings =

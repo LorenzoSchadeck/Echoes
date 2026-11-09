@@ -27,6 +27,7 @@ public class EvidenceSource : MonoBehaviour
 
     public void Collect()
     {
+        CaseFile.RegisterVisualSource(evidence, item != null ? item.gameObject : gameObject);
         if (CaseFile.Add(evidence)) InnerVoice.Say(thought);
     }
 

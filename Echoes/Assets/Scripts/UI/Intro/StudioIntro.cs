@@ -45,6 +45,7 @@ public class StudioIntro : MonoBehaviour
     [SerializeField] private Behaviour startAfter;
 
     private VisualElement root, stage, wire, crow, item, underline, grainLayer, black;
+    private IntroSpriteLayer beakFront, accessoryFront;
     private Label title;
     private Texture2D grainTexture;
     private Color32[] grainPixels;
@@ -85,6 +86,10 @@ public class StudioIntro : MonoBehaviour
 
         crow = Box(stage, Color.clear);
         item = Box(crow, Color.clear);
+        beakFront = new IntroSpriteLayer();
+        crow.Add(beakFront);
+        accessoryFront = new IntroSpriteLayer();
+        crow.Add(accessoryFront);
 
         title = new Label("");
         title.style.position = Position.Absolute;
@@ -143,7 +148,17 @@ public class StudioIntro : MonoBehaviour
     {
         // Espera o painel ter tamanho
         yield return null;
-        while (root.layout.width <= 1f || float.IsNaN(root.layout.width)) yield return null;
+        float layoutDeadline = Time.realtimeSinceStartup + 10f;
+        while (root.layout.width <= 1f || float.IsNaN(root.layout.width))
+        {
+            if (Time.realtimeSinceStartup >= layoutDeadline)
+            {
+                Debug.LogError("[StudioIntro] Painel sem layout após 10 s. Pulando abertura do estúdio.");
+                Finish();
+                yield break;
+            }
+            yield return null;
+        }
         Layout();
 
         yield return FadeBlack(0f, fadeIn);
@@ -303,6 +318,30 @@ public class StudioIntro : MonoBehaviour
                     : Mathf.Sin(phaseTime * 14f) * 6f;
             }
             item.style.rotate = new Rotate(new Angle(angle, AngleUnit.Degree));
+
+            bool layered = accessory.beakInFront && frame.sprite != null;
+            beakFront.style.display = layered ? DisplayStyle.Flex : DisplayStyle.None;
+            accessoryFront.style.display = layered ? DisplayStyle.Flex : DisplayStyle.None;
+            if (layered)
+            {
+                Rect region = frame.beakForeground;
+                region.position += frame.beak;
+                beakFront.SetRectangle(frame.sprite, region);
+                beakFront.style.width = crowSize;
+                beakFront.style.height = crowSize;
+                accessoryFront.SetPolygon(accessory.sprite, accessory.foregroundOutline);
+                accessoryFront.style.left = item.style.left;
+                accessoryFront.style.top = item.style.top;
+                accessoryFront.style.width = itemSize;
+                accessoryFront.style.height = itemSize;
+                accessoryFront.style.transformOrigin = item.style.transformOrigin;
+                accessoryFront.style.rotate = item.style.rotate;
+            }
+        }
+        else
+        {
+            beakFront.style.display = DisplayStyle.None;
+            accessoryFront.style.display = DisplayStyle.None;
         }
     }
 

@@ -66,6 +66,22 @@ MonoBehaviour:
     m_Localized: Who's there?
     m_Metadata:
       m_Items: []
+  - m_Id: 2180425996607488
+    m_Localized: I wrote this. I was in that room with Clara. What did we leave out of the story?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882176
+    m_Localized: Another woman at the Halley. The anchor never named the room, but I heard six. Where did that come from?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882177
+    m_Localized: Three in the morning? I was asleep. At least, that's what I remember.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2180426088882178
+    m_Localized: She calls it a blackout. To me, it's just a piece of the night that isn't there.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -27,7 +27,7 @@ public class PlayerInteractor : MonoBehaviour
     private bool isInInspectionMode = false;
 
     private CinemachinePanTilt panTilt;
-    private CinemachineInputAxisController inputAxisController;
+    private CustomInputAxisController inputAxisController;
 
     private void Awake()
     {
@@ -37,13 +37,13 @@ public class PlayerInteractor : MonoBehaviour
         if (playerCinemachineCamera != null)
         {
             panTilt = playerCinemachineCamera.GetComponentInChildren<CinemachinePanTilt>();
-            inputAxisController = playerCinemachineCamera.GetComponentInChildren<CinemachineInputAxisController>();
+            inputAxisController = playerCinemachineCamera.GetComponentInChildren<CustomInputAxisController>();
         }
 
         if (panTilt == null)
             Debug.LogWarning("Componente CinemachinePanTilt não encontrado.", this);
         if (inputAxisController == null)
-            Debug.LogWarning("Componente CinemachineInputAxisController não encontrado.", this);
+            Debug.LogWarning("Componente CustomInputAxisController não encontrado.", this);
     }
 
     private void OnEnable()

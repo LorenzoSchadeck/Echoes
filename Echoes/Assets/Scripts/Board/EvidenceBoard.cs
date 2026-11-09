@@ -13,12 +13,13 @@ public class EvidenceBoard : MonoBehaviour, IInteractable
 
     public string InteractionPrompt => interactionPrompt.IsEmpty ? string.Empty : interactionPrompt.GetLocalizedString();
     public float InteractionDistance => interactionDistance;
+    public Bounds SurfaceBounds => GetComponent<Collider>().bounds;
 
     public bool Interact(Transform interactor)
     {
         if (boardUI == null || EvidenceBoardUI.IsOpen) return false;
 
-        boardUI.Open(interactor.GetComponent<PlayerInteractor>());
+        boardUI.Open(interactor.GetComponent<PlayerInteractor>(), this);
         return true;
     }
 

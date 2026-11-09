@@ -2,9 +2,11 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Security.Cryptography;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// Build do jogo para Windows (menu Echoes > Build). Usa as cenas ligadas em Build Settings, gera em
@@ -30,7 +32,11 @@ public static class BuildTools
 
     private static void BuildWindowsNow()
     {
-
+        // A demo não depende de DX12. DX11 é o padrão mais conservador para os playtests;
+        // DX12 continua incluído e pode ser selecionado com -force-d3d12 para comparação.
+        PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.StandaloneWindows64, false);
+        PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64,
+            new[] { GraphicsDeviceType.Direct3D11, GraphicsDeviceType.Direct3D12 });
         string[] scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
         Directory.CreateDirectory(OutputFolder);
 
@@ -45,6 +51,23 @@ public static class BuildTools
         DateTime started = DateTime.Now;
         BuildReport report = BuildPipeline.BuildPlayer(options);
         WriteReport(report, started);
+        if (report.summary.result == BuildResult.Succeeded) WriteChecksums();
+    }
+
+    private static void WriteChecksums()
+    {
+        var text = new StringBuilder();
+        using var sha = SHA256.Create();
+        foreach (string file in Directory.GetFiles(OutputFolder, "*", SearchOption.AllDirectories).OrderBy(p => p))
+        {
+            string relative = Path.GetRelativePath(OutputFolder, file).Replace('\\', '/');
+            if (relative == "sha256.txt" || relative == "build_relatorio.txt"
+                || relative.Split('/').Any(p => p.Contains("BackUpThisFolder") || p.Contains("BurstDebugInformation"))) continue;
+            using var stream = File.OpenRead(file);
+            string hash = BitConverter.ToString(sha.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
+            text.AppendLine($"{hash}  {relative}");
+        }
+        File.WriteAllText(Path.Combine(OutputFolder, "sha256.txt"), text.ToString());
     }
 
     private static void WriteReport(BuildReport report, DateTime started)
